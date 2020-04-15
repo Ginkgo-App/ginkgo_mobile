@@ -4,7 +4,7 @@ class AppConfig extends InheritedWidget {
   final String appName;
   final AppFlavor flavorName;
   final String apiUrl;
-  final GlobalKey<NavigatorState> navigatorKey =
+  static final GlobalKey<NavigatorState> navigatorKey =
       new GlobalKey<NavigatorState>();
   static GlobalKey _globalKey;
   static GlobalKey get globalKey => _globalKey;

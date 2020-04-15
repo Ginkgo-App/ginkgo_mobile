@@ -12,6 +12,7 @@ dependencies:
   cupertino_icons: ^0.1.2
   base: 
     path: ./base
+  flutter_svg: ^0.17.4
 
 dev_dependencies:
   flutter_test:
