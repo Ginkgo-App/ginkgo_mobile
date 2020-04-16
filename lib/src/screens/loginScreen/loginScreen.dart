@@ -9,7 +9,9 @@ class LoginScreen extends StatelessWidget {
 
   _onGoogleLogin() {}
 
-  _onRegister() {}
+  _onRegister() {
+    AppConfig.navigatorKey.currentState.pushReplacementNamed(Routes.register);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,13 +25,9 @@ class LoginScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 const SizedBox(height: 30),
-                Hero(
-                  tag: 'logo',
-                  child: Image.asset(
-                    'assets/images/logo.png',
-                    width: MediaQuery.of(context).size.width / 2,
-                    height: MediaQuery.of(context).size.width / 2,
-                  ),
+                LogoWidget(
+                  width: MediaQuery.of(context).size.width / 2,
+                  height: MediaQuery.of(context).size.width / 2,
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
@@ -43,6 +41,7 @@ class LoginScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
+                  obscureText: true,
                   decoration: InputDecoration(
                       labelText: Strings.common.password,
                       border: GradientUnderlineInputBorder(
@@ -121,8 +120,10 @@ class LoginScreen extends StatelessWidget {
                   child: Text(
                     Strings.loginScreen.registerNow,
                     textAlign: TextAlign.center,
-                    style:
-                        context.textTheme.body1.apply(color: Colors.blueAccent),
+                    style: context.textTheme.body1.copyWith(
+                      color: Colors.blueAccent,
+                      decoration: TextDecoration.underline,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 20),
