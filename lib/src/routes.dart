@@ -4,11 +4,13 @@ class Routes {
   static const splash = '/';
   static const login = '/login';
   static const register = '/register';
+  static const home = '/home';
 }
 
 final Map<String, Widget Function(BuildContext)> _routeBuilder = {
   Routes.login: (context) => LoginScreen(),
   Routes.register: (context) => RegisterScreen(),
+  Routes.home: (context) => HomeScreen(),
 };
 
 RouteFactory _onGenerateRoute = (RouteSettings settings) {
@@ -17,6 +19,8 @@ RouteFactory _onGenerateRoute = (RouteSettings settings) {
       return _generateMaterialRoute(LoginScreen());
     case Routes.register:
       return _generateMaterialRoute(RegisterScreen());
+    case Routes.home:
+      return _generateMaterialRoute(HomeScreen());
     default:
       return _generateMaterialRoute(SplashScreen());
   }

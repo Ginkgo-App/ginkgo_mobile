@@ -6,16 +6,22 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  _onLogin() {}
+  _onLogin() {
+    Navigator.of(context).pushNamed(Routes.home);
+  }
 
   _onForgetPassword() {}
 
-  _onFacebookLogin() {}
+  _onFacebookLogin() {
+    Navigator.of(context).pushNamed(Routes.home);
+  }
 
-  _onGoogleLogin() {}
+  _onGoogleLogin() {
+    Navigator.of(context).pushNamed(Routes.home);
+  }
 
   _onRegister() {
-    AppConfig.navigatorKey.currentState.pushReplacementNamed(Routes.register);
+    Navigator.of(context).pushNamed(Routes.register);
   }
 
   @override

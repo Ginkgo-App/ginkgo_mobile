@@ -15,3 +15,4 @@ import '../app.dart';
 part 'loginScreen/loginScreen.dart';
 part 'registerScreen/registerScreen.dart';
 part 'splashScreen/splashScreen.dart';
+part 'homeScreen/homeScreen.dart';

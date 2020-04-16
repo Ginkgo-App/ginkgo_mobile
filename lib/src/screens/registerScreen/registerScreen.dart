@@ -6,7 +6,9 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  _onRegister() {}
+  _onRegister() {
+    Navigator.of(context).pushNamed(Routes.home);
+  }
 
   _onLoginNow() {
     Navigator.of(context).pushReplacementNamed(Routes.login);

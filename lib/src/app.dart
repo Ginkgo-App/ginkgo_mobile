@@ -7,7 +7,7 @@ import 'screens/screens.dart';
 
 part 'routes.dart';
 
-class App extends StatelessWidget {
+class App extends AppBase {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
