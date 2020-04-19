@@ -21,6 +21,7 @@ class _AuthRepository {
   }
 
   Future<void> loginFacebook(String accessToken) async {
+    print('Facebook token: $accessToken');
     final token = await _authProvider.loginFacebook(accessToken);
     await _saveAuth(token);
   }

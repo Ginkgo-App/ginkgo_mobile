@@ -18,6 +18,7 @@ dependencies:
   bloc: ^3.0.0
   toast: ^0.1.5
   flutter_spinkit: ^4.1.2+1
+  flutter_facebook_login: ^3.0.0
 
 dev_dependencies:
   flutter_test:

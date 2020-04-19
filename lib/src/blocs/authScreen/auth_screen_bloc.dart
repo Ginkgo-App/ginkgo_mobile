@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:base/base.dart';
 import 'package:bloc/bloc.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:ginkgo_mobile/src/blocs/auth/auth_bloc.dart';
 import 'package:ginkgo_mobile/src/repositories/repository.dart';
 import 'package:meta/meta.dart';
@@ -25,7 +26,7 @@ class AuthScreenBloc extends Bloc<AuthScreenEvent, AuthScreenState> {
       } else if (event is AuthScreenEventRegister) {
         await for (final state in _onRegister(event)) yield state;
       } else if (event is AuthScreenEventFacebookLogin) {
-        await for (final state in _onSocialLogin(event)) yield state;
+        await for (final state in _onFacebookLogin(event)) yield state;
       }
     } catch (error) {
       yield AuthScreenStateFailure(error);
@@ -51,10 +52,22 @@ class AuthScreenBloc extends Bloc<AuthScreenEvent, AuthScreenState> {
     yield AuthScreenStateSuccess();
   }
 
-  Stream<AuthScreenState> _onSocialLogin(
+  Stream<AuthScreenState> _onFacebookLogin(
       AuthScreenEventFacebookLogin event) async* {
     yield AuthScreenStateLoading();
-    await _repository.auth.loginFacebook(event.accessToken);
+    final facebookLogin = FacebookLogin();
+    final result = await facebookLogin.logIn(['email']);
+
+    switch (result.status) {
+      case FacebookLoginStatus.loggedIn:
+        await _repository.auth.loginFacebook(result.accessToken.token);
+        break;
+      case FacebookLoginStatus.cancelledByUser:
+        return;
+      case FacebookLoginStatus.error:
+        throw result.errorMessage;
+    }
+
     AuthBloc().add(AuthEventAuth());
     yield AuthScreenStateSuccess();
   }

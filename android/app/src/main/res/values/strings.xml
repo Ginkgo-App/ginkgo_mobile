@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Ginkgo</string>
+    <string name="facebook_app_id">609534126304987</string>
+    <string name="fb_login_protocol_scheme">fb609534126304987</string>
+</resources>
