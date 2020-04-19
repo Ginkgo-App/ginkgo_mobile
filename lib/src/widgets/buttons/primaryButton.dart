@@ -3,8 +3,11 @@ part of '../widgets.dart';
 class PrimaryButton extends StatelessWidget {
   final String title;
   final Function onPressed;
+  final bool isLoading;
 
-  const PrimaryButton({Key key, this.title, this.onPressed}) : super(key: key);
+  const PrimaryButton(
+      {Key key, this.title, this.onPressed, this.isLoading = false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,13 +19,17 @@ class PrimaryButton extends StatelessWidget {
         decoration: BoxDecoration(
             gradient: GradientColor.of(context).primaryGradient,
             borderRadius: BorderRadius.circular(90)),
-        child: Text(
-          title,
-          style: context.textTheme.button
-              .apply(color: context.colorScheme.onPrimary),
-        ),
+        child: isLoading
+            ? LoadingIndicator(
+                padding: EdgeInsets.zero,
+              )
+            : Text(
+                title,
+                style: context.textTheme.button
+                    .apply(color: context.colorScheme.onPrimary),
+              ),
       ),
-      onPressed: onPressed,
+      onPressed: isLoading ? null : onPressed,
     );
   }
 }

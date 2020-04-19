@@ -9,8 +9,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(seconds: 2)).then((_) =>
-        AppConfig.navigatorKey.currentState.pushReplacementNamed(Routes.login));
+    AuthBloc().add(AuthEventStartApp());
   }
 
   @override

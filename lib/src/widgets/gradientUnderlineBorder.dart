@@ -1,7 +1,4 @@
-import 'dart:ui' show lerpDouble;
-
-import 'package:flutter/material.dart';
-
+part of 'widgets.dart';
 /// Based on [OutlineInputBorder]
 class GradientUnderlineInputBorder extends InputBorder {
   final Gradient focusedGradient;

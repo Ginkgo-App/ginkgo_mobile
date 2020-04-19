@@ -6,40 +6,80 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController phoneNumberController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController rePasswordController = TextEditingController();
+  final AuthScreenBloc authScreenBloc = AuthScreenBloc();
+
   _onRegister() {
-    Navigator.of(context).pushNamed(Routes.home);
+    if (formKey.currentState.validate()) {
+      FocusScope.of(context).unfocus();
+      authScreenBloc.add(AuthScreenEventRegister(
+        email: emailController.text.trim(),
+        name: nameController.text.trim(),
+        password: passwordController.text.trim(),
+        phoneNumber: phoneNumberController.text.trim(),
+      ));
+    }
   }
 
   _onLoginNow() {
+    FocusScope.of(context).unfocus();
     Navigator.of(context).pushReplacementNamed(Routes.login);
+  }
+
+  String _validateRePassword(String rePassword) {
+    if (!rePassword.isExistAndNotEmpty) {
+      return Strings.error.emptyRequiredInput;
+    } else if (rePassword != passwordController.text) {
+      return Strings.error.rePasswordIsNotMatch;
+    }
+    return null;
+  }
+
+  @override
+  void dispose() {
+    authScreenBloc.close();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Form(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 40),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                const SizedBox(height: 30),
-                _buildHeader(),
-                Expanded(child: const SizedBox.shrink()),
-                ..._buildFields(),
-                const SizedBox(height: 40),
-                _buildButton(),
-                Expanded(child: const SizedBox.shrink()),
-                ..._buildBottom(),
-                const SizedBox(height: 20),
-              ],
+    return BlocBuilder(
+        bloc: authScreenBloc,
+        builder: (context, state) {
+          return PrimaryScaffold(
+            isLoading: state is AuthScreenStateLoading,
+            body: Form(
+              key: formKey,
+              child: SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                  height: MediaQuery.of(context).size.height,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      const SizedBox(height: 20),
+                      _buildHeader(),
+                      Expanded(child: const SizedBox.shrink()),
+                      ..._buildFields(),
+                      const SizedBox(height: 40),
+                      _buildButton(),
+                      Expanded(child: const SizedBox.shrink()),
+                      ..._buildBottom(),
+                    ],
+                  ),
+                ),
+              ),
             ),
-          ),
-        ),
-      ),
-    );
+          );
+        });
   }
 
   _buildHeader() {
@@ -63,48 +103,36 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   _buildFields() {
     return [
-      TextFormField(
-        decoration: InputDecoration(
-          labelText: Strings.common.name,
-          border: GradientUnderlineInputBorder(
-            focusedGradient: GradientColor.of(context).primaryGradient,
-          ),
-        ),
+      GradientTextFormField(
+        validator: validateName,
+        controller: nameController,
+        label: Strings.common.name,
       ),
       const SizedBox(height: 20),
-      TextFormField(
-        decoration: InputDecoration(
-          labelText: Strings.common.email,
-          border: GradientUnderlineInputBorder(
-            focusedGradient: GradientColor.of(context).primaryGradient,
-          ),
-        ),
+      GradientTextFormField(
+        validator: validateEmail,
+        controller: emailController,
+        label: Strings.common.email,
       ),
       const SizedBox(height: 20),
-      TextFormField(
-        decoration: InputDecoration(
-            labelText: Strings.common.phoneNumber,
-            border: GradientUnderlineInputBorder(
-              focusedGradient: GradientColor.of(context).primaryGradient,
-            )),
+      GradientTextFormField(
+        validator: validatePhoneNumber,
+        controller: phoneNumberController,
+        label: Strings.common.phoneNumber,
       ),
       const SizedBox(height: 20),
-      TextFormField(
+      GradientTextFormField(
+        validator: validatePassword,
+        controller: passwordController,
+        label: Strings.common.password,
         obscureText: true,
-        decoration: InputDecoration(
-            labelText: Strings.common.password,
-            border: GradientUnderlineInputBorder(
-              focusedGradient: GradientColor.of(context).primaryGradient,
-            )),
       ),
       const SizedBox(height: 20),
-      TextFormField(
+      GradientTextFormField(
+        validator: _validateRePassword,
+        controller: rePasswordController,
+        label: Strings.common.rePassword,
         obscureText: true,
-        decoration: InputDecoration(
-            labelText: Strings.common.rePassword,
-            border: GradientUnderlineInputBorder(
-              focusedGradient: GradientColor.of(context).primaryGradient,
-            )),
       ),
     ];
   }

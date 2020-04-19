@@ -6,91 +6,133 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final AuthScreenBloc authScreenBloc = AuthScreenBloc();
+
   _onLogin() {
-    Navigator.of(context).pushNamed(Routes.home);
+    if (formKey.currentState.validate()) {
+      FocusScope.of(context).unfocus();
+      authScreenBloc.add(AuthScreenEventLogin(
+        email: emailController.text,
+        password: passwordController.text,
+      ));
+    }
   }
 
-  _onForgetPassword() {}
+  _onForgetPassword() {
+    Toast.show(Strings.common.developingFeature, context);
+  }
 
   _onFacebookLogin() {
-    Navigator.of(context).pushNamed(Routes.home);
+    FocusScope.of(context).unfocus();
+    authScreenBloc.add(AuthScreenEventFacebookLogin('access token'));
   }
 
   _onGoogleLogin() {
-    Navigator.of(context).pushNamed(Routes.home);
+    FocusScope.of(context).unfocus();
+    Toast.show(Strings.common.developingFeature, context);
   }
 
   _onRegister() {
+    FocusScope.of(context).unfocus();
     Navigator.of(context).pushNamed(Routes.register);
   }
 
   @override
+  void dispose() {
+    authScreenBloc.close();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Form(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 40),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                ..._buildFormAndLogo(),
-                Expanded(child: const SizedBox.shrink()),
-                ..._buildSocialLogin(),
-                const SizedBox(height: 20),
-                ..._buildBottom(),
-                const SizedBox(height: 20),
-              ],
+    return BlocBuilder(
+      bloc: authScreenBloc,
+      builder: (context, state) {
+        return PrimaryScaffold(
+          isLoading: state is AuthScreenStateLoading,
+          body: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+              height: MediaQuery.of(context).size.height,
+              child: IntrinsicHeight(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    _buildFormAndLogo(state is AuthScreenStateFailure
+                        ? state.error.toString()
+                        : ''),
+                    Expanded(child: Container()),
+                    ..._buildSocialLogin(),
+                    const SizedBox(height: 20),
+                    ..._buildBottom(),
+                    const SizedBox(height: 20),
+                  ],
+                ),
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
-  _buildFormAndLogo() {
-    return [
-      const SizedBox(height: 30),
-      LogoWidget(
-        width: MediaQuery.of(context).size.width / 2,
-        height: MediaQuery.of(context).size.width / 2,
-      ),
-      const SizedBox(height: 20),
-      TextFormField(
-        decoration: InputDecoration(
-          labelText: Strings.common.email,
-          border: GradientUnderlineInputBorder(
-            focusedGradient: GradientColor.of(context).primaryGradient,
+  _buildFormAndLogo(String errorMessage) {
+    return Form(
+      key: formKey,
+      child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+        const SizedBox(height: 30),
+        LogoWidget(
+          width: MediaQuery.of(context).size.width / 2,
+          height: MediaQuery.of(context).size.width / 2,
+        ),
+        const SizedBox(height: 20),
+        GradientTextFormField(
+          validator: validateEmail,
+          controller: emailController,
+          label: Strings.common.email,
+        ),
+        const SizedBox(height: 20),
+        GradientTextFormField(
+          validator: validatePassword,
+          controller: passwordController,
+          label: Strings.common.password,
+          obscureText: true,
+        ),
+        if (errorMessage.isExistAndNotEmpty)
+          Padding(
+            padding: EdgeInsets.only(top: 20),
+            child: Text(
+              errorMessage,
+              textAlign: TextAlign.left,
+              style: context.textTheme.body1.copyWith(
+                color: context.colorScheme.error,
+                fontStyle: FontStyle.italic,
+              ),
+            ),
+          ),
+        const SizedBox(height: 40),
+        PrimaryButton(
+          title: Strings.button.login,
+          onPressed: _onLogin,
+        ),
+        const SizedBox(height: 10),
+        GestureDetector(
+          onTap: _onForgetPassword,
+          child: Text(
+            Strings.button.forgotPassword,
+            textAlign: TextAlign.center,
+            style: context.textTheme.body1.apply(
+              color: Colors.blueAccent,
+            ),
           ),
         ),
-      ),
-      const SizedBox(height: 20),
-      TextFormField(
-        obscureText: true,
-        decoration: InputDecoration(
-            labelText: Strings.common.password,
-            border: GradientUnderlineInputBorder(
-              focusedGradient: GradientColor.of(context).primaryGradient,
-            )),
-      ),
-      const SizedBox(height: 40),
-      PrimaryButton(
-        title: Strings.button.login,
-        onPressed: _onLogin,
-      ),
-      const SizedBox(height: 10),
-      GestureDetector(
-        onTap: _onForgetPassword,
-        child: Text(
-          Strings.button.forgotPassword,
-          textAlign: TextAlign.center,
-          style: context.textTheme.body1.apply(
-            color: Colors.blueAccent,
-          ),
-        ),
-      ),
-    ];
+      ]),
+    );
   }
 
   _buildSocialLogin() {
