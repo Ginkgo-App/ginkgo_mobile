@@ -53,28 +53,41 @@ class _LoginScreenState extends State<LoginScreen> {
       builder: (context, state) {
         return PrimaryScaffold(
           isLoading: state is AuthScreenStateLoading,
-          body: SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-              height: MediaQuery.of(context).size.height,
-              child: IntrinsicHeight(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    _buildFormAndLogo(state is AuthScreenStateFailure
-                        ? state.error.toString()
-                        : ''),
-                    Expanded(child: Container()),
-                    ..._buildSocialLogin(),
-                    const SizedBox(height: 20),
-                    ..._buildBottom(),
-                    const SizedBox(height: 20),
-                  ],
+          body: Stack(
+            children: <Widget>[
+              Positioned.fill(
+                  child: Image.asset(
+                'assets/images/background.png',
+                fit: BoxFit.fill,
+              )),
+              SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                  height: MediaQuery.of(context).size.height,
+                  child: IntrinsicHeight(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        _buildFormAndLogo(state is AuthScreenStateFailure
+                            ? state.error.toString()
+                            : ''),
+                        Expanded(child: Container()),
+                        ..._buildSocialLogin(),
+                        const SizedBox(height: 20),
+                        ..._buildBottom(),
+                        const SizedBox(height: 20),
+                      ],
+                    ),
+                  ),
                 ),
               ),
-            ),
+              // Positioned.fill(
+              //   child: IgnorePointer(child: Particles(10)),
+              // )
+            ],
           ),
         );
       },

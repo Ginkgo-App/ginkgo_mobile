@@ -12,4 +12,13 @@ class GradientColor {
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
+
+  get backgroundGradient => LinearGradient(
+    colors: <Color>[
+      Color(0xffFEEEEB),
+      Colors.white,
+    ],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
 }
