@@ -53,51 +53,48 @@ class _RegisterScreenState extends State<RegisterScreen> {
         builder: (context, state) {
           return PrimaryScaffold(
             isLoading: state is AuthScreenStateLoading,
-            body: Form(
-              key: formKey,
-              child: SingleChildScrollView(
-                physics: BouncingScrollPhysics(),
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-                  height: MediaQuery.of(context).size.height,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      const SizedBox(height: 20),
-                      _buildHeader(),
-                      Expanded(child: const SizedBox.shrink()),
-                      ..._buildFields(),
-                      const SizedBox(height: 40),
-                      _buildButton(),
-                      Expanded(child: const SizedBox.shrink()),
-                      ..._buildBottom(),
-                    ],
+            body: Stack(
+              children: <Widget>[
+                Positioned.fill(
+                    child: Image.asset(
+                  'assets/images/auth-background.png',
+                  fit: BoxFit.fill,
+                )),
+                Form(
+                  key: formKey,
+                  child: SingleChildScrollView(
+                    physics: BouncingScrollPhysics(),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 40, vertical: 20),
+                      height: MediaQuery.of(context).size.height,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          const SizedBox(height: 20),
+                          _buildHeader(),
+                          Expanded(child: const SizedBox.shrink()),
+                          ..._buildFields(),
+                          const SizedBox(height: 40),
+                          _buildButton(),
+                          Expanded(child: const SizedBox.shrink()),
+                          ..._buildBottom(),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
-              ),
+              ],
             ),
           );
         });
   }
 
   _buildHeader() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        LogoWidget(),
-        const SizedBox(width: 10),
-        Expanded(
-          child: AutoSizeText(
-            Strings.registerScreen.title,
-            style: context.textTheme.display1.copyWith(
-                color: context.colorScheme.onBackground,
-                fontWeight: FontWeight.bold),
-            maxLines: 1,
-          ),
-        )
-      ],
+    return LogoWidget(
+      width: MediaQuery.of(context).size.width / 2,
+      height: MediaQuery.of(context).size.width / 2,
     );
   }
 

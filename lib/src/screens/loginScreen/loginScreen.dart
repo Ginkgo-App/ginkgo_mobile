@@ -57,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
             children: <Widget>[
               Positioned.fill(
                   child: Image.asset(
-                'assets/images/background.png',
+                'assets/images/auth-background.png',
                 fit: BoxFit.fill,
               )),
               SingleChildScrollView(
@@ -97,54 +97,57 @@ class _LoginScreenState extends State<LoginScreen> {
   _buildFormAndLogo(String errorMessage) {
     return Form(
       key: formKey,
-      child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-        const SizedBox(height: 30),
-        LogoWidget(
-          width: MediaQuery.of(context).size.width / 2,
-          height: MediaQuery.of(context).size.width / 2,
-        ),
-        const SizedBox(height: 20),
-        GradientTextFormField(
-          validator: validateEmail,
-          controller: emailController,
-          label: Strings.common.email,
-        ),
-        const SizedBox(height: 20),
-        GradientTextFormField(
-          validator: validatePassword,
-          controller: passwordController,
-          label: Strings.common.password,
-          obscureText: true,
-        ),
-        if (errorMessage.isExistAndNotEmpty)
-          Padding(
-            padding: EdgeInsets.only(top: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const SizedBox(height: 30),
+          LogoWidget(
+            width: MediaQuery.of(context).size.width / 2,
+            height: MediaQuery.of(context).size.width / 2,
+          ),
+          const SizedBox(height: 20),
+          GradientTextFormField(
+            validator: validateEmail,
+            controller: emailController,
+            label: Strings.common.email,
+          ),
+          const SizedBox(height: 20),
+          GradientTextFormField(
+            validator: validatePassword,
+            controller: passwordController,
+            label: Strings.common.password,
+            obscureText: true,
+          ),
+          if (errorMessage.isExistAndNotEmpty)
+            Padding(
+              padding: EdgeInsets.only(top: 20),
+              child: Text(
+                errorMessage,
+                textAlign: TextAlign.left,
+                style: context.textTheme.body1.copyWith(
+                  color: context.colorScheme.error,
+                  fontStyle: FontStyle.italic,
+                ),
+              ),
+            ),
+          const SizedBox(height: 40),
+          PrimaryButton(
+            title: Strings.button.login,
+            onPressed: _onLogin,
+          ),
+          const SizedBox(height: 10),
+          GestureDetector(
+            onTap: _onForgetPassword,
             child: Text(
-              errorMessage,
-              textAlign: TextAlign.left,
-              style: context.textTheme.body1.copyWith(
-                color: context.colorScheme.error,
-                fontStyle: FontStyle.italic,
+              Strings.button.forgotPassword,
+              textAlign: TextAlign.center,
+              style: context.textTheme.body1.apply(
+                color: Colors.blueAccent,
               ),
             ),
           ),
-        const SizedBox(height: 40),
-        PrimaryButton(
-          title: Strings.button.login,
-          onPressed: _onLogin,
-        ),
-        const SizedBox(height: 10),
-        GestureDetector(
-          onTap: _onForgetPassword,
-          child: Text(
-            Strings.button.forgotPassword,
-            textAlign: TextAlign.center,
-            style: context.textTheme.body1.apply(
-              color: Colors.blueAccent,
-            ),
-          ),
-        ),
-      ]),
+        ],
+      ),
     );
   }
 
