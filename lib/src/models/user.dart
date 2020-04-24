@@ -7,6 +7,7 @@ class User {
   final String phoneNumber;
   final String fullName;
   final String avatar;
+  final String slogan;
   final String bio;
   final String job;
   final DateTime birthday;
@@ -19,6 +20,7 @@ class User {
     this.phoneNumber,
     this.fullName,
     this.avatar,
+    this.slogan,
     this.bio,
     this.job,
     this.birthday,

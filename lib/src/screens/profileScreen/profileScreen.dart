@@ -18,7 +18,6 @@ class ProfileScreen extends StatelessWidget {
                 children: <Widget>[
                   OwnerNav(),
                   AboutBox(user: user),
-                  TourListWidget(),
                 ],
               ),
             )
