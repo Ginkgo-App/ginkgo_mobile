@@ -10,6 +10,8 @@ import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/models/user.dart';
 import 'package:ginkgo_mobile/src/screens/profileScreen/widgets/avatarWidget.dart';
 import 'package:ginkgo_mobile/src/screens/profileScreen/widgets/infoBox.dart';
+import 'package:ginkgo_mobile/src/screens/profileScreen/widgets/ownerNav.dart';
+import 'package:ginkgo_mobile/src/utils/gradientColor.dart';
 import 'package:ginkgo_mobile/src/utils/strings.dart';
 import 'package:ginkgo_mobile/src/utils/validator.dart';
 import 'package:ginkgo_mobile/src/widgets/logoWidget.dart';

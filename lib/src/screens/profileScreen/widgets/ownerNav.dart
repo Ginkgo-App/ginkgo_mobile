@@ -1,0 +1,83 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:base/base.dart';
+
+class OwnerNav extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(5),
+        boxShadow: [
+          BoxShadow(
+              color: Colors.black.withOpacity(0.25),
+              blurRadius: 10,
+              offset: Offset(2, 2)),
+        ],
+        color: context.colorScheme.background,
+      ),
+      margin: EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+      child: IntrinsicHeight(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            _Button(
+              imageIcon: 'assets/icons/create-post.png',
+              label: 'Đăng bài',
+              onPressed: () {},
+            ),
+            _Button(
+              imageIcon: 'assets/icons/message.png',
+              label: 'Tin nhắn',
+              onPressed: () {},
+            ),
+            _Button(
+              imageIcon: 'assets/icons/friends.png',
+              label: 'Bạn bè',
+              onPressed: () {},
+            ),
+            _Button(
+              icon: Icons.more_horiz,
+              label: 'Tùy chỉnh',
+              onPressed: () {},
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _Button extends StatelessWidget {
+  final String imageIcon;
+  final IconData icon;
+  final String label;
+  final Function onPressed;
+  static const ICON_HEIGHT = 25.0;
+
+  const _Button(
+      {Key key, this.imageIcon, this.icon, this.onPressed, this.label})
+      : assert(imageIcon == null || icon == null),
+        assert(imageIcon != null || icon != null),
+        super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return CupertinoButton(
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+      child: Column(
+        children: <Widget>[
+          imageIcon != null
+              ? Image.asset(imageIcon, height: ICON_HEIGHT)
+              : Icon(icon, color: Colors.black, size: ICON_HEIGHT),
+          SizedBox(height: 6),
+          Text(
+            label,
+            style: TextStyle(fontSize: 10, color: Colors.black),
+          )
+        ],
+      ),
+      onPressed: onPressed,
+    );
+  }
+}
