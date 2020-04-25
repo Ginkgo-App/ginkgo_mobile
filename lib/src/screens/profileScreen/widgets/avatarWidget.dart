@@ -77,7 +77,7 @@ class AvatarWidget extends StatelessWidget {
                 height: 14,
               ),
               Text(
-                user.bio,
+                user.slogan,
                 style: context.textTheme.body1.copyWith(color: Colors.white),
               ),
             ],
