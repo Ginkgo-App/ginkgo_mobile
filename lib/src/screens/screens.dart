@@ -12,6 +12,7 @@ import 'package:ginkgo_mobile/src/screens/profileScreen/widgets/aboutBox.dart';
 import 'package:ginkgo_mobile/src/screens/profileScreen/widgets/avatarWidget.dart';
 import 'package:ginkgo_mobile/src/screens/profileScreen/widgets/infoBox.dart';
 import 'package:ginkgo_mobile/src/screens/profileScreen/widgets/ownerNav.dart';
+import 'package:ginkgo_mobile/src/screens/profileScreen/widgets/tourListWidget.dart';
 import 'package:ginkgo_mobile/src/utils/strings.dart';
 import 'package:ginkgo_mobile/src/utils/validator.dart';
 import 'package:ginkgo_mobile/src/widgets/logoWidget.dart';

@@ -16,7 +16,7 @@ class OwnerNav extends StatelessWidget {
         ],
         color: context.colorScheme.background,
       ),
-      margin: EdgeInsets.all(20),
+      margin: EdgeInsets.symmetric(horizontal: 20),
       child: IntrinsicHeight(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
