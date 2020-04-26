@@ -23,6 +23,8 @@ class ProfileScreen extends StatelessWidget {
                   const SizedBox(height: 10),
                   FriendList(),
                   const SizedBox(height: 10),
+                  InfoBox(),
+                  const SizedBox(height: 10),
                   TourListWidget(),
                 ],
               ),

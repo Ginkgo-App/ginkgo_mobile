@@ -8,8 +8,6 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            // InfoBox(),
-            // FriendList(),
             Text(AppConfig.instance.appName),
             SizedBox(height: 20,),
             PrimaryButton(
