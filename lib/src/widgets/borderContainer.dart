@@ -2,13 +2,20 @@ part of 'widgets.dart';
 
 class BorderContainer extends StatelessWidget {
   final Widget child;
+  final List<Widget> children;
   final EdgeInsets childPadding;
   final String icon;
   final String title;
 
   const BorderContainer(
-      {Key key, this.childPadding, this.child, this.icon, this.title})
-      : super(key: key);
+      {Key key,
+      this.childPadding,
+      this.child,
+      this.icon,
+      this.title,
+      this.children})
+      : assert(child == null || children == null),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +33,18 @@ class BorderContainer extends StatelessWidget {
               padding: const EdgeInsets.all(10),
               child: _Header(title: title, icon: icon),
             ),
-          Padding(
-            padding: childPadding ?? EdgeInsets.fromLTRB(10, 0, 10, 10),
-            child: child ?? const SizedBox.shrink(),
-          )
+          if (child != null)
+            Padding(
+              padding: childPadding ?? EdgeInsets.fromLTRB(10, 0, 10, 10),
+              child: child ?? const SizedBox.shrink(),
+            ),
+          if (children != null)
+            Padding(
+              padding: childPadding ?? EdgeInsets.fromLTRB(10, 0, 10, 10),
+              child: Column(
+                children: children,
+              ),
+            )
         ],
       ),
     );
@@ -44,17 +59,19 @@ class _Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        if (icon.isExistAndNotEmpty) Image.asset(icon),
-        const SizedBox(width: 10),
-        if (title.isExistAndNotEmpty)
-          Text(
-            title,
-            style: context.textTheme.subhead.copyWith(
-                color: DesignColor.blockHeader, fontWeight: FontWeight.bold),
-          )
-      ],
+    return IntrinsicHeight(
+      child: Row(
+        children: <Widget>[
+          if (icon.isExistAndNotEmpty) Image.asset(icon),
+          const SizedBox(width: 10),
+          if (title.isExistAndNotEmpty)
+            Text(
+              title,
+              style: context.textTheme.subhead.copyWith(
+                  color: DesignColor.blockHeader, fontWeight: FontWeight.bold),
+            )
+        ],
+      ),
     );
   }
 }
