@@ -62,7 +62,11 @@ class _Header extends StatelessWidget {
     return IntrinsicHeight(
       child: Row(
         children: <Widget>[
-          if (icon.isExistAndNotEmpty) Image.asset(icon),
+          if (icon.isExistAndNotEmpty)
+            SvgPicture.asset(
+              icon,
+              height: 30,
+            ),
           const SizedBox(width: 10),
           if (title.isExistAndNotEmpty)
             Text(

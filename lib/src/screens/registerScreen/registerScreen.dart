@@ -57,7 +57,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               children: <Widget>[
                 Positioned.fill(
                     child: Image.asset(
-                  'assets/images/auth-background.png',
+                  Assets.images.authBackground,
                   fit: BoxFit.fill,
                 )),
                 Form(

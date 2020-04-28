@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:ginkgo_mobile/src/utils/designColor.dart';
 import 'package:base/base.dart';
-import 'package:ginkgo_mobile/src/utils/imageFiles.dart';
+import 'package:ginkgo_mobile/src/utils/assets.dart';
+import 'package:ginkgo_mobile/src/widgets/galleryItem.dart';
 
 class TourItemWidget extends StatelessWidget {
   @override
@@ -19,13 +21,11 @@ class TourItemWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Expanded(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(5),
-              child: CachedNetworkImage(
-                imageUrl:
-                    'https://yt3.ggpht.com/a/AGF-l78QGTW3gMAN3s_devNGhlzjBO9eCRPGTg0iUQ=s900-c-k-c0xffffffff-no-rj-mo',
-                fit: BoxFit.cover,
-              ),
+            child: GalleryItem(
+              images: [
+                'https://yt3.ggpht.com/a/AGF-l78QGTW3gMAN3s_devNGhlzjBO9eCRPGTg0iUQ=s900-c-k-c0xffffffff-no-rj-mo',
+                'https://yt3.ggpht.com/a/AGF-l78QGTW3gMAN3s_devNGhlzjBO9eCRPGTg0iUQ=s900-c-k-c0xffffffff-no-rj-mo',
+              ],
             ),
           ),
           const SizedBox(height: 10),
@@ -45,13 +45,13 @@ class TourItemWidget extends StatelessWidget {
                   child: Column(
                     children: <Widget>[
                       _buildRowIcon(context,
-                          icon: ImageFiles.icon.planner,
+                          icon: Assets.icons.planner,
                           text: 'Saigon Tourist'),
                       _buildRowIcon(context,
-                          icon: ImageFiles.icon.calendar,
+                          icon: Assets.icons.calendar,
                           text: '3 ngày 2 đêm (20/04/2020 - 22/04/2020)'),
                       _buildRowIcon(context,
-                          icon: ImageFiles.icon.people, text: '15 người'),
+                          icon: Assets.icons.people, text: '15 người'),
                     ],
                   ),
                 )
@@ -69,7 +69,7 @@ class TourItemWidget extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Image.asset(
+          SvgPicture.asset(
             icon,
             height: 12,
           ),

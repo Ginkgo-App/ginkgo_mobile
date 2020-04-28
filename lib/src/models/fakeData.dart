@@ -1,3 +1,5 @@
+import 'package:ginkgo_mobile/src/models/comment.dart';
+import 'package:ginkgo_mobile/src/models/post.dart';
 import 'package:ginkgo_mobile/src/models/user.dart';
 
 class FakeData {
@@ -8,7 +10,8 @@ class FakeData {
     job: 'Singer, Composer',
     birthday: DateTime(1998, 1, 1),
     gender: Gender.male,
-    slogan: 'Nguyễn Thanh Tùng (sinh ngày 5 tháng 7 năm 1994) hay còn được biết đến với nghệ danh Sơn Tùng M-TP là một nam ca sĩ, nhạc sĩ và diễn viên người Việt Nam.',
+    slogan:
+        'Nguyễn Thanh Tùng (sinh ngày 5 tháng 7 năm 1994) hay còn được biết đến với nghệ danh Sơn Tùng M-TP là một nam ca sĩ, nhạc sĩ và diễn viên người Việt Nam.',
     bio: '''
 Nguyễn Thanh Tùng hay được biết đến với nghệ danh Sơn Tùng M-TP (sinh ngày 5 tháng 7 năm 1994) là một ca sĩ, nhạc sĩ và diễn viên người Việt Nam.
 \nCác đĩa đơn năm 2012 và 2013 của anh, "Cơn mưa ngang qua" và "Em của ngày hôm qua" đã đánh dấu mốc khởi đầu cho sự nghiệp của anh. 
@@ -18,5 +21,27 @@ Nguyễn Thanh Tùng hay được biết đến với nghệ danh Sơn Tùng M-T
     avatar:
         'https://yt3.ggpht.com/a/AGF-l78QGTW3gMAN3s_devNGhlzjBO9eCRPGTg0iUQ=s900-c-k-c0xffffffff-no-rj-mo',
     address: 'District 1, Ho Chi Minh',
+  );
+
+  static final Post post = Post(
+    id: '1',
+    author: currentUser,
+    content:
+        '''Hôm nay có thời gian nên mình review chuyến đi Đà Nẵng, Hội An vừa qua của mình. Ta nói vui ơi là vui, ban tổ chức cực kỳ chu đáo, có xe đưa rước tận nơi, dịch vụ vui chơi thì khỏi chê vào đâu. Khách sạn sạch sẽ, đẹp,... bla bla bla bò bí bô la la la...
+Nói chung là đáng đồng tiền bỏ ra. Nếu có dịp lần sau sẽ ủng hộ tiếp hihi...''',
+    createAt: DateTime(2019, 1, 1, 12, 12),
+    images: [
+      'https://images.unsplash.com/photo-1552702565-ed98c940b611?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80',
+      'https://images.unsplash.com/photo-1552458403-45c1a26d744c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80',
+      'https://images.unsplash.com/photo-1552524589-c76555c59289?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80',
+    ],
+    someComment: [Comment(
+      id: '12',
+      postId: '1',
+      author: currentUser,
+      content: 'Ôi ảnh đẹp quá bạn ơi...'
+    )],
+    totalComment: 10,
+    totalLike: 10,
   );
 }

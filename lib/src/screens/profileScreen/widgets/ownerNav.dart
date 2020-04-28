@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:base/base.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:ginkgo_mobile/src/utils/assets.dart';
 
 class OwnerNav extends StatelessWidget {
   @override
@@ -22,17 +24,17 @@ class OwnerNav extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             _Button(
-              imageIcon: 'assets/icons/create-post.png',
+              imageIcon: Assets.icons.createPost,
               label: 'Đăng bài',
               onPressed: () {},
             ),
             _Button(
-              imageIcon: 'assets/icons/message.png',
+              imageIcon: Assets.icons.message,
               label: 'Tin nhắn',
               onPressed: () {},
             ),
             _Button(
-              imageIcon: 'assets/icons/friends.png',
+              imageIcon: Assets.icons.friends,
               label: 'Bạn bè',
               onPressed: () {},
             ),
@@ -68,7 +70,7 @@ class _Button extends StatelessWidget {
       child: Column(
         children: <Widget>[
           imageIcon != null
-              ? Image.asset(imageIcon, height: ICON_HEIGHT)
+              ? SvgPicture.asset(imageIcon, height: ICON_HEIGHT)
               : Icon(icon, color: Colors.black, size: ICON_HEIGHT),
           SizedBox(height: 6),
           Text(

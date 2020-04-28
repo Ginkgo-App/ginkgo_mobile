@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
+import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/widgets/widgets.dart';
 
 class AboutBox extends StatefulWidget {
@@ -18,7 +19,7 @@ class _AboutBoxState extends State<AboutBox> {
   Widget build(BuildContext context) {
     return BorderContainer(
       title: 'Tự giới thiệu',
-      icon: 'assets/icons/introduction.png',
+      icon: Assets.icons.introduction,
       child: HiddenText(widget.user.bio),
     );
   }

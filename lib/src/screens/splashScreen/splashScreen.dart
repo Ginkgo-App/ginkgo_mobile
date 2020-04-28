@@ -23,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
         children: <Widget>[
           Positioned.fill(
               child: Image.asset(
-            'assets/images/background.png',
+            Assets.images.background,
             fit: BoxFit.fill,
           )),
           Center(

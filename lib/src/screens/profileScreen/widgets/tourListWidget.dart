@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ginkgo_mobile/src/screens/profileScreen/widgets/tourItemWidget.dart';
+import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/widgets/buttons/commonOutlineButton.dart';
 import 'package:ginkgo_mobile/src/widgets/widgets.dart';
 
@@ -8,7 +9,7 @@ class TourListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BorderContainer(
-      icon: 'assets/icons/tour.png',
+      icon: Assets.icons.tour,
       title: 'Các chuyến đi',
       childPadding: EdgeInsets.only(bottom: 10),
       child: Column(

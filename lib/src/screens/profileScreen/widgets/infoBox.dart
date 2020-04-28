@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
-import 'package:ginkgo_mobile/src/utils/imageFiles.dart';
+import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/widgets/widgets.dart';
 
 class FakeUser {
@@ -41,7 +42,7 @@ class InfoBox extends StatelessWidget {
           children: <Widget>[
             Padding(
                 padding: EdgeInsets.only(left: 5, right: 15),
-                child: Image.asset(icon)),
+                child: SvgPicture.asset(icon, height: 20)),
             Expanded(
               child: Container(
                 padding: const EdgeInsets.fromLTRB(0, 2, 0, 10),
@@ -61,16 +62,16 @@ class InfoBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BorderContainer(
-      icon: ImageFiles.icon.resume,
+      icon: Assets.icons.resume,
       title: 'Thông tin cá nhân',
       child: Column(
         children: <Widget>[
-          _buildRow("assets/icons/job.png", "Travel Bloger"),
-          _buildRow("assets/icons/email.png", "baymax@samplemail"),
-          _buildRow("assets/icons/phone.png", "0123456789 "),
-          _buildRow("assets/icons/birthday.png", "01/01/1998"),
-          _buildRow("assets/icons/gender.png", "Nam"),
-          _buildRow("assets/icons/address.png", "suối tiên"),
+          _buildRow(Assets.icons.job, "Travel Bloger"),
+          _buildRow(Assets.icons.email, "baymax@samplemail"),
+          _buildRow(Assets.icons.phone, "0123456789 "),
+          _buildRow(Assets.icons.birthday, "01/01/1998"),
+          _buildRow(Assets.icons.gender, "Nam"),
+          _buildRow(Assets.icons.address, "suối tiên"),
         ],
       ),
     );

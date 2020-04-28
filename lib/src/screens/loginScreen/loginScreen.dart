@@ -57,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
             children: <Widget>[
               Positioned.fill(
                   child: Image.asset(
-                'assets/images/auth-background.png',
+                Assets.images.authBackground,
                 fit: BoxFit.fill,
               )),
               SingleChildScrollView(
@@ -186,11 +186,11 @@ class _LoginScreenState extends State<LoginScreen> {
           CupertinoButton(
             padding: EdgeInsets.zero,
             onPressed: _onFacebookLogin,
-            child: Image.asset('assets/icons/facebook.png'),
+            child: SvgPicture.asset(Assets.icons.facebookSquare),
           ),
           CupertinoButton(
             padding: EdgeInsets.zero,
-            child: Image.asset('assets/icons/google-plus.png'),
+            child: SvgPicture.asset(Assets.icons.googlePlusSquare),
             onPressed: _onGoogleLogin,
           ),
         ],

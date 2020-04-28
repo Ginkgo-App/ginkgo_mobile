@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
+import 'package:ginkgo_mobile/src/utils/assets.dart';
 
 class AvatarWidget extends StatelessWidget {
   final User user;
@@ -27,7 +28,7 @@ class AvatarWidget extends StatelessWidget {
         child: Hero(
           child: CachedNetworkImage(
             placeholder: (context, url) => Image.asset(
-              'assets/images/default-avatar.png',
+              Assets.images.defaultImage,
               fit: BoxFit.cover,
             ),
             fit: BoxFit.cover,

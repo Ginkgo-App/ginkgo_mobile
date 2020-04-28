@@ -6,7 +6,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PrimaryScaffold(
-      appBar: BackAppBar(),
+      appBar: BackAppBar(title: user.fullName),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -26,6 +26,9 @@ class ProfileScreen extends StatelessWidget {
                   InfoBox(),
                   const SizedBox(height: 10),
                   TourListWidget(),
+                  const SizedBox(height: 10),
+                  ActivityBox(),
+                  const SizedBox(height: 20),
                 ],
               ),
             )
