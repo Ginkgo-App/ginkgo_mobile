@@ -17,3 +17,4 @@ part 'src/errorState.dart';
 part 'src/extensions/contextExt.dart';
 part 'src/storageProvider.dart';
 part 'src/extensions/stringExt.dart';
+part 'src/extensions/listExt.dart';

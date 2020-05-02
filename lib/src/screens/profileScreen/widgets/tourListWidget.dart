@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:ginkgo_mobile/src/screens/profileScreen/widgets/tourItemWidget.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/widgets/buttons/commonOutlineButton.dart';
+import 'package:ginkgo_mobile/src/widgets/spacingRow.dart';
 import 'package:ginkgo_mobile/src/widgets/widgets.dart';
 
 class TourListWidget extends StatelessWidget {
@@ -16,8 +17,10 @@ class TourListWidget extends StatelessWidget {
         children: <Widget>[
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
+            padding: EdgeInsets.symmetric(horizontal: 10),
             child: IntrinsicHeight(
-              child: Row(
+              child: SpacingRow(
+                spacing: 10,
                 children: List.generate(10, (i) {
                   return TourItemWidget();
                 }),

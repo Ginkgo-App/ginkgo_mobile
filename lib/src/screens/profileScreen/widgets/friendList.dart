@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ginkgo_mobile/src/widgets/autoHeightGridView.dart';
 import 'package:ginkgo_mobile/src/widgets/buttons/commonOutlineButton.dart';
 import 'package:ginkgo_mobile/src/widgets/widgets.dart';
 
@@ -22,6 +23,7 @@ class FriendList extends StatelessWidget {
         icon: 'assets/images/friendlist.png',
         children: <Widget>[
           _buildList(),
+          const SizedBox(height: 10),
           CommonOutlineButton(
             text: 'Xem tat ca',
             onPressed: () {},
@@ -63,52 +65,46 @@ class FriendList extends StatelessWidget {
           job: 'Angel'),
     ];
 
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-        childAspectRatio: 0.7,
-        mainAxisSpacing: 10,
-        crossAxisSpacing: 20,
-      ),
-      itemCount: demo.length,
-      itemBuilder: (context, index) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Image.network(
-                  demo[index].image,
-                  fit: BoxFit.cover,
-                )),
-            SizedBox(
-              height: 5,
-            ),
-            Text(
-              demo[index].name,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Text(
-              demo[index].job,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontStyle: FontStyle.italic,
-                  fontSize: 12,
-                  color: Colors.grey),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
-        );
-      },
+    return AutoHeightGridView(
+      crossAxisCount: 3,
+      mainAxisSpacing: 10,
+      crossAxisSpacing: 10,
+      children: demo.map((e) => _buildItem(e)).toList(),
+    );
+  }
+
+  Widget _buildItem(Demo data) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Image.network(
+              data.image,
+              fit: BoxFit.cover,
+            )),
+        SizedBox(
+          height: 5,
+        ),
+        Text(
+          data.name,
+          textAlign: TextAlign.center,
+          style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+        SizedBox(
+          height: 5,
+        ),
+        Text(
+          data.job,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              fontStyle: FontStyle.italic, fontSize: 12, color: Colors.grey),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+      ],
     );
   }
 }

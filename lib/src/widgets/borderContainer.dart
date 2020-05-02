@@ -27,6 +27,7 @@ class BorderContainer extends StatelessWidget {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           if (title != null || icon != null)
             Padding(

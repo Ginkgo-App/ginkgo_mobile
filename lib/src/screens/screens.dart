@@ -16,11 +16,9 @@ import 'package:ginkgo_mobile/src/screens/profileScreen/widgets/friendList.dart'
 import 'package:ginkgo_mobile/src/screens/profileScreen/widgets/infoBox.dart';
 import 'package:ginkgo_mobile/src/screens/profileScreen/widgets/ownerNav.dart';
 import 'package:ginkgo_mobile/src/screens/profileScreen/widgets/tourListWidget.dart';
-import 'package:ginkgo_mobile/src/utils/designColor.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/utils/strings.dart';
 import 'package:ginkgo_mobile/src/utils/validator.dart';
-import 'package:ginkgo_mobile/src/widgets/buttons/commonOutlineButton.dart';
 import 'package:ginkgo_mobile/src/widgets/logoWidget.dart';
 import 'package:ginkgo_mobile/src/widgets/widgets.dart';
 import 'package:toast/toast.dart';
