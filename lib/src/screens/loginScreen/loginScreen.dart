@@ -63,24 +63,27 @@ class _LoginScreenState extends State<LoginScreen> {
               SingleChildScrollView(
                 physics: BouncingScrollPhysics(),
                 child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 40),
                   height: MediaQuery.of(context).size.height,
-                  child: IntrinsicHeight(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        _buildFormAndLogo(state is AuthScreenStateFailure
-                            ? state.error.toString()
-                            : ''),
-                        Expanded(child: Container()),
-                        ..._buildSocialLogin(),
-                        const SizedBox(height: 20),
-                        ..._buildBottom(),
-                        const SizedBox(height: 20),
-                      ],
-                    ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      const SizedBox(height: 30),
+                      LogoWidget(
+                        width: MediaQuery.of(context).size.width / 2,
+                        height: MediaQuery.of(context).size.width / 2,
+                      ),
+                      Flexible(child: Container()),
+                      _buildForm(state is AuthScreenStateFailure
+                          ? state.error.toString()
+                          : ''),
+                      Flexible(child: Container()),
+                      ..._buildSocialLogin(),
+                      const SizedBox(height: 20),
+                      ..._buildBottom(),
+                      const SizedBox(height: 20),
+                    ],
                   ),
                 ),
               ),
@@ -94,18 +97,12 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  _buildFormAndLogo(String errorMessage) {
+  _buildForm(String errorMessage) {
     return Form(
       key: formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const SizedBox(height: 30),
-          LogoWidget(
-            width: MediaQuery.of(context).size.width / 2,
-            height: MediaQuery.of(context).size.width / 2,
-          ),
-          const SizedBox(height: 20),
           GradientTextFormField(
             validator: validateEmail,
             controller: emailController,
@@ -186,11 +183,11 @@ class _LoginScreenState extends State<LoginScreen> {
           CupertinoButton(
             padding: EdgeInsets.zero,
             onPressed: _onFacebookLogin,
-            child: SvgPicture.asset(Assets.icons.facebookSquare),
+            child: _buildSocialButton(Assets.icons.facebookSquare),
           ),
           CupertinoButton(
             padding: EdgeInsets.zero,
-            child: SvgPicture.asset(Assets.icons.googlePlusSquare),
+            child: _buildSocialButton(Assets.icons.googlePlusSquare),
             onPressed: _onGoogleLogin,
           ),
         ],
@@ -218,5 +215,12 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     ];
+  }
+
+  _buildSocialButton(String icon) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(10),
+      child: SvgPicture.asset(icon, height: 50),
+    );
   }
 }
