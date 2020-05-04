@@ -28,6 +28,7 @@ class _Error {
   final emailIncorrectForm = 'Email không đúng định dạng.';
   final phoneNumberIncorrectForm = 'Số điện thoại không đúng định dạng.';
   final rePasswordIsNotMatch = 'Re-password is not match with password.';
+  final cannotRegisterWithFacebook = 'Cannot register with facebook';
 }
 
 class _LoginScreen {

@@ -9,15 +9,18 @@ class Post {
   final List<String> images;
   final int totalLike;
   final int totalComment;
-  final List<Comment> someComment;
+  final Comment featuredComment;
+  final int rating;
 
-  Post(
-      {this.id,
-      this.author,
-      this.createAt,
-      this.content,
-      this.images,
-      this.totalLike,
-      this.totalComment,
-      this.someComment});
+  Post({
+    this.id,
+    this.author,
+    this.createAt,
+    this.content,
+    this.images,
+    this.totalLike,
+    this.totalComment,
+    this.featuredComment,
+    this.rating,
+  });
 }

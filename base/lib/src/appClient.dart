@@ -47,7 +47,7 @@ class ApiClient {
     bool hasCaching = true,
   }) async {
     Map<String, String> _headers = {
-      'Content-Type': 'application/x-www-form-urlencoded',
+      'Content-Type': 'application/json',
     };
 
     if (headers != null && data == null) {
@@ -85,34 +85,51 @@ class ApiClient {
           response = await _client.post(url,
               queryParameters: query, options: options, data: data ?? body);
           break;
+        case ApiMethod.PUT:
+          response = await _client.put(url,
+              queryParameters: query, options: options, data: data ?? body);
+          break;
+        case ApiMethod.DELETE:
+          response = await _client.delete(url,
+              queryParameters: query, options: options, data: data ?? body);
+          break;
         default:
           response =
               await _client.get(url, queryParameters: query, options: options);
           break;
       }
 
+      final decoded = jsonDecode(response.data);
       // Cache api
-      bool success = !(response.data is List && response.data != null)
-          ? response.data['success']
-          : null;
+      bool isSuccess = decoded != null &&
+          decoded is! List &&
+          decoded['Data'] != null &&
+          decoded['Data'] is List &&
+          int.tryParse(decoded['ErrorCode'].toString()) == 0;
+
       if (response.statusCode != 200 && response.statusCode != 201 ||
-          (success != null && !success)) {
+          !isSuccess) {
         if (handleError) {
-          throw response.data['message'];
+          throw ServerError(
+            errorCode: decoded['ErrorCode'],
+            message: decoded['Message'],
+          );
         }
       } else {
         if (method == ApiMethod.GET) {
-          CacheProvider()
-              .cache(url + query.toString(), jsonEncode(response.data));
+          CacheProvider().cache(
+            url + query.toString(),
+            jsonEncode(response.data),
+          );
         }
       }
       // END cache api
     }
 
-    _client.close();
+    // _client.close();
 
     return response;
   }
 }
 
-enum ApiMethod { GET, POST }
+enum ApiMethod { GET, POST, PUT, DELETE }

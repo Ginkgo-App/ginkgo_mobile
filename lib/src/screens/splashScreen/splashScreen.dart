@@ -9,11 +9,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-
-    // TODO remove this code
-    Future.delayed(Duration(seconds: 2)).then((_) {
-      AuthBloc().add(AuthEventStartApp());
-    });
+    AuthBloc().add(AuthEventStartApp());
   }
 
   @override

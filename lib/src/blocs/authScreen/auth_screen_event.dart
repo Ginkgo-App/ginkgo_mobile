@@ -26,6 +26,17 @@ class AuthScreenEventFacebookLogin extends AuthScreenEvent {
   String toString() => '$runtimeType $accessToken';
 }
 
+class AuthScreenEventFacebookLoginWithEmail extends AuthScreenEvent {
+  final String accessToken;
+  final String email;
+
+  AuthScreenEventFacebookLoginWithEmail(
+      {@required this.accessToken, @required this.email});
+
+  @override
+  String toString() => '$runtimeType $email $accessToken';
+}
+
 class AuthScreenEventRegister extends AuthScreenEvent {
   final String name;
   final String email;
@@ -34,7 +45,7 @@ class AuthScreenEventRegister extends AuthScreenEvent {
 
   AuthScreenEventRegister(
       {this.name, this.email, this.phoneNumber, this.password});
-  
+
   @override
   String toString() => '$runtimeType $name, $phoneNumber, $email, $password';
 }

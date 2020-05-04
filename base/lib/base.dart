@@ -18,3 +18,4 @@ part 'src/extensions/contextExt.dart';
 part 'src/storageProvider.dart';
 part 'src/extensions/stringExt.dart';
 part 'src/extensions/listExt.dart';
+part 'src/serverError.dart';

@@ -30,3 +30,4 @@ part 'loginScreen/loginScreen.dart';
 part 'profileScreen/profileScreen.dart';
 part 'registerScreen/registerScreen.dart';
 part 'splashScreen/splashScreen.dart';
+part 'emailScreen/emailScreen.dart';

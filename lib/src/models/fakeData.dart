@@ -35,12 +35,11 @@ Nói chung là đáng đồng tiền bỏ ra. Nếu có dịp lần sau sẽ ủ
       'https://images.unsplash.com/photo-1552458403-45c1a26d744c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80',
       'https://images.unsplash.com/photo-1552524589-c76555c59289?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80',
     ],
-    someComment: [Comment(
-      id: '12',
-      postId: '1',
-      author: currentUser,
-      content: 'Ôi ảnh đẹp quá bạn ơi...'
-    )],
+    featuredComment: Comment(
+        id: '12',
+        postId: '1',
+        author: currentUser,
+        content: 'Ôi ảnh đẹp quá bạn ơi...'),
     totalComment: 10,
     totalLike: 10,
   );
