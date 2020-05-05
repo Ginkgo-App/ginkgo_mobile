@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/widgets/autoHeightGridView.dart';
 import 'package:ginkgo_mobile/src/widgets/buttons/commonOutlineButton.dart';
 import 'package:ginkgo_mobile/src/widgets/widgets.dart';
@@ -20,7 +22,7 @@ class FriendList extends StatelessWidget {
   Widget build(BuildContext context) {
     return BorderContainer(
         title: 'Danh sách bạn bè',
-        icon: 'assets/images/friendlist.png',
+        icon: Assets.icons.friendList,
         children: <Widget>[
           _buildList(),
           const SizedBox(height: 10),
@@ -79,8 +81,8 @@ class FriendList extends StatelessWidget {
       children: <Widget>[
         ClipRRect(
             borderRadius: BorderRadius.circular(10),
-            child: Image.network(
-              data.image,
+            child: CachedNetworkImage(
+              imageUrl: data.image,
               fit: BoxFit.cover,
             )),
         SizedBox(

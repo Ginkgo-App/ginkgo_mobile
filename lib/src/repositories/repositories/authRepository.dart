@@ -51,6 +51,7 @@ class _AuthRepository {
       _storageProvider.save(StorageKey.Token.toString(), token),
     ]);
 
+    print('Token: $token');
     _token = token;
   }
 

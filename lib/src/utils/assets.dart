@@ -8,10 +8,13 @@ class Assets {
 
 class _Icon {
   final activity = _ICON_PATH + 'activity.svg';
+  final activityTypePhotography = _ICON_PATH + 'activity-type-photography.svg';
   final address = _ICON_PATH + 'address.svg';
   final birthday = _ICON_PATH + 'birthday.svg';
   final calendar = _ICON_PATH + 'calendar.svg';
   final createPost = _ICON_PATH + 'create-post.svg';
+  final comment = _ICON_PATH + 'comment.svg';
+  final datetime = _ICON_PATH + 'datetime.svg';
   final email = _ICON_PATH + 'email.svg';
   final facebookSquare = _ICON_PATH + 'facebook-square.svg';
   final friendAcceptance = _ICON_PATH + 'friend-acceptance.svg';
@@ -19,9 +22,11 @@ class _Icon {
   final friendNewRequest = _ICON_PATH + 'friend-new-request.svg';
   final friendSendRequest = _ICON_PATH + 'friend-send-request.svg';
   final friends = _ICON_PATH + 'friends.svg';
+  final friendList = _ICON_PATH + 'friend-list.svg';
   final gender = _ICON_PATH + 'gender.svg';
   final googlePlusCircle = _ICON_PATH + 'G+logo-circle.svg';
   final googlePlusSquare = _ICON_PATH + 'G+logo-square.svg';
+  final heartOutline = _ICON_PATH + 'heart-outline.svg';
   final introduction = _ICON_PATH + 'introduction.svg';
   final job = _ICON_PATH + 'job.svg';
   final leaf1 = _ICON_PATH + 'leaf-1.svg';

@@ -1,5 +1,7 @@
 import 'package:ginkgo_mobile/src/models/comment.dart';
 import 'package:ginkgo_mobile/src/models/post.dart';
+import 'package:ginkgo_mobile/src/models/review.dart';
+import 'package:ginkgo_mobile/src/models/tourInfo.dart';
 import 'package:ginkgo_mobile/src/models/user.dart';
 
 class FakeData {
@@ -34,13 +36,69 @@ Nói chung là đáng đồng tiền bỏ ra. Nếu có dịp lần sau sẽ ủ
       'https://images.unsplash.com/photo-1552702565-ed98c940b611?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80',
       'https://images.unsplash.com/photo-1552458403-45c1a26d744c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80',
       'https://images.unsplash.com/photo-1552524589-c76555c59289?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80',
+      'https://images.unsplash.com/photo-1552524589-c76555c59289?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80',
+      'https://images.unsplash.com/photo-1552524589-c76555c59289?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80',
     ],
-    featuredComment: Comment(
-        id: '12',
-        postId: '1',
-        author: currentUser,
-        content: 'Ôi ảnh đẹp quá bạn ơi...'),
+    featuredComments: [
+      Comment(
+          id: '12',
+          postId: '1',
+          author: currentUser,
+          content: 'Ôi ảnh đẹp quá bạn ơi...')
+    ],
     totalComment: 10,
     totalLike: 10,
+  );
+
+  static final Post postNoImage = Post(
+    id: '1',
+    author: currentUser,
+    content:
+        '''Hôm nay có thời gian nên mình review chuyến đi Đà Nẵng, Hội An vừa qua của mình. Ta nói vui ơi là vui, ban tổ chức cực kỳ chu đáo, có xe đưa rước tận nơi, dịch vụ vui chơi thì khỏi chê vào đâu. Khách sạn sạch sẽ, đẹp,... bla bla bla bò bí bô la la la...
+Nói chung là đáng đồng tiền bỏ ra. Nếu có dịp lần sau sẽ ủng hộ tiếp hihi...''',
+    createAt: DateTime(2019, 1, 1, 12, 12),
+    images: [],
+    featuredComments: [
+      Comment(
+          id: '12',
+          postId: '1',
+          author: currentUser,
+          content: 'Ôi ảnh đẹp quá bạn ơi...')
+    ],
+    totalComment: 10,
+    totalLike: 10,
+  );
+
+  static final Review review = Review(
+    id: '1',
+    author: currentUser,
+    tourInfo: tourInfo,
+    content:
+        '''Hôm nay có thời gian nên mình review chuyến đi Đà Nẵng, Hội An vừa qua của mình. Ta nói vui ơi là vui, ban tổ chức cực kỳ chu đáo, có xe đưa rước tận nơi, dịch vụ vui chơi thì khỏi chê vào đâu. Khách sạn sạch sẽ, đẹp,... bla bla bla bò bí bô la la la...
+Nói chung là đáng đồng tiền bỏ ra. Nếu có dịp lần sau sẽ ủng hộ tiếp hihi...''',
+    createAt: DateTime(2019, 1, 1, 12, 12),
+    featuredComments: [
+      Comment(
+          id: '12',
+          postId: '1',
+          author: currentUser,
+          content: 'Ôi ảnh đẹp quá bạn ơi...')
+    ],
+    totalComment: 10,
+    totalLike: 10,
+    rating: 4,
+  );
+
+  static final TourInfo tourInfo = TourInfo(
+    id: 1,
+    name: 'Tour du lịch Hội An - Đà Nẵng',
+    images: [
+      'https://images.unsplash.com/photo-1552702565-ed98c940b611?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80',
+      'https://images.unsplash.com/photo-1552458403-45c1a26d744c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80',
+      'https://images.unsplash.com/photo-1552524589-c76555c59289?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80',
+      'https://images.unsplash.com/photo-1552524589-c76555c59289?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80',
+      'https://images.unsplash.com/photo-1552524589-c76555c59289?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80',
+    ],
+    createBy: currentUser,
   );
 }

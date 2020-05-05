@@ -18,11 +18,12 @@ class AuthProvider {
       'AccessToken': accessToken,
     };
 
-    if (email != null) {
-      body.addAll({'Email': email});
-    } else {
-      throw ServerError(errorCode: 9, message: 'null');
-    }
+    // Code to test social does not provide email.
+    // if (email != null) {
+    //   body.addAll({'Email': email});
+    // } else {
+    //   throw ServerError(errorCode: 9, message: 'null');
+    // }
 
     final response = await _client
         .normalConnect(ApiMethod.POST, Api.socialLogin, body: body);

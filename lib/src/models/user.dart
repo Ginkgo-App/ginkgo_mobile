@@ -15,6 +15,8 @@ class User {
   final String address;
   final Set<User> friends;
 
+  String get displayName => fullName ?? email;
+
   User({
     @required this.email,
     this.phoneNumber,

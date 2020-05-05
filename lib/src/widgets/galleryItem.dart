@@ -66,7 +66,8 @@ class GalleryItem extends StatelessWidget {
                         if (images.length > 3)
                           Positioned.fill(
                             child: ClipRRect(
-                              borderRadius: BorderRadius.circular(6),
+                              borderRadius:
+                                  borderRadius ?? BorderRadius.circular(6),
                               child: Container(
                                 color: Color.fromRGBO(0, 0, 0, 0.35),
                                 child: Center(
@@ -91,7 +92,7 @@ class GalleryItem extends StatelessWidget {
 
   _buildImage(String url) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(5),
+      borderRadius: borderRadius ?? BorderRadius.circular(5),
       child: CachedNetworkImage(imageUrl: url, fit: BoxFit.cover),
     );
   }
