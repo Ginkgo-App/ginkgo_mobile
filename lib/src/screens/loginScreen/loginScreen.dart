@@ -60,11 +60,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 Assets.images.authBackground,
                 fit: BoxFit.fill,
               )),
-              SingleChildScrollView(
-                physics: BouncingScrollPhysics(),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 40),
-                  height: MediaQuery.of(context).size.height,
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 40),
+                height: MediaQuery.of(context).size.height,
+                child: SingleChildScrollView(
+                  physics: BouncingScrollPhysics(),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
