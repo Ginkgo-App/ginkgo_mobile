@@ -5,6 +5,7 @@ class Strings {
   static final error = _Error();
   static final loginScreen = _LoginScreen();
   static final registerScreen = _RegisterScreen();
+  static final post = _Post();
 }
 
 class _Common {
@@ -28,6 +29,7 @@ class _Error {
   final emailIncorrectForm = 'Email không đúng định dạng.';
   final phoneNumberIncorrectForm = 'Số điện thoại không đúng định dạng.';
   final rePasswordIsNotMatch = 'Re-password is not match with password.';
+  final cannotRegisterWithFacebook = 'Cannot register with facebook';
 }
 
 class _LoginScreen {
@@ -40,4 +42,14 @@ class _RegisterScreen {
   final title = 'Đăng ký tài khoản mới';
   final hadAccount = 'Đã có tài khoản? ';
   final loginNow = 'Đăng nhập ngay';
+}
+
+class _Post {
+  final justPostAImage = ' vừa đăng một ảnh mới';
+  final justPostImages = ' vừa đăng ảnh mới';
+  final justPostAPost = ' vừa đăng bài viết mới';
+  String totalLike(int totalLike) => '$totalLike lượt yêu thích';
+  String viewAllComment(int totalComment) => 'Xem tất cả $totalComment lượt bình luận';
+  final addComment = 'Thêm bình luận';
+  final reviewTitle = ' đã thêm một nhận xét mới cho ';
 }

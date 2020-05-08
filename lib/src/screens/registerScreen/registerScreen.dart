@@ -57,7 +57,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               children: <Widget>[
                 Positioned.fill(
                     child: Image.asset(
-                  'assets/images/auth-background.png',
+                  Assets.images.authBackground,
                   fit: BoxFit.fill,
                 )),
                 Form(
@@ -67,18 +67,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     child: Container(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 40, vertical: 20),
-                      height: MediaQuery.of(context).size.height,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: <Widget>[
                           const SizedBox(height: 20),
                           _buildHeader(),
-                          Expanded(child: const SizedBox.shrink()),
+                          const SizedBox(height: 40),
                           ..._buildFields(),
                           const SizedBox(height: 40),
                           _buildButton(),
-                          Expanded(child: const SizedBox.shrink()),
+                          const SizedBox(height: 40),
                           ..._buildBottom(),
                         ],
                       ),

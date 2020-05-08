@@ -3,9 +3,19 @@ part of 'widgets.dart';
 class PrimaryScaffold extends StatelessWidget {
   final bool isLoading;
   final Widget body;
+  final PreferredSizeWidget appBar;
+  final Color backgroundColor;
+  final Gradient gradientBackground;
 
-  const PrimaryScaffold({Key key, this.body, this.isLoading = false})
-      : super(key: key);
+  const PrimaryScaffold(
+      {Key key,
+      this.body,
+      this.isLoading = false,
+      this.appBar,
+      this.backgroundColor,
+      this.gradientBackground})
+      : assert(backgroundColor == null || gradientBackground == null),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +25,16 @@ class PrimaryScaffold extends StatelessWidget {
           return Stack(
             children: <Widget>[
               Scaffold(
-                body: body,
+                appBar: appBar,
+                body: Container(
+                  child: body,
+                  color: backgroundColor,
+                  decoration: BoxDecoration(
+                      gradient:
+                          gradientBackground == null && backgroundColor == null
+                              ? GradientColor.of(context).backgroundGradient
+                              : null),
+                ),
               ),
               if (isLoading || state is AuthStateLoading)
                 Positioned.fill(

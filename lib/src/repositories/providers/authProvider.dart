@@ -4,15 +4,30 @@ class AuthProvider {
   final _client = ApiClient();
 
   Future<String> login(String email, String password) async {
-    // _client.normalConnect(ApiMethod.POST, Api.login);
-    await Future.delayed(Duration(seconds: 2));
-    return 'token';
+    final response =
+        await _client.normalConnect(ApiMethod.POST, Api.login, body: {
+      'Email': email,
+      'Password': password,
+    });
+    return jsonDecode(response.data)['Data'][0];
   }
 
-  Future<String> loginFacebook(String accessToken) async {
-    // _client.normalConnect(ApiMethod.POST, Api.login);
-    await Future.delayed(Duration(seconds: 2));
-    return 'token';
+  Future<String> loginFacebook(String accessToken, [String email]) async {
+    final body = {
+      'Type': 'facebook',
+      'AccessToken': accessToken,
+    };
+
+    // Code to test social does not provide email.
+    // if (email != null) {
+    //   body.addAll({'Email': email});
+    // } else {
+    //   throw ServerError(errorCode: 9, message: 'null');
+    // }
+
+    final response = await _client
+        .normalConnect(ApiMethod.POST, Api.socialLogin, body: body);
+    return jsonDecode(response.data)['Data'][0];
   }
 
   Future logout() async {
@@ -26,7 +41,13 @@ class AuthProvider {
     @required String phoneNumber,
     @required String password,
   }) async {
-    await Future.delayed(Duration(seconds: 2));
-    return 'token';
+    final response =
+        await _client.normalConnect(ApiMethod.POST, Api.register, body: {
+      'Name': name,
+      'Email': email,
+      'PhoneNumber': phoneNumber,
+      'Password': password,
+    });
+    return jsonDecode(response.data)['Data'][0];
   }
 }

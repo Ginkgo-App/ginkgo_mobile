@@ -11,6 +11,12 @@ class HomeScreen extends StatelessWidget {
             Text(AppConfig.instance.appName),
             SizedBox(height: 20,),
             PrimaryButton(
+              title: 'Profile',
+              onPressed: () {
+                Navigator.pushNamed(context, Routes.profile);
+              },
+            ),
+            PrimaryButton(
               title: Strings.button.logout,
               onPressed: () {
                 AuthBloc().add(AuthEventLogout());

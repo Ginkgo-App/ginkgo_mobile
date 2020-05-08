@@ -20,9 +20,9 @@ class _AuthRepository {
     await _saveAuth(token);
   }
 
-  Future<void> loginFacebook(String accessToken) async {
+  Future<void> loginFacebook(String accessToken, [String email]) async {
     print('Facebook token: $accessToken');
-    final token = await _authProvider.loginFacebook(accessToken);
+    final token = await _authProvider.loginFacebook(accessToken, email);
     await _saveAuth(token);
   }
 
@@ -51,6 +51,7 @@ class _AuthRepository {
       _storageProvider.save(StorageKey.Token.toString(), token),
     ]);
 
+    print('Token: $token');
     _token = token;
   }
 

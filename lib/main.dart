@@ -7,7 +7,7 @@ void main() {
   var configuredApp = new AppConfig(
     appName: 'Ginkgo Production',
     flavorName: AppFlavor.PRODUCTION,
-    apiUrl: 'https://abc.com',
+    apiUrl: 'https://micro-api-core.herokuapp.com/api/v1',
     child: App(),
   );
 
