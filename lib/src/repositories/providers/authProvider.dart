@@ -9,7 +9,7 @@ class AuthProvider {
       'Email': email,
       'Password': password,
     });
-    return jsonDecode(response.data)['Data'][0];
+    return jsonDecode(response.data)['Data'][0]['Token'];
   }
 
   Future<String> loginFacebook(String accessToken, [String email]) async {
@@ -27,7 +27,7 @@ class AuthProvider {
 
     final response = await _client
         .normalConnect(ApiMethod.POST, Api.socialLogin, body: body);
-    return jsonDecode(response.data)['Data'][0];
+    return jsonDecode(response.data)['Data'][0]['Token'];
   }
 
   Future logout() async {
@@ -48,6 +48,6 @@ class AuthProvider {
       'PhoneNumber': phoneNumber,
       'Password': password,
     });
-    return jsonDecode(response.data)['Data'][0];
+    return jsonDecode(response.data)['Data'][0]['Token'];
   }
 }

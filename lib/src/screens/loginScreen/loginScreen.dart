@@ -65,25 +65,34 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: MediaQuery.of(context).size.height,
                 child: SingleChildScrollView(
                   physics: BouncingScrollPhysics(),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      const SizedBox(height: 30),
-                      LogoWidget(
-                        width: MediaQuery.of(context).size.width / 2,
-                        height: MediaQuery.of(context).size.width / 2,
-                      ),
-                      Flexible(child: Container()),
-                      _buildForm(state is AuthScreenStateFailure
-                          ? state.error.toString()
-                          : ''),
-                      Flexible(child: Container()),
-                      ..._buildSocialLogin(),
-                      const SizedBox(height: 20),
-                      ..._buildBottom(),
-                      const SizedBox(height: 20),
-                    ],
+                  child: Container(
+                    height: MediaQuery.of(context).size.height < 700
+                        ? null
+                        : MediaQuery.of(context).size.height,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        const SizedBox(height: 30),
+                        LogoWidget(
+                          width: MediaQuery.of(context).size.width / 2,
+                          height: MediaQuery.of(context).size.width / 2,
+                        ),
+                        Flexible(child: Container()),
+                        _buildForm(state is AuthScreenStateFailure
+                            ? state.error.toString()
+                            : ''),
+                        Flexible(
+                            child: Container(
+                          height:
+                              MediaQuery.of(context).size.height < 700 ? 40 : 0,
+                        )),
+                        ..._buildSocialLogin(),
+                        const SizedBox(height: 20),
+                        ..._buildBottom(),
+                        const SizedBox(height: 20),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -153,10 +162,9 @@ class _LoginScreenState extends State<LoginScreen> {
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Text(
-            '                    ',
-            style: TextStyle(
-              decoration: TextDecoration.lineThrough,
+          Expanded(
+            child: Container(
+              height: 1,
               color: context.colorScheme.onSurface,
             ),
           ),
@@ -166,10 +174,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 color: context.colorScheme.onBackground,
                 fontStyle: FontStyle.italic),
           ),
-          Text(
-            '                    ',
-            style: TextStyle(
-              decoration: TextDecoration.lineThrough,
+          Expanded(
+            child: Container(
+              height: 1,
               color: context.colorScheme.onSurface,
             ),
           ),
