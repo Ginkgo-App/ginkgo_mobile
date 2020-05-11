@@ -1,6 +1,7 @@
 import 'package:base/base.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ginkgo_mobile/src/models/models.dart';
 
 import 'src/app.dart';
 
@@ -13,5 +14,6 @@ void main() {
   );
 
   BlocSupervisor.delegate = BlocLogger();
+  objectMapping();
   runApp(configuredApp);
 }

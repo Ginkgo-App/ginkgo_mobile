@@ -16,14 +16,14 @@ class _AuthRepository {
   Future<bool> get isAuth async => (await token).isExistAndNotEmpty;
 
   Future<void> login(String email, String password) async {
-    final token = await _authProvider.login(email, password);
-    await _saveAuth(token);
+    final authResponse = await _authProvider.login(email, password);
+    await _saveAuth(authResponse.token);
   }
 
   Future<void> loginFacebook(String accessToken, [String email]) async {
     print('Facebook token: $accessToken');
-    final token = await _authProvider.loginFacebook(accessToken, email);
-    await _saveAuth(token);
+    final authResponse = await _authProvider.loginFacebook(accessToken, email);
+    await _saveAuth(authResponse.token);
   }
 
   Future<void> register({
@@ -32,13 +32,13 @@ class _AuthRepository {
     @required String phoneNumber,
     @required String password,
   }) async {
-    final token = await _authProvider.register(
+    final authResponse = await _authProvider.register(
       email: email,
       name: name,
       password: password,
       phoneNumber: phoneNumber,
     );
-    await _saveAuth(token);
+    await _saveAuth(authResponse.token);
   }
 
   Future logout() async {

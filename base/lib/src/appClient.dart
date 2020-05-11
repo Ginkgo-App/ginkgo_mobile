@@ -99,7 +99,7 @@ class ApiClient {
           break;
       }
 
-      final decoded = jsonDecode(response.data);
+      final decoded = response.data;
       // Cache api
       bool isSuccess = decoded != null &&
           decoded is! List &&

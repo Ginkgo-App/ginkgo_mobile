@@ -3,16 +3,17 @@ part of providers;
 class AuthProvider {
   final _client = ApiClient();
 
-  Future<String> login(String email, String password) async {
+  Future<AuthResponse> login(String email, String password) async {
     final response =
         await _client.normalConnect(ApiMethod.POST, Api.login, body: {
       'Email': email,
       'Password': password,
     });
-    return jsonDecode(response.data)['Data'][0]['Token'];
+    return Mapper.fromJson(response.data['Data'][0])
+        .toObject<AuthResponse>();
   }
 
-  Future<String> loginFacebook(String accessToken, [String email]) async {
+  Future<AuthResponse> loginFacebook(String accessToken, [String email]) async {
     final body = {
       'Type': 'facebook',
       'AccessToken': accessToken,
@@ -27,7 +28,8 @@ class AuthProvider {
 
     final response = await _client
         .normalConnect(ApiMethod.POST, Api.socialLogin, body: body);
-    return jsonDecode(response.data)['Data'][0]['Token'];
+    return Mapper.fromJson(response.data['Data'][0])
+        .toObject<AuthResponse>();
   }
 
   Future logout() async {
@@ -35,7 +37,7 @@ class AuthProvider {
     await Future.delayed(Duration(seconds: 2));
   }
 
-  Future<String> register({
+  Future<AuthResponse> register({
     @required String name,
     @required String email,
     @required String phoneNumber,
@@ -48,6 +50,7 @@ class AuthProvider {
       'PhoneNumber': phoneNumber,
       'Password': password,
     });
-    return jsonDecode(response.data)['Data'][0]['Token'];
+    return Mapper.fromJson(response.data['Data'][0])
+        .toObject<AuthResponse>();
   }
 }

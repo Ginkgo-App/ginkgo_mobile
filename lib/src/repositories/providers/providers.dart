@@ -4,6 +4,8 @@ import 'dart:convert';
 
 import 'package:base/base.dart';
 import 'package:flutter/material.dart';
+import 'package:ginkgo_mobile/src/models/authResponse.dart';
+import 'package:object_mapper/object_mapper.dart';
 
 part 'authProvider.dart';
 

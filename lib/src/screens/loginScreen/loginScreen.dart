@@ -85,7 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Flexible(
                             child: Container(
                           height:
-                              MediaQuery.of(context).size.height < 700 ? 40 : 0,
+                              MediaQuery.of(context).size.height < 700 ? 40 : null,
                         )),
                         ..._buildSocialLogin(),
                         const SizedBox(height: 20),
