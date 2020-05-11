@@ -6,7 +6,7 @@ class AuthResponse with Mappable {
 
   @override
   void mapping(Mapper map) {
-    map('id', id, (v) => id = v);
-    map('token', token, (v) => token = v);
+    map('Id', id, (v) => id = v);
+    map('Token', token, (v) => token = v);
   }
 }

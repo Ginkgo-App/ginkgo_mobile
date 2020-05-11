@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ginkgo_mobile/src/blocs/auth/auth_bloc.dart';
 import 'package:ginkgo_mobile/src/blocs/authScreen/auth_screen_bloc.dart';
+import 'package:ginkgo_mobile/src/blocs/currentUser/current_user_bloc.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/models/user.dart';
 import 'package:ginkgo_mobile/src/screens/profileScreen/widgets/aboutBox.dart';

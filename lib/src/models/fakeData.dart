@@ -1,3 +1,4 @@
+import 'package:base/base.dart';
 import 'package:ginkgo_mobile/src/models/comment.dart';
 import 'package:ginkgo_mobile/src/models/post.dart';
 import 'package:ginkgo_mobile/src/models/review.dart';
@@ -11,7 +12,7 @@ class FakeData {
     fullName: 'Sơn Tùng MTP',
     job: 'Singer, Composer',
     birthday: DateTime(1998, 1, 1),
-    gender: Gender.male,
+    gender: enumToString(Gender.other),
     slogan:
         'Nguyễn Thanh Tùng (sinh ngày 5 tháng 7 năm 1994) hay còn được biết đến với nghệ danh Sơn Tùng M-TP là một nam ca sĩ, nhạc sĩ và diễn viên người Việt Nam.',
     bio: '''

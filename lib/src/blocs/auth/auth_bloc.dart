@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:base/base.dart';
 import 'package:bloc/bloc.dart';
 import 'package:ginkgo_mobile/src/app.dart';
+import 'package:ginkgo_mobile/src/blocs/currentUser/current_user_bloc.dart';
 import 'package:ginkgo_mobile/src/repositories/repository.dart';
 
 part 'auth_event.dart';
@@ -67,8 +68,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     yield AuthStateUnauthenticated();
   }
 
-  _goToHome() => AppConfig.navigatorKey.currentState
-      .pushNamedAndRemoveUntil(Routes.home, (_) => false);
+  _goToHome() {
+    CurrentUserBloc().add(CurrentUserEventFetch());
+    AppConfig.navigatorKey.currentState
+        .pushNamedAndRemoveUntil(Routes.home, (_) => false);
+  }
 
   _goToLogin() => AppConfig.navigatorKey.currentState
       .pushNamedAndRemoveUntil(Routes.login, (_) => false);

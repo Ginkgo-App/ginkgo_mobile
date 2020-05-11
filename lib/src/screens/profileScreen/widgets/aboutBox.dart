@@ -17,10 +17,12 @@ class _AboutBoxState extends State<AboutBox> {
 
   @override
   Widget build(BuildContext context) {
-    return BorderContainer(
-      title: 'Tự giới thiệu',
-      icon: Assets.icons.introduction,
-      child: HiddenText(widget.user.bio),
-    );
+    return widget?.user?.bio != null && widget.user.bio.isNotEmpty
+        ? BorderContainer(
+            title: 'Tự giới thiệu',
+            icon: Assets.icons.introduction,
+            child: HiddenText(widget.user.bio),
+          )
+        : const SizedBox.shrink();
   }
 }

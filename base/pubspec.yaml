@@ -10,9 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   bloc: ^4.0.0
-  dio: ^3.0.9
   flutter_secure_storage: ^3.3.1+1
-  connectivity: ^0.4.8+2
   
 dev_dependencies:
   flutter_test:

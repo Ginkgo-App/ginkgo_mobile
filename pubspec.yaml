@@ -23,6 +23,8 @@ dependencies:
   font_awesome_flutter: ^8.8.1
   intl: ^0.16.1
   object_mapper: ^1.0.0+2
+  dio: ^3.0.9
+  connectivity: ^0.4.8+2
 
 dev_dependencies:
   flutter_test:

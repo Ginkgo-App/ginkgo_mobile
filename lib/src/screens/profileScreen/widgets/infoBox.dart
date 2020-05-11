@@ -1,3 +1,4 @@
+import 'package:base/base.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -13,7 +14,7 @@ class FakeUser {
       email: "16520848@gm.uit.edu.vn",
       phoneNumber: "0123456789",
       birthday: DateTime(1998, 06, 11),
-      gender: Gender.male,
+      gender: enumToString(Gender.male),
       address: "sai gon",
     ),
     User(
@@ -22,7 +23,7 @@ class FakeUser {
       email: "16520361@gm.uit.edu.vn",
       phoneNumber: "0987654321",
       birthday: DateTime(1998, 03, 15),
-      gender: Gender.male,
+      gender: enumToString(Gender.male),
       address: "sai gon",
     )
   ];

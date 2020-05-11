@@ -32,9 +32,9 @@ class AvatarWidget extends StatelessWidget {
               fit: BoxFit.cover,
             ),
             fit: BoxFit.cover,
-            imageUrl: user.avatar,
+            imageUrl: user?.avatar ?? '',
           ),
-          tag: user.avatar,
+          tag: user.avatar ?? 'UserAvatar',
         ),
         aspectRatio: 375 / 424,
       ),
@@ -70,17 +70,18 @@ class AvatarWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                user.fullName,
+                user.displayName,
                 style: context.textTheme.title
                     .copyWith(color: Colors.white, fontWeight: FontWeight.bold),
               ),
               SizedBox(
                 height: 14,
               ),
-              Text(
-                user.slogan,
-                style: context.textTheme.body1.copyWith(color: Colors.white),
-              ),
+              if (user.slogan.isExistAndNotEmpty)
+                Text(
+                  user.slogan,
+                  style: context.textTheme.body1.copyWith(color: Colors.white),
+                ),
             ],
           ),
         ),
