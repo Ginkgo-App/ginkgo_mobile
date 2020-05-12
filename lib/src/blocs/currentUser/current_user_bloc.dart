@@ -15,6 +15,12 @@ class CurrentUserBloc extends Bloc<CurrentUserEvent, CurrentUserState> {
 
   final Repository _repository = Repository();
 
+  User _currentUser;
+  List<User> _friends;
+
+  User get currentUser => _currentUser;
+  List<User> get friends => _friends;
+
   @override
   Future<void> close() {
     _instance.close();
@@ -29,9 +35,11 @@ class CurrentUserBloc extends Bloc<CurrentUserEvent, CurrentUserState> {
     CurrentUserEvent event,
   ) async* {
     try {
-      yield CurrentUserLoading();
-      final currentUser = await _repository.user.getMe();
-      yield CurrentUserSuccess(currentUser);
+      if (event is CurrentUserEventFetch) {
+        yield CurrentUserLoading();
+        _currentUser = await _repository.user.getMe();
+        yield CurrentUserSuccess(_currentUser);
+      }
     } catch (e) {
       yield CurrentUserFailure(e.toString());
     }

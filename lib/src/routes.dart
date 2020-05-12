@@ -6,6 +6,7 @@ class Routes {
   static const register = '/register';
   static const home = '/home';
   static const profile = '/profile';
+  static const user = '/user';
   static const email = '/email';
 }
 
@@ -14,6 +15,7 @@ final Map<String, Widget Function(BuildContext)> _routeBuilder = {
   Routes.register: (context) => RegisterScreen(),
   Routes.home: (context) => HomeScreen(),
   Routes.profile: (context) => ProfileScreen(),
+  Routes.user: (context) => UserScreen(),
   Routes.email: (context) => EmailScreen(),
 };
 
@@ -27,6 +29,8 @@ RouteFactory _onGenerateRoute = (RouteSettings settings) {
       return _generateMaterialRoute(HomeScreen());
     case Routes.profile:
       return _generateMaterialRoute(ProfileScreen());
+    case Routes.user:
+      return _generateMaterialRoute(UserScreen());
     case Routes.email:
       return _generateMaterialRoute(EmailScreen());
     default:

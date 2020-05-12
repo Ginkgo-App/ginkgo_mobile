@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ginkgo_mobile/src/blocs/userFriend/user_friend_bloc.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/widgets/autoHeightGridView.dart';
 import 'package:ginkgo_mobile/src/widgets/buttons/commonOutlineButton.dart';
@@ -17,7 +18,25 @@ class Demo {
   });
 }
 
-class FriendList extends StatelessWidget {
+class FriendList extends StatefulWidget {
+  /// UserId = 0 is current user;
+  final int userId;
+
+  const FriendList({Key key, this.userId}) : super(key: key);
+
+  @override
+  _FriendListState createState() => _FriendListState();
+}
+
+class _FriendListState extends State<FriendList> {
+  final UserFriendBloc _bloc = UserFriendBloc();
+
+  @override
+  void dispose() {
+    _bloc.close();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BorderContainer(

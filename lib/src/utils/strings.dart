@@ -22,6 +22,7 @@ class _Button {
   final register = 'Đăng ký';
   final forgotPassword = 'Quên mật khẩu?';
   final logout = 'Đăng xuất';
+  final reload = 'Tải lại';
 }
 
 class _Error {
@@ -30,6 +31,7 @@ class _Error {
   final phoneNumberIncorrectForm = 'Số điện thoại không đúng định dạng.';
   final rePasswordIsNotMatch = 'Re-password is not match with password.';
   final cannotRegisterWithFacebook = 'Cannot register with facebook';
+  final error = 'Đã xảy ra lỗi. Click để xem chi tiết.';
 }
 
 class _LoginScreen {
