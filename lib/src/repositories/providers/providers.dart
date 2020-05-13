@@ -3,6 +3,7 @@ library providers;
 import 'package:base/base.dart';
 import 'package:flutter/material.dart';
 import 'package:ginkgo_mobile/src/models/authResponse.dart';
+import 'package:ginkgo_mobile/src/models/tour.dart';
 import 'package:ginkgo_mobile/src/models/user.dart';
 import 'package:object_mapper/object_mapper.dart';
 
@@ -19,6 +20,8 @@ class Api {
   static final me = AppConfig.instance.apiUrl + '/users/me';
   static final meFriends = AppConfig.instance.apiUrl + '/users/me/friends';
   static String userFriends(int userId) =>
-      AppConfig.instance.apiUrl + '/users/users/$userId/friends';
+      AppConfig.instance.apiUrl + '/users/$userId/friends';
   static final meTours = AppConfig.instance.apiUrl + '/users/me/tours';
+  static String userTours(int userId) =>
+      AppConfig.instance.apiUrl + '/users/$userId/tours';
 }

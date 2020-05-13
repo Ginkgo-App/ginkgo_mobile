@@ -11,10 +11,6 @@ part 'user_friend_state.dart';
 class UserFriendBloc extends Bloc<UserFriendEvent, UserFriendState> {
   final Repository _repository = Repository();
 
-  List<User> _friends;
-
-  List<User> get friends => _friends;
-
   @override
   UserFriendState get initialState => UserFriendInitial();
 
@@ -24,14 +20,12 @@ class UserFriendBloc extends Bloc<UserFriendEvent, UserFriendState> {
   ) async* {
     try {
       if (event is UserFriendEventFetch) {
-        yield CurrentUserMoreLoading();
-        final data =
-            await Future.wait([_repository.user.getUserFriends(event.userId)]);
-        _friends = data[0];
-        yield CurrentUserMoreSuccess();
+        yield UserFriendLoading();
+        final _friends = await _repository.user.getUserFriends(event.userId);
+        yield UserFriendSuccess(_friends);
       }
     } catch (e) {
-      yield CurrentUserMoreFailure(e.toString());
+      yield UserFriendFailure(e.toString());
     }
   }
 }

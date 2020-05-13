@@ -8,14 +8,21 @@ abstract class UserFriendState {
 
 class UserFriendInitial extends UserFriendState {}
 
-class CurrentUserMoreLoading extends UserFriendState {}
+class UserFriendLoading extends UserFriendState {}
 
-class CurrentUserMoreSuccess extends UserFriendState {}
+class UserFriendSuccess extends UserFriendState {
+  final List<SimpleUser> users;
 
-class CurrentUserMoreFailure extends UserFriendState {
+  UserFriendSuccess(this.users);
+
+  @override
+  String toString() => '$runtimeType ${users.length}';
+}
+
+class UserFriendFailure extends UserFriendState {
   final String error;
 
-  CurrentUserMoreFailure(this.error);
+  UserFriendFailure(this.error);
 
   @override
   String toString() => '$runtimeType $error';

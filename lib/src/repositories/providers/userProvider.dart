@@ -8,11 +8,19 @@ class UserProvider {
     return result;
   }
 
-  Future<List<User>> getUserFriends(int userId) async {
+  Future<List<SimpleUser>> getUserFriends(int userId) async {
     final response = await _client.normalConnect(
         ApiMethod.GET, userId == 0 ? Api.meFriends : Api.userFriends(userId));
     return (response.data['Data'] as List)
-        .map((e) => Mapper.fromJson(e).toObject<User>())
+        .map((e) => Mapper.fromJson(e).toObject<SimpleUser>())
+        .toList();
+  }
+
+  Future<List<SimpleTour>> getUserTours(int userId) async {
+    final response = await _client.normalConnect(
+        ApiMethod.GET, userId == 0 ? Api.meTours : Api.userTours(userId));
+    return (response.data['Data'] as List)
+        .map((e) => Mapper.fromJson(e).toObject<SimpleTour>())
         .toList();
   }
 }

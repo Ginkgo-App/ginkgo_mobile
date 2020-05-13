@@ -3,6 +3,7 @@ class Strings {
   static final common = _Common();
   static final button = _Button();
   static final error = _Error();
+  static final noData = _NoData();
   static final loginScreen = _LoginScreen();
   static final registerScreen = _RegisterScreen();
   static final post = _Post();
@@ -32,6 +33,11 @@ class _Error {
   final rePasswordIsNotMatch = 'Re-password is not match with password.';
   final cannotRegisterWithFacebook = 'Cannot register with facebook';
   final error = 'Đã xảy ra lỗi. Click để xem chi tiết.';
+}
+
+class _NoData {
+  final friends = 'Không có bạn bè';
+  final tours = 'Không có chuyến đi';
 }
 
 class _LoginScreen {

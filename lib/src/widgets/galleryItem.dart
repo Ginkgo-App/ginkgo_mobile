@@ -19,8 +19,10 @@ class GalleryItem extends StatelessWidget {
   }
 
   _buildBody(BuildContext context) {
-    if (images.length <= 0) {
+    if (images.length < 0) {
       return const SizedBox.shrink();
+    } else if (images.length == 0) {
+      return _buildImage('');
     } else if (images.length == 1) {
       return _buildImage(images[0]);
     } else if (images.length == 2) {

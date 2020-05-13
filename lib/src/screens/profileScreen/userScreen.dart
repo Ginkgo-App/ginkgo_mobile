@@ -1,9 +1,9 @@
 part of '../screens.dart';
 
 class UserScreenArgs {
-  final int userId;
+  final SimpleUser simpleUser;
 
-  UserScreenArgs(this.userId);
+  UserScreenArgs(this.simpleUser);
 }
 
 class UserScreen extends StatefulWidget {
@@ -13,22 +13,22 @@ class UserScreen extends StatefulWidget {
 
 class _UserScreenState extends State<UserScreen> {
   final UserBloc _bloc = UserBloc();
-  int userId;
+  SimpleUser simpleUser;
 
   @override
   void initState() {
     super.initState();
 
     final UserScreenArgs args = ModalRoute.of(context).settings.arguments;
-    if (args?.userId != null) {
-      userId = args.userId;
+    if (args?.simpleUser != null) {
+      simpleUser = args.simpleUser;
     } else {
       Navigator.pop(context);
     }
   }
 
   _fetchUserInfo() {
-    _bloc.add(UserEventFetch(userId));
+    _bloc.add(UserEventFetch(simpleUser.id));
   }
 
   @override
@@ -36,7 +36,7 @@ class _UserScreenState extends State<UserScreen> {
     return BlocBuilder(
       bloc: _bloc,
       builder: (context, state) {
-        User user = User(fullName: 'Loading', avatar: '');
+        User user = User(fullName: simpleUser.name, avatar: simpleUser.avatar);
         if (state is UserStateSuccess) {
           user = state.user;
         }
@@ -63,11 +63,11 @@ class _UserScreenState extends State<UserScreen> {
                             const SizedBox(height: 10),
                             AboutBox(user: user),
                             const SizedBox(height: 10),
-                            FriendList(),
+                            FriendList(userId: simpleUser.id),
                             const SizedBox(height: 10),
-                            InfoBox(),
+                            InfoBox(user: user),
                             const SizedBox(height: 10),
-                            TourListWidget(),
+                            TourListWidget(userId: simpleUser.id),
                             const SizedBox(height: 10),
                             ActivityBox(),
                             const SizedBox(height: 20),

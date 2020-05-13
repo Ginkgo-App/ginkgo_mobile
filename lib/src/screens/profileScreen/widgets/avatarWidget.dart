@@ -4,11 +4,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
+import 'package:ginkgo_mobile/src/widgets/widgets.dart';
 
 class AvatarWidget extends StatelessWidget {
   final User user;
 
-  const AvatarWidget({Key key, @required this.user}) : super(key: key);
+  const AvatarWidget({Key key, this.user}) : super(key: key);
+
+  _onAvatarPress() {}
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +26,11 @@ class AvatarWidget extends StatelessWidget {
 
   _buildAvatar(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: user != null ? _onAvatarPress : null,
       child: AspectRatio(
+        aspectRatio: 375 / 424,
         child: Hero(
+          tag: user?.avatar ?? 'UserAvatar',
           child: CachedNetworkImage(
             placeholder: (context, url) => Image.asset(
               Assets.images.defaultImage,
@@ -34,9 +39,7 @@ class AvatarWidget extends StatelessWidget {
             fit: BoxFit.cover,
             imageUrl: user?.avatar ?? '',
           ),
-          tag: user.avatar ?? 'UserAvatar',
         ),
-        aspectRatio: 375 / 424,
       ),
     );
   }
@@ -70,14 +73,14 @@ class AvatarWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                user.displayName,
+                user?.displayName ?? '',
                 style: context.textTheme.title
                     .copyWith(color: Colors.white, fontWeight: FontWeight.bold),
               ),
               SizedBox(
                 height: 14,
               ),
-              if (user.slogan.isExistAndNotEmpty)
+              if (user?.slogan != null && user.slogan.isNotEmpty)
                 Text(
                   user.slogan,
                   style: context.textTheme.body1.copyWith(color: Colors.white),

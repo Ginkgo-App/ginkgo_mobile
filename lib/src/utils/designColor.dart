@@ -9,6 +9,9 @@ class DesignColor {
   static Color lightRed = Color(0xffFF5946);
   static Color lightPink = Color(0xffFFECE8);
 
+  static Color shimmerBackground = Colors.grey[200];
+  static Color shimmerHightlight = Colors.grey[100];
+
   static final defaultDropShadow = [
     BoxShadow(
         color: Color(0xffFF3422).withOpacity(0.25),

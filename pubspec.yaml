@@ -25,6 +25,7 @@ dependencies:
   object_mapper: ^1.0.0+2
   dio: ^3.0.9
   connectivity: ^0.4.8+2
+  shimmer: ^1.1.1
 
 dev_dependencies:
   flutter_test:

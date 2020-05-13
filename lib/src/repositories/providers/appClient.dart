@@ -104,6 +104,8 @@ class ApiClient {
         }
       } on DioError catch (e) {
         throw e.message;
+      } finally {
+        print(url);
       }
 
       final decoded = response.data;

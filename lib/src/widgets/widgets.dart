@@ -15,6 +15,7 @@ import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/utils/designColor.dart';
 import 'package:ginkgo_mobile/src/utils/gradientColor.dart';
 import 'package:ginkgo_mobile/src/utils/strings.dart';
+import 'package:shimmer/shimmer.dart';
 
 part 'appBars/backAppBar.dart';
 part 'borderContainer.dart';
@@ -27,3 +28,4 @@ part 'loadingIndicator.dart';
 part 'addCommentWidget.dart';
 part 'primaryScaffold.dart';
 part 'avatar.dart';
+part 'skeleton.dart';
