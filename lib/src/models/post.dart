@@ -24,3 +24,5 @@ class Post {
     this.rating,
   });
 }
+
+enum PostType { normal, image, images, tour }

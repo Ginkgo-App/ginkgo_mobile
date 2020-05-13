@@ -8,4 +8,18 @@ class DesignColor {
   static Color darkRed = Color(0xffF41D00);
   static Color lightRed = Color(0xffFF5946);
   static Color lightPink = Color(0xffFFECE8);
+
+  static final defaultDropShadow = [
+    BoxShadow(
+        color: Color(0xffFF3422).withOpacity(0.25),
+        blurRadius: 5,
+        offset: Offset(0, 4))
+  ];
+
+  static final backgroundColorShadow = [
+    BoxShadow(
+        color: Color(0xffBD1700).withOpacity(0.25),
+        blurRadius: 10,
+        offset: Offset(2, 2))
+  ];
 }

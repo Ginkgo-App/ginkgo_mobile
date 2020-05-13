@@ -21,7 +21,8 @@ class BorderContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(color: Color(0xffE4D8D8), width: 1),
+        // border: Border.all(color: Color(0xffE4D8D8), width: 1),
+        boxShadow: DesignColor.defaultDropShadow,
         borderRadius: BorderRadius.circular(5),
         color: context.colorScheme.background,
       ),

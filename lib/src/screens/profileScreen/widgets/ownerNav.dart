@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:base/base.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
+import 'package:ginkgo_mobile/src/utils/designColor.dart';
 
 class OwnerNav extends StatelessWidget {
   @override
@@ -10,12 +11,7 @@ class OwnerNav extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
-        boxShadow: [
-          BoxShadow(
-              color: Colors.black.withOpacity(0.25),
-              blurRadius: 10,
-              offset: Offset(2, 2)),
-        ],
+        boxShadow: DesignColor.backgroundColorShadow,
         color: context.colorScheme.background,
       ),
       margin: EdgeInsets.symmetric(horizontal: 20),

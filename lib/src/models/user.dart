@@ -20,6 +20,7 @@ class User with Mappable {
   Set<User> friends;
 
   String get displayName => fullName ?? email;
+  String get displayGender => gender;
 
   User({
     this.email = '',
