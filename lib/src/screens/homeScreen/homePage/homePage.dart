@@ -1,13 +1,32 @@
+import 'dart:math';
+
+import 'package:base/base.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/utils/designColor.dart';
 import 'package:ginkgo_mobile/src/utils/gradientColor.dart';
+import 'package:ginkgo_mobile/src/widgets/customs/customTabBar.dart' as custom;
 import 'package:ginkgo_mobile/src/widgets/gradientOutlineBorder.dart';
 import 'package:ginkgo_mobile/src/widgets/logoWidget.dart';
-import 'package:base/base.dart';
+import 'package:ginkgo_mobile/src/widgets/widgets.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
+  final tabList = ['Khám phá', 'Bảng tin'];
+  TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(vsync: this, length: tabList.length);
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -18,11 +37,38 @@ class HomePage extends StatelessWidget {
             pinned: true,
           ),
           SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (_, index) => ListTile(
-                title: Text("Index: $index"),
+            delegate: SliverChildListDelegate([
+              Center(
+                child: TabBar(
+                  controller: _tabController,
+                  tabs: tabList.map((item) {
+                    return Tab(
+                      text: item,
+                    );
+                  }).toList(),
+                  indicatorColor: context.colorScheme.primary,
+                  labelColor: context.colorScheme.onBackground,
+                  labelStyle: context.textTheme.caption
+                      .copyWith(fontWeight: FontWeight.bold),
+                  indicatorSize: TabBarIndicatorSize.label,
+                  indicatorWeight: 2,
+                  isScrollable: true,
+                  indicator: UnderlineTabIndicator(
+                      insets: EdgeInsets.only(bottom: 10),
+                      borderSide: BorderSide(
+                          width: 2, color: context.colorScheme.primary)),
+                ),
               ),
-            ),
+              BorderContainer(
+                title: 'Something',
+              ),
+              custom.CustomTabBarView(
+                controller: _tabController,
+                children: tabList.map((item) {
+                  return Container(color: Color.fromARGB(Random().nextInt(255), Random().nextInt(255), Random().nextInt(255), 1), child: Center(child: Text(item)));
+                }).toList(),
+              )
+            ]),
           )
         ],
       ),
