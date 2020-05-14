@@ -12,7 +12,7 @@ class GradientOutlineInputBorder extends InputBorder {
     this.borderRadius = const BorderRadius.all(Radius.circular(4.0)),
     this.gapPadding = 4.0,
     @required this.focusedGradient,
-    @required this.unfocusedGradient,
+    this.unfocusedGradient,
   })  : assert(borderRadius != null),
         assert(gapPadding != null && gapPadding >= 0.0),
         super(borderSide: borderSide);
@@ -65,7 +65,8 @@ class GradientOutlineInputBorder extends InputBorder {
     if (a is GradientOutlineInputBorder) {
       final GradientOutlineInputBorder outline = a;
       return GradientOutlineInputBorder(
-          borderRadius: BorderRadius.lerp(outline.borderRadius, borderRadius, t),
+          borderRadius:
+              BorderRadius.lerp(outline.borderRadius, borderRadius, t),
           borderSide: BorderSide.lerp(outline.borderSide, borderSide, t),
           gapPadding: outline.gapPadding,
           focusedGradient: this.focusedGradient,
@@ -79,7 +80,8 @@ class GradientOutlineInputBorder extends InputBorder {
     if (b is GradientOutlineInputBorder) {
       final GradientOutlineInputBorder outline = b;
       return GradientOutlineInputBorder(
-          borderRadius: BorderRadius.lerp(borderRadius, outline.borderRadius, t),
+          borderRadius:
+              BorderRadius.lerp(borderRadius, outline.borderRadius, t),
           borderSide: BorderSide.lerp(borderSide, outline.borderSide, t),
           gapPadding: outline.gapPadding,
           focusedGradient: this.focusedGradient,
@@ -90,7 +92,11 @@ class GradientOutlineInputBorder extends InputBorder {
 
   @override
   Path getInnerPath(Rect rect, {TextDirection textDirection}) {
-    return Path()..addRRect(borderRadius.resolve(textDirection).toRRect(rect).deflate(borderSide.width));
+    return Path()
+      ..addRRect(borderRadius
+          .resolve(textDirection)
+          .toRRect(rect)
+          .deflate(borderSide.width));
   }
 
   @override
@@ -98,7 +104,8 @@ class GradientOutlineInputBorder extends InputBorder {
     return Path()..addRRect(borderRadius.resolve(textDirection).toRRect(rect));
   }
 
-  Path _gapBorderPath(Canvas canvas, RRect center, double start, double extent) {
+  Path _gapBorderPath(
+      Canvas canvas, RRect center, double start, double extent) {
     final Rect tlCorner = Rect.fromLTWH(
       center.left,
       center.top,
@@ -125,7 +132,9 @@ class GradientOutlineInputBorder extends InputBorder {
     );
 
     const double cornerArcSweep = math.pi / 2.0;
-    final double tlCornerArcSweep = start < center.tlRadiusX ? math.asin(start / center.tlRadiusX) : math.pi / 2.0;
+    final double tlCornerArcSweep = start < center.tlRadiusX
+        ? math.asin(start / center.tlRadiusX)
+        : math.pi / 2.0;
 
     final Path path = Path()
       ..addArc(tlCorner, math.pi, tlCornerArcSweep)
@@ -157,13 +166,13 @@ class GradientOutlineInputBorder extends InputBorder {
 
   @override
   void paint(
-      Canvas canvas,
-      Rect rect, {
-        double gapStart,
-        double gapExtent = 0.0,
-        double gapPercentage = 0.0,
-        TextDirection textDirection,
-      }) {
+    Canvas canvas,
+    Rect rect, {
+    double gapStart,
+    double gapExtent = 0.0,
+    double gapPercentage = 0.0,
+    TextDirection textDirection,
+  }) {
     assert(gapExtent != null);
     assert(gapPercentage >= 0.0 && gapPercentage <= 1.0);
     assert(_cornersAreCircular(borderRadius));
@@ -173,23 +182,27 @@ class GradientOutlineInputBorder extends InputBorder {
 
     final bool isFocused = borderSide.width == 2.0;
 
-    paint.shader =
-    isFocused ? focusedGradient.createShader(outer.outerRect) : unfocusedGradient.createShader(outer.outerRect);
+    paint.shader = isFocused
+        ? focusedGradient.createShader(outer.outerRect)
+        : unfocusedGradient?.createShader(outer.outerRect);
     final RRect center = outer.deflate(borderSide.width / 2.0);
     if (gapStart == null || gapExtent <= 0.0 || gapPercentage == 0.0) {
       canvas.drawRRect(center, paint);
     } else {
-      final double extent = lerpDouble(0.0, gapExtent + gapPadding * 2.0, gapPercentage);
+      final double extent =
+          lerpDouble(0.0, gapExtent + gapPadding * 2.0, gapPercentage);
       switch (textDirection) {
         case TextDirection.rtl:
           {
-            final Path path = _gapBorderPath(canvas, center, gapStart + gapPadding - extent, extent);
+            final Path path = _gapBorderPath(
+                canvas, center, gapStart + gapPadding - extent, extent);
             canvas.drawPath(path, paint);
             break;
           }
         case TextDirection.ltr:
           {
-            final Path path = _gapBorderPath(canvas, center, gapStart - gapPadding, extent);
+            final Path path =
+                _gapBorderPath(canvas, center, gapStart - gapPadding, extent);
             canvas.drawPath(path, paint);
             break;
           }

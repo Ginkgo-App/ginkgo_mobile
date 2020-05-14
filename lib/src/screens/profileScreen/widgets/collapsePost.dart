@@ -157,7 +157,7 @@ class CollapsePost extends StatelessWidget {
             width: 25,
             height: 3,
             color:
-                rating >= i + 1 ? DesignColor.lightRed : DesignColor.lightPink,
+                rating >= i + 1 ? DesignColor.lightRed : DesignColor.lightLightPink,
           ),
         ),
         const SizedBox(width: 10),

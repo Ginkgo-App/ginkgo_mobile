@@ -22,6 +22,10 @@ class _HomeScreenState extends State<HomeScreen>
   TabController _tabController;
 
   final _pages = [
+    HomePage(),
+    Container(),
+    ProfileScreen(),
+    Container(),
     Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -39,10 +43,6 @@ class _HomeScreenState extends State<HomeScreen>
         ],
       ),
     ),
-    Container(),
-    ProfileScreen(),
-    Container(),
-    Container(),
   ];
 
   @override

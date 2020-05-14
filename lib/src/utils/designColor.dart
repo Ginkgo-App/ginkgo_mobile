@@ -7,7 +7,8 @@ class DesignColor {
   static Color tinyItems = Color(0xff747576);
   static Color darkRed = Color(0xffF41D00);
   static Color lightRed = Color(0xffFF5946);
-  static Color lightPink = Color(0xffFFECE8);
+  static Color lightPink = Color(0xffFADBD4);
+  static Color lightLightPink = Color(0xffFFECE8);
 
   static Color shimmerBackground = Colors.grey[200];
   static Color shimmerHightlight = Colors.grey[100];

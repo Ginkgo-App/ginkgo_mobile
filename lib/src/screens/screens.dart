@@ -11,6 +11,7 @@ import 'package:ginkgo_mobile/src/blocs/currentUser/current_user_bloc.dart';
 import 'package:ginkgo_mobile/src/blocs/user/user_bloc.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/models/user.dart';
+import 'package:ginkgo_mobile/src/screens/homeScreen/homePage.dart';
 import 'package:ginkgo_mobile/src/screens/profileScreen/widgets/aboutBox.dart';
 import 'package:ginkgo_mobile/src/screens/profileScreen/widgets/activityBox.dart';
 import 'package:ginkgo_mobile/src/screens/profileScreen/widgets/avatarWidget.dart';

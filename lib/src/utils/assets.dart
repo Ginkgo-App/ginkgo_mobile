@@ -45,6 +45,7 @@ class _Icon {
   final phone = _ICON_PATH + 'phone.svg';
   final planner = _ICON_PATH + 'planner.svg';
   final resume = _ICON_PATH + 'resume.svg';
+  final search = _ICON_PATH + 'search.svg';
   final settingFull = _ICON_PATH + 'setting-full.svg';
   final settingOutline = _ICON_PATH + 'setting-outline.svg';
   final tour = _ICON_PATH + 'tour.svg';
@@ -57,4 +58,6 @@ class _Image {
   final background = _IMAGE_PATH + 'background.png';
   final logo = _IMAGE_PATH + 'logo.png';
   final defaultImage = _IMAGE_PATH + 'default.png';
+  final homeEllipse = _IMAGE_PATH + 'home-ellipse.png';
+  final homeLeafs = _IMAGE_PATH + 'home-leafs.png';
 }
