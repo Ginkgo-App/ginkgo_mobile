@@ -6,6 +6,7 @@ class PrimaryScaffold extends StatelessWidget {
   final PreferredSizeWidget appBar;
   final Color backgroundColor;
   final Gradient gradientBackground;
+  final Widget bottomNavigationBar;
 
   const PrimaryScaffold(
       {Key key,
@@ -13,7 +14,8 @@ class PrimaryScaffold extends StatelessWidget {
       this.isLoading = false,
       this.appBar,
       this.backgroundColor,
-      this.gradientBackground})
+      this.gradientBackground,
+      this.bottomNavigationBar})
       : assert(backgroundColor == null || gradientBackground == null),
         super(key: key);
 
@@ -26,6 +28,7 @@ class PrimaryScaffold extends StatelessWidget {
             children: <Widget>[
               Scaffold(
                 appBar: appBar,
+                bottomNavigationBar: bottomNavigationBar,
                 body: Container(
                   child: body,
                   color: backgroundColor,

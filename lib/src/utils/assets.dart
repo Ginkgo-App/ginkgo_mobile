@@ -27,6 +27,8 @@ class _Icon {
   final googlePlusCircle = _ICON_PATH + 'G+logo-circle.svg';
   final googlePlusSquare = _ICON_PATH + 'G+logo-square.svg';
   final heartOutline = _ICON_PATH + 'heart-outline.svg';
+  final homeOutline = _ICON_PATH + 'home-outline.svg';
+  final homeFull = _ICON_PATH + 'home-full.svg';
   final introduction = _ICON_PATH + 'introduction.svg';
   final job = _ICON_PATH + 'job.svg';
   final leaf1 = _ICON_PATH + 'leaf-1.svg';
@@ -35,11 +37,19 @@ class _Icon {
   final leaf4 = _ICON_PATH + 'leaf-4.svg';
   final messageNew = _ICON_PATH + 'message-new.svg';
   final message = _ICON_PATH + 'message.svg';
+  final meOutline = _ICON_PATH + 'me-outline.svg';
+  final meFull = _ICON_PATH + 'me-full.svg';
+  final notiFull = _ICON_PATH + 'noti-full.svg';
+  final notiOutline = _ICON_PATH + 'noti-outline.svg';
   final people = _ICON_PATH + 'people.svg';
   final phone = _ICON_PATH + 'phone.svg';
   final planner = _ICON_PATH + 'planner.svg';
   final resume = _ICON_PATH + 'resume.svg';
+  final settingFull = _ICON_PATH + 'setting-full.svg';
+  final settingOutline = _ICON_PATH + 'setting-outline.svg';
   final tour = _ICON_PATH + 'tour.svg';
+  final tripFull = _ICON_PATH + 'trip-manage-full.svg';
+  final tripOutline = _ICON_PATH + 'trip-manage-outline.svg';
 }
 
 class _Image {

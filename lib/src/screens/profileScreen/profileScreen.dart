@@ -32,7 +32,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
         return PrimaryScaffold(
           isLoading: state is CurrentUserLoading,
-          appBar: BackAppBar(title: user?.fullName ?? ''),
+          appBar: BackAppBar(
+            title: user?.fullName ?? '',
+            showBackButton: false,
+          ),
           body: state is CurrentUserFailure
               ? ErrorIndicator(
                   moreErrorDetail: state.error,
