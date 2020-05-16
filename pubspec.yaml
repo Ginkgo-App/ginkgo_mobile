@@ -26,6 +26,7 @@ dependencies:
   dio: ^3.0.9
   connectivity: ^0.4.8+2
   shimmer: ^1.1.1
+  extended_tabs: ^0.2.3
 
 dev_dependencies:
   flutter_test:

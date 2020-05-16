@@ -127,6 +127,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.9"
+  extended_tabs:
+    dependency: "direct main"
+    description:
+      name: extended_tabs
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.3"
   file:
     dependency: transitive
     description:
