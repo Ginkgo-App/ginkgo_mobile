@@ -7,6 +7,7 @@ class Assets {
 }
 
 class _Icon {
+  final moneyBlack = _ICON_PATH + 'money-black.svg';
   final activity = _ICON_PATH + 'activity.svg';
   final activityTypePhotography = _ICON_PATH + 'activity-type-photography.svg';
   final address = _ICON_PATH + 'address.svg';

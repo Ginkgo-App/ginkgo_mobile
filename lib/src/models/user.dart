@@ -62,11 +62,13 @@ class User with Mappable {
 }
 
 class SimpleUser with Mappable {
-  int id;
-  String name;
-  String avatar;
-  String job;
-  int tourCount;
+   int id;
+   String name;
+   String avatar;
+   String job;
+   int tourCount;
+
+  SimpleUser({this.id, this.name, this.avatar, this.job, this.tourCount});
 
   @override
   void mapping(Mapper map) {

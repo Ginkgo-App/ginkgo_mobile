@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:ginkgo_mobile/src/models/fakeData.dart';
 import 'package:ginkgo_mobile/src/screens/homeScreen/homePage/widgets/homeSliverAppBar.dart';
 import 'package:ginkgo_mobile/src/screens/profileScreen/widgets/activityBox.dart';
-import 'package:ginkgo_mobile/src/screens/profileScreen/widgets/sugguestFriends.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/widgets/spacingRow.dart';
+import 'package:ginkgo_mobile/src/widgets/tourItem.dart';
 import 'package:ginkgo_mobile/src/widgets/userWidgets/circleUser.dart';
 import 'package:ginkgo_mobile/src/widgets/widgets.dart';
 
@@ -90,6 +90,24 @@ class _HomePageState extends State<HomePage>
                           children: List.generate(10, (_) => FakeData.currentUser)
                               .map(
                                 (e) => CircleUser(),
+                              )
+                              .toList(),
+                        ),
+                      ),
+                    ),
+                  ),
+                  BorderContainer(
+                    title: 'Các chuyến đi',
+                    icon: Assets.icons.tour,
+                    childPadding: EdgeInsets.only(bottom: 10),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: IntrinsicHeight(
+                        child: SpacingRow(
+                          spacing: 10,
+                          children: List.generate(10, (_) => FakeData.simpleTour)
+                              .map(
+                                (e) => TourItem(tour: FakeData.simpleTour),
                               )
                               .toList(),
                         ),

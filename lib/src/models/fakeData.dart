@@ -2,10 +2,39 @@ import 'package:base/base.dart';
 import 'package:ginkgo_mobile/src/models/comment.dart';
 import 'package:ginkgo_mobile/src/models/post.dart';
 import 'package:ginkgo_mobile/src/models/review.dart';
+import 'package:ginkgo_mobile/src/models/tour.dart';
 import 'package:ginkgo_mobile/src/models/tourInfo.dart';
 import 'package:ginkgo_mobile/src/models/user.dart';
+import 'package:ginkgo_mobile/src/utils/assets.dart';
 
 class FakeData {
+  static final SimpleTour simpleTour = SimpleTour(
+    id: 1,
+    endDay: DateTime(2020,1,6),
+    startDay: DateTime(2020,1,5),
+    host: simpleUser,
+    images: [
+      'https://images.unsplash.com/photo-1552702565-ed98c940b611?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80',
+      'https://images.unsplash.com/photo-1552458403-45c1a26d744c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80',
+      'https://images.unsplash.com/photo-1552524589-c76555c59289?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80',
+      'https://images.unsplash.com/photo-1552524589-c76555c59289?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80',
+      'https://images.unsplash.com/photo-1552524589-c76555c59289?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80',
+    ],
+    name: 'Quang Ninh',
+    price: 10000,
+    rating: 5,
+    totalMember: 2,
+
+  );
+
+  static final SimpleUser simpleUser = SimpleUser(
+    avatar: Assets.images.doraemono,
+    id: 1,
+    job: 'an khong ngoi roi',
+    name: 'an hai',
+    tourCount: 15,
+  );
+
   static final User currentUser = User(
     phoneNumber: '+8499999999',
     email: 'sontung@gmail.com',

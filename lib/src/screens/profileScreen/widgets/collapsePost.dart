@@ -10,6 +10,7 @@ import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/utils/designColor.dart';
 import 'package:ginkgo_mobile/src/utils/strings.dart';
 import 'package:ginkgo_mobile/src/widgets/galleryItem.dart';
+import 'package:ginkgo_mobile/src/widgets/rating.dart';
 import 'package:ginkgo_mobile/src/widgets/spacingColumn.dart';
 import 'package:ginkgo_mobile/src/widgets/spacingRow.dart';
 import 'package:ginkgo_mobile/src/widgets/widgets.dart';
@@ -53,7 +54,7 @@ class CollapsePost extends StatelessWidget {
               ),
               _buildTime(context, post?.createAt ?? review?.createAt),
               const SizedBox(height: 5),
-              if (review != null) _buildRating(context, review.rating),
+              if (review != null) Rating(rating: 3,),
               HiddenText(post?.content ?? review?.content),
               const SizedBox(height: 5),
               if (post != null) ...[
@@ -147,30 +148,30 @@ class CollapsePost extends StatelessWidget {
     );
   }
 
-  Widget _buildRating(BuildContext context, int rating) {
-    return SpacingRow(
-      spacing: 2,
-      children: <Widget>[
-        ...List.generate(
-          5,
-          (i) => Container(
-            width: 25,
-            height: 3,
-            color:
-                rating >= i + 1 ? DesignColor.lightRed : DesignColor.lightLightPink,
-          ),
-        ),
-        const SizedBox(width: 10),
-        Text(
-          '$rating/5 điểm',
-          style: context.textTheme.overline.copyWith(
-            color: DesignColor.darkRed,
-            fontWeight: FontWeight.bold,
-          ),
-        )
-      ],
-    );
-  }
+  // Widget _buildRating(BuildContext context, int rating) {
+  //   return SpacingRow(
+  //     spacing: 2,
+  //     children: <Widget>[
+  //       ...List.generate(
+  //         5,
+  //         (i) => Container(
+  //           width: 25,
+  //           height: 3,
+  //           color:
+  //               rating >= i + 1 ? DesignColor.lightRed : DesignColor.lightLightPink,
+  //         ),
+  //       ),
+  //       const SizedBox(width: 10),
+  //       Text(
+  //         '$rating/5 điểm',
+  //         style: context.textTheme.overline.copyWith(
+  //           color: DesignColor.darkRed,
+  //           fontWeight: FontWeight.bold,
+  //         ),
+  //       )
+  //     ],
+  //   );
+  // }
 
   Widget _buildLikeCommentButton(
     BuildContext context, {
