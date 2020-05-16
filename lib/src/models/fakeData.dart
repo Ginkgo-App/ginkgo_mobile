@@ -29,7 +29,7 @@ class FakeData {
   );
 
   static final SimpleUser simpleUser = SimpleUser(
-    avatar: Assets.images.doraemono,
+    avatar: Assets.images.defaultImage,
     id: 1,
     job: 'an khong ngoi roi',
     name: 'an hai',

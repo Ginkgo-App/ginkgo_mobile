@@ -15,8 +15,7 @@ class Avatar extends StatelessWidget {
         imageUrl: imageUrl,
         width: 30,
         height: 30,
-        // TODO build placeholder
-        placeholder: (contextx, _) => Container(),
+        placeholder: (context, _) => Image.asset(Assets.images.defaultImage),
       ),
     );
   }

@@ -55,6 +55,7 @@ class _Icon {
   final tour = _ICON_PATH + 'tour.svg';
   final tripFull = _ICON_PATH + 'trip-manage-full.svg';
   final tripOutline = _ICON_PATH + 'trip-manage-outline.svg';
+  final ribbon = _ICON_PATH + 'ribbon.svg';
 }
 
 class _Image {
@@ -64,6 +65,4 @@ class _Image {
   final defaultImage = _IMAGE_PATH + 'default.png';
   final homeEllipse = _IMAGE_PATH + 'home-ellipse.png';
   final homeLeafs = _IMAGE_PATH + 'home-leafs.png';
-  final doraemono = _IMAGE_PATH + 'doraemono.png';
-  final ribbon = _IMAGE_PATH + 'ribbon.svg';
 }

@@ -17,7 +17,7 @@ class CircleUser extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(90),
             child: Image.asset(
-              Assets.images.doraemono,
+              Assets.images.defaultImage,
               width: 100,
               height: 100,
               fit: BoxFit.cover,
@@ -49,7 +49,7 @@ class CircleUser extends StatelessWidget {
           children: <Widget>[
             Container(
               child: SvgPicture.asset(
-                Assets.images.ribbon,
+                Assets.icons.ribbon,
                 width: 80,
                 height: 15,
               ),
