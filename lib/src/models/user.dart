@@ -18,6 +18,7 @@ class User with Mappable {
   String role;
   List<SocialProvider> socialProviders;
   Set<User> friends;
+  int tourCount;
 
   String get displayName => fullName ?? email;
   String get displayGender => gender;
@@ -33,6 +34,7 @@ class User with Mappable {
     this.birthday,
     this.gender = '',
     this.address = '',
+    this.tourCount = 0,
     friends,
   }) : this.friends = friends ?? Set.identity();
 
@@ -53,6 +55,7 @@ class User with Mappable {
     map('Gender', gender, (v) => gender = v.toString());
     map('Birthday', birthday, (v) => birthday = v, DateTransform());
     map('Role', role, (v) => role = v);
+    map('TourCount', tourCount, (v) => tourCount = v);
     map<List<SocialProvider>>(
         'SocialProviders', socialProviders, (v) => socialProviders = v);
   }
@@ -63,6 +66,7 @@ class SimpleUser with Mappable {
   String name;
   String avatar;
   String job;
+  int tourCount;
 
   @override
   void mapping(Mapper map) {
@@ -70,5 +74,6 @@ class SimpleUser with Mappable {
     map('Name', name, (v) => name = v);
     map('Avatar', avatar, (v) => avatar = v);
     map('Job', job, (v) => job = v);
+    map('TourCount', tourCount, (v) => tourCount = v );
   }
 }

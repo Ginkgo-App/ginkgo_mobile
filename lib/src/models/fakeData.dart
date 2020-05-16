@@ -24,6 +24,7 @@ Nguyễn Thanh Tùng hay được biết đến với nghệ danh Sơn Tùng M-T
     avatar:
         'https://yt3.ggpht.com/a/AGF-l78QGTW3gMAN3s_devNGhlzjBO9eCRPGTg0iUQ=s900-c-k-c0xffffffff-no-rj-mo',
     address: 'District 1, Ho Chi Minh',
+    tourCount: 15,
   );
 
   static final Post post = Post(

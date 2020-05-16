@@ -1,8 +1,14 @@
 import 'package:base/base.dart';
 import 'package:extended_tabs/extended_tabs.dart';
 import 'package:flutter/material.dart';
+import 'package:ginkgo_mobile/src/models/fakeData.dart';
 import 'package:ginkgo_mobile/src/screens/homeScreen/homePage/widgets/homeSliverAppBar.dart';
 import 'package:ginkgo_mobile/src/screens/profileScreen/widgets/activityBox.dart';
+import 'package:ginkgo_mobile/src/screens/profileScreen/widgets/sugguestFriends.dart';
+import 'package:ginkgo_mobile/src/utils/assets.dart';
+import 'package:ginkgo_mobile/src/widgets/spacingRow.dart';
+import 'package:ginkgo_mobile/src/widgets/userWidgets/circleUser.dart';
+import 'package:ginkgo_mobile/src/widgets/widgets.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -72,10 +78,24 @@ class _HomePageState extends State<HomePage>
               slivers: <Widget>[
                 SliverList(
                     delegate: SliverChildListDelegate([
-                  FlutterLogo(),
-                  FlutterLogo(),
-                  FlutterLogo(),
-                  FlutterLogo(),
+                  BorderContainer(
+                    title: 'Kết nối người tạo nên những chuyến đi',
+                    icon: Assets.icons.contributor,
+                    childPadding: EdgeInsets.only(bottom: 10),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: IntrinsicHeight(
+                        child: SpacingRow(
+                          spacing: 10,
+                          children: List.generate(10, (_) => FakeData.currentUser)
+                              .map(
+                                (e) => CircleUser(),
+                              )
+                              .toList(),
+                        ),
+                      ),
+                    ),
+                  ),
                 ]))
               ],
             ),
