@@ -1,17 +1,17 @@
 import 'package:base/base.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:ginkgo_mobile/src/helper/dateTimeExt.dart';
 import 'package:ginkgo_mobile/src/models/tour.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/utils/designColor.dart';
 import 'package:ginkgo_mobile/src/widgets/galleryItem.dart';
 import 'package:ginkgo_mobile/src/widgets/widgets.dart';
-import 'package:intl/intl.dart';
 
-class TourItemWidget extends StatelessWidget {
+class BorderTourItem extends StatelessWidget {
   final SimpleTour tour;
 
-  const TourItemWidget({Key key, this.tour}) : super(key: key);
+  const BorderTourItem({Key key, this.tour}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -60,9 +60,8 @@ class TourItemWidget extends StatelessWidget {
                             text: tour?.host?.name ?? ''),
                         _buildRowIcon(context,
                             icon: Assets.icons.calendar,
-                            // TODO calculate day difference
                             text: tour != null
-                                ? '(${DateFormat('dd/MM/yyyy').format(tour.startDay)} - ${DateFormat('dd/MM/yyyy').format(tour.endDay)})'
+                                ? '${tour.startDay.toDifferentDayNight(tour.endDay)} (${tour.startDay.toVietnameseFormat()} - ${tour.endDay.toVietnameseFormat()})'
                                 : ''),
                         _buildRowIcon(context,
                             icon: Assets.icons.people,
@@ -84,7 +83,8 @@ class TourItemWidget extends StatelessWidget {
   _buildRowIcon(BuildContext context, {String icon, String text}) {
     return Container(
       color: context.colorScheme.background,
-      margin: EdgeInsets.only(right: text.isExistAndNotEmpty ? null : 40, top: 5),
+      margin:
+          EdgeInsets.only(right: text.isExistAndNotEmpty ? null : 40, top: 5),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[

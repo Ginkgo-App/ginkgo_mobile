@@ -2,17 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ginkgo_mobile/src/blocs/userTour/user_tour_bloc.dart';
-import 'package:ginkgo_mobile/src/screens/profileScreen/widgets/tourItemWidget.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/utils/strings.dart';
 import 'package:ginkgo_mobile/src/widgets/buttons/commonOutlineButton.dart';
 import 'package:ginkgo_mobile/src/widgets/indicators/errorIndicator.dart';
 import 'package:ginkgo_mobile/src/widgets/spacingRow.dart';
+import 'package:ginkgo_mobile/src/widgets/tourWidgets/borderTourItem.dart';
 import 'package:ginkgo_mobile/src/widgets/widgets.dart';
 import 'package:base/base.dart';
 
 class TourListWidget extends StatefulWidget {
-  /// UserId = 0 is current user;
+  /// [UserId] = 0 is current user;
   final int userId;
 
   const TourListWidget({Key key, this.userId}) : super(key: key);
@@ -65,10 +65,10 @@ class _TourListWidgetState extends State<TourListWidget> {
                     spacing: 10,
                     children: state is UserTourSuccess
                         ? state.tours
-                            .map((e) => TourItemWidget(tour: e))
+                            .map((e) => BorderTourItem(tour: e))
                             .toList()
                         : List.generate(3, (i) {
-                            return TourItemWidget();
+                            return BorderTourItem();
                           }),
                   ),
                 ),

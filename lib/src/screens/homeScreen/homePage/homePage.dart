@@ -1,18 +1,9 @@
 import 'package:base/base.dart';
 import 'package:extended_tabs/extended_tabs.dart';
 import 'package:flutter/material.dart';
-import 'package:ginkgo_mobile/src/models/fakeData.dart';
 import 'package:ginkgo_mobile/src/screens/homeScreen/homePage/widgets/discoveryTab.dart';
 import 'package:ginkgo_mobile/src/screens/homeScreen/homePage/widgets/feedTab.dart';
 import 'package:ginkgo_mobile/src/screens/homeScreen/homePage/widgets/homeSliverAppBar.dart';
-import 'package:ginkgo_mobile/src/screens/profileScreen/widgets/activityBox.dart';
-import 'package:ginkgo_mobile/src/utils/assets.dart';
-import 'package:ginkgo_mobile/src/widgets/placeWidgets/opacityPlace.dart';
-import 'package:ginkgo_mobile/src/widgets/spacingColumn.dart';
-import 'package:ginkgo_mobile/src/widgets/spacingRow.dart';
-import 'package:ginkgo_mobile/src/widgets/tourItem.dart';
-import 'package:ginkgo_mobile/src/widgets/userWidgets/circleUser.dart';
-import 'package:ginkgo_mobile/src/widgets/widgets.dart';
 
 class HomePage extends StatefulWidget {
   @override

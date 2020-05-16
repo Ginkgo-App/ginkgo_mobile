@@ -1,4 +1,3 @@
-import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/models/socialProvider.dart';
 import 'package:object_mapper/object_mapper.dart';
 

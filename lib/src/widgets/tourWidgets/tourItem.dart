@@ -11,7 +11,8 @@ import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/widgets/galleryItem.dart';
 import 'package:ginkgo_mobile/src/widgets/rating.dart';
 import 'package:ginkgo_mobile/src/widgets/widgets.dart';
-import 'package:intl/intl.dart';
+import 'package:ginkgo_mobile/src/helper/dateTimeExt.dart';
+import 'package:ginkgo_mobile/src/helper/numberExt.dart';
 
 class TourItem extends StatelessWidget {
   final SimpleTour tour;
@@ -64,16 +65,13 @@ class TourItem extends StatelessWidget {
                       children: <Widget>[
                         _buildRowIcon(context,
                             icon: Assets.icons.planner,
-                            text: tour?.host != null
-                                ? tour.host.name
-                                : ''),
+                            text: tour?.host != null ? tour.host.name : ''),
                         _buildRowIcon(context,
                             icon: Assets.icons.calendar,
-                            // TODO calculate day difference
                             text: tour != null &&
                                     tour.startDay != null &&
                                     tour.endDay != null
-                                ? '(${DateFormat('dd/MM/yyyy').format(tour.startDay)} - ${DateFormat('dd/MM/yyyy').format(tour.endDay)})'
+                                ? '${tour.startDay.toDifferentDayNight(tour.endDay)} (${tour.startDay.toVietnameseFormat()} - ${tour.endDay.toVietnameseFormat()})'
                                 : ''),
                         _buildRowIcon(context,
                             icon: Assets.icons.people,
@@ -88,16 +86,15 @@ class TourItem extends StatelessWidget {
                             icon: Assets.icons.moneyBlack,
                             richText: RichText(
                               text: TextSpan(
-                                style: context.textTheme.caption,
-                                children: [
-                                  TextSpan(
-                                    text: '${tour.price.round()}',
-                                    style: TextStyle(fontWeight: FontWeight.bold)
-                                  ),
-                                  TextSpan(text: '/người')
-                                ]
-                              ),
-                            ) ),
+                                  style: context.textTheme.caption,
+                                  children: [
+                                    TextSpan(
+                                        text: '${tour.price.toShortMoney()}',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold)),
+                                    TextSpan(text: '/người')
+                                  ]),
+                            )),
                         SizedBox(height: 5),
                         Rating(rating: tour.rating),
                         SizedBox(height: 5),
