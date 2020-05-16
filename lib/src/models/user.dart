@@ -1,3 +1,4 @@
+import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/models/socialProvider.dart';
 import 'package:object_mapper/object_mapper.dart';
 
@@ -38,6 +39,14 @@ class User with Mappable {
     friends,
   }) : this.friends = friends ?? Set.identity();
 
+  SimpleUser toSimpleUser() => SimpleUser(
+    id: this.id,
+    name: this.fullName,
+    avatar: this.avatar,
+    job: this.job,
+    tourCount: this.tourCount
+  );
+
   @override
   void mapping(Mapper map) {
     map('Id', id, (v) => id = v);
@@ -64,9 +73,12 @@ class User with Mappable {
 class SimpleUser with Mappable {
    int id;
    String name;
+   String email;
    String avatar;
    String job;
    int tourCount;
+
+  String get displayName => name ?? email;
 
   SimpleUser({this.id, this.name, this.avatar, this.job, this.tourCount});
 
@@ -74,6 +86,7 @@ class SimpleUser with Mappable {
   void mapping(Mapper map) {
     map('Id', id, (v) => id = v);
     map('Name', name, (v) => name = v);
+    map('Email', email, (v) => email = v);
     map('Avatar', avatar, (v) => avatar = v);
     map('Job', job, (v) => job = v);
     map('TourCount', tourCount, (v) => tourCount = v );

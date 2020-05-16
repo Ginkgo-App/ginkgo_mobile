@@ -7,7 +7,6 @@ class Assets {
 }
 
 class _Icon {
-  final moneyBlack = _ICON_PATH + 'money-black.svg';
   final activity = _ICON_PATH + 'activity.svg';
   final activityTypePhotography = _ICON_PATH + 'activity-type-photography.svg';
   final address = _ICON_PATH + 'address.svg';
@@ -15,6 +14,7 @@ class _Icon {
   final calendar = _ICON_PATH + 'calendar.svg';
   final createPost = _ICON_PATH + 'create-post.svg';
   final comment = _ICON_PATH + 'comment.svg';
+  final contributor = _ICON_PATH + 'contributor.svg';
   final datetime = _ICON_PATH + 'datetime.svg';
   final email = _ICON_PATH + 'email.svg';
   final facebookSquare = _ICON_PATH + 'facebook-square.svg';
@@ -36,10 +36,13 @@ class _Icon {
   final leaf2 = _ICON_PATH + 'leaf-2.svg';
   final leaf3 = _ICON_PATH + 'leaf-3.svg';
   final leaf4 = _ICON_PATH + 'leaf-4.svg';
+  final location = _ICON_PATH + 'location.svg';
   final messageNew = _ICON_PATH + 'message-new.svg';
   final message = _ICON_PATH + 'message.svg';
   final meOutline = _ICON_PATH + 'me-outline.svg';
   final meFull = _ICON_PATH + 'me-full.svg';
+  final moneyBlack = _ICON_PATH + 'money-black.svg';
+  final newIcon = _ICON_PATH + 'new.svg';
   final notiFull = _ICON_PATH + 'noti-full.svg';
   final notiOutline = _ICON_PATH + 'noti-outline.svg';
   final people = _ICON_PATH + 'people.svg';
@@ -52,7 +55,6 @@ class _Icon {
   final tour = _ICON_PATH + 'tour.svg';
   final tripFull = _ICON_PATH + 'trip-manage-full.svg';
   final tripOutline = _ICON_PATH + 'trip-manage-outline.svg';
-  final contributor = _ICON_PATH + 'contributor.svg';
 }
 
 class _Image {

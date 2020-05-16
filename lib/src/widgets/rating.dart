@@ -1,8 +1,7 @@
+import 'package:base/base.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ginkgo_mobile/src/utils/designColor.dart';
-import 'package:ginkgo_mobile/src/widgets/spacingRow.dart';
-import 'package:base/base.dart';
 
 class Rating extends StatelessWidget {
   final int rating;
@@ -11,8 +10,10 @@ class Rating extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return SpacingRow(
+    return Wrap(
       spacing: 2,
+      runSpacing: 5,
+      crossAxisAlignment: WrapCrossAlignment.center,
       children: <Widget>[
         ...List.generate(
           5,

@@ -11,12 +11,12 @@ import 'package:ginkgo_mobile/src/widgets/logoWidget.dart';
 import 'package:base/base.dart';
 
 class HomeSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
+  static const _LOGO_MAX_SIZE = 130;
+  static const _LOGO_MIN_SIZE = 70;
+  static const _HEADER_MIN_HEIGHT = 80;
+  static const _ELLIPSE_WIDTH = 742.0;
+  static const _ELLIPSE_HEIGHT = 264.0;
   final double expandedHeight;
-  static const LOGO_MAX_SIZE = 130;
-  static const LOGO_MIN_SIZE = 70;
-  static const HEADER_MIN_HEIGHT = 80;
-  static const ELLIPSE_WIDTH = 742.0;
-  static const ELLIPSE_HEIGHT = 264.0;
   final PreferredSizeWidget bottom;
 
   @override
@@ -29,13 +29,23 @@ class HomeSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     final logoMarginLeft =
-        (MediaQuery.of(context).size.width - LOGO_MAX_SIZE) / 2;
+        (MediaQuery.of(context).size.width - _LOGO_MAX_SIZE) / 2;
     final rate =
         min(1.0, max<double>(0.0, shrinkOffset / (maxExtent - minExtent)));
 
     return Container(
-      decoration:
-          BoxDecoration(gradient: GradientColor.of(context).backgroundGradient),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: <Color>[
+            DesignColor.lightLightPink,
+            Color(0xfffff2ee),
+            Color(0xfffff2ee).withOpacity(0),
+          ],
+          stops: [0, 0.95, 1],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        ),
+      ),
       child: Stack(
         fit: StackFit.expand,
         overflow: Overflow.visible,
@@ -43,14 +53,14 @@ class HomeSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
           Positioned(
             left: -186,
             right: -186,
-            top: (expandedHeight - ELLIPSE_HEIGHT) +
-                (HEADER_MIN_HEIGHT - expandedHeight) * rate,
+            top: (expandedHeight - _ELLIPSE_HEIGHT) +
+                (_HEADER_MIN_HEIGHT - expandedHeight) * rate,
             bottom: 0,
             child: Column(
               children: <Widget>[
                 Container(
-                  width: ELLIPSE_WIDTH,
-                  height: ELLIPSE_HEIGHT,
+                  width: _ELLIPSE_WIDTH,
+                  height: _ELLIPSE_HEIGHT,
                   decoration: BoxDecoration(
                       color: DesignColor.lightPink,
                       borderRadius:
@@ -66,7 +76,7 @@ class HomeSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
             right: 20,
             child: Opacity(
               opacity: (1 - rate),
-              child: Image.asset(Assets.images.homeLeafs),
+              child: IgnorePointer(child: Image.asset(Assets.images.homeLeafs)),
             ),
           ),
           Positioned(
@@ -102,8 +112,8 @@ class HomeSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
             left: logoMarginLeft - ((logoMarginLeft - 5) * rate),
             top: 5,
             child: LogoWidget(
-              width: LOGO_MAX_SIZE - LOGO_MIN_SIZE * rate,
-              height: LOGO_MAX_SIZE - LOGO_MIN_SIZE * rate,
+              width: _LOGO_MAX_SIZE - _LOGO_MIN_SIZE * rate,
+              height: _LOGO_MAX_SIZE - _LOGO_MIN_SIZE * rate,
             ),
           ),
         ],
@@ -116,7 +126,7 @@ class HomeSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   double get minExtent =>
-      HEADER_MIN_HEIGHT + (bottom?.preferredSize?.height ?? 0);
+      _HEADER_MIN_HEIGHT + (bottom?.preferredSize?.height ?? 0);
 
   @override
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) => true;

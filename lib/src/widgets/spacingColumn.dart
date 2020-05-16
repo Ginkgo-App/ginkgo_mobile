@@ -12,8 +12,13 @@ class SpacingColumn extends Flex {
     TextBaseline textBaseline,
     List<Widget> children = const <Widget>[],
     double spacing,
+    bool isSpacingHeadTale = false,
   }) : super(
-          children: children.addBetweenEvery(SizedBox(height: spacing)),
+          children: [
+            if (isSpacingHeadTale) SizedBox(height: spacing),
+            ...children.addBetweenEvery(SizedBox(height: spacing)),
+            if (isSpacingHeadTale) SizedBox(height: spacing),
+          ],
           key: key,
           direction: Axis.vertical,
           mainAxisAlignment: mainAxisAlignment,

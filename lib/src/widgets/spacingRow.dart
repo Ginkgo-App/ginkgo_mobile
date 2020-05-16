@@ -12,8 +12,13 @@ class SpacingRow extends Flex {
     TextBaseline textBaseline,
     List<Widget> children = const <Widget>[],
     double spacing,
+    bool isSpacingHeadTale = false,
   }) : super(
-          children: children.addBetweenEvery(SizedBox(width: spacing)),
+          children: [
+            if (isSpacingHeadTale) SizedBox(width: spacing),
+            ...children.addBetweenEvery(SizedBox(width: spacing)),
+            if (isSpacingHeadTale) SizedBox(width: spacing),
+          ],
           key: key,
           direction: Axis.horizontal,
           mainAxisAlignment: mainAxisAlignment,

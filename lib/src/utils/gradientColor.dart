@@ -18,7 +18,7 @@ class GradientColor {
       Color(0xffFEEEEB),
       Colors.white,
     ],
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
   );
 }

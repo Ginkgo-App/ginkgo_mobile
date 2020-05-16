@@ -4,6 +4,7 @@ class BorderContainer extends StatelessWidget {
   final Widget child;
   final List<Widget> children;
   final EdgeInsets childPadding;
+  final EdgeInsets margin;
   final String icon;
   final String title;
 
@@ -13,13 +14,15 @@ class BorderContainer extends StatelessWidget {
       this.child,
       this.icon,
       this.title,
-      this.children})
+      this.children,
+      this.margin})
       : assert(child == null || children == null),
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: margin,
       decoration: BoxDecoration(
         // border: Border.all(color: Color(0xffE4D8D8), width: 1),
         boxShadow: DesignColor.defaultDropShadow,

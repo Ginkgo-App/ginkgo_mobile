@@ -7,6 +7,7 @@ class Strings {
   static final loginScreen = _LoginScreen();
   static final registerScreen = _RegisterScreen();
   static final post = _Post();
+  static final place = _Place();
 }
 
 class _Common {
@@ -60,4 +61,8 @@ class _Post {
   String viewAllComment(int totalComment) => 'Xem tất cả $totalComment lượt bình luận';
   final addComment = 'Thêm bình luận';
   final reviewTitle = ' đã thêm một nhận xét mới cho ';
+}
+
+class _Place {
+  String tourCount(int tourCount) => '$tourCount chuyến đi';
 }

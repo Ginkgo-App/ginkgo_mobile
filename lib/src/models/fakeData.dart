@@ -1,5 +1,6 @@
 import 'package:base/base.dart';
 import 'package:ginkgo_mobile/src/models/comment.dart';
+import 'package:ginkgo_mobile/src/models/place.dart';
 import 'package:ginkgo_mobile/src/models/post.dart';
 import 'package:ginkgo_mobile/src/models/review.dart';
 import 'package:ginkgo_mobile/src/models/tour.dart';
@@ -10,8 +11,8 @@ import 'package:ginkgo_mobile/src/utils/assets.dart';
 class FakeData {
   static final SimpleTour simpleTour = SimpleTour(
     id: 1,
-    endDay: DateTime(2020,1,6),
-    startDay: DateTime(2020,1,5),
+    endDay: DateTime(2020, 1, 6),
+    startDay: DateTime(2020, 1, 5),
     host: simpleUser,
     images: [
       'https://images.unsplash.com/photo-1552702565-ed98c940b611?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80',
@@ -24,7 +25,7 @@ class FakeData {
     price: 10000,
     rating: 5,
     totalMember: 2,
-
+    friend: currentUser.toSimpleUser(),
   );
 
   static final SimpleUser simpleUser = SimpleUser(
@@ -132,4 +133,17 @@ Nói chung là đáng đồng tiền bỏ ra. Nếu có dịp lần sau sẽ ủ
     ],
     createBy: currentUser,
   );
+
+  static final Place place = Place(
+      id: 1,
+      name: 'My home',
+      images: [
+        'https://images.unsplash.com/photo-1552702565-ed98c940b611?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80',
+        'https://images.unsplash.com/photo-1552458403-45c1a26d744c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80',
+        'https://images.unsplash.com/photo-1552524589-c76555c59289?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80',
+        'https://images.unsplash.com/photo-1552524589-c76555c59289?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80',
+        'https://images.unsplash.com/photo-1552524589-c76555c59289?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80',
+      ],
+      description: '',
+      tourCount: 500);
 }

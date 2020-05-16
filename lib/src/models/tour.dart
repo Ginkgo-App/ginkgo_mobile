@@ -11,6 +11,7 @@ class SimpleTour with Mappable {
   SimpleUser host;
   double price;
   int rating;
+  SimpleUser friend;
 
   SimpleTour(
       {this.id,
@@ -21,7 +22,8 @@ class SimpleTour with Mappable {
       this.images,
       this.host,
       this.price,
-      this.rating});
+      this.rating,
+      this.friend});
 
   @override
   void mapping(Mapper map) {
@@ -34,5 +36,6 @@ class SimpleTour with Mappable {
     map<String>('Images', images, (v) => images = v);
     map('Price', price, (v) => price = v);
     map('Rating', rating, (v) => rating = v);
+    map('Friend', friend, (v) => friend = v);
   }
 }
