@@ -9,6 +9,7 @@ class DesignColor {
   static Color lightRed = Color(0xffFF5946);
   static Color lightPink = Color(0xffFADBD4);
   static Color lightLightPink = Color(0xffFFECE8);
+  static Color lighterRed = Color(0xffFF8E7E);
 
   static Color shimmerBackground = Colors.grey[200];
   static Color shimmerHightlight = Colors.grey[100];

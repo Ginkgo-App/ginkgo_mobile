@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/models/tour.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
+import 'package:ginkgo_mobile/src/widgets/buttons/viewMoreButton.dart';
 import 'package:ginkgo_mobile/src/widgets/placeWidgets/opacityPlace.dart';
 import 'package:ginkgo_mobile/src/widgets/spacingColumn.dart';
 import 'package:ginkgo_mobile/src/widgets/spacingRow.dart';
@@ -43,10 +44,17 @@ class _DiscoveryTabState extends State<DiscoveryTab> {
         child: IntrinsicHeight(
           child: SpacingRow(
             spacing: 10,
+            crossAxisAlignment: CrossAxisAlignment.center,
             isSpacingHeadTale: true,
-            children: List.generate(10, (_) => FakeData.currentUser)
-                .map((e) => CircleUser())
-                .toList(),
+            children: [
+              ...List.generate(5, (_) => FakeData.currentUser)
+                  .map((e) => CircleUser())
+                  .toList(),
+              ViewMoreButton(
+                onPressed: () {},
+                width: 100,
+              )
+            ],
           ),
         ),
       ),
@@ -62,15 +70,17 @@ class _DiscoveryTabState extends State<DiscoveryTab> {
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: IntrinsicHeight(
-          child: SpacingRow(
-            spacing: 10,
-            isSpacingHeadTale: true,
-            children: List.generate(10, (_) => FakeData.place)
+          child: SpacingRow(spacing: 10, isSpacingHeadTale: true, children: [
+            ...List.generate(5, (_) => FakeData.place)
                 .map(
                   (e) => OpacityPlace(place: e),
                 )
                 .toList(),
-          ),
+            ViewMoreButton(
+              onPressed: () {},
+              width: (MediaQuery.of(context).size.width - 60) / 3,
+            )
+          ]),
         ),
       ),
     );
@@ -89,7 +99,7 @@ class _DiscoveryTabState extends State<DiscoveryTab> {
 
   Widget _buildWillLikeTours() {
     return _buildTourList('Có thể bạn sẽ thích', Assets.icons.tour,
-        List.generate(10, (_) => FakeData.simpleTour));
+        List.generate(5, (_) => FakeData.simpleTour));
   }
 
   Widget _buildTourList(String title, String icon, List<SimpleTour> tourList,
@@ -102,16 +112,18 @@ class _DiscoveryTabState extends State<DiscoveryTab> {
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: IntrinsicHeight(
-          child: SpacingRow(
-            spacing: 20,
-            isSpacingHeadTale: true,
-            children: tourList
+          child: SpacingRow(spacing: 20, isSpacingHeadTale: true, children: [
+            ...tourList
                 .map(
                   (e) => TourItem(
                       tour: FakeData.simpleTour, showFriend: showFriend),
                 )
                 .toList(),
-          ),
+            ViewMoreButton(
+              onPressed: () {},
+              width: 120,
+            )
+          ]),
         ),
       ),
     );

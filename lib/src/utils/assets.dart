@@ -7,6 +7,7 @@ class Assets {
 }
 
 class _Icon {
+  final readmore = _ICON_PATH + 'readmore.svg';
   final activity = _ICON_PATH + 'activity.svg';
   final activityTypePhotography = _ICON_PATH + 'activity-type-photography.svg';
   final activityTypePost = _ICON_PATH + 'activity-type-post.svg';
