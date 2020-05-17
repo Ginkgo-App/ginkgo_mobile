@@ -57,6 +57,8 @@ class _Post {
   final justPostAImage = ' vừa đăng một ảnh mới';
   final justPostImages = ' vừa đăng ảnh mới';
   final justPostAPost = ' vừa đăng bài viết mới';
+  final justCreateATour = ' vừa thêm một chuyến đi mới';
+  final createdATour = ' đã thêm một chuyến đi mới';
   String totalLike(int totalLike) => '$totalLike lượt yêu thích';
   String viewAllComment(int totalComment) => 'Xem tất cả $totalComment lượt bình luận';
   final addComment = 'Thêm bình luận';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ginkgo_mobile/src/models/fakeData.dart';
-import 'package:ginkgo_mobile/src/screens/profileScreen/widgets/collapsePost.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
+import 'package:ginkgo_mobile/src/widgets/postWidgets/collapsePost.dart';
 import 'package:ginkgo_mobile/src/widgets/spacingColumn.dart';
 import 'package:ginkgo_mobile/src/widgets/widgets.dart';
 
@@ -17,12 +17,13 @@ class ActivityBox extends StatelessWidget {
         children: [
           CollapsePost(
             post: FakeData.post,
+            showAuthorAvatar: true,
           ),
           CollapsePost(
             post: FakeData.postNoImage,
           ),
           CollapsePost(
-            review: FakeData.review,
+            post: FakeData.review,
           ),
         ],
       ),

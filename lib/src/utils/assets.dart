@@ -9,6 +9,8 @@ class Assets {
 class _Icon {
   final activity = _ICON_PATH + 'activity.svg';
   final activityTypePhotography = _ICON_PATH + 'activity-type-photography.svg';
+  final activityTypePost = _ICON_PATH + 'activity-type-post.svg';
+  final activityTypeReview = _ICON_PATH + 'activity-type-review.svg';
   final address = _ICON_PATH + 'address.svg';
   final birthday = _ICON_PATH + 'birthday.svg';
   final calendar = _ICON_PATH + 'calendar.svg';

@@ -1,11 +1,11 @@
 import 'package:base/base.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ginkgo_mobile/src/models/comment.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/models/post.dart';
-import 'package:ginkgo_mobile/src/models/review.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/utils/designColor.dart';
 import 'package:ginkgo_mobile/src/utils/strings.dart';
@@ -17,13 +17,12 @@ import 'package:intl/intl.dart';
 
 class CollapsePost extends StatelessWidget {
   final Post post;
-  final Review review;
   final Function(Post) onMenuPressed;
+  final bool showAuthorAvatar;
 
-  const CollapsePost({Key key, this.post, this.onMenuPressed, this.review})
-      : assert((post != null || review != null) &&
-            (post == null || review == null)),
-        super(key: key);
+  const CollapsePost(
+      {Key key, this.post, this.onMenuPressed, this.showAuthorAvatar = false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +34,9 @@ class CollapsePost extends StatelessWidget {
           flex: 1,
           child: Padding(
             padding: const EdgeInsets.only(top: 4),
-            child: SvgPicture.asset(Assets.icons.activityTypePhotography,
-                height: 24),
+            child: !showAuthorAvatar
+                ? SvgPicture.asset(post.icon, height: 24)
+                : Avatar(imageUrl: post.author.avatar, size: 40,),
           ),
         ),
         const SizedBox(width: 6),
@@ -47,29 +47,27 @@ class CollapsePost extends StatelessWidget {
             children: <Widget>[
               _buildTop(
                 context,
-                author: post?.author ?? review.author,
-                review: review,
+                author: post?.author,
                 totalImage: post?.images?.length ?? 0,
               ),
-              _buildTime(context, post?.createAt ?? review?.createAt),
+              _buildTime(context, post?.createAt),
               const SizedBox(height: 5),
-              if (review != null) Rating(rating: 3,),
-              HiddenText(post?.content ?? review?.content),
+              if (post.type == PostType.rating) Rating(rating: post.rating),
+              HiddenText(post?.content),
               const SizedBox(height: 5),
               if (post != null) ...[
                 GalleryItem(
-                  images: post.images,
+                  images: post.images ?? [],
                   borderRadius: BorderRadius.circular(0),
                 ),
                 const SizedBox(height: 5)
               ],
-              _buildLikeCommentButton(context,
-                  totalLike: post?.totalLike ?? review?.totalLike),
+              _buildLikeCommentButton(context, totalLike: post?.totalLike),
               const SizedBox(height: 5),
               _buildCommentList(
                 context,
-                totalComment: post?.totalComment ?? review.totalComment,
-                comments: post?.featuredComments ?? review.featuredComments,
+                totalComment: post?.totalComment,
+                comments: post?.featuredComments,
               )
             ],
           ),
@@ -79,43 +77,11 @@ class CollapsePost extends StatelessWidget {
   }
 
   Widget _buildTop(BuildContext context,
-      {Review review, int totalImage, @required User author}) {
-    final postTitle = totalImage > 1
-        ? Strings.post.justPostImages
-        : totalImage == 1
-            ? Strings.post.justPostAImage
-            : Strings.post.justPostAPost;
-
+      {int totalImage, @required User author}) {
     return Row(
       children: <Widget>[
         Expanded(
-          child: RichText(
-            text: TextSpan(
-              style:
-                  context.textTheme.body1.copyWith(fontWeight: FontWeight.bold),
-              children: [
-                TextSpan(
-                  text: author.displayName,
-                ),
-                TextSpan(
-                  text: review == null ? postTitle : Strings.post.reviewTitle,
-                  style: TextStyle(fontWeight: FontWeight.normal),
-                ),
-                if (review != null) ...[
-                  TextSpan(
-                    text: review.tourInfo.name,
-                  ),
-                  TextSpan(
-                    text: ' của ',
-                    style: TextStyle(fontWeight: FontWeight.normal),
-                  ),
-                  TextSpan(
-                    text: review.tourInfo.createBy.displayName,
-                  ),
-                ]
-              ],
-            ),
-          ),
+          child: _buildPostTitle(context, post),
         ),
         CupertinoButton(
           minSize: 0,
@@ -127,6 +93,96 @@ class CollapsePost extends StatelessWidget {
           onPressed: () => onMenuPressed?.call(post),
         )
       ],
+    );
+  }
+
+  Widget _buildPostTitle(BuildContext context, Post post) {
+    List<TextSpan> textSpans = [];
+
+    switch (post.type) {
+      case PostType.normal:
+        textSpans = [
+          TextSpan(
+            text: post.author.displayName,
+          ),
+          TextSpan(
+            text: Strings.post.justPostAPost,
+            style: TextStyle(fontWeight: FontWeight.normal),
+          ),
+        ];
+        break;
+      case PostType.image:
+        textSpans = [
+          TextSpan(
+            text: post.author.displayName,
+          ),
+          TextSpan(
+            text: Strings.post.justPostAImage,
+            style: TextStyle(fontWeight: FontWeight.normal),
+          ),
+        ];
+        break;
+      case PostType.images:
+        textSpans = [
+          TextSpan(
+            text: post.author.displayName,
+          ),
+          TextSpan(
+            text: Strings.post.justPostImages,
+            style: TextStyle(fontWeight: FontWeight.normal),
+          ),
+        ];
+        break;
+      case PostType.tourJustCreated:
+        textSpans = [
+          TextSpan(
+            text: post.author.displayName,
+          ),
+          TextSpan(
+            text: Strings.post.justCreateATour,
+            style: TextStyle(fontWeight: FontWeight.normal),
+          ),
+        ];
+        break;
+      case PostType.tourCreated:
+        textSpans = [
+          TextSpan(
+            text: post.author.displayName,
+          ),
+          TextSpan(
+            text: Strings.post.createdATour,
+            style: TextStyle(fontWeight: FontWeight.normal),
+          ),
+        ];
+        break;
+      case PostType.rating:
+        textSpans = [
+          TextSpan(
+            text: post?.author?.displayName ?? '',
+          ),
+          TextSpan(
+            text: Strings.post.reviewTitle,
+            style: TextStyle(fontWeight: FontWeight.normal),
+          ),
+          TextSpan(
+            text: post?.tour?.name ?? '',
+          ),
+          TextSpan(
+            text: ' của ',
+            style: TextStyle(fontWeight: FontWeight.normal),
+          ),
+          TextSpan(
+            text: post?.tour?.host?.name ?? '',
+          ),
+        ];
+        break;
+    }
+
+    return RichText(
+      text: TextSpan(
+        style: context.textTheme.body1.copyWith(fontWeight: FontWeight.bold),
+        children: textSpans,
+      ),
     );
   }
 
@@ -146,31 +202,6 @@ class CollapsePost extends StatelessWidget {
       ],
     );
   }
-
-  // Widget _buildRating(BuildContext context, int rating) {
-  //   return SpacingRow(
-  //     spacing: 2,
-  //     children: <Widget>[
-  //       ...List.generate(
-  //         5,
-  //         (i) => Container(
-  //           width: 25,
-  //           height: 3,
-  //           color:
-  //               rating >= i + 1 ? DesignColor.lightRed : DesignColor.lightLightPink,
-  //         ),
-  //       ),
-  //       const SizedBox(width: 10),
-  //       Text(
-  //         '$rating/5 điểm',
-  //         style: context.textTheme.overline.copyWith(
-  //           color: DesignColor.darkRed,
-  //           fontWeight: FontWeight.bold,
-  //         ),
-  //       )
-  //     ],
-  //   );
-  // }
 
   Widget _buildLikeCommentButton(
     BuildContext context, {
