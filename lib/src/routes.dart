@@ -8,6 +8,7 @@ class Routes {
   static const profile = '/profile';
   static const user = '/user';
   static const email = '/email';
+  static const profileTourList = '/profile-tour-list';
 }
 
 final Map<String, Widget Function(BuildContext)> _routeBuilder = {
@@ -17,6 +18,7 @@ final Map<String, Widget Function(BuildContext)> _routeBuilder = {
   Routes.profile: (context) => ProfileScreen(),
   Routes.user: (context) => UserScreen(),
   Routes.email: (context) => EmailScreen(),
+  Routes.profileTourList: (context) => ProfileListTourScreen(),
 };
 
 RouteFactory _onGenerateRoute = (RouteSettings settings) {
@@ -33,6 +35,8 @@ RouteFactory _onGenerateRoute = (RouteSettings settings) {
       return _generateMaterialRoute(UserScreen());
     case Routes.email:
       return _generateMaterialRoute(EmailScreen());
+    case Routes.profileTourList:
+      return _generateMaterialRoute(ProfileListTourScreen());
     default:
       return _generateMaterialRoute(SplashScreen());
   }

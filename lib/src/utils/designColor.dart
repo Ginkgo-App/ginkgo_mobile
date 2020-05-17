@@ -25,6 +25,12 @@ class DesignColor {
     BoxShadow(
         color: Color(0xffBD1700).withOpacity(0.25),
         blurRadius: 10,
-        offset: Offset(2, 2))
+        offset: Offset(2, 2)),
+  ];
+  static final imageShadow = [
+    BoxShadow(
+        color: Color(0xff000000).withOpacity(0.25),
+        blurRadius: 4,
+        offset: Offset(4, 4)),
   ];
 }

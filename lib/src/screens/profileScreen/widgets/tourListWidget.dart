@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ginkgo_mobile/src/app.dart';
 import 'package:ginkgo_mobile/src/blocs/userTour/user_tour_bloc.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/utils/strings.dart';
@@ -50,9 +51,19 @@ class _TourListWidgetState extends State<TourListWidget> {
         bloc: _bloc,
         builder: (context, state) {
           if (state is UserTourFailure) {
-            return ErrorIndicator(
-              moreErrorDetail: state.error,
-              onReload: _fetchData,
+            return Column(
+              children: <Widget>[
+                ErrorIndicator(
+                  moreErrorDetail: state.error,
+                  onReload: _fetchData,
+                ),
+                CommonOutlineButton(
+                  text: 'Xem tất cả các chuyến đi',
+                  onPressed: () {
+                    Navigator.pushNamed(context, Routes.profileTourList);
+                  },
+                ),
+              ],
             );
           }
           return Column(

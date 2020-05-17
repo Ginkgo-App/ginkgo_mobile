@@ -22,17 +22,21 @@ import 'package:ginkgo_mobile/src/screens/profileScreen/widgets/tourListWidget.d
 import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/utils/strings.dart';
 import 'package:ginkgo_mobile/src/utils/validator.dart';
+import 'package:ginkgo_mobile/src/widgets/buttons/commonOutlineButton.dart';
 import 'package:ginkgo_mobile/src/widgets/indicators/errorIndicator.dart';
 import 'package:ginkgo_mobile/src/widgets/logoWidget.dart';
+import 'package:ginkgo_mobile/src/widgets/spacingColumn.dart';
+import 'package:ginkgo_mobile/src/widgets/trip/tripItem.dart';
 import 'package:ginkgo_mobile/src/widgets/widgets.dart';
 import 'package:toast/toast.dart';
 
 import '../app.dart';
 
+part 'emailScreen/emailScreen.dart';
 part 'homeScreen/homeScreen.dart';
 part 'loginScreen/loginScreen.dart';
+part 'profileScreen/profileListTourScreen.dart';
 part 'profileScreen/profileScreen.dart';
 part 'profileScreen/userScreen.dart';
 part 'registerScreen/registerScreen.dart';
 part 'splashScreen/splashScreen.dart';
-part 'emailScreen/emailScreen.dart';

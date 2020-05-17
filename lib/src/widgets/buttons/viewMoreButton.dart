@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
-import 'package:base/base.dart';
 import 'package:ginkgo_mobile/src/utils/designColor.dart';
 
 class ViewMoreButton extends StatelessWidget {
