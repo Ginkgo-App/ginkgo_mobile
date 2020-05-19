@@ -1,9 +1,12 @@
+import 'package:base/base.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:base/base.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:ginkgo_mobile/src/navigators.dart';
+import 'package:ginkgo_mobile/src/screens/homeScreen/homeProvider.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/utils/designColor.dart';
+import 'package:sliding_sheet/sliding_sheet.dart';
 
 class OwnerNav extends StatelessWidget {
   @override
@@ -37,7 +40,8 @@ class OwnerNav extends StatelessWidget {
             _Button(
               icon: Icons.more_horiz,
               label: 'Tùy chỉnh',
-              onPressed: () {},
+              onPressed: () =>
+                  _showMenuBottomSheet(HomeProvider.of(context).context),
             ),
           ],
         ),
@@ -78,4 +82,29 @@ class _Button extends StatelessWidget {
       onPressed: onPressed,
     );
   }
+}
+
+_showMenuBottomSheet(BuildContext context) {
+  showSlidingBottomSheet(
+    context,
+    builder: (context) {
+      return SlidingSheetDialog(
+        elevation: 8,
+        snapSpec: const SnapSpec(
+          snap: true,
+          snappings: [0.8, 0.7, 1.0],
+          positioning: SnapPositioning.relativeToAvailableSpace,
+        ),
+        duration: const Duration(milliseconds: 200),
+        builder: (context, state) {
+          return Column(
+            children: <Widget>[
+              Text('Chỉnh sửa thông tin cá nhân'),
+              Text('Tùy chỉnh hiển thị'),
+            ],
+          );
+        },
+      );
+    },
+  );
 }

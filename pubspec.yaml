@@ -27,6 +27,7 @@ dependencies:
   connectivity: ^0.4.8+2
   shimmer: ^1.1.1
   extended_tabs: ^0.2.3
+  sliding_sheet: ^0.3.4
 
 dev_dependencies:
   flutter_test:

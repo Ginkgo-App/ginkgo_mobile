@@ -13,6 +13,7 @@ import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/models/user.dart';
 import 'package:ginkgo_mobile/src/navigators.dart';
 import 'package:ginkgo_mobile/src/screens/homeScreen/homePage/homePage.dart';
+import 'package:ginkgo_mobile/src/screens/homeScreen/homeProvider.dart';
 import 'package:ginkgo_mobile/src/screens/homeScreen/profilePage/widgets/aboutBox.dart';
 import 'package:ginkgo_mobile/src/screens/homeScreen/profilePage/widgets/activityBox.dart';
 import 'package:ginkgo_mobile/src/screens/homeScreen/profilePage/widgets/avatarWidget.dart';

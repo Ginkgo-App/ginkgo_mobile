@@ -11,28 +11,32 @@ class Avatar extends StatelessWidget {
       @required this.imageUrl,
       this.size = 30,
       this.isCircle = true,
-      this.heroTag = ''})
+      this.heroTag})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Hero(
-      tag: heroTag,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(isCircle ? 90 : 0),
-        child: CachedNetworkImage(
-          imageUrl: imageUrl,
+    final child = ClipRRect(
+      borderRadius: BorderRadius.circular(isCircle ? 90 : 0),
+      child: CachedNetworkImage(
+        imageUrl: imageUrl,
+        width: size,
+        height: size,
+        fit: BoxFit.cover,
+        placeholder: (context, _) => Image.asset(
+          Assets.images.defaultImage,
           width: size,
           height: size,
           fit: BoxFit.cover,
-          placeholder: (context, _) => Image.asset(
-            Assets.images.defaultImage,
-            width: size,
-            height: size,
-            fit: BoxFit.cover,
-          ),
         ),
       ),
     );
+
+    return heroTag != null
+        ? Hero(
+            tag: heroTag,
+            child: child,
+          )
+        : child;
   }
 }
