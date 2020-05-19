@@ -1,4 +1,4 @@
-part of '../screens.dart';
+part of '../../screens.dart';
 
 class ProfileListTourScreen extends StatefulWidget {
   @override
@@ -26,6 +26,7 @@ class _ProfileListTourScreenState extends State<ProfileListTourScreen> {
                 isCircle: true,
                 imageUrl: currentUser.avatar,
                 size: 170,
+                heroTag: HeroKeys.currentUserAvatar,
               ),
               const SizedBox(height: 20),
               OwnerNav(),

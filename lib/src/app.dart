@@ -5,7 +5,8 @@ import 'package:ginkgo_mobile/src/screens/screens.dart';
 import 'package:base/base.dart';
 import 'screens/screens.dart';
 
-part 'routes.dart';
+part 'routes/routes.dart';
+part 'routes/profileRoutes.dart';
 
 class App extends AppBase {
   @override

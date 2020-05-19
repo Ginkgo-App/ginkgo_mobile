@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ginkgo_mobile/src/app.dart';
 import 'package:ginkgo_mobile/src/blocs/userTour/user_tour_bloc.dart';
+import 'package:ginkgo_mobile/src/navigators.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/utils/strings.dart';
 import 'package:ginkgo_mobile/src/widgets/buttons/commonOutlineButton.dart';
@@ -60,7 +61,8 @@ class _TourListWidgetState extends State<TourListWidget> {
                 CommonOutlineButton(
                   text: 'Xem tất cả các chuyến đi',
                   onPressed: () {
-                    Navigator.pushNamed(context, Routes.profileTourList);
+                    Navigators.profileNavigator.currentState
+                        .pushNamed(ProfileRoutes.listTour);
                   },
                 ),
               ],

@@ -21,7 +21,9 @@ class User with Mappable {
   int tourCount;
 
   String get displayName => fullName ?? email;
-  String get displayGender => gender;
+  String get displayGender => gender == 'male' || gender == '0'
+      ? 'Nam'
+      : (gender == 'femaile' || gender == '1' ? 'Nữ' : 'Khác');
 
   User({
     this.email = '',
@@ -39,12 +41,11 @@ class User with Mappable {
   }) : this.friends = friends ?? Set.identity();
 
   SimpleUser toSimpleUser() => SimpleUser(
-    id: this.id,
-    name: this.fullName,
-    avatar: this.avatar,
-    job: this.job,
-    tourCount: this.tourCount
-  );
+      id: this.id,
+      name: this.fullName,
+      avatar: this.avatar,
+      job: this.job,
+      tourCount: this.tourCount);
 
   @override
   void mapping(Mapper map) {
@@ -70,12 +71,12 @@ class User with Mappable {
 }
 
 class SimpleUser with Mappable {
-   int id;
-   String name;
-   String email;
-   String avatar;
-   String job;
-   int tourCount;
+  int id;
+  String name;
+  String email;
+  String avatar;
+  String job;
+  int tourCount;
 
   String get displayName => name ?? email;
 
@@ -88,6 +89,6 @@ class SimpleUser with Mappable {
     map('Email', email, (v) => email = v);
     map('Avatar', avatar, (v) => avatar = v);
     map('Job', job, (v) => job = v);
-    map('TourCount', tourCount, (v) => tourCount = v );
+    map('TourCount', tourCount, (v) => tourCount = v);
   }
 }

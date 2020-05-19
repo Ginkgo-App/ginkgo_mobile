@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ginkgo_mobile/src/screens/profileScreen/widgets/activityBox.dart';
+import 'package:ginkgo_mobile/src/screens/homeScreen/profilePage/widgets/activityBox.dart';
 import 'package:ginkgo_mobile/src/widgets/spacingColumn.dart';
 
 class FeedTab extends StatelessWidget {

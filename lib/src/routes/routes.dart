@@ -1,4 +1,4 @@
-part of 'app.dart';
+part of '../app.dart';
 
 class Routes {
   static const splash = '/';

@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
+import 'package:ginkgo_mobile/src/utils/heroKeys.dart';
 
 class AvatarWidget extends StatelessWidget {
   final User user;
@@ -29,7 +30,7 @@ class AvatarWidget extends StatelessWidget {
       child: AspectRatio(
         aspectRatio: 375 / 424,
         child: Hero(
-          tag: user?.avatar ?? 'UserAvatar',
+          tag: HeroKeys.currentUserAvatar,
           child: CachedNetworkImage(
             placeholder: (context, url) => Image.asset(
               Assets.images.defaultImage,

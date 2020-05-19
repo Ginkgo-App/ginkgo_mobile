@@ -1,34 +1,23 @@
-part of '../screens.dart';
+part of '../../screens.dart';
 
-class UserScreenArgs {
-  final SimpleUser simpleUser;
-
-  UserScreenArgs(this.simpleUser);
-}
-
-class UserScreen extends StatefulWidget {
+class ProfileScreen extends StatefulWidget {
   @override
-  _UserScreenState createState() => _UserScreenState();
+  _ProfileScreenState createState() => _ProfileScreenState();
 }
 
-class _UserScreenState extends State<UserScreen> {
-  final UserBloc _bloc = UserBloc();
-  SimpleUser simpleUser;
+class _ProfileScreenState extends State<ProfileScreen> {
+  final CurrentUserBloc _bloc = CurrentUserBloc();
 
   @override
   void initState() {
     super.initState();
-
-    final UserScreenArgs args = ModalRoute.of(context).settings.arguments;
-    if (args?.simpleUser != null) {
-      simpleUser = args.simpleUser;
-    } else {
-      Navigator.pop(context);
+    if (_bloc.currentUser == null && _bloc.state is! CurrentUserLoading) {
+      _fetchProfile();
     }
   }
 
-  _fetchUserInfo() {
-    _bloc.add(UserEventFetch(simpleUser.id));
+  _fetchProfile() {
+    _bloc.add(CurrentUserEventFetch());
   }
 
   @override
@@ -36,18 +25,23 @@ class _UserScreenState extends State<UserScreen> {
     return BlocBuilder(
       bloc: _bloc,
       builder: (context, state) {
-        User user = User(fullName: simpleUser.name, avatar: simpleUser.avatar);
-        if (state is UserStateSuccess) {
-          user = state.user;
+        User user;
+        if (state is CurrentUserSuccess) {
+          user = state.currentUser;
         }
 
         return PrimaryScaffold(
-          isLoading: state is UserStateLoading,
-          appBar: BackAppBar(title: user.fullName),
+          isLoading: state is CurrentUserLoading,
+          appBar: BackAppBar(
+            title: user?.fullName ?? '',
+            showBackButton: false,
+          ),
           body: state is CurrentUserFailure
               ? ErrorIndicator(
                   moreErrorDetail: state.error,
-                  onReload: _fetchUserInfo,
+                  onReload: () {
+                    _bloc.add(CurrentUserEventFetch());
+                  },
                 )
               : SingleChildScrollView(
                   child: Column(
@@ -63,11 +57,11 @@ class _UserScreenState extends State<UserScreen> {
                             const SizedBox(height: 10),
                             AboutBox(user: user),
                             const SizedBox(height: 10),
-                            FriendList(userId: simpleUser.id),
+                            FriendList(userId: 0),
                             const SizedBox(height: 10),
                             InfoBox(user: user),
                             const SizedBox(height: 10),
-                            TourListWidget(userId: simpleUser.id),
+                            TourListWidget(userId: 0),
                             const SizedBox(height: 10),
                             ActivityBox(),
                             const SizedBox(height: 20),
