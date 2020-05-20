@@ -13,11 +13,16 @@ class LoadingManager {
     if (!_isShowing) {
       debugPrint('Show Loading.................');
       _isShowing = true;
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => LoadingIndicator(),
-      );
+      try {
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => LoadingIndicator(),
+        );
+      } catch (e) {
+        debugPrint(e);
+        _isShowing = false;
+      }
     }
   }
 

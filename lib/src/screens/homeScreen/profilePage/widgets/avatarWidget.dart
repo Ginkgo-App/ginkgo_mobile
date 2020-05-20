@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:base/base.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -5,13 +7,26 @@ import 'package:flutter/material.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/utils/heroKeys.dart';
+import 'package:ginkgo_mobile/src/widgets/actionSheets/pickImageActionSheet.dart';
 
 class AvatarWidget extends StatelessWidget {
   final User user;
+  final Function(File) onPickImageSuccess;
 
-  const AvatarWidget({Key key, this.user}) : super(key: key);
+  const AvatarWidget({Key key, @required this.user, this.onPickImageSuccess})
+      : super(key: key);
 
-  _onAvatarPress() {}
+  _onAvatarPress() {
+    // TODO handle show dialog image.
+  }
+
+  _onUpdateAvatarPress(BuildContext context) {
+    pickImage(context, _onPickImageSuccess);
+  }
+
+  _onPickImageSuccess(File image) {
+    onPickImageSuccess?.call(image);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +67,7 @@ class AvatarWidget extends StatelessWidget {
         child: Icon(Icons.camera_alt, color: Colors.white),
         color: Color.fromRGBO(0, 0, 0, 0.5),
         padding: EdgeInsets.zero,
-        onPressed: () {},
+        onPressed: () => _onUpdateAvatarPress(context),
       ),
     );
   }

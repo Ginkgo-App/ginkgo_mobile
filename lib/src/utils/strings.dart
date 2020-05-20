@@ -25,6 +25,9 @@ class _Button {
   final forgotPassword = 'Quên mật khẩu?';
   final logout = 'Đăng xuất';
   final reload = 'Tải lại';
+  final takeAPicture = 'Chụp ảnh';
+  final pickFromGallery = 'Chọn từ thư viện';
+  final cancel = 'Hủy bỏ';
 }
 
 class _Error {

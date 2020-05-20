@@ -1,6 +1,9 @@
 library providers;
 
+import 'dart:io';
+
 import 'package:base/base.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:ginkgo_mobile/src/models/authResponse.dart';
 import 'package:ginkgo_mobile/src/models/tour.dart';
@@ -11,8 +14,10 @@ import 'appClient.dart';
 
 part 'authProvider.dart';
 part 'userProvider.dart';
+part 'systemProvider.dart';
 
 class Api {
+  static final image = 'https://api.imgur.com/3/image';
   static final login = AppConfig.instance.apiUrl + '/users/authenticate';
   static final socialLogin =
       AppConfig.instance.apiUrl + '/users/social-provider';
