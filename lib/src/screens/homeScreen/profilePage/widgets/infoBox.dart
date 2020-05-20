@@ -24,7 +24,7 @@ class InfoBox extends StatelessWidget {
           _buildRow(Assets.icons.phone, user?.phoneNumber),
           _buildRow(
               Assets.icons.birthday,
-              user.birthday != null
+              user?.birthday != null
                   ? DateFormat('dd/MM/yyyy').format(user.birthday)
                   : ''),
           _buildRow(Assets.icons.gender, user?.displayGender),

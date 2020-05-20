@@ -2,7 +2,6 @@ import 'package:base/base.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:ginkgo_mobile/src/navigators.dart';
 import 'package:ginkgo_mobile/src/screens/homeScreen/homeProvider.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/utils/designColor.dart';
@@ -97,11 +96,32 @@ _showMenuBottomSheet(BuildContext context) {
         ),
         duration: const Duration(milliseconds: 200),
         builder: (context, state) {
-          return Column(
-            children: <Widget>[
-              Text('Chỉnh sửa thông tin cá nhân'),
-              Text('Tùy chỉnh hiển thị'),
-            ],
+          return Material(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                {'text': 'Chỉnh sửa thông tin cá nhân', 'onPressed': () {}},
+                {'text': 'Tùy chỉnh hiển thị', 'onPressed': () {}},
+              ]
+                  .map<Widget>(
+                    (e) => FlatButton(
+                      child: Text(e['text'], style: context.textTheme.body1),
+                      color: context.colorScheme.background,
+                      highlightColor: DesignColor.darkestWhite,
+                      padding: EdgeInsets.symmetric(vertical: 20),
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      onPressed: e['onPressed'],
+                    ),
+                  )
+                  .toList()
+                  .addBetweenEvery(
+                    Container(
+                      height: 0.5,
+                      margin: EdgeInsets.symmetric(horizontal: 10),
+                      color: DesignColor.lightestBlack,
+                    ),
+                  ),
+            ),
           );
         },
       );

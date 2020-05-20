@@ -5,11 +5,11 @@ class HomeProvider extends InheritedWidget {
 
   HomeProvider(this.context, {Widget child}) : super(child: child);
 
-  static HomeProvider of(context) =>
-      context.dependOnInheritedWidgetOfExactType(aspect: HomeProvider);
+  static HomeProvider of(BuildContext myContext) =>
+      myContext.dependOnInheritedWidgetOfExactType(aspect: HomeProvider);
 
   @override
   bool updateShouldNotify(InheritedWidget oldWidget) {
-    return false;
+    return true;
   }
 }

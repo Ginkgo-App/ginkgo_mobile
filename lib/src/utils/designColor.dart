@@ -4,12 +4,14 @@ class DesignColor {
   static Color blockHeader = Color(0xffBD1700);
   static Color cta = Color(0xff0DAEE1);
   static Color darkerWhite = Color(0xffE4D8D8);
+  static Color darkestWhite = Color(0xffD7C6C6);
   static Color tinyItems = Color(0xff747576);
   static Color darkRed = Color(0xffF41D00);
   static Color lightRed = Color(0xffFF5946);
   static Color lightPink = Color(0xffFADBD4);
   static Color lightLightPink = Color(0xffFFECE8);
   static Color lighterRed = Color(0xffFF8E7E);
+  static Color lightestBlack = Color(0xff9B9C9D);
 
   static Color shimmerBackground = Colors.grey[200];
   static Color shimmerHightlight = Colors.grey[100];
