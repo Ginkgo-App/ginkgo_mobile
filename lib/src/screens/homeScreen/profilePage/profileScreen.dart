@@ -14,6 +14,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if (_bloc.currentUser == null && _bloc.state is! CurrentUserLoading) {
       _fetchProfile();
     }
+
+    _bloc.listen((state) {
+      if (state is CurrentUserLoading) {
+        LoadingManager().show(context);
+      } else {
+        LoadingManager().hide(context);
+      }
+    });
   }
 
   _fetchProfile() {
@@ -31,7 +39,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         }
 
         return PrimaryScaffold(
-          isLoading: state is CurrentUserLoading,
           appBar: BackAppBar(
             title: user?.fullName ?? '',
             showBackButton: false,
