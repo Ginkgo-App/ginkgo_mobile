@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:ginkgo_mobile/src/models/socialProvider.dart';
 import 'package:object_mapper/object_mapper.dart';
 
@@ -90,5 +92,45 @@ class SimpleUser with Mappable {
     map('Avatar', avatar, (v) => avatar = v);
     map('Job', job, (v) => job = v);
     map('TourCount', tourCount, (v) => tourCount = v);
+  }
+}
+
+class UserToPut with Mappable {
+  int id;
+  String name;
+  String password;
+  String phoneNumber;
+  File avatar;
+  String slogan;
+  String bio;
+  String job;
+  DateTime birthday;
+  String gender;
+  String address;
+
+  UserToPut(
+      {this.id,
+      this.name,
+      this.password,
+      this.phoneNumber,
+      this.avatar,
+      this.slogan,
+      this.bio,
+      this.job,
+      this.birthday,
+      this.gender,
+      this.address});
+
+  @override
+  void mapping(Mapper map) {
+    map('Name', name, (v) => name = v);
+    map('Password', password, (v) => password = v);
+    map('PhoneNumber', phoneNumber, (v) => phoneNumber = v);
+    map('Address', address, (v) => address = v);
+    map('Slogan', slogan, (v) => slogan = v);
+    map('Bio', bio, (v) => bio = v);
+    map('Job', job, (v) => job = v);
+    map('Gender', gender, (v) => gender = v);
+    map('Birthday', birthday, (v) => birthday = v, DateTransform());
   }
 }

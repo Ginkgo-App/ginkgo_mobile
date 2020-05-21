@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
+import 'package:ginkgo_mobile/src/screens/homeScreen/homeProvider.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/utils/heroKeys.dart';
 import 'package:ginkgo_mobile/src/widgets/actionSheets/pickImageActionSheet.dart';
@@ -12,8 +13,13 @@ import 'package:ginkgo_mobile/src/widgets/actionSheets/pickImageActionSheet.dart
 class AvatarWidget extends StatelessWidget {
   final User user;
   final Function(File) onPickImageSuccess;
+  final bool editable;
 
-  const AvatarWidget({Key key, @required this.user, this.onPickImageSuccess})
+  const AvatarWidget(
+      {Key key,
+      @required this.user,
+      this.onPickImageSuccess,
+      this.editable = false})
       : super(key: key);
 
   _onAvatarPress() {
@@ -21,7 +27,7 @@ class AvatarWidget extends StatelessWidget {
   }
 
   _onUpdateAvatarPress(BuildContext context) {
-    pickImage(context, _onPickImageSuccess);
+    pickImage(HomeProvider.of(context).context, _onPickImageSuccess);
   }
 
   _onPickImageSuccess(File image) {
@@ -33,7 +39,7 @@ class AvatarWidget extends StatelessWidget {
     return Stack(
       children: <Widget>[
         _buildAvatar(context),
-        _buildCameraButton(context),
+        if (editable) _buildCameraButton(context),
         _buildInfoBox(context),
       ],
     );

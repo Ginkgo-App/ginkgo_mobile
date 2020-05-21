@@ -54,7 +54,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
-                      AvatarWidget(user: user),
+                      AvatarWidget(user: user, editable: true),
                       const SizedBox(height: 10),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 10),

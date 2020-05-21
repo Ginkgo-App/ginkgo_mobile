@@ -23,4 +23,13 @@ class UserProvider {
         .map((e) => Mapper.fromJson(e).toObject<SimpleTour>())
         .toList();
   }
+
+  Future<User> updateProfile(UserToPut userToPut) async {
+    final system = SystemProvider();
+    final result = await _client.connect<User>(ApiMethod.PUT, Api.me, body: {
+      ...userToPut.toJson(),
+      ...{'avatar': await system.uploadImage(userToPut.avatar)}
+    });
+    return result;
+  }
 }

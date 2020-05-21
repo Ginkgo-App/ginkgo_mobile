@@ -5,7 +5,12 @@ class _UserRepository {
 
   Future<User> getMe() => _userProvider.getMe();
 
-  Future<List<SimpleUser>> getUserFriends(int userId) => _userProvider.getUserFriends(userId);
+  Future<List<SimpleUser>> getUserFriends(int userId) =>
+      _userProvider.getUserFriends(userId);
 
-  Future<List<SimpleTour>> getUserTours(int userId) => _userProvider.getUserTours(userId);
+  Future<List<SimpleTour>> getUserTours(int userId) =>
+      _userProvider.getUserTours(userId);
+
+  Future<User> updateProfile(UserToPut userToPut) =>
+      _userProvider.updateProfile(userToPut);
 }
