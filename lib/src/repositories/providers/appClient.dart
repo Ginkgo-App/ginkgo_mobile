@@ -53,7 +53,7 @@ class ApiClient {
       'Authorization': 'Bearer ${await Repository().auth.token}'
     };
 
-    if (headers != null && data == null) {
+    if (headers != null) {
       _headers.addAll(headers);
     }
 

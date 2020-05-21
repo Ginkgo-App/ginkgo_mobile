@@ -4,6 +4,7 @@ import 'package:base/base.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ginkgo_mobile/src/blocs/update_profile_bloc/update_profile_bloc.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/screens/homeScreen/homeProvider.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
@@ -12,14 +13,9 @@ import 'package:ginkgo_mobile/src/widgets/actionSheets/pickImageActionSheet.dart
 
 class AvatarWidget extends StatelessWidget {
   final User user;
-  final Function(File) onPickImageSuccess;
   final bool editable;
 
-  const AvatarWidget(
-      {Key key,
-      @required this.user,
-      this.onPickImageSuccess,
-      this.editable = false})
+  const AvatarWidget({Key key, @required this.user, this.editable = false})
       : super(key: key);
 
   _onAvatarPress() {
@@ -30,8 +26,9 @@ class AvatarWidget extends StatelessWidget {
     pickImage(HomeProvider.of(context).context, _onPickImageSuccess);
   }
 
-  _onPickImageSuccess(File image) {
-    onPickImageSuccess?.call(image);
+  _onPickImageSuccess(File image) async {
+    UpdateProfileBloc()
+        .add(UpdateProfileEventUpdate(UserToPut(id: user.id, avatar: image)));
   }
 
   @override

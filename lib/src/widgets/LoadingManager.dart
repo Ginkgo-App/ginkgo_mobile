@@ -7,30 +7,33 @@ class LoadingManager {
   static LoadingManager _instance = LoadingManager._();
   factory LoadingManager() => _instance;
 
-  bool _isShowing = false;
+  int showCount = 0;
 
   show(BuildContext context) {
-    if (!_isShowing) {
+    if (showCount == 0) {
       debugPrint('Show Loading.................');
-      _isShowing = true;
       try {
         showDialog(
           context: context,
           barrierDismissible: false,
           builder: (context) => LoadingIndicator(),
         );
+        showCount++;
       } catch (e) {
         debugPrint(e);
-        _isShowing = false;
       }
+    } else {
+      showCount++;
     }
   }
 
   hide(BuildContext context) {
-    if (_isShowing) {
+    if (showCount == 1) {
       debugPrint('Hide Loading.................');
-      _isShowing = false;
       Navigators.appNavigator.currentState.pop();
+    } else if (showCount <= 1) {
+      return;
     }
+    showCount--;
   }
 }

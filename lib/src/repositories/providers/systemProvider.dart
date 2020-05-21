@@ -6,11 +6,14 @@ class SystemProvider {
   Future<String> uploadImage(File image) async {
     final response = await _client.normalConnect(
       ApiMethod.POST,
-      Api.login,
+      Api.image,
       data: FormData.fromMap({
-        'image': MultipartFile.fromFile(image.path),
+        'image': await MultipartFile.fromFile(image.path),
         'album': 'dPkd7RpwCPaPMB9',
       }),
+      headers: {
+        'Authorization': 'Client-ID eee6fe9fcde03e2'
+      },
       handleError: false,
     );
 

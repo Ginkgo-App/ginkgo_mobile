@@ -1,5 +1,7 @@
 library screens;
 
+import 'dart:async';
+
 import 'package:base/base.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +10,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:ginkgo_mobile/src/blocs/auth/auth_bloc.dart';
 import 'package:ginkgo_mobile/src/blocs/authScreen/auth_screen_bloc.dart';
 import 'package:ginkgo_mobile/src/blocs/currentUser/current_user_bloc.dart';
+import 'package:ginkgo_mobile/src/blocs/update_profile_bloc/update_profile_bloc.dart';
 import 'package:ginkgo_mobile/src/blocs/user/user_bloc.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/models/user.dart';

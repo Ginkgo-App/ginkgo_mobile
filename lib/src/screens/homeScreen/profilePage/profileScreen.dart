@@ -7,6 +7,8 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final CurrentUserBloc _bloc = CurrentUserBloc();
+  StreamSubscription currentUserListener;
+  StreamSubscription updateUserListener;
 
   @override
   void initState() {
@@ -15,10 +17,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
       _fetchProfile();
     }
 
-    _bloc.listen((state) {
+    currentUserListener = _bloc.listen((state) {
       if (state is CurrentUserLoading) {
         LoadingManager().show(context);
       } else {
+        LoadingManager().hide(context);
+      }
+    });
+
+    updateUserListener = UpdateProfileBloc().listen((state) {
+      if (state is UpdateProfileStateLoading) {
+        LoadingManager().show(context);
+      } else {
+        if (state is UpdateProfileStateFailure) {
+          Toast.show(state.error, context);
+        }
         LoadingManager().hide(context);
       }
     });
@@ -26,6 +39,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   _fetchProfile() {
     _bloc.add(CurrentUserEventFetch());
+  }
+
+  @override
+  void dispose() {
+    currentUserListener.cancel();
+    updateUserListener.cancel();
+    super.dispose();
   }
 
   @override

@@ -26,9 +26,11 @@ class UserProvider {
 
   Future<User> updateProfile(UserToPut userToPut) async {
     final system = SystemProvider();
+    final avatar = await system.uploadImage(userToPut.avatar);
+
     final result = await _client.connect<User>(ApiMethod.PUT, Api.me, body: {
       ...userToPut.toJson(),
-      ...{'avatar': await system.uploadImage(userToPut.avatar)}
+      ...{'avatar': avatar}
     });
     return result;
   }
