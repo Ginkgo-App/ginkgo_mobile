@@ -28,6 +28,8 @@ class _Button {
   final takeAPicture = 'Chụp ảnh';
   final pickFromGallery = 'Chọn từ thư viện';
   final cancel = 'Hủy bỏ';
+  final edit = 'Chỉnh sửa';
+  final saveChanges = 'Lưu thay đổi';
 }
 
 class _Error {

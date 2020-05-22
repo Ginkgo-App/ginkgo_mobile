@@ -1,64 +1,59 @@
 import 'package:base/base.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
+import 'package:ginkgo_mobile/src/screens/homeScreen/profilePage/widgets/info_row.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
+import 'package:ginkgo_mobile/src/utils/designColor.dart';
+import 'package:ginkgo_mobile/src/widgets/spacingColumn.dart';
 import 'package:ginkgo_mobile/src/widgets/widgets.dart';
-import 'package:intl/intl.dart';
 
 class InfoBox extends StatelessWidget {
   final User user;
+  final bool editMode;
 
-  const InfoBox({Key key, @required this.user}) : super(key: key);
+  const InfoBox({Key key, @required this.user, this.editMode = false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BorderContainer(
       icon: Assets.icons.resume,
       title: 'Thông tin cá nhân',
-      child: Column(
-        children: <Widget>[
-          _buildRow(Assets.icons.job, user?.job),
-          _buildRow(Assets.icons.email, user?.email),
-          _buildRow(Assets.icons.phone, user?.phoneNumber),
-          _buildRow(
-              Assets.icons.birthday,
-              user?.birthday != null
-                  ? DateFormat('dd/MM/yyyy').format(user.birthday)
-                  : ''),
-          _buildRow(Assets.icons.gender, user?.displayGender),
-          _buildRow(Assets.icons.address, user?.address),
-        ],
+      child: SpacingColumn(
+        separator: Container(
+          margin: EdgeInsets.only(left: 40),
+          color: DesignColor.darkerWhite,
+          height: 0.5,
+        ),
+        spacing: 10,
+        children: [
+          _ItemData(Assets.icons.job, user?.job, 'Nghề nghiệp'),
+          _ItemData(Assets.icons.email, user?.email, 'Email'),
+          _ItemData(Assets.icons.phone, user?.phoneNumber, 'Số điện thoại'),
+          _ItemData(Assets.icons.birthday, user?.birthday?.toVietNamese(), 'Ngày sinh'),
+          _ItemData(Assets.icons.gender, user?.displayGender, 'Giới tính'),
+          _ItemData(Assets.icons.address, user?.address, 'Địa chỉ'),
+        ]
+            .where((e) => e.text.isExistAndNotEmpty || editMode)
+            .map(
+              (e) => InfoRow(
+                svgIcon: e.svgIcon,
+                text: e.text,
+                placeHolder: e.placeHolder,
+                editMode: editMode,
+              ),
+            )
+            .toList(),
       ),
     );
   }
+}
 
-  Widget _buildRow(String icon, String text) {
-    return text.isExistAndNotEmpty
-        ? Container(
-            padding: EdgeInsets.only(left: 5, right: 5, bottom: 5),
-            margin: EdgeInsets.only(bottom: 5),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Padding(
-                    padding: EdgeInsets.only(left: 5, right: 15),
-                    child: SvgPicture.asset(icon, height: 20)),
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.fromLTRB(0, 2, 0, 10),
-                    decoration: new BoxDecoration(
-                        border: Border(
-                            bottom: BorderSide(
-                      color: Colors.grey,
-                      width: 0.5,
-                    ))),
-                    child: Text(text),
-                  ),
-                )
-              ],
-            ))
-        : const SizedBox.shrink();
-  }
+class _ItemData {
+  final String svgIcon;
+  final String text;
+  final String placeHolder;
+
+  _ItemData(this.svgIcon, this.text, this.placeHolder);
 }

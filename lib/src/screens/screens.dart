@@ -25,6 +25,7 @@ import 'package:ginkgo_mobile/src/screens/homeScreen/profilePage/widgets/infoBox
 import 'package:ginkgo_mobile/src/screens/homeScreen/profilePage/widgets/ownerNav.dart';
 import 'package:ginkgo_mobile/src/screens/homeScreen/profilePage/widgets/tourListWidget.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
+import 'package:ginkgo_mobile/src/utils/designColor.dart';
 import 'package:ginkgo_mobile/src/utils/heroKeys.dart';
 import 'package:ginkgo_mobile/src/utils/strings.dart';
 import 'package:ginkgo_mobile/src/utils/validator.dart';
@@ -35,6 +36,7 @@ import 'package:ginkgo_mobile/src/widgets/logoWidget.dart';
 import 'package:ginkgo_mobile/src/widgets/spacingColumn.dart';
 import 'package:ginkgo_mobile/src/widgets/trip/tripItem.dart';
 import 'package:ginkgo_mobile/src/widgets/widgets.dart';
+import 'package:sliding_sheet/sliding_sheet.dart';
 import 'package:toast/toast.dart';
 
 import '../app.dart';

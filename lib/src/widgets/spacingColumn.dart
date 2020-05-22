@@ -13,10 +13,19 @@ class SpacingColumn extends Flex {
     List<Widget> children = const <Widget>[],
     double spacing,
     bool isSpacingHeadTale = false,
+    Widget separator,
   }) : super(
           children: [
             if (isSpacingHeadTale) SizedBox(height: spacing),
-            ...children.addBetweenEvery(SizedBox(height: spacing)),
+            ...children.addBetweenEvery(
+              Column(
+                children: <Widget>[
+                  SizedBox(height: spacing / 2),
+                  separator ?? const SizedBox.shrink(),
+                  SizedBox(height: spacing / 2),
+                ],
+              ),
+            ),
             if (isSpacingHeadTale) SizedBox(height: spacing),
           ],
           key: key,

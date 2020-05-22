@@ -7,8 +7,10 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final CurrentUserBloc _bloc = CurrentUserBloc();
+
   StreamSubscription currentUserListener;
   StreamSubscription updateUserListener;
+  bool editMode = false;
 
   @override
   void initState() {
@@ -39,6 +41,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   _fetchProfile() {
     _bloc.add(CurrentUserEventFetch());
+  }
+
+  _onChangeProfile() {
+    setState(() {
+      editMode = !editMode;
+    });
   }
 
   @override
@@ -80,13 +88,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         padding: EdgeInsets.symmetric(horizontal: 10),
                         child: Column(
                           children: <Widget>[
-                            OwnerNav(),
+                            OwnerNav(
+                              onCustomButtonPressed: () => _showMenuBottomSheet(
+                                  HomeProvider.of(context).context),
+                            ),
                             const SizedBox(height: 10),
                             AboutBox(user: user),
                             const SizedBox(height: 10),
                             FriendList(userId: 0),
                             const SizedBox(height: 10),
-                            InfoBox(user: user),
+                            InfoBox(user: user, editMode: editMode),
                             const SizedBox(height: 10),
                             TourListWidget(userId: 0),
                             const SizedBox(height: 10),
@@ -98,6 +109,60 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ],
                   ),
                 ),
+        );
+      },
+    );
+  }
+
+  _showMenuBottomSheet(BuildContext context) {
+    showSlidingBottomSheet(
+      context,
+      builder: (context) {
+        return SlidingSheetDialog(
+          elevation: 8,
+          snapSpec: const SnapSpec(
+            snap: true,
+            snappings: [0.8, 0.7, 1.0],
+            positioning: SnapPositioning.relativeToAvailableSpace,
+          ),
+          duration: const Duration(milliseconds: 200),
+          builder: (context, state) {
+            return Material(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  {
+                    'text': !editMode
+                        ? 'Chỉnh sửa thông tin cá nhân'
+                        : 'Tắt chỉnh sửa',
+                    'onPressed': () {
+                      Navigator.pop(context);
+                      _onChangeProfile();
+                    }
+                  },
+                  {'text': 'Tùy chỉnh hiển thị', 'onPressed': () {}},
+                ]
+                    .map<Widget>(
+                      (e) => FlatButton(
+                        child: Text(e['text'], style: context.textTheme.body1),
+                        color: context.colorScheme.background,
+                        highlightColor: DesignColor.darkestWhite,
+                        padding: EdgeInsets.symmetric(vertical: 20),
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        onPressed: e['onPressed'],
+                      ),
+                    )
+                    .toList()
+                    .addBetweenEvery(
+                      Container(
+                        height: 0.5,
+                        margin: EdgeInsets.symmetric(horizontal: 10),
+                        color: DesignColor.lightestBlack,
+                      ),
+                    ),
+              ),
+            );
+          },
         );
       },
     );

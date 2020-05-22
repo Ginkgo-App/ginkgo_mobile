@@ -2,12 +2,14 @@ import 'package:base/base.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:ginkgo_mobile/src/screens/homeScreen/homeProvider.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/utils/designColor.dart';
-import 'package:sliding_sheet/sliding_sheet.dart';
 
 class OwnerNav extends StatelessWidget {
+  final Function onCustomButtonPressed;
+
+  const OwnerNav({Key key, this.onCustomButtonPressed}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -39,8 +41,7 @@ class OwnerNav extends StatelessWidget {
             _Button(
               icon: Icons.more_horiz,
               label: 'Tùy chỉnh',
-              onPressed: () =>
-                  _showMenuBottomSheet(HomeProvider.of(context).context),
+              onPressed: onCustomButtonPressed,
             ),
           ],
         ),
@@ -81,50 +82,4 @@ class _Button extends StatelessWidget {
       onPressed: onPressed,
     );
   }
-}
-
-_showMenuBottomSheet(BuildContext context) {
-  showSlidingBottomSheet(
-    context,
-    builder: (context) {
-      return SlidingSheetDialog(
-        elevation: 8,
-        snapSpec: const SnapSpec(
-          snap: true,
-          snappings: [0.8, 0.7, 1.0],
-          positioning: SnapPositioning.relativeToAvailableSpace,
-        ),
-        duration: const Duration(milliseconds: 200),
-        builder: (context, state) {
-          return Material(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                {'text': 'Chỉnh sửa thông tin cá nhân', 'onPressed': () {}},
-                {'text': 'Tùy chỉnh hiển thị', 'onPressed': () {}},
-              ]
-                  .map<Widget>(
-                    (e) => FlatButton(
-                      child: Text(e['text'], style: context.textTheme.body1),
-                      color: context.colorScheme.background,
-                      highlightColor: DesignColor.darkestWhite,
-                      padding: EdgeInsets.symmetric(vertical: 20),
-                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      onPressed: e['onPressed'],
-                    ),
-                  )
-                  .toList()
-                  .addBetweenEvery(
-                    Container(
-                      height: 0.5,
-                      margin: EdgeInsets.symmetric(horizontal: 10),
-                      color: DesignColor.lightestBlack,
-                    ),
-                  ),
-            ),
-          );
-        },
-      );
-    },
-  );
 }
