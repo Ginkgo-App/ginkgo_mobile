@@ -25,8 +25,12 @@ class PrimaryButton extends StatelessWidget {
             gradient: GradientColor.of(context).primaryGradient,
             borderRadius: borderRadius ?? BorderRadius.circular(90)),
         child: isLoading
-            ? LoadingIndicator(
-                padding: EdgeInsets.zero,
+            ? SizedBox(
+                width: 14,
+                child: LoadingIndicator(
+                  size: 14,
+                  padding: EdgeInsets.zero,
+                ),
               )
             : Text(
                 title,

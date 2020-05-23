@@ -94,14 +94,15 @@ class AvatarWidget extends StatelessWidget {
                 style: context.textTheme.title
                     .copyWith(color: Colors.white, fontWeight: FontWeight.bold),
               ),
-              SizedBox(
-                height: 14,
-              ),
-              if (user?.slogan != null && user.slogan.isNotEmpty)
+              if (user?.slogan != null && user.slogan.isNotEmpty) ...[
+                SizedBox(
+                  height: 14,
+                ),
                 Text(
                   user.slogan,
                   style: context.textTheme.body1.copyWith(color: Colors.white),
-                ),
+                )
+              ],
             ],
           ),
         ),

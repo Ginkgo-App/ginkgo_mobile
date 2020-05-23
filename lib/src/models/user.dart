@@ -12,7 +12,19 @@ class Gender {
   static List<KeyValue> getList() => [male, female, other];
 
   static KeyValue fromKey(String key) =>
-      getList().firstWhere((e) => e.key == key, orElse: () => other);
+      getList().firstWhere((e) => e.key == key, orElse: () => null) ??
+      fromNumber(int.tryParse(key) ?? 3);
+
+  static KeyValue fromNumber(int number) {
+    switch (number) {
+      case 0:
+        return male;
+      case 1:
+        return female;
+      default:
+        return other;
+    }
+  }
 }
 
 class User with Mappable {
@@ -33,11 +45,7 @@ class User with Mappable {
   int tourCount;
 
   String get displayName => fullName ?? email;
-  String get displayGender => gender == Gender.male.key || gender == '0'
-      ? Gender.male.value
-      : (gender == Gender.female.key || gender == '1'
-          ? Gender.female.value
-          : Gender.other.value);
+  String get displayGender => Gender.fromKey(gender).value;
 
   User({
     this.email = '',
@@ -70,11 +78,7 @@ class User with Mappable {
     map('Address', address, (v) => address = v);
     map('Avatar', avatar, (v) => avatar = v);
     map('Slogan', slogan, (v) => slogan = v);
-    map(
-      'Bio',
-      bio,
-      (v) => bio = v,
-    );
+    map('Bio', bio, (v) => bio = v);
     map('Gender', gender, (v) => gender = v.toString());
     map('Birthday', birthday, (v) => birthday = v, DateTransform());
     map('Role', role, (v) => role = v);

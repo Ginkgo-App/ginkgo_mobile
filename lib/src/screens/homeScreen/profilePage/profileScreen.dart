@@ -91,7 +91,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           children: <Widget>[
                             OwnerNav(
                               onCustomButtonPressed: () => _showMenuBottomSheet(
-                                  HomeProvider.of(context).context),
+                                  HomeProvider.of(context).context, user),
                             ),
                             const SizedBox(height: 10),
                             AboutBox(user: user, editMode: editMode),
@@ -115,7 +115,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  _showMenuBottomSheet(BuildContext context) {
+  _showMenuBottomSheet(BuildContext context, User user) {
     showSlidingBottomSheet(
       context,
       builder: (context) {
@@ -141,7 +141,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       _onChangeProfile();
                     }
                   },
-                  {'text': 'Tùy chỉnh hiển thị', 'onPressed': () {}},
+                  {
+                    'text': 'Chỉnh sửa câu giới thiệu',
+                    'onPressed': () {
+                      Navigator.pop(context);
+                      showSloganBottomSheet(context, user.slogan);
+                    }
+                  },
                 ]
                     .map<Widget>(
                       (e) => FlatButton(

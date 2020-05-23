@@ -20,6 +20,7 @@ import 'package:ginkgo_mobile/src/screens/homeScreen/homeProvider.dart';
 import 'package:ginkgo_mobile/src/screens/homeScreen/profilePage/widgets/aboutBox.dart';
 import 'package:ginkgo_mobile/src/screens/homeScreen/profilePage/widgets/activityBox.dart';
 import 'package:ginkgo_mobile/src/screens/homeScreen/profilePage/widgets/avatarWidget.dart';
+import 'package:ginkgo_mobile/src/screens/homeScreen/profilePage/widgets/edit_slogan_bottom_sheet.dart';
 import 'package:ginkgo_mobile/src/screens/homeScreen/profilePage/widgets/friendList.dart';
 import 'package:ginkgo_mobile/src/screens/homeScreen/profilePage/widgets/infoBox.dart';
 import 'package:ginkgo_mobile/src/screens/homeScreen/profilePage/widgets/ownerNav.dart';

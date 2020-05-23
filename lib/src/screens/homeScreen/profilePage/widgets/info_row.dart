@@ -8,7 +8,6 @@ import 'package:ginkgo_mobile/src/models/key_value.dart';
 import 'package:ginkgo_mobile/src/models/user.dart';
 import 'package:ginkgo_mobile/src/screens/homeScreen/homeProvider.dart';
 import 'package:ginkgo_mobile/src/screens/homeScreen/profilePage/widgets/changeButton.dart';
-import 'package:ginkgo_mobile/src/utils/designColor.dart';
 import 'package:ginkgo_mobile/src/utils/strings.dart';
 import 'package:ginkgo_mobile/src/widgets/customs/toast.dart';
 import 'package:ginkgo_mobile/src/widgets/widgets.dart';
@@ -85,6 +84,13 @@ class _InfoRowState extends State<InfoRow> {
         if (state is UpdateProfileStateFailure) {
           Toast.show('${Strings.error.updateProfile}\n${state.error}', context,
               duration: 3);
+
+          if (widget.data.type == InfoRowType.enumable) {
+            setState(() {
+              selectedEnum = widget.data.enumValue;
+              selectedDate = widget.data.text.toVietNameseDate();
+            });
+          }
         }
       },
       child: Container(
@@ -118,8 +124,8 @@ class _InfoRowState extends State<InfoRow> {
         child: !widget.editMode || !isEditing || !widget.data.editable
             ? Text(
                 widget.data.type == InfoRowType.enumable
-                    ? selectedEnum?.value ?? ''
-                    : widget.data.text ?? '',
+                    ? selectedEnum?.value ?? widget.data.enumValue.value ?? ''
+                    : selectedDate?.toVietNamese() ?? widget.data.text ?? '',
                 style: textTheme.body1)
             : widget.data.type == InfoRowType.enumable
                 ? buildDropDown()
@@ -179,7 +185,7 @@ class _InfoRowState extends State<InfoRow> {
 
   buildDropDown() {
     return DropdownButton<KeyValue>(
-      value: selectedEnum,
+      value: selectedEnum ?? widget.data.enumValue,
       style: context.textTheme.body1.copyWith(fontWeight: FontWeight.bold),
       underline: const SizedBox.shrink(),
       items: widget.data.enumData
@@ -240,8 +246,12 @@ class _InfoRowState extends State<InfoRow> {
                     height: MediaQuery.of(context).size.height / 3,
                     child: Center(
                       child: CupertinoDatePicker(
-                        initialDateTime: widget.data.text.toVietNameseDate() ??
-                            DateTime(1998, 2, 1),
+                        initialDateTime: widget.data.text
+                                    .toVietNameseDate()
+                                    .compareTo(DateTime(1911)) <
+                                0
+                            ? DateTime(1998, 2, 1)
+                            : widget.data.text.toVietNameseDate(),
                         onDateTimeChanged: (DateTime newdate) {
                           selectedDate = newdate;
                         },

@@ -30,6 +30,12 @@ class _AboutBoxState extends State<AboutBox> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    controller.text = widget.user.bio;
+  }
+
+  @override
   void dispose() {
     super.dispose();
     updateProfileBloc.close();
