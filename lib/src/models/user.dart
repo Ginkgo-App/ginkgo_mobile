@@ -96,7 +96,6 @@ class SimpleUser with Mappable {
 }
 
 class UserToPut with Mappable {
-  int id;
   String name;
   String password;
   String phoneNumber;
@@ -109,8 +108,7 @@ class UserToPut with Mappable {
   String address;
 
   UserToPut(
-      {this.id,
-      this.name,
+      {this.name,
       this.password,
       this.phoneNumber,
       this.avatar,

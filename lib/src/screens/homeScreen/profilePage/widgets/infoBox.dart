@@ -28,19 +28,21 @@ class InfoBox extends StatelessWidget {
         ),
         spacing: 10,
         children: [
-          _ItemData(Assets.icons.job, user?.job, 'Nghề nghiệp'),
-          _ItemData(Assets.icons.email, user?.email, 'Email'),
-          _ItemData(Assets.icons.phone, user?.phoneNumber, 'Số điện thoại'),
-          _ItemData(Assets.icons.birthday, user?.birthday?.toVietNamese(), 'Ngày sinh'),
-          _ItemData(Assets.icons.gender, user?.displayGender, 'Giới tính'),
-          _ItemData(Assets.icons.address, user?.address, 'Địa chỉ'),
+          InfoRowModel(Assets.icons.job, user?.job, placeHolder: 'Nghề nghiệp'),
+          InfoRowModel(Assets.icons.email, user?.email, placeHolder: 'Email'),
+          InfoRowModel(Assets.icons.phone, user?.phoneNumber,
+              placeHolder: 'Số điện thoại'),
+          InfoRowModel(Assets.icons.birthday, user?.birthday?.toVietNamese(),
+              placeHolder: 'Ngày sinh', type: InfoRowType.dateTime),
+          InfoRowModel(Assets.icons.gender, user?.displayGender,
+              placeHolder: 'Giới tính', ),
+          InfoRowModel(Assets.icons.address, user?.address,
+              placeHolder: 'Địa chỉ'),
         ]
             .where((e) => e.text.isExistAndNotEmpty || editMode)
             .map(
               (e) => InfoRow(
-                svgIcon: e.svgIcon,
-                text: e.text,
-                placeHolder: e.placeHolder,
+                data: e,
                 editMode: editMode,
               ),
             )
@@ -48,12 +50,4 @@ class InfoBox extends StatelessWidget {
       ),
     );
   }
-}
-
-class _ItemData {
-  final String svgIcon;
-  final String text;
-  final String placeHolder;
-
-  _ItemData(this.svgIcon, this.text, this.placeHolder);
 }

@@ -27,8 +27,7 @@ class AvatarWidget extends StatelessWidget {
   }
 
   _onPickImageSuccess(File image) async {
-    UpdateProfileBloc()
-        .add(UpdateProfileEventUpdate(UserToPut(id: user.id, avatar: image)));
+    UpdateProfileBloc().add(UpdateProfileEventUpdate(UserToPut(avatar: image)));
   }
 
   @override

@@ -11,5 +11,9 @@ extension StringExt on String {
         .hasMatch(this);
   }
 
-  bool get isVNPhoneNumber => RegExp(r"(09|01[2|6|8|9])+([0-9]{8})\b").hasMatch(this);
+  bool get isVNPhoneNumber =>
+      RegExp(r"(09|01[2|6|8|9])+([0-9]{8})\b").hasMatch(this);
+
+  DateTime toVietNameseDate() =>
+      this.isExistAndNotEmpty ? DateFormat('dd/MM/yyyy').parse(this) : null;
 }

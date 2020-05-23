@@ -4,10 +4,15 @@ class PrimaryButton extends StatelessWidget {
   final String title;
   final Function onPressed;
   final bool isLoading;
+  final BorderRadius borderRadius;
 
-  const PrimaryButton(
-      {Key key, this.title, this.onPressed, this.isLoading = false})
-      : super(key: key);
+  const PrimaryButton({
+    Key key,
+    this.title,
+    this.onPressed,
+    this.isLoading = false,
+    this.borderRadius,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +23,7 @@ class PrimaryButton extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
         decoration: BoxDecoration(
             gradient: GradientColor.of(context).primaryGradient,
-            borderRadius: BorderRadius.circular(90)),
+            borderRadius: borderRadius ?? BorderRadius.circular(90)),
         child: isLoading
             ? LoadingIndicator(
                 padding: EdgeInsets.zero,

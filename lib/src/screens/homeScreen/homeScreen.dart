@@ -60,11 +60,11 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
-    return HomeProvider(
-      context,
-      child: PrimaryScaffold(
-        bottomNavigationBar: _buildBottomNavigator(context),
-        body: TabBarView(
+    return PrimaryScaffold(
+      bottomNavigationBar: _buildBottomNavigator(context),
+      body: HomeProvider(
+        context,
+        child: TabBarView(
           physics: NeverScrollableScrollPhysics(),
           controller: _tabController,
           children: _pages,
