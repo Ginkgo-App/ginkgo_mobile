@@ -1,12 +1,10 @@
 import 'package:base/base.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ginkgo_mobile/src/screens/homeScreen/homeProvider.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/utils/designColor.dart';
-import 'package:ginkgo_mobile/src/widgets/buttons/commonOutlineButton.dart';
 import 'package:ginkgo_mobile/src/widgets/widgets.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
 
