@@ -27,3 +27,5 @@ class CurrentUserFailure extends CurrentUserState {
   @override
   String toString() => '$runtimeType $error';
 }
+
+class CurrentUserStateHaveChanges extends CurrentUserState {}

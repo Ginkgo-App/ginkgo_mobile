@@ -9,10 +9,6 @@ part 'update_profile_event.dart';
 part 'update_profile_state.dart';
 
 class UpdateProfileBloc extends Bloc<UpdateProfileEvent, UpdateProfileState> {
-  static UpdateProfileBloc _instance = UpdateProfileBloc._();
-  UpdateProfileBloc._();
-  factory UpdateProfileBloc() => _instance;
-
   final Repository _repository = Repository();
 
   @override
@@ -28,7 +24,7 @@ class UpdateProfileBloc extends Bloc<UpdateProfileEvent, UpdateProfileState> {
         await _repository.user.updateProfile(event.userToPut);
         yield UpdateProfileStateSuccess();
       } catch (e) {
-        yield UpdateProfileStateFailure(e);
+        yield UpdateProfileStateFailure(e.toString());
       }
     }
   }

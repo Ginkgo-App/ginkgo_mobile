@@ -62,8 +62,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
       bloc: _bloc,
       builder: (context, state) {
         User user;
-        if (state is CurrentUserSuccess) {
-          user = state.currentUser;
+        if (state is CurrentUserSuccess ||
+            state is CurrentUserStateHaveChanges) {
+          user = _bloc.currentUser;
         }
 
         return PrimaryScaffold(
@@ -93,7 +94,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   HomeProvider.of(context).context),
                             ),
                             const SizedBox(height: 10),
-                            AboutBox(user: user),
+                            AboutBox(user: user, editMode: editMode),
                             const SizedBox(height: 10),
                             FriendList(userId: 0),
                             const SizedBox(height: 10),

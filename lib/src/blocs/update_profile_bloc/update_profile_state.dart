@@ -1,7 +1,10 @@
 part of 'update_profile_bloc.dart';
 
 @immutable
-abstract class UpdateProfileState {}
+abstract class UpdateProfileState {
+  @override
+  String toString() => runtimeType.toString();
+}
 
 class UpdateProfileInitial extends UpdateProfileState {}
 

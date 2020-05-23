@@ -1,9 +1,19 @@
 import 'dart:io';
 
+import 'package:ginkgo_mobile/src/models/key_value.dart';
 import 'package:ginkgo_mobile/src/models/socialProvider.dart';
 import 'package:object_mapper/object_mapper.dart';
 
-enum Gender { male, female, other }
+class Gender {
+  static const male = const KeyValue(key: 'male', value: 'Nam');
+  static const female = const KeyValue(key: 'female', value: 'Nữ');
+  static const other = const KeyValue(key: 'other', value: 'Khác');
+
+  static List<KeyValue> getList() => [male, female, other];
+
+  static KeyValue fromKey(String key) =>
+      getList().firstWhere((e) => e.key == key, orElse: () => other);
+}
 
 class User with Mappable {
   int id;
@@ -23,9 +33,11 @@ class User with Mappable {
   int tourCount;
 
   String get displayName => fullName ?? email;
-  String get displayGender => gender == 'male' || gender == '0'
-      ? 'Nam'
-      : (gender == 'femaile' || gender == '1' ? 'Nữ' : 'Khác');
+  String get displayGender => gender == Gender.male.key || gender == '0'
+      ? Gender.male.value
+      : (gender == Gender.female.key || gender == '1'
+          ? Gender.female.value
+          : Gender.other.value);
 
   User({
     this.email = '',

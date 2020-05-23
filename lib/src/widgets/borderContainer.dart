@@ -7,16 +7,18 @@ class BorderContainer extends StatelessWidget {
   final EdgeInsets margin;
   final String icon;
   final String title;
+  final List<Widget> actions;
 
-  const BorderContainer(
-      {Key key,
-      this.childPadding,
-      this.child,
-      this.icon,
-      this.title,
-      this.children,
-      this.margin})
-      : assert(child == null || children == null),
+  const BorderContainer({
+    Key key,
+    this.childPadding,
+    this.child,
+    this.icon,
+    this.title,
+    this.children,
+    this.margin,
+    this.actions = const [],
+  })  : assert(child == null || children == null),
         super(key: key);
 
   @override
@@ -36,7 +38,11 @@ class BorderContainer extends StatelessWidget {
           if (title != null || icon != null)
             Padding(
               padding: const EdgeInsets.all(10),
-              child: _Header(title: title, icon: icon),
+              child: _Header(
+                title: title,
+                icon: icon,
+                actions: actions,
+              ),
             ),
           if (child != null)
             Padding(
@@ -59,8 +65,10 @@ class BorderContainer extends StatelessWidget {
 class _Header extends StatelessWidget {
   final String title;
   final String icon;
+  final List<Widget> actions;
 
-  const _Header({Key key, this.title, this.icon}) : super(key: key);
+  const _Header({Key key, this.title, this.icon, this.actions = const []})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -74,11 +82,15 @@ class _Header extends StatelessWidget {
             ),
           const SizedBox(width: 10),
           if (title.isExistAndNotEmpty)
-            Text(
-              title,
-              style: context.textTheme.subhead.copyWith(
-                  color: DesignColor.blockHeader, fontWeight: FontWeight.bold),
-            )
+            Expanded(
+              child: Text(
+                title,
+                style: context.textTheme.subhead.copyWith(
+                    color: DesignColor.blockHeader,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+          ...actions
         ],
       ),
     );

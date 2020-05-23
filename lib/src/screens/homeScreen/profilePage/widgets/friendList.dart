@@ -9,7 +9,7 @@ import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/utils/strings.dart';
 import 'package:ginkgo_mobile/src/widgets/autoHeightGridView.dart';
 import 'package:ginkgo_mobile/src/widgets/buttons/commonOutlineButton.dart';
-import 'package:ginkgo_mobile/src/widgets/indicators/errorIndicator.dart';
+import 'package:ginkgo_mobile/src/widgets/errorWidgets/errorIndicator.dart';
 import 'package:ginkgo_mobile/src/widgets/widgets.dart';
 
 class FriendList extends StatefulWidget {

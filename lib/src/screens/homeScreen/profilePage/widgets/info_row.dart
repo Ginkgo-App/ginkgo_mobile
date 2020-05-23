@@ -1,51 +1,51 @@
 import 'package:base/base.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:ginkgo_mobile/src/blocs/update_profile_bloc/update_profile_bloc.dart';
+import 'package:ginkgo_mobile/src/models/key_value.dart';
+import 'package:ginkgo_mobile/src/models/user.dart';
 import 'package:ginkgo_mobile/src/screens/homeScreen/homeProvider.dart';
+import 'package:ginkgo_mobile/src/screens/homeScreen/profilePage/widgets/changeButton.dart';
 import 'package:ginkgo_mobile/src/utils/designColor.dart';
 import 'package:ginkgo_mobile/src/utils/strings.dart';
+import 'package:ginkgo_mobile/src/widgets/customs/toast.dart';
 import 'package:ginkgo_mobile/src/widgets/widgets.dart';
 
 class InfoRowModel {
+  final GlobalKey key = GlobalKey();
   final String svgIcon;
   final String text;
   final String placeHolder;
   final InfoRowType type;
-  final EnumModel enumValue; // Giá trị enum hiện tại
-  final List<EnumModel> enumData; // Danh sách các giá trị enum
+  final KeyValue enumValue; // Giá trị enum hiện tại
+  final List<KeyValue> enumData; // Danh sách các giá trị enum
+  final UserToPut Function(String) toUserToPut;
+  final bool editable;
 
   InfoRowModel(
     this.svgIcon,
     this.text, {
+    @required this.toUserToPut,
     this.placeHolder,
     this.type = InfoRowType.string,
     this.enumData,
     this.enumValue,
+    this.editable = true,
   });
 }
 
 enum InfoRowType { string, dateTime, enumable }
 
-class EnumModel {
-  final String value;
-  final String label;
-
-  EnumModel(this.value, this.label);
-}
-
 class InfoRow extends StatefulWidget {
   final InfoRowModel data;
   final bool editMode;
-  final Function(String) onSubmit;
-  final bool isLoading;
 
   const InfoRow({
     Key key,
     this.editMode = false,
     @required this.data,
-    this.onSubmit,
-    this.isLoading = false,
   }) : super(key: key);
 
   @override
@@ -54,37 +54,58 @@ class InfoRow extends StatefulWidget {
 
 class _InfoRowState extends State<InfoRow> {
   final textFieldControler = TextEditingController();
-  final GlobalKey globalKey = GlobalKey();
+  final UpdateProfileBloc updateProfileBloc = UpdateProfileBloc();
 
   bool isEditing = false;
   DateTime selectedDate;
-  EnumModel selectedEnum;
+  KeyValue selectedEnum;
+
+  onSubmit() {
+    final UserToPut userToPut = widget.data.toUserToPut(
+      widget.data.type == InfoRowType.string
+          ? textFieldControler.text
+          : (widget.data.type == InfoRowType.dateTime
+              ? selectedDate.toString()
+              : selectedEnum.key),
+    );
+    updateProfileBloc.add(UpdateProfileEventUpdate(userToPut));
+  }
 
   @override
-  void initState() {
-    super.initState();
+  void dispose() {
+    updateProfileBloc.close();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(5),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Container(
-            width: 35,
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: SvgPicture.asset(widget.data.svgIcon, height: 20),
+    return BlocListener(
+      bloc: updateProfileBloc,
+      listener: (context, state) {
+        if (state is UpdateProfileStateFailure) {
+          Toast.show('${Strings.error.updateProfile}\n${state.error}', context,
+              duration: 3);
+        }
+      },
+      child: Container(
+        padding: const EdgeInsets.all(5),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              width: 35,
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: SvgPicture.asset(widget.data.svgIcon, height: 20),
+              ),
             ),
-          ),
-          Expanded(
-            child: buildContent(),
-          ),
-          const SizedBox(width: 5),
-          if (widget.editMode) buildChangeButton()
-        ],
+            Expanded(
+              child: buildContent(),
+            ),
+            const SizedBox(width: 5),
+            if (widget.editMode) buildChangeButton()
+          ],
+        ),
       ),
     );
   }
@@ -94,16 +115,15 @@ class _InfoRowState extends State<InfoRow> {
       height: 20,
       child: Align(
         alignment: Alignment.centerLeft,
-        child: !widget.editMode || !isEditing
+        child: !widget.editMode || !isEditing || !widget.data.editable
             ? Text(
                 widget.data.type == InfoRowType.enumable
-                    ? selectedEnum?.label
+                    ? selectedEnum?.value ?? ''
                     : widget.data.text ?? '',
                 style: textTheme.body1)
             : widget.data.type == InfoRowType.enumable
                 ? buildDropDown()
                 : TextField(
-                    key: globalKey,
                     autofocus: true,
                     controller: textFieldControler,
                     style:
@@ -121,49 +141,51 @@ class _InfoRowState extends State<InfoRow> {
   }
 
   buildChangeButton() {
-    return widget.isLoading
-        ? LoadingIndicator()
-        : GestureDetector(
-            onTap: () {
-              switch (widget.data.type) {
-                case InfoRowType.dateTime:
-                  showDatePicker();
-                  break;
-                case InfoRowType.enumable:
-                  setState(() {
-                    if (isEditing) {
-                      widget.onSubmit?.call(selectedEnum.value);
-                    }
-                    isEditing = !isEditing;
-                  });
-                  break;
-                case InfoRowType.string:
-                default:
-                  setState(() {
-                    if (isEditing) {
-                      widget.onSubmit?.call(textFieldControler.text);
-                    } else {
-                      textFieldControler.text = widget.data.text ?? '';
-                    }
-                    isEditing = !isEditing;
-                  });
-              }
-            },
-            child: Text(
-              (isEditing ? Strings.button.saveChanges : Strings.button.edit)
-                  .toUpperCase(),
-              style: textTheme.body1.copyWith(color: DesignColor.cta),
-            ),
-          );
+    return BlocBuilder(
+      bloc: updateProfileBloc,
+      builder: (context, state) => widget.data.editable
+          ? ChangeButton(
+              isEditing: isEditing,
+              isLoading: state is UpdateProfileStateLoading,
+              onTap: () {
+                switch (widget.data.type) {
+                  case InfoRowType.dateTime:
+                    showDatePicker();
+                    break;
+                  case InfoRowType.enumable:
+                    setState(() {
+                      if (isEditing) {
+                        onSubmit();
+                      }
+                      isEditing = !isEditing;
+                    });
+                    break;
+                  case InfoRowType.string:
+                  default:
+                    setState(() {
+                      if (isEditing) {
+                        onSubmit();
+                      } else {
+                        textFieldControler.text = widget.data.text ?? '';
+                      }
+                      isEditing = !isEditing;
+                    });
+                }
+              },
+            )
+          : const SizedBox.shrink(),
+    );
   }
 
   buildDropDown() {
-    return DropdownButton<EnumModel>(
-      value: widget.data.enumValue,
+    return DropdownButton<KeyValue>(
+      value: selectedEnum,
+      style: context.textTheme.body1.copyWith(fontWeight: FontWeight.bold),
+      underline: const SizedBox.shrink(),
       items: widget.data.enumData
           .map(
-            (e) => DropdownMenuItem<EnumModel>(
-              child: Text(e.label),
+            (e) => DropdownMenuItem<KeyValue>(
+              child: Text(e.value),
               value: e,
             ),
           )
@@ -236,9 +258,11 @@ class _InfoRowState extends State<InfoRow> {
                       title: Strings.button.saveChanges,
                       onPressed: () {
                         Navigator.pop(context);
-                        if (selectedDate != null) {
-                          widget.onSubmit?.call(selectedDate.toString());
+                        if (selectedDate == null) {
+                          selectedDate = widget.data.text.toVietNameseDate() ??
+                              DateTime(1998, 2, 1);
                         }
+                        onSubmit();
                       },
                     ),
                   )

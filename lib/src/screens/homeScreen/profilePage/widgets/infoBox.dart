@@ -28,16 +28,49 @@ class InfoBox extends StatelessWidget {
         ),
         spacing: 10,
         children: [
-          InfoRowModel(Assets.icons.job, user?.job, placeHolder: 'Nghề nghiệp'),
-          InfoRowModel(Assets.icons.email, user?.email, placeHolder: 'Email'),
-          InfoRowModel(Assets.icons.phone, user?.phoneNumber,
-              placeHolder: 'Số điện thoại'),
-          InfoRowModel(Assets.icons.birthday, user?.birthday?.toVietNamese(),
-              placeHolder: 'Ngày sinh', type: InfoRowType.dateTime),
-          InfoRowModel(Assets.icons.gender, user?.displayGender,
-              placeHolder: 'Giới tính', ),
-          InfoRowModel(Assets.icons.address, user?.address,
-              placeHolder: 'Địa chỉ'),
+          InfoRowModel(
+            Assets.icons.job,
+            user?.job,
+            placeHolder: 'Nghề nghiệp',
+            toUserToPut: (text) => UserToPut(job: text),
+          ),
+          InfoRowModel(
+            Assets.icons.email,
+            user?.email,
+            placeHolder: 'Email',
+            editable: false,
+            toUserToPut: (text) => null,
+          ),
+          InfoRowModel(
+            Assets.icons.phone,
+            user?.phoneNumber,
+            placeHolder: 'Số điện thoại',
+            toUserToPut: (text) => UserToPut(phoneNumber: text),
+          ),
+          InfoRowModel(
+            Assets.icons.birthday,
+            user?.birthday?.toVietNamese(),
+            placeHolder: 'Ngày sinh',
+            type: InfoRowType.dateTime,
+            toUserToPut: (text) => UserToPut(
+              birthday: DateTime.parse(text),
+            ),
+          ),
+          InfoRowModel(
+            Assets.icons.gender,
+            user?.displayGender,
+            placeHolder: 'Giới tính',
+            enumData: Gender.getList(),
+            enumValue: Gender.fromKey(user.gender),
+            type: InfoRowType.enumable,
+            toUserToPut: (text) => UserToPut(gender: text),
+          ),
+          InfoRowModel(
+            Assets.icons.address,
+            user?.address,
+            placeHolder: 'Địa chỉ',
+            toUserToPut: (text) => UserToPut(address: text),
+          ),
         ]
             .where((e) => e.text.isExistAndNotEmpty || editMode)
             .map(

@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:base/base.dart';
 import 'package:connectivity/connectivity.dart';
+import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:ginkgo_mobile/src/repositories/repository.dart';
 import 'package:object_mapper/object_mapper.dart';
@@ -57,7 +59,15 @@ class ApiClient {
       _headers.addAll(headers);
     }
 
-    final options = Options(headers: _headers);
+    final options = Options(
+      headers: _headers,
+    );
+
+    (_client.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (client) {
+      client.badCertificateCallback =
+          ((X509Certificate cert, String host, int port) => true);
+    };
 
     Response response;
 

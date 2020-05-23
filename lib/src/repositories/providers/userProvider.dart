@@ -4,7 +4,6 @@ class UserProvider {
   final _client = ApiClient();
 
   Future<User> getMe() async {
-    return User(fullName: 'Hieren');
     final result = await _client.connect<User>(ApiMethod.GET, Api.me);
     return result;
   }
@@ -26,8 +25,11 @@ class UserProvider {
   }
 
   Future<User> updateProfile(UserToPut userToPut) async {
-    final system = SystemProvider();
-    final avatar = await system.uploadImage(userToPut.avatar);
+    String avatar;
+    if (userToPut.avatar != null) {
+      final system = SystemProvider();
+      avatar = await system.uploadImage(userToPut.avatar);
+    }
 
     final result = await _client.connect<User>(ApiMethod.PUT, Api.me, body: {
       ...userToPut.toJson(),

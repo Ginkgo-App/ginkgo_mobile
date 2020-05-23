@@ -39,6 +39,10 @@ class _Error {
   final rePasswordIsNotMatch = 'Re-password is not match with password.';
   final cannotRegisterWithFacebook = 'Cannot register with facebook';
   final error = 'Đã xảy ra lỗi. Click để xem chi tiết.';
+  final updateProfile = 'Xảy ra lỗi trong khi cập nhật.';
+  final updateBio = 'Xảy ra lỗi trong khi cập nhật tự giới thiệu.';
+  final updateSolgan = 'Xảy ra lỗi trong khi cập nhật sologan.';
+  final updateAvatar = 'Xảy ra lỗi trong khi cập nhật ảnh đại diện.';
 }
 
 class _NoData {

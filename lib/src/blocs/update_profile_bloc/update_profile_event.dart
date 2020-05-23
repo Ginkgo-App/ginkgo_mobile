@@ -12,5 +12,5 @@ class UpdateProfileEventUpdate extends UpdateProfileEvent {
   UpdateProfileEventUpdate(this.userToPut);
 
   @override
-  String toString() => '$runtimeType $userToPut';
+  String toString() => '$runtimeType ${userToPut.toJson()}';
 }
