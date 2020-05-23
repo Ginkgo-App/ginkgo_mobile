@@ -8,8 +8,9 @@ class DesignColor {
   static Color tinyItems = Color(0xff747576);
   static Color darkRed = Color(0xffF41D00);
   static Color lightRed = Color(0xffFF5946);
+  static Color pink = Color(0xffF4988F);
   static Color lightPink = Color(0xffFADBD4);
-  static Color lightLightPink = Color(0xffFFECE8);
+  static Color lighterPink = Color(0xffFFECE8);
   static Color lighterRed = Color(0xffFF8E7E);
   static Color lightestBlack = Color(0xff9B9C9D);
 
