@@ -20,7 +20,7 @@ class PrimaryButton extends StatelessWidget {
       padding: EdgeInsets.zero,
       minSize: 0,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+        padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 8),
         decoration: BoxDecoration(
             gradient: GradientColor.of(context).primaryGradient,
             borderRadius: borderRadius ?? BorderRadius.circular(90)),

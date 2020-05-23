@@ -21,7 +21,7 @@ class Rating extends StatelessWidget {
             width: 25,
             height: 3,
             color:
-                rating >= i + 1 ? DesignColor.lightRed : DesignColor.lightLightPink,
+                rating >= i + 1 ? DesignColor.lightRed : DesignColor.lighterPink,
           ),
         ),
         const SizedBox(width: 10),

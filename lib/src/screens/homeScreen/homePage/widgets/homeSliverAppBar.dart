@@ -37,7 +37,7 @@ class HomeSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: <Color>[
-            DesignColor.lightLightPink,
+            DesignColor.lighterPink,
             Color(0xfffff2ee),
             Color(0xfffff2ee).withOpacity(0),
           ],
