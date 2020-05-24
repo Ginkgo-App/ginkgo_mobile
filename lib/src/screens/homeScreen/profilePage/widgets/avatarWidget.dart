@@ -78,7 +78,7 @@ class _AvatarWidgetState extends State<AvatarWidget> {
           tag: HeroKeys.currentUserAvatar,
           child: CachedNetworkImage(
             placeholder: (context, url) => Image.asset(
-              Assets.images.defaultImage,
+              Assets.images.defaultAvatar,
               fit: BoxFit.cover,
             ),
             fit: BoxFit.cover,

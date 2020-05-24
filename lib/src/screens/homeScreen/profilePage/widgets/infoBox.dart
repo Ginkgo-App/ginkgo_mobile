@@ -61,7 +61,7 @@ class InfoBox extends StatelessWidget {
             user?.displayGender,
             placeHolder: 'Giới tính',
             enumData: Gender.getList(),
-            enumValue: Gender.fromKey(user.gender),
+            enumValue: Gender.fromKey(user?.gender ?? ''),
             type: InfoRowType.enumable,
             toUserToPut: (text) => UserToPut(gender: text),
           ),

@@ -9,7 +9,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final CurrentUserBloc _bloc = CurrentUserBloc();
 
   StreamSubscription currentUserListener;
-  StreamSubscription updateUserListener;
   bool editMode = false;
 
   @override
@@ -23,17 +22,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       if (state is CurrentUserLoading) {
         LoadingManager().show(context);
       } else {
-        LoadingManager().hide(context);
-      }
-    });
-
-    updateUserListener = UpdateProfileBloc().listen((state) {
-      if (state is UpdateProfileStateLoading) {
-        LoadingManager().show(context);
-      } else {
-        if (state is UpdateProfileStateFailure) {
-          Toast.show(state.error, context);
-        }
         LoadingManager().hide(context);
       }
     });
@@ -52,7 +40,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void dispose() {
     currentUserListener.cancel();
-    updateUserListener.cancel();
     super.dispose();
   }
 

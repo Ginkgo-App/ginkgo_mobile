@@ -43,6 +43,7 @@ class _Error {
   final updateBio = 'Xảy ra lỗi trong khi cập nhật tự giới thiệu.';
   final updateSolgan = 'Xảy ra lỗi trong khi cập nhật sologan.';
   final updateAvatar = 'Xảy ra lỗi trong khi cập nhật ảnh đại diện.';
+  final unknowError = 'Lỗi không xác định';
 }
 
 class _NoData {

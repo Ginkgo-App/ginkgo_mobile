@@ -5,6 +5,8 @@ import 'package:ginkgo_mobile/src/models/multi_size_image.dart';
 import 'package:ginkgo_mobile/src/models/socialProvider.dart';
 import 'package:object_mapper/object_mapper.dart';
 
+import 'date_time_transform.dart';
+
 class Gender {
   static const male = const KeyValue(key: 'male', value: 'Nam');
   static const female = const KeyValue(key: 'female', value: 'Nữ');
@@ -80,8 +82,9 @@ class User with Mappable {
     map('Avatar', avatar, (v) => avatar = v, MultiSizeImageTransform());
     map('Slogan', slogan, (v) => slogan = v);
     map('Bio', bio, (v) => bio = v);
+    map('Job', job, (v) => job = v);
     map('Gender', gender, (v) => gender = v.toString());
-    map('Birthday', birthday, (v) => birthday = v, DateTransform());
+    map('Birthday', birthday, (v) => birthday = v, DateTimeTransform());
     map('Role', role, (v) => role = v);
     map('TourCount', tourCount, (v) => tourCount = v);
     map<List<SocialProvider>>(
@@ -146,6 +149,6 @@ class UserToPut with Mappable {
     map('Bio', bio, (v) => bio = v);
     map('Job', job, (v) => job = v);
     map('Gender', gender, (v) => gender = v);
-    map('Birthday', birthday, (v) => birthday = v, DateTransform());
+    map('Birthday', birthday, (v) => birthday = v, DateTimeTransform());
   }
 }

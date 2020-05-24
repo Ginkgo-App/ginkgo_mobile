@@ -17,7 +17,7 @@ class CircleUser extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(90),
             child: Image.asset(
-              Assets.images.defaultImage,
+              Assets.images.defaultAvatar,
               width: 100,
               height: 100,
               fit: BoxFit.cover,

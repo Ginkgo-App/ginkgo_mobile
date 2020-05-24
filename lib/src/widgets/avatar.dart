@@ -24,7 +24,7 @@ class Avatar extends StatelessWidget {
         height: size,
         fit: BoxFit.cover,
         placeholder: (context, _) => Image.asset(
-          Assets.images.defaultImage,
+          Assets.images.defaultAvatar,
           width: size,
           height: size,
           fit: BoxFit.cover,

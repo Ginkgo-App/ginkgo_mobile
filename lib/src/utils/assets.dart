@@ -66,6 +66,7 @@ class _Image {
   final background = _IMAGE_PATH + 'background.png';
   final logo = _IMAGE_PATH + 'logo.png';
   final defaultImage = _IMAGE_PATH + 'default.png';
+  final defaultAvatar = _IMAGE_PATH + 'default-avatar.png';
   final homeEllipse = _IMAGE_PATH + 'home-ellipse.png';
   final homeLeafs = _IMAGE_PATH + 'home-leafs.png';
 }

@@ -205,6 +205,7 @@ class _InfoRowState extends State<InfoRow> {
   }
 
   showDatePicker() {
+    selectedDate = widget.data.text?.toVietNameseDate();
     showDialog(
       context: HomeProvider.of(context).context,
       builder: (context) {
@@ -246,12 +247,10 @@ class _InfoRowState extends State<InfoRow> {
                     height: MediaQuery.of(context).size.height / 3,
                     child: Center(
                       child: CupertinoDatePicker(
-                        initialDateTime: widget.data.text
-                                    .toVietNameseDate()
-                                    .compareTo(DateTime(1911)) <
-                                0
+                        initialDateTime: selectedDate != null &&
+                                selectedDate.compareTo(DateTime(1911)) < 0
                             ? DateTime(1998, 2, 1)
-                            : widget.data.text.toVietNameseDate(),
+                            : selectedDate,
                         onDateTimeChanged: (DateTime newdate) {
                           selectedDate = newdate;
                         },

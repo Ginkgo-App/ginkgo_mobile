@@ -24,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen>
   final _pages = [
     HomePage(),
     Container(),
-    ProfilePage(),
+    ProfilePage(key: GlobalKey()),
     Container(),
     Center(
       child: Column(
