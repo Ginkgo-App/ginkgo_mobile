@@ -130,6 +130,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
         label: Strings.common.rePassword,
         obscureText: true,
       ),
+      BlocBuilder(
+        bloc: authScreenBloc,
+        builder: (context, state) => state is AuthScreenStateFailure
+            ? Padding(
+                padding: EdgeInsets.only(top: 20),
+                child: Text(
+                  state.error.toString() ?? Strings.error.unknowError,
+                  textAlign: TextAlign.left,
+                  style: context.textTheme.body1.copyWith(
+                    color: context.colorScheme.error,
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
+              )
+            : const SizedBox.shrink(),
+      )
     ];
   }
 
