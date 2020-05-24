@@ -32,7 +32,7 @@ class _AboutBoxState extends State<AboutBox> {
   @override
   void initState() {
     super.initState();
-    controller.text = widget.user.bio;
+    controller.text = widget.user?.bio ?? '';
   }
 
   @override

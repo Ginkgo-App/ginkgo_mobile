@@ -1,11 +1,11 @@
 import 'package:base/base.dart';
 import 'package:ginkgo_mobile/src/models/comment.dart';
+import 'package:ginkgo_mobile/src/models/multi_size_image.dart';
 import 'package:ginkgo_mobile/src/models/place.dart';
 import 'package:ginkgo_mobile/src/models/post.dart';
 import 'package:ginkgo_mobile/src/models/tour.dart';
 import 'package:ginkgo_mobile/src/models/tourInfo.dart';
 import 'package:ginkgo_mobile/src/models/user.dart';
-import 'package:ginkgo_mobile/src/utils/assets.dart';
 
 class FakeData {
   static final SimpleTour simpleTour = SimpleTour(
@@ -28,7 +28,7 @@ class FakeData {
   );
 
   static final SimpleUser simpleUser = SimpleUser(
-    avatar: Assets.images.defaultImage,
+    avatar: MultiSizeImage('https://i.imgur.com/ePEkVUYb.jpg'),
     id: 1,
     job: 'an khong ngoi roi',
     name: 'an hai',
@@ -50,8 +50,7 @@ Nguyễn Thanh Tùng hay được biết đến với nghệ danh Sơn Tùng M-T
 \nVào năm 2017, anh nhận được sự công nhận thiện chí hơn từ cộng đồng mạng sau khi phát hành hai đĩa đơn "Lạc trôi" và "Nơi này có anh". 
 \nSơn Tùng cũng cho ra mắt album tổng hợp m-tp M-TP vào cùng năm và cuốn tự truyện Chạm tới giấc mơ. Tháng 7 năm 2019, anh phát hành đĩa đơn "Hãy trao cho anh" gây tiếng vang lớn và lập được nhiều kỷ lục, được truyền thông quốc tế đánh giá cao. Cũng trong năm 2019, anh tổ chức tour diễn xuyên Việt Sky Tour 2019 tại 3 thành phố Thành phố Hồ Chí Minh, Đà Nẵng và Hà Nội. 
     ''',
-    avatar:
-        'https://yt3.ggpht.com/a/AGF-l78QGTW3gMAN3s_devNGhlzjBO9eCRPGTg0iUQ=s900-c-k-c0xffffffff-no-rj-mo',
+    avatar: MultiSizeImage('https://i.imgur.com/ePEkVUYb.jpg'),
     address: 'District 1, Ho Chi Minh',
     tourCount: 15,
   );

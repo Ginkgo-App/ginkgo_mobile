@@ -106,7 +106,9 @@ showSloganBottomSheet(BuildContext context, String slogan) {
                           onPressed: () {
                             updateProfileBloc.add(
                               UpdateProfileEventUpdate(
-                                UserToPut(slogan: controller.text),
+                                UserToPut(
+                                  slogan: controller.text.replaceAll('\n', ''),
+                                ),
                               ),
                             );
                           },

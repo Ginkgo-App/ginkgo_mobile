@@ -24,7 +24,7 @@ class _ProfileListTourScreenState extends State<ProfileListTourScreen> {
               const SizedBox(height: 20),
               Avatar(
                 isCircle: true,
-                imageUrl: currentUser.avatar,
+                imageUrl: currentUser.avatar.largeThumb,
                 size: 170,
                 heroTag: HeroKeys.currentUserAvatar,
               ),

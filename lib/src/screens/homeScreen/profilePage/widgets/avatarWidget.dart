@@ -4,19 +4,28 @@ import 'package:base/base.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ginkgo_mobile/src/blocs/update_profile_bloc/update_profile_bloc.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/screens/homeScreen/homeProvider.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/utils/heroKeys.dart';
 import 'package:ginkgo_mobile/src/widgets/actionSheets/pickImageActionSheet.dart';
+import 'package:ginkgo_mobile/src/widgets/widgets.dart';
 
-class AvatarWidget extends StatelessWidget {
+class AvatarWidget extends StatefulWidget {
   final User user;
   final bool editable;
 
   const AvatarWidget({Key key, @required this.user, this.editable = false})
       : super(key: key);
+
+  @override
+  _AvatarWidgetState createState() => _AvatarWidgetState();
+}
+
+class _AvatarWidgetState extends State<AvatarWidget> {
+  final UpdateProfileBloc updateProfileBloc = UpdateProfileBloc();
 
   _onAvatarPress() {
     // TODO handle show dialog image.
@@ -27,23 +36,42 @@ class AvatarWidget extends StatelessWidget {
   }
 
   _onPickImageSuccess(File image) async {
-    UpdateProfileBloc().add(UpdateProfileEventUpdate(UserToPut(avatar: image)));
+    updateProfileBloc.add(UpdateProfileEventUpdate(UserToPut(avatar: image)));
+  }
+
+  @override
+  void dispose() {
+    updateProfileBloc.close();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        _buildAvatar(context),
-        if (editable) _buildCameraButton(context),
-        _buildInfoBox(context),
-      ],
+    return BlocBuilder(
+      bloc: updateProfileBloc,
+      builder: (context, state) {
+        return Stack(
+          children: <Widget>[
+            _buildAvatar(context),
+            if (widget.editable) _buildCameraButton(context),
+            _buildInfoBox(context),
+            if (state is UpdateProfileStateLoading)
+              Positioned.fill(
+                  child: Container(
+                color: Colors.black.withOpacity(0.5),
+                child: Center(
+                  child: LoadingIndicator(),
+                ),
+              ))
+          ],
+        );
+      },
     );
   }
 
   _buildAvatar(BuildContext context) {
     return GestureDetector(
-      onTap: user != null ? _onAvatarPress : null,
+      onTap: widget.user != null ? _onAvatarPress : null,
       child: AspectRatio(
         aspectRatio: 375 / 424,
         child: Hero(
@@ -54,7 +82,7 @@ class AvatarWidget extends StatelessWidget {
               fit: BoxFit.cover,
             ),
             fit: BoxFit.cover,
-            imageUrl: user?.avatar ?? '',
+            imageUrl: widget.user?.avatar?.largeThumb ?? '',
           ),
         ),
       ),
@@ -90,16 +118,17 @@ class AvatarWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                user?.displayName ?? '',
+                widget.user?.displayName ?? '',
                 style: context.textTheme.title
                     .copyWith(color: Colors.white, fontWeight: FontWeight.bold),
               ),
-              if (user?.slogan != null && user.slogan.isNotEmpty) ...[
+              if (widget.user?.slogan != null &&
+                  widget.user.slogan.isNotEmpty) ...[
                 SizedBox(
                   height: 14,
                 ),
                 Text(
-                  user.slogan,
+                  widget.user.slogan,
                   style: context.textTheme.body1.copyWith(color: Colors.white),
                 )
               ],

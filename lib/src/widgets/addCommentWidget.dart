@@ -5,7 +5,7 @@ class AddCommentWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
-        Avatar(imageUrl: FakeData.currentUser.avatar),
+        Avatar(imageUrl: FakeData.currentUser.avatar.smallThumb),
         const SizedBox(width: 6),
         Expanded(
           child: Text(

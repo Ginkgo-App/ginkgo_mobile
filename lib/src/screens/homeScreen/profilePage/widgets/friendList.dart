@@ -112,7 +112,7 @@ class _FriendListItem extends StatelessWidget {
               child: AspectRatio(
                 aspectRatio: 1,
                 child: CachedNetworkImage(
-                  imageUrl: user?.avatar ?? '',
+                  imageUrl: user?.avatar?.mediumThumb ?? '',
                   fit: BoxFit.cover,
                 ),
               ),

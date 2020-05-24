@@ -33,7 +33,7 @@ class UserProvider {
 
     final result = await _client.connect<User>(ApiMethod.PUT, Api.me, body: {
       ...userToPut.toJson(),
-      ...{'avatar': avatar}
+      if (avatar != null) ...{'avatar': avatar}
     });
     return result;
   }

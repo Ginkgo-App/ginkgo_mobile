@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:ginkgo_mobile/src/models/key_value.dart';
+import 'package:ginkgo_mobile/src/models/multi_size_image.dart';
 import 'package:ginkgo_mobile/src/models/socialProvider.dart';
 import 'package:object_mapper/object_mapper.dart';
 
@@ -32,7 +33,7 @@ class User with Mappable {
   String email;
   String phoneNumber;
   String fullName;
-  String avatar;
+  MultiSizeImage avatar = MultiSizeImage('');
   String slogan;
   String bio;
   String job;
@@ -51,7 +52,7 @@ class User with Mappable {
     this.email = '',
     this.phoneNumber = '',
     this.fullName = '',
-    this.avatar = '',
+    this.avatar,
     this.slogan = '',
     this.bio = '',
     this.job = '',
@@ -76,7 +77,7 @@ class User with Mappable {
     map('Email', email, (v) => email = v);
     map('PhoneNumber', phoneNumber, (v) => phoneNumber = v);
     map('Address', address, (v) => address = v);
-    map('Avatar', avatar, (v) => avatar = v);
+    map('Avatar', avatar, (v) => avatar = v, MultiSizeImageTransform());
     map('Slogan', slogan, (v) => slogan = v);
     map('Bio', bio, (v) => bio = v);
     map('Gender', gender, (v) => gender = v.toString());
@@ -92,7 +93,7 @@ class SimpleUser with Mappable {
   int id;
   String name;
   String email;
-  String avatar;
+  MultiSizeImage avatar;
   String job;
   int tourCount;
 
@@ -105,7 +106,7 @@ class SimpleUser with Mappable {
     map('Id', id, (v) => id = v);
     map('Name', name, (v) => name = v);
     map('Email', email, (v) => email = v);
-    map('Avatar', avatar, (v) => avatar = v);
+    map('Avatar', avatar, (v) => avatar = v, MultiSizeImageTransform());
     map('Job', job, (v) => job = v);
     map('TourCount', tourCount, (v) => tourCount = v);
   }

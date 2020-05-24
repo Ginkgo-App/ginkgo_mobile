@@ -36,7 +36,7 @@ class CollapsePost extends StatelessWidget {
             child: !showAuthorAvatar
                 ? SvgPicture.asset(post.icon, height: 24)
                 : Avatar(
-                    imageUrl: post.author.avatar,
+                    imageUrl: post.author.avatar.smallThumb,
                     size: 40,
                   ),
           ),
@@ -276,7 +276,7 @@ class CollapsePost extends StatelessWidget {
   Widget _buildComment(BuildContext context, Comment comment) {
     return Row(
       children: <Widget>[
-        Avatar(imageUrl: comment.author.avatar),
+        Avatar(imageUrl: comment.author.avatar.smallThumb),
         const SizedBox(width: 6),
         Text(
           comment.author.displayName,
