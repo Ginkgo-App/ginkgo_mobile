@@ -21,7 +21,14 @@ class UserFriendBloc extends Bloc<UserFriendEvent, UserFriendState> {
     try {
       if (event is UserFriendEventFetch) {
         yield UserFriendLoading();
-        final _friends = await _repository.user.getUserFriends(event.userId);
+        List<SimpleUser> _friends;
+        if (event.userId == 0) {
+          _friends = await _repository.user
+              .getMeFriends(event.type, event.page, event.pageSize);
+        } else {
+          _friends = await _repository.user
+              .getUserFriends(event.userId, event.page, event.pageSize);
+        }
         yield UserFriendSuccess(_friends);
       }
     } catch (e) {

@@ -9,13 +9,31 @@ class UserProvider {
   }
 
   Future<User> getUserInfo(int userId) async {
-    final result = await _client.connect<User>(ApiMethod.GET, Api.userInfo(userId));
+    final result =
+        await _client.connect<User>(ApiMethod.GET, Api.userInfo(userId));
     return result;
   }
 
-  Future<List<SimpleUser>> getUserFriends(int userId) async {
+  Future<List<SimpleUser>> getMeFriends(FriendType type,
+      [int page = 1, int pageSize = 10]) async {
+    final response =
+        await _client.normalConnect(ApiMethod.GET, Api.meFriends, query: {
+      'page': page.toString(),
+      'pageSize': pageSize.toString(),
+      'type': enumToString(type ?? FriendType.none)
+    });
+
+    return (response.data['Data'] as List)
+        .map((e) => Mapper.fromJson(e).toObject<SimpleUser>())
+        .toList();
+  }
+
+  Future<List<SimpleUser>> getUserFriends(int userId,
+      [int page = 1, int pageSize = 10]) async {
     final response = await _client.normalConnect(
-        ApiMethod.GET, userId == 0 ? Api.meFriends : Api.userFriends(userId));
+        ApiMethod.GET, userId == 0 ? Api.meFriends : Api.userFriends(userId),
+        query: {'page': page.toString(), 'pageSize': pageSize.toString()});
+
     return (response.data['Data'] as List)
         .map((e) => Mapper.fromJson(e).toObject<SimpleUser>())
         .toList();

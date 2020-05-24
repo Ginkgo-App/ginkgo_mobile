@@ -35,7 +35,7 @@ class _FriendListState extends State<FriendList> {
   }
 
   _fetchData() {
-    _bloc.add(UserFriendEventFetch(widget.userId));
+    _bloc.add(UserFriendEventFetch(widget.userId, type: FriendType.accepted));
   }
 
   @override

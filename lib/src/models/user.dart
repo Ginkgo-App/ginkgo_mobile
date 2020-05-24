@@ -30,6 +30,8 @@ class Gender {
   }
 }
 
+enum FriendType { none, accepted, requesting, waiting }
+
 class User with Mappable {
   int id;
   String email;
