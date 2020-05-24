@@ -3,8 +3,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ginkgo_mobile/src/app.dart';
 import 'package:ginkgo_mobile/src/blocs/userFriend/user_friend_bloc.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
+import 'package:ginkgo_mobile/src/navigators.dart';
+import 'package:ginkgo_mobile/src/screens/screens.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/utils/strings.dart';
 import 'package:ginkgo_mobile/src/widgets/autoHeightGridView.dart';
@@ -100,57 +103,69 @@ class _FriendListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Skeleton(
       enabled: user == null,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Container(
-              decoration: BoxDecoration(
-                color: context.colorScheme.background,
-              ),
-              child: AspectRatio(
-                aspectRatio: 1,
-                child: CachedNetworkImage(
-                  imageUrl: user?.avatar?.mediumThumb ?? '',
-                  fit: BoxFit.cover,
+      child: GestureDetector(
+        onTap: () {
+          Navigators.appNavigator.currentState
+              .pushNamed(Routes.user, arguments: UserScreenArgs(user));
+        },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: context.colorScheme.background,
+                ),
+                child: AspectRatio(
+                  aspectRatio: 1,
+                  child: CachedNetworkImage(
+                    imageUrl: user?.avatar?.mediumThumb ?? '',
+                    fit: BoxFit.cover,
+                    placeholder: (context, _) {
+                      return Image.asset(
+                        Assets.images.defaultAvatar,
+                        fit: BoxFit.cover,
+                      );
+                    },
+                  ),
                 ),
               ),
             ),
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          Container(
-            color: context.colorScheme.background,
-            child: Text(
-              user?.name ?? '',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-          if (user == null || user.job.isExistAndNotEmpty) ...[
             SizedBox(
               height: 5,
             ),
             Container(
               color: context.colorScheme.background,
-              margin: EdgeInsets.symmetric(horizontal: user != null ? 0 : 20),
               child: Text(
-                user?.job ?? '',
+                user?.name ?? '',
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontStyle: FontStyle.italic,
-                    fontSize: 12,
-                    color: Colors.grey),
+                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
             ),
-          ]
-        ],
+            if (user == null || user.job.isExistAndNotEmpty) ...[
+              SizedBox(
+                height: 5,
+              ),
+              Container(
+                color: context.colorScheme.background,
+                margin: EdgeInsets.symmetric(horizontal: user != null ? 0 : 20),
+                child: Text(
+                  user?.job ?? '',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontStyle: FontStyle.italic,
+                      fontSize: 12,
+                      color: Colors.grey),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ]
+          ],
+        ),
       ),
     );
   }

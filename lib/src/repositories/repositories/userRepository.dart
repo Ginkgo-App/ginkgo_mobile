@@ -5,6 +5,8 @@ class _UserRepository {
 
   Future<User> getMe() => _userProvider.getMe();
 
+  Future<User> getUserInfo(int userId) => _userProvider.getUserInfo(userId);
+
   Future<List<SimpleUser>> getUserFriends(int userId) =>
       _userProvider.getUserFriends(userId);
 

@@ -24,9 +24,12 @@ class Api {
   static final register = AppConfig.instance.apiUrl + '/users/register';
   static final me = AppConfig.instance.apiUrl + '/users/me';
   static final meFriends = AppConfig.instance.apiUrl + '/users/me/friends';
-  static String userFriends(int userId) =>
-      AppConfig.instance.apiUrl + '/users/$userId/friends';
   static final meTours = AppConfig.instance.apiUrl + '/users/me/tours';
+
   static String userTours(int userId) =>
       AppConfig.instance.apiUrl + '/users/$userId/tours';
+  static String userFriends(int userId) =>
+      AppConfig.instance.apiUrl + '/users/$userId/friends';
+  static String userInfo(int userId) =>
+      AppConfig.instance.apiUrl + '/users/$userId';
 }

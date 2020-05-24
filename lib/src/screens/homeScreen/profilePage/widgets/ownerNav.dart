@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/utils/designColor.dart';
+import 'package:ginkgo_mobile/src/utils/strings.dart';
+import 'package:ginkgo_mobile/src/widgets/customs/toast.dart';
 
 class OwnerNav extends StatelessWidget {
   final Function onCustomButtonPressed;
@@ -26,22 +28,80 @@ class OwnerNav extends StatelessWidget {
             _Button(
               imageIcon: Assets.icons.createPost,
               label: 'Đăng bài',
-              onPressed: () {},
+              onPressed: () {
+                Toast.show(Strings.common.developingFeature, context);
+              },
             ),
             _Button(
               imageIcon: Assets.icons.message,
               label: 'Tin nhắn',
-              onPressed: () {},
+              onPressed: () {
+                Toast.show(Strings.common.developingFeature, context);
+              },
             ),
             _Button(
               imageIcon: Assets.icons.friends,
               label: 'Bạn bè',
-              onPressed: () {},
+              onPressed: () {
+                Toast.show(Strings.common.developingFeature, context);
+              },
             ),
             _Button(
               icon: Icons.more_horiz,
               label: 'Tùy chỉnh',
               onPressed: onCustomButtonPressed,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+class UserNav extends StatelessWidget {
+  final Function onCustomButtonPressed;
+
+  const UserNav({Key key, this.onCustomButtonPressed}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(5),
+        boxShadow: DesignColor.backgroundColorShadow,
+        color: context.colorScheme.background,
+      ),
+      margin: EdgeInsets.symmetric(horizontal: 20),
+      child: IntrinsicHeight(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            _Button(
+              imageIcon: Assets.icons.message,
+              label: 'Tin nhắn',
+              onPressed: () {
+                Toast.show(Strings.common.developingFeature, context);
+              },
+            ),
+            _Button(
+              imageIcon: Assets.icons.friendAcceptance,
+              label: 'Bạn bè',
+              onPressed: () {
+                Toast.show(Strings.common.developingFeature, context);
+              },
+            ),
+            _Button(
+              imageIcon: Assets.icons.friends,
+              label: 'Bạn bè',
+              onPressed: () {
+                Toast.show(Strings.common.developingFeature, context);
+              },
+            ),
+            _Button(
+              icon: Icons.more_horiz,
+              label: 'Tùy chỉnh',
+              onPressed: () {
+                Toast.show(Strings.common.developingFeature, context);
+              },
             ),
           ],
         ),

@@ -8,6 +8,11 @@ class UserProvider {
     return result;
   }
 
+  Future<User> getUserInfo(int userId) async {
+    final result = await _client.connect<User>(ApiMethod.GET, Api.userInfo(userId));
+    return result;
+  }
+
   Future<List<SimpleUser>> getUserFriends(int userId) async {
     final response = await _client.normalConnect(
         ApiMethod.GET, userId == 0 ? Api.meFriends : Api.userFriends(userId));

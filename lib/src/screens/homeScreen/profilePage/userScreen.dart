@@ -12,31 +12,36 @@ class UserScreen extends StatefulWidget {
 }
 
 class _UserScreenState extends State<UserScreen> {
-  final UserBloc _bloc = UserBloc();
-  SimpleUser simpleUser;
+  final UserBloc userBloc = UserBloc();
+  UserScreenArgs args;
 
   @override
   void initState() {
     super.initState();
-
-    final UserScreenArgs args = ModalRoute.of(context).settings.arguments;
-    if (args?.simpleUser != null) {
-      simpleUser = args.simpleUser;
-    } else {
-      Navigator.pop(context);
-    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      args = ModalRoute.of(context).settings.arguments;
+      if (args?.simpleUser != null) {
+        setState(() {
+          _fetchUserInfo();
+        });
+      } else {
+        Navigator.pop(context);
+      }
+    });
   }
 
   _fetchUserInfo() {
-    _bloc.add(UserEventFetch(simpleUser.id));
+    userBloc.add(UserEventFetch(args?.simpleUser?.id));
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder(
-      bloc: _bloc,
+      bloc: userBloc,
       builder: (context, state) {
-        User user = User(fullName: simpleUser.name, avatar: simpleUser.avatar);
+        User user = User(
+            fullName: args?.simpleUser?.name ?? '',
+            avatar: args?.simpleUser?.avatar);
         if (state is UserStateSuccess) {
           user = state.user;
         }
@@ -59,16 +64,20 @@ class _UserScreenState extends State<UserScreen> {
                         padding: EdgeInsets.symmetric(horizontal: 10),
                         child: Column(
                           children: <Widget>[
-                            OwnerNav(),
+                            UserNav(),
                             const SizedBox(height: 10),
                             AboutBox(user: user),
                             const SizedBox(height: 10),
-                            FriendList(userId: simpleUser.id),
-                            const SizedBox(height: 10),
+                            if (user?.id != null) ...[
+                              FriendList(userId: user.id),
+                              const SizedBox(height: 10),
+                            ],
                             InfoBox(user: user),
                             const SizedBox(height: 10),
-                            TourListWidget(userId: simpleUser.id),
-                            const SizedBox(height: 10),
+                            if (user?.id != null) ...[
+                              TourListWidget(userId: user.id),
+                              const SizedBox(height: 10),
+                            ],
                             ActivityBox(),
                             const SizedBox(height: 20),
                           ],
