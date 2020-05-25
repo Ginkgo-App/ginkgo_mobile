@@ -1,4 +1,4 @@
-package com.example.ginkgo_mobile
+package com.ginkgo.ginkgo_mobile
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity
