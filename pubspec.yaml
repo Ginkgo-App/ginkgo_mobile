@@ -28,6 +28,7 @@ dependencies:
   extended_tabs: ^0.2.3
   sliding_sheet: ^0.3.4
   image_picker: ^0.6.6+4
+  image_cropper: ^1.2.1
 
 dev_dependencies:
   flutter_test:

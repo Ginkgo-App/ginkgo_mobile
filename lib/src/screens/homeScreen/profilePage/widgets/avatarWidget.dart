@@ -36,7 +36,9 @@ class _AvatarWidgetState extends State<AvatarWidget> {
   }
 
   _onPickImageSuccess(File image) async {
-    updateProfileBloc.add(UpdateProfileEventUpdate(UserToPut(avatar: image)));
+    if (image != null) {
+      updateProfileBloc.add(UpdateProfileEventUpdate(UserToPut(avatar: image)));
+    }
   }
 
   @override
