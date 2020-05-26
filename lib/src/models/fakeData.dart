@@ -3,6 +3,8 @@ import 'package:ginkgo_mobile/src/models/comment.dart';
 import 'package:ginkgo_mobile/src/models/multi_size_image.dart';
 import 'package:ginkgo_mobile/src/models/place.dart';
 import 'package:ginkgo_mobile/src/models/post.dart';
+import 'package:ginkgo_mobile/src/models/timeline.dart';
+import 'package:ginkgo_mobile/src/models/timeline_detail.dart';
 import 'package:ginkgo_mobile/src/models/tour.dart';
 import 'package:ginkgo_mobile/src/models/tourInfo.dart';
 import 'package:ginkgo_mobile/src/models/user.dart';
@@ -163,4 +165,17 @@ Nói chung là đáng đồng tiền bỏ ra. Nếu có dịp lần sau sẽ ủ
       ],
       description: '',
       tourCount: 500);
+
+  static final Timeline timeline = Timeline(
+      id: 1,
+      day: DateTime.now(),
+      descrirption: "Something",
+      timelineDetails: List.generate(4, (_) => timelineDetail));
+
+  static final TimelineDetail timelineDetail = TimelineDetail(
+      id: 1,
+      detail:
+          'Ăn sáng, uống nước, xỉa răng, lau miệng, đi vệ sinh, tắm rửa, lướt face, nghe nhạc tại {{place}}. Lên đường!',
+      place: place,
+      time: '9h - 10h sáng');
 }

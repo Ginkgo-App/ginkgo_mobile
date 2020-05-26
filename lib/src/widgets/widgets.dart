@@ -31,3 +31,4 @@ part 'loadingDotIndicator.dart';
 part 'loadingIndicator.dart';
 part 'primaryScaffold.dart';
 part 'skeleton.dart';
+part 'customs/image_widget.dart';

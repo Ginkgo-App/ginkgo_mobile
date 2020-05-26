@@ -5,13 +5,15 @@ class CollapseContainer extends StatefulWidget {
   final Widget child;
   final bool isCollapsing;
   final Duration duration;
+  final String title;
 
   const CollapseContainer(
       {Key key,
       this.height,
       this.child,
       this.isCollapsing = true,
-      this.duration = const Duration(milliseconds: 500)})
+      this.duration = const Duration(milliseconds: 500),
+      this.title})
       : super(key: key);
 
   @override
@@ -34,7 +36,8 @@ class _CollapseContainerState extends State<CollapseContainer>
   @override
   Widget build(BuildContext context) {
     return BorderContainer(
-      title: 'Chi nghi',
+      title: widget.title,
+      childPadding: EdgeInsets.zero,
       actions: <Widget>[if (widget.height != null) buildCollapseButton()],
       child: AnimatedContainer(
         duration: widget.duration,

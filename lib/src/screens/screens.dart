@@ -1,7 +1,6 @@
 library screens;
 
 import 'dart:async';
-import 'dart:math';
 
 import 'package:base/base.dart';
 import 'package:flutter/cupertino.dart';
@@ -26,6 +25,7 @@ import 'package:ginkgo_mobile/src/screens/homeScreen/profilePage/widgets/infoBox
 import 'package:ginkgo_mobile/src/screens/homeScreen/profilePage/widgets/ownerNav.dart';
 import 'package:ginkgo_mobile/src/screens/homeScreen/profilePage/widgets/tourListWidget.dart';
 import 'package:ginkgo_mobile/src/screens/tour_detail_screen/widgets/slider_widget.dart';
+import 'package:ginkgo_mobile/src/screens/tour_detail_screen/widgets/timeline_widget.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/utils/designColor.dart';
 import 'package:ginkgo_mobile/src/utils/heroKeys.dart';

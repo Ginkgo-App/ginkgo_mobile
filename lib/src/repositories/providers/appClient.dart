@@ -38,7 +38,10 @@ class ApiClient {
         headers: headers,
         query: query);
 
-    return Mapper.fromJson(response.data['Data'][0]).toObject<T>();
+    return Mapper.fromJson((response.data is String
+            ? jsonDecode(response.data)
+            : response.data)['Data'][0])
+        .toObject<T>();
   }
 
   Future<Response> normalConnect(
@@ -119,7 +122,9 @@ class ApiClient {
         print(url);
       }
 
-      final decoded = response.data;
+      Map<String, dynamic> decoded =
+          response.data is String ? jsonDecode(response.data) : response.data;
+
       // Cache api
       bool isSuccess = decoded != null &&
           decoded is! List &&
@@ -130,7 +135,7 @@ class ApiClient {
       if (response.statusCode != 200 && response.statusCode != 201 ||
           !isSuccess) {
         if (handleError) {
-          debugPrint('Error Data: ${decoded['data']}');
+          debugPrint('Error Data: ${decoded['Data']}');
           throw ServerError(
             errorCode: decoded['ErrorCode'],
             message: decoded['Message'],

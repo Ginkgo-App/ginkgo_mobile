@@ -13,10 +13,13 @@ class SpacingRow extends Flex {
     List<Widget> children = const <Widget>[],
     double spacing,
     bool isSpacingHeadTale = false,
+    bool reverse = false,
   }) : super(
           children: [
             if (isSpacingHeadTale) SizedBox(width: spacing),
-            ...children.addBetweenEvery(SizedBox(width: spacing)),
+            ...(reverse
+                ? children.addBetweenEvery(SizedBox(width: spacing)).reversed
+                : children.addBetweenEvery(SizedBox(width: spacing))),
             if (isSpacingHeadTale) SizedBox(width: spacing),
           ],
           key: key,

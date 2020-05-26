@@ -11,22 +11,8 @@ class TourDetailScreen extends StatelessWidget {
         child: Column(
           children: <Widget>[
             SliderWidget(images: FakeData.simpleTour.images),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: CollapseContainer(
-                height: 300,
-                child: Column(
-                  children: List.generate(
-                    3,
-                    (_) => Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: Random().nextDouble() * 500,
-                      color: Color.fromRGBO(Random().nextInt(255),
-                          Random().nextInt(255), Random().nextInt(255), 1),
-                    ),
-                  ),
-                ),
-              ),
+            TimelineWidget(
+              timelines: List.generate(11, (_) => FakeData.timeline),
             ),
           ],
         ),
