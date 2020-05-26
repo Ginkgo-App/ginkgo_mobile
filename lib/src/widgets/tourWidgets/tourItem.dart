@@ -42,6 +42,7 @@ class TourItem extends StatelessWidget {
                     images: [
                       if (tour?.images != null && tour.images.length > 0)
                         tour.images[Random().nextInt(tour.images.length)]
+                            .mediumThumb
                     ],
                   ),
                 ),

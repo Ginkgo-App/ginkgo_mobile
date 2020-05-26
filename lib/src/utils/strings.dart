@@ -30,6 +30,7 @@ class _Button {
   final cancel = 'Hủy bỏ';
   final edit = 'Chỉnh sửa';
   final saveChanges = 'Lưu thay đổi';
+  final viewAllImages = 'Xem tất cả hình ảnh';
 }
 
 class _Error {

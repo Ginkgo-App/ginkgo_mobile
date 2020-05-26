@@ -5,6 +5,7 @@ import 'package:base/base.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:ginkgo_mobile/src/repositories/repository.dart';
 import 'package:object_mapper/object_mapper.dart';
 
@@ -129,6 +130,7 @@ class ApiClient {
       if (response.statusCode != 200 && response.statusCode != 201 ||
           !isSuccess) {
         if (handleError) {
+          debugPrint('Error Data: ${decoded['data']}');
           throw ServerError(
             errorCode: decoded['ErrorCode'],
             message: decoded['Message'],

@@ -1,3 +1,4 @@
+import 'package:ginkgo_mobile/src/models/multi_size_image.dart';
 import 'package:ginkgo_mobile/src/models/user.dart';
 import 'package:object_mapper/object_mapper.dart';
 
@@ -7,7 +8,7 @@ class SimpleTour with Mappable {
   DateTime startDay;
   DateTime endDay;
   int totalMember;
-  List<String> images;
+  List<MultiSizeImage> images;
   SimpleUser host;
   double price;
   int rating;
