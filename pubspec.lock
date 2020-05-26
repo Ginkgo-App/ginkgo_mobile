@@ -181,6 +181,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.7"
+  flutter_point_tab_bar:
+    dependency: "direct main"
+    description:
+      name: flutter_point_tab_bar
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.0"
   flutter_secure_storage:
     dependency: transitive
     description:

@@ -48,7 +48,7 @@ class FakeData {
       job: 'Singer, Composer',
       name: 'Requesting David Kevin Sergio Leroy Ederson Mahred Bernaldo Sterling',
       tourCount: 15,
-      friendType: FriendType.requesting);
+      friendType: FriendType.requested);
 
   static final SimpleUser simpleUser3 = SimpleUser(
       avatar: MultiSizeImage('https://i.imgur.com/ePEkVUYb.jpg'),

@@ -10,7 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^0.1.2
-  base: 
+  base:
     path: ./base
   flutter_svg: ^0.17.4
   auto_size_text: ^2.1.0
@@ -29,6 +29,7 @@ dependencies:
   sliding_sheet: ^0.3.4
   image_picker: ^0.6.6+4
   image_cropper: ^1.2.1
+  flutter_point_tab_bar: ^0.1.0
 
 dev_dependencies:
   flutter_test:

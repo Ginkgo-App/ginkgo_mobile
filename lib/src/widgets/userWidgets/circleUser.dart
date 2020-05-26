@@ -44,10 +44,7 @@ class CircleUser extends StatelessWidget {
               ),
             ),
           ),
-          BlueFriendButton(
-            user: user,
-            friendType: user.friendType,
-          )
+          BlueFriendButton(user: user)
         ],
       ),
     );
