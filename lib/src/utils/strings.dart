@@ -4,6 +4,7 @@ class Strings {
   static final button = _Button();
   static final error = _Error();
   static final noData = _NoData();
+  static final bottomNavigator = _BottomNavigator();
   static final loginScreen = _LoginScreen();
   static final registerScreen = _RegisterScreen();
   static final post = _Post();
@@ -50,6 +51,14 @@ class _Error {
 class _NoData {
   final friends = 'Không có bạn bè';
   final tours = 'Không có chuyến đi';
+}
+
+class _BottomNavigator {
+  final home = 'Trang chủ';
+  final tour = 'Chuyến đi';
+  final profile = 'Trang cá nhân';
+  final notification = 'Thông báo';
+  final setting = 'Cài đặt';
 }
 
 class _LoginScreen {
