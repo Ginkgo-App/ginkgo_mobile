@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:base/base.dart';
 import 'package:flutter/material.dart';
 import 'package:ginkgo_mobile/src/models/timeline.dart';

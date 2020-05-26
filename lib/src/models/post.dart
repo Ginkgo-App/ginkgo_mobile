@@ -12,7 +12,7 @@ class Post {
   final int totalLike;
   final int totalComment;
   final List<Comment> featuredComments;
-  final int rating;
+  final double rating;
   final SimpleTour tour;
 
   PostType get type {

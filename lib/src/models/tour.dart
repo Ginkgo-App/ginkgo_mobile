@@ -60,7 +60,7 @@ class SimpleTour with Mappable {
   List<MultiSizeImage> images;
   SimpleUser host;
   double price;
-  int rating;
+  double rating;
   SimpleUser friend;
 
   SimpleTour(
