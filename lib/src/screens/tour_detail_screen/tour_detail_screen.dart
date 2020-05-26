@@ -6,7 +6,12 @@ class TourDetailScreenArgs {
   TourDetailScreenArgs(this.simpleTour);
 }
 
-class TourDetailScreen extends StatelessWidget {
+class TourDetailScreen extends StatefulWidget {
+  @override
+  _TourDetailScreenState createState() => _TourDetailScreenState();
+}
+
+class _TourDetailScreenState extends State<TourDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return PrimaryScaffold(
@@ -24,10 +29,42 @@ class TourDetailScreen extends StatelessWidget {
         child: Column(
           children: <Widget>[
             SliderWidget(images: FakeData.simpleTour.images),
+            const SizedBox(height: 10),
+            buildMembers(),
             TimelineWidget(
               timelines: List.generate(11, (_) => FakeData.timeline),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  buildMembers() {
+    return BorderContainer(
+      margin: EdgeInsets.symmetric(horizontal: 10),
+      title: 'Những người tham gia',
+      childPadding: EdgeInsets.only(bottom: 10),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: IntrinsicHeight(
+          child: SpacingRow(
+            spacing: 10,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            isSpacingHeadTale: true,
+            children: [
+              ...[
+                FakeData.simpleUser3,
+                FakeData.simpleUser,
+                FakeData.simpleUser2,
+                FakeData.simpleUser4,
+              ].map((e) => CircleUser(user: e)).toList(),
+              ViewMoreButton(
+                onPressed: () {},
+                width: 100,
+              )
+            ],
+          ),
         ),
       ),
     );

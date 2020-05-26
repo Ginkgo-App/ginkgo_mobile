@@ -16,6 +16,7 @@ import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/utils/designColor.dart';
 import 'package:ginkgo_mobile/src/utils/gradientColor.dart';
 import 'package:ginkgo_mobile/src/utils/strings.dart';
+import 'package:ginkgo_mobile/src/widgets/buttons/friend_buttons/friend_buttons.dart';
 import 'package:shimmer/shimmer.dart';
 
 part 'addCommentWidget.dart';
@@ -32,3 +33,5 @@ part 'loadingIndicator.dart';
 part 'primaryScaffold.dart';
 part 'skeleton.dart';
 part 'customs/image_widget.dart';
+part 'userWidgets/circleTourUser.dart';
+part 'userWidgets/circleUser.dart';

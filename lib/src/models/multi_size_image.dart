@@ -1,5 +1,3 @@
-import 'package:object_mapper/object_mapper.dart';
-
 class MultiSizeImage {
   String _smallSquare = ''; // 90x90
   String _bigSquare = ''; // 160x160
@@ -40,24 +38,4 @@ class MultiSizeImage {
   }
 
   bool _isImgur(String imgUrl) => imgUrl.contains('imgur.com');
-}
-
-class MultiSizeImageTransform implements Transformable<MultiSizeImage, String> {
-  DateUnit unit;
-  MultiSizeImageTransform();
-
-  //
-  @override
-  MultiSizeImage fromJson(value) {
-    if (value is String) return MultiSizeImage(value);
-
-    return null;
-  }
-
-  @override
-  String toJson(MultiSizeImage value) {
-    if (value == null) return null;
-
-    return value.hugeThumb;
-  }
 }

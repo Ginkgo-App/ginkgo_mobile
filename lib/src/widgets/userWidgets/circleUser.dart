@@ -1,78 +1,55 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:ginkgo_mobile/src/utils/assets.dart';
-import 'package:ginkgo_mobile/src/utils/designColor.dart';
+part of '../widgets.dart';
 
 class CircleUser extends StatelessWidget {
+  final SimpleUser user;
+
+  const CircleUser({Key key, @required this.user}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Container(
-          margin: EdgeInsets.only(top: 5),
-          decoration: BoxDecoration(
-              boxShadow: DesignColor.backgroundColorShadow,
-              borderRadius: BorderRadius.circular(90)),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(90),
-            child: Image.asset(
-              Assets.images.defaultAvatar,
-              width: 100,
-              height: 100,
-              fit: BoxFit.cover,
+    return Container(
+      width: 90,
+      child: Column(
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.only(top: 5),
+            decoration: BoxDecoration(
+                boxShadow: DesignColor.backgroundColorShadow,
+                borderRadius: BorderRadius.circular(90)),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(90),
+              child: ImageWidget(
+                user.avatar?.smallThumb ?? '',
+                width: 70,
+                height: 70,
+                isCircled: true,
+                isAvatar: true,
+              ),
             ),
           ),
-        ),
-        SizedBox(
-          height: 5,
-        ),
-        Text(
-          'Doraemono',
-          textAlign: TextAlign.center,
-          style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-        ),
-        Text(
-          'Tourist guide',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              fontStyle: FontStyle.italic, fontSize: 12, color: Colors.grey),
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-        ),
-        SizedBox(
-          height: 5,
-        ),
-        Stack(
-          children: <Widget>[
-            Container(
-              child: SvgPicture.asset(
-                Assets.icons.ribbon,
-                width: 80,
-                height: 15,
+          SizedBox(
+            height: 5,
+          ),
+          Container(
+            height: 26,
+            child: Center(
+              child: Text(
+                user.displayName,
+                textAlign: TextAlign.center,
+                style: context.textTheme.caption.copyWith(
+                    fontWeight: FontWeight.w700,
+                    color: context.colorScheme.onBackground),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
-            Positioned.fill(
-              child: Align(
-                alignment: Alignment.center,
-                child: Text(
-                  '11 chuyến đi',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontStyle: FontStyle.italic,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 10,
-                      color: Colors.grey),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ),
-          ],
-        )
-      ],
+          ),
+          BlueFriendButton(
+            user: user,
+            friendType: user.friendType,
+          )
+        ],
+      ),
     );
   }
 }

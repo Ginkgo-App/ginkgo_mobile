@@ -1,5 +1,5 @@
-import 'package:ginkgo_mobile/src/models/date_time_transform.dart';
 import 'package:ginkgo_mobile/src/models/timeline_detail.dart';
+import 'package:ginkgo_mobile/src/models/transform.dart';
 import 'package:object_mapper/object_mapper.dart';
 
 class Timeline with Mappable {

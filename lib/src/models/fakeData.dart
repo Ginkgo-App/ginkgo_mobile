@@ -35,12 +35,36 @@ class FakeData {
   );
 
   static final SimpleUser simpleUser = SimpleUser(
-    avatar: MultiSizeImage('https://i.imgur.com/ePEkVUYb.jpg'),
-    id: 1,
-    job: 'an khong ngoi roi',
-    name: 'an hai',
-    tourCount: 15,
-  );
+      avatar: MultiSizeImage('https://i.imgur.com/ePEkVUYb.jpg'),
+      id: 1,
+      job: 'an khong ngoi roi',
+      name: 'Accepted Friend',
+      tourCount: 15,
+      friendType: FriendType.accepted);
+
+  static final SimpleUser simpleUser2 = SimpleUser(
+      avatar: MultiSizeImage('https://i.imgur.com/ePEkVUYb.jpg'),
+      id: 1,
+      job: 'Singer, Composer',
+      name: 'Requesting David Kevin Sergio Leroy Ederson Mahred Bernaldo Sterling',
+      tourCount: 15,
+      friendType: FriendType.requesting);
+
+  static final SimpleUser simpleUser3 = SimpleUser(
+      avatar: MultiSizeImage('https://i.imgur.com/ePEkVUYb.jpg'),
+      id: 1,
+      job: 'Singer, Composer',
+      name: 'Waiting Friend',
+      tourCount: 15,
+      friendType: FriendType.waiting);
+
+  static final SimpleUser simpleUser4 = SimpleUser(
+      avatar: MultiSizeImage('https://i.imgur.com/ePEkVUYb.jpg'),
+      id: 1,
+      job: 'Singer, Composer',
+      name: 'Người lạ ơi',
+      tourCount: 15,
+      friendType: FriendType.none);
 
   static final User currentUser = User(
     phoneNumber: '+8499999999',
@@ -154,7 +178,7 @@ Nói chung là đáng đồng tiền bỏ ra. Nếu có dịp lần sau sẽ ủ
         MultiSizeImage(
             'https://images.unsplash.com/photo-1552524589-c76555c59289?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80'),
       ],
-      totalMember: 15, 
+      totalMember: 15,
       destinatePlace: place,
       startPlace: place,
       startDay: DateTime.now().subtract(Duration(days: 5)),
@@ -162,8 +186,7 @@ Nói chung là đáng đồng tiền bỏ ra. Nếu có dịp lần sau sẽ ủ
       host: currentUser.toSimpleUser(),
       price: 500000,
       timelines: List.generate(10, (_) => timeline),
-      tourInfo: tourInfo
-  );
+      tourInfo: tourInfo);
 
   static final Place place = Place(
       id: 1,
