@@ -31,7 +31,9 @@ class TripItem extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(5),
                   child: CachedNetworkImage(
-                    imageUrl: tour.images.length > 0 ? tour.images[0] : '',
+                    imageUrl: tour.images.length > 0
+                        ? tour.images[0].mediumThumb
+                        : '',
                     fit: BoxFit.fill,
                   ),
                 ),

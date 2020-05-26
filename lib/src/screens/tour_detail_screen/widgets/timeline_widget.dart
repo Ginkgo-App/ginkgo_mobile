@@ -11,16 +11,8 @@ import 'package:ginkgo_mobile/src/widgets/widgets.dart';
 class TimelineWidget extends StatelessWidget {
   final List<Timeline> timelines;
 
-  static final List<Color> colors = [
-    DesignColor.darkestGreen,
-    Colors.deepOrange,
-    Colors.pinkAccent,
-    Colors.redAccent,
-    Colors.blueAccent,
-    Colors.deepPurple,
-    Colors.blueGrey,
-    Colors.indigoAccent,
-  ];
+  static final Color _startColor = DesignColor.lighterRed;
+  static final Color _endColor = DesignColor.darkestRed;
 
   const TimelineWidget({Key key, @required this.timelines}) : super(key: key);
 
@@ -49,7 +41,8 @@ class TimelineWidget extends StatelessWidget {
   }
 
   Widget buildTimelineItem(BuildContext context, int index, Timeline timeline) {
-    final Color color = colors[randomColorIndex()];
+    final Color color =
+        Color.lerp(_startColor, _endColor, index / timelines.length);
     int detailHasImageCount = -1; //Đếm những detail có hình để hiển thị so le
 
     return IntrinsicHeight(
@@ -130,17 +123,5 @@ class TimelineWidget extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  // Dùng để lấy color không bị trùng với lần trước đó
-  static int _lastColorIndex = -1;
-  randomColorIndex() {
-    int index = 0;
-    do {
-      index = Random().nextInt(colors.length);
-    } while (index == _lastColorIndex);
-
-    _lastColorIndex = index;
-    return index;
   }
 }
