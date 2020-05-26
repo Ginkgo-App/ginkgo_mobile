@@ -1,4 +1,4 @@
-part of 'widgets.dart';
+part of '../widgets.dart';
 
 class BorderContainer extends StatelessWidget {
   final Widget child;
@@ -75,12 +75,13 @@ class _Header extends StatelessWidget {
     return IntrinsicHeight(
       child: Row(
         children: <Widget>[
-          if (icon.isExistAndNotEmpty)
+          if (icon.isExistAndNotEmpty) ...[
             SvgPicture.asset(
               icon,
               height: 30,
             ),
-          const SizedBox(width: 10),
+            const SizedBox(width: 10)
+          ],
           if (title.isExistAndNotEmpty)
             Expanded(
               child: Text(

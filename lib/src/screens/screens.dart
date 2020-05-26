@@ -1,6 +1,7 @@
 library screens;
 
 import 'dart:async';
+import 'dart:math';
 
 import 'package:base/base.dart';
 import 'package:flutter/cupertino.dart';
@@ -50,3 +51,4 @@ part 'homeScreen/profilePage/userScreen.dart';
 part 'loginScreen/loginScreen.dart';
 part 'registerScreen/registerScreen.dart';
 part 'splashScreen/splashScreen.dart';
+part 'tour_detail_screen/tour_detail_screen.dart';
