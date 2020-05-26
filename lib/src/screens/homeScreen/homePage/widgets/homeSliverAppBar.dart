@@ -30,7 +30,7 @@ class HomeSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     final logoMarginLeft =
         (MediaQuery.of(context).size.width - _LOGO_MAX_SIZE) / 2;
-    final rate =
+    final scrollRate =
         min(1.0, max<double>(0.0, shrinkOffset / (maxExtent - minExtent)));
 
     return Container(
@@ -54,7 +54,7 @@ class HomeSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
             left: -186,
             right: -186,
             top: (expandedHeight - _ELLIPSE_HEIGHT) +
-                (_HEADER_MIN_HEIGHT - expandedHeight) * rate,
+                (_HEADER_MIN_HEIGHT - expandedHeight) * scrollRate,
             bottom: 0,
             child: Column(
               children: <Widget>[
@@ -75,14 +75,14 @@ class HomeSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
             left: 0,
             right: 20,
             child: Opacity(
-              opacity: (1 - rate),
+              opacity: (1 - scrollRate),
               child: IgnorePointer(child: Image.asset(Assets.images.homeLeafs)),
             ),
           ),
           Positioned(
-            left: 12 + 68 * rate,
+            left: 12 + 68 * scrollRate,
             right: 12,
-            top: 140 - 125 * rate,
+            top: 140 - 125 * scrollRate,
             child: Container(
               decoration: BoxDecoration(
                 // border: Border.all(color: Color(0xffE4D8D8), width: 1),
@@ -109,11 +109,11 @@ class HomeSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
             ),
           ),
           Positioned(
-            left: logoMarginLeft - ((logoMarginLeft - 5) * rate),
+            left: logoMarginLeft - ((logoMarginLeft - 5) * scrollRate),
             top: 5,
             child: LogoWidget(
-              width: _LOGO_MAX_SIZE - _LOGO_MIN_SIZE * rate,
-              height: _LOGO_MAX_SIZE - _LOGO_MIN_SIZE * rate,
+              width: _LOGO_MAX_SIZE - _LOGO_MIN_SIZE * scrollRate,
+              height: _LOGO_MAX_SIZE - _LOGO_MIN_SIZE * scrollRate,
             ),
           ),
         ],

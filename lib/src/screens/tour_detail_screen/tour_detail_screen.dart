@@ -13,6 +13,13 @@ class TourDetailScreen extends StatelessWidget {
       appBar: BackAppBar(
         title: 'Chi tiết chuyến đi',
       ),
+      bottomNavigationBar: Container(
+        padding: EdgeInsets.all(10),
+        child: PrimaryButton(
+          title: Strings.button.takePartInNow,
+          width: double.maxFinite,
+        ),
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[

@@ -32,6 +32,7 @@ class _Button {
   final edit = 'Chỉnh sửa';
   final saveChanges = 'Lưu thay đổi';
   final viewAllImages = 'Xem tất cả hình ảnh';
+  final takePartInNow = 'Tham gia ngay';
 }
 
 class _Error {
