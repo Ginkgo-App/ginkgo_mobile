@@ -1,5 +1,11 @@
 part of '../screens.dart';
 
+class TourDetailScreenArgs {
+  final SimpleTour simpleTour;
+
+  TourDetailScreenArgs(this.simpleTour);
+}
+
 class TourDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

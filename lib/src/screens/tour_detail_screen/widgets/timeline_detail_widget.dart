@@ -45,9 +45,9 @@ class TimelineDetailWidget extends StatelessWidget {
             text: TextSpan(
               style: context.textTheme.caption
                   .copyWith(color: context.colorScheme.onBackground),
-              text: '-' +
+              text: '- ' +
                   (timelineDetail.time != null
-                      ? timelineDetail.time + ':'
+                      ? timelineDetail.time + ': '
                       : ''),
               children: textAroundPlace
                   .map((e) => TextSpan(text: e))

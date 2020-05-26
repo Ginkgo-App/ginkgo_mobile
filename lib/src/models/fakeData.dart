@@ -109,7 +109,7 @@ Nói chung là đáng đồng tiền bỏ ra. Nếu có dịp lần sau sẽ ủ
   static final Post review = Post(
     id: '1',
     author: currentUser,
-    tour: tour,
+    tour: simpleTour,
     content:
         '''Hôm nay có thời gian nên mình review chuyến đi Đà Nẵng, Hội An vừa qua của mình. Ta nói vui ơi là vui, ban tổ chức cực kỳ chu đáo, có xe đưa rước tận nơi, dịch vụ vui chơi thì khỏi chê vào đâu. Khách sạn sạch sẽ, đẹp,... bla bla bla bò bí bô la la la...
 Nói chung là đáng đồng tiền bỏ ra. Nếu có dịp lần sau sẽ ủng hộ tiếp hihi...''',
@@ -139,7 +139,7 @@ Nói chung là đáng đồng tiền bỏ ra. Nếu có dịp lần sau sẽ ủ
     createBy: currentUser,
   );
 
-  static final SimpleTour tour = SimpleTour(
+  static final Tour tour = Tour(
       id: 1,
       name: 'Tour du lịch Hội An - Đà Nẵng',
       images: [
@@ -154,7 +154,16 @@ Nói chung là đáng đồng tiền bỏ ra. Nếu có dịp lần sau sẽ ủ
         MultiSizeImage(
             'https://images.unsplash.com/photo-1552524589-c76555c59289?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80'),
       ],
-      totalMember: 15);
+      totalMember: 15, 
+      destinatePlace: place,
+      startPlace: place,
+      startDay: DateTime.now().subtract(Duration(days: 5)),
+      endDay: DateTime.now().subtract(Duration(days: 3)),
+      host: currentUser.toSimpleUser(),
+      price: 500000,
+      timelines: List.generate(10, (_) => timeline),
+      tourInfo: tourInfo
+  );
 
   static final Place place = Place(
       id: 1,
