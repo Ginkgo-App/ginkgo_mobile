@@ -1,8 +1,4 @@
-import 'package:base/base.dart';
-import 'package:ginkgo_mobile/src/models/user.dart';
-import 'package:object_mapper/object_mapper.dart';
-
-import 'multi_size_image.dart';
+part of 'models.dart';
 
 class DateTimeTransform implements Transformable<DateTime, String> {
   DateUnit unit;

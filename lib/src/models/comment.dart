@@ -1,4 +1,4 @@
-import 'user.dart';
+part of 'models.dart';
 
 class Comment {
   final String id;

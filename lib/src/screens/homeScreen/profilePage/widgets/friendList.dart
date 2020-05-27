@@ -60,9 +60,10 @@ class _FriendListState extends State<FriendList> {
           } else {
             return Column(
               children: <Widget>[
-                _buildList(state is UserFriendSuccess ? state.users : null),
+                _buildList(
+                    state is UserFriendSuccess ? state.users.data : null),
                 if (state is UserFriendSuccess)
-                  if (state.users.length > 0) ...[
+                  if (state.users.data.length > 0) ...[
                     const SizedBox(height: 10),
                     CommonOutlineButton(
                       text: 'Xem tất cả danh sách bạn bè',

@@ -1,10 +1,4 @@
-import 'dart:io';
-
-import 'package:ginkgo_mobile/src/models/key_value.dart';
-import 'package:ginkgo_mobile/src/models/multi_size_image.dart';
-import 'package:ginkgo_mobile/src/models/socialProvider.dart';
-import 'package:ginkgo_mobile/src/models/transform.dart';
-import 'package:object_mapper/object_mapper.dart';
+part of 'models.dart';
 
 class Gender {
   static const male = const KeyValue(key: 'male', value: 'Nam');

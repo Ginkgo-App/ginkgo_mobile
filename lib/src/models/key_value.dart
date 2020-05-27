@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+part of 'models.dart';
 
 class KeyValue {
   final String key;

@@ -1,6 +1,6 @@
 import 'package:base/base.dart';
 import 'package:flutter/material.dart';
-import 'package:ginkgo_mobile/src/models/timeline.dart';
+import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/screens/tour_detail_screen/widgets/timeline_detail_widget.dart';
 import 'package:ginkgo_mobile/src/utils/designColor.dart';
 import 'package:ginkgo_mobile/src/widgets/spacingColumn.dart';

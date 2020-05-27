@@ -1,13 +1,6 @@
 import 'package:base/base.dart';
-import 'package:ginkgo_mobile/src/models/comment.dart';
-import 'package:ginkgo_mobile/src/models/multi_size_image.dart';
-import 'package:ginkgo_mobile/src/models/place.dart';
-import 'package:ginkgo_mobile/src/models/post.dart';
-import 'package:ginkgo_mobile/src/models/timeline.dart';
-import 'package:ginkgo_mobile/src/models/timeline_detail.dart';
-import 'package:ginkgo_mobile/src/models/tour.dart';
-import 'package:ginkgo_mobile/src/models/tourInfo.dart';
-import 'package:ginkgo_mobile/src/models/user.dart';
+
+import 'models.dart';
 
 class FakeData {
   static final SimpleTour simpleTour = SimpleTour(

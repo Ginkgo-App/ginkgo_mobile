@@ -23,6 +23,7 @@ String _getButtonText(FriendType friendType) {
     case FriendType.accepted:
       return 'Bạn bè';
     case FriendType.none:
+    default:
       return 'Kết bạn';
   }
 }

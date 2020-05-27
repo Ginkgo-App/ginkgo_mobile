@@ -1,3 +1,5 @@
+part of 'models.dart';
+
 class MultiSizeImage {
   String _smallSquare = ''; // 90x90
   String _bigSquare = ''; // 160x160

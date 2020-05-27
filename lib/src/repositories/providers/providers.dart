@@ -5,16 +5,13 @@ import 'dart:io';
 import 'package:base/base.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:ginkgo_mobile/src/models/authResponse.dart';
-import 'package:ginkgo_mobile/src/models/tour.dart';
-import 'package:ginkgo_mobile/src/models/user.dart';
-import 'package:object_mapper/object_mapper.dart';
+import 'package:ginkgo_mobile/src/models/models.dart';
 
 import 'appClient.dart';
 
 part 'authProvider.dart';
-part 'userProvider.dart';
 part 'systemProvider.dart';
+part 'userProvider.dart';
 
 class Api {
   static final image = 'https://api.imgur.com/3/image';

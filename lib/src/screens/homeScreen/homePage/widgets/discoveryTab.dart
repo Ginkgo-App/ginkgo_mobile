@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
-import 'package:ginkgo_mobile/src/models/tour.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/widgets/buttons/viewMoreButton.dart';
 import 'package:ginkgo_mobile/src/widgets/placeWidgets/opacityPlace.dart';

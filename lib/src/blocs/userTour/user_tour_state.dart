@@ -11,12 +11,12 @@ class UserTourInitial extends UserTourState {}
 class UserTourLoading extends UserTourState {}
 
 class UserTourSuccess extends UserTourState {
-  final List<SimpleTour> tours;
+  final Pagination<SimpleTour> tours;
 
   UserTourSuccess(this.tours);
 
   @override
-  String toString() => '$runtimeType ${tours.length}';
+  String toString() => '$runtimeType ${tours.pagination.toJsonString()}';
 }
 
 class UserTourFailure extends UserTourState {

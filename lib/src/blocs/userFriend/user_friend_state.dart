@@ -11,12 +11,12 @@ class UserFriendInitial extends UserFriendState {}
 class UserFriendLoading extends UserFriendState {}
 
 class UserFriendSuccess extends UserFriendState {
-  final List<SimpleUser> users;
+  final Pagination<SimpleUser> users;
 
   UserFriendSuccess(this.users);
 
   @override
-  String toString() => '$runtimeType ${users.length}';
+  String toString() => '$runtimeType ${users.pagination.toJsonString()}';
 }
 
 class UserFriendFailure extends UserFriendState {

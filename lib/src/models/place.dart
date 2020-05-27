@@ -1,4 +1,4 @@
-import 'package:object_mapper/object_mapper.dart';
+part of 'models.dart';
 
 class Place with Mappable {
   int id;

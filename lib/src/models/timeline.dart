@@ -1,6 +1,4 @@
-import 'package:ginkgo_mobile/src/models/timeline_detail.dart';
-import 'package:ginkgo_mobile/src/models/transform.dart';
-import 'package:object_mapper/object_mapper.dart';
+part of 'models.dart';
 
 class Timeline with Mappable {
   int id;

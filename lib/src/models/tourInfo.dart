@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-
-import 'models.dart';
+part of 'models.dart';
 
 class TourInfo {
   final int id;

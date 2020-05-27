@@ -1,10 +1,4 @@
-import 'package:ginkgo_mobile/src/models/multi_size_image.dart';
-import 'package:ginkgo_mobile/src/models/place.dart';
-import 'package:ginkgo_mobile/src/models/timeline.dart';
-import 'package:ginkgo_mobile/src/models/tourInfo.dart';
-import 'package:ginkgo_mobile/src/models/transform.dart';
-import 'package:ginkgo_mobile/src/models/user.dart';
-import 'package:object_mapper/object_mapper.dart';
+part of 'models.dart';
 
 class Tour with Mappable {
   int id;

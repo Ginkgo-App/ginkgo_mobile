@@ -2,7 +2,7 @@ import 'package:base/base.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ginkgo_mobile/src/helper/dateTimeExt.dart';
-import 'package:ginkgo_mobile/src/models/tour.dart';
+import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/utils/designColor.dart';
 import 'package:ginkgo_mobile/src/widgets/galleryItem.dart';
@@ -21,7 +21,6 @@ class BorderTourItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(5),
           border: Border.all(color: DesignColor.darkerWhite)),
       width: 300,
-      height: 300,
       child: Skeleton(
         enabled: tour == null,
         child: Column(
@@ -30,8 +29,10 @@ class BorderTourItem extends StatelessWidget {
             Expanded(
               child: Container(
                 color: context.colorScheme.background,
+                height: 200,
                 child: GalleryItem(
-                  images: tour?.images ?? [],
+                  images:
+                      tour?.images?.map((e) => e.mediumThumb)?.toList() ?? [],
                 ),
               ),
             ),
@@ -43,7 +44,7 @@ class BorderTourItem extends StatelessWidget {
                 children: <Widget>[
                   Container(
                     color: context.colorScheme.background,
-                    margin: EdgeInsets.only(right: tour != null ? null : 20),
+                    margin: EdgeInsets.only(right: tour != null ? 0 : 20),
                     child: Text(
                       tour?.name ?? '',
                       style: context.textTheme.body2,
@@ -55,19 +56,18 @@ class BorderTourItem extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Column(
                       children: <Widget>[
-                        _buildRowIcon(context,
-                            icon: Assets.icons.planner,
-                            text: tour?.host?.name ?? ''),
-                        _buildRowIcon(context,
-                            icon: Assets.icons.calendar,
-                            text: tour != null
-                                ? '${tour.startDay.toDifferentDayNight(tour.endDay)} (${tour.startDay.toVietnameseFormat()} - ${tour.endDay.toVietnameseFormat()})'
-                                : ''),
-                        _buildRowIcon(context,
-                            icon: Assets.icons.people,
-                            text: tour != null
-                                ? '${tour.totalMember} người'
-                                : ''),
+                        if (tour?.host?.name != null)
+                          _buildRowIcon(context,
+                              icon: Assets.icons.planner, text: tour.host.name),
+                        if (tour?.startDay != null && tour?.endDay != null)
+                          _buildRowIcon(context,
+                              icon: Assets.icons.calendar,
+                              text:
+                                  '${tour.startDay.toDifferentDayNight(tour.endDay)} (${tour.startDay.toVietnameseFormat()} - ${tour.endDay.toVietnameseFormat()})'),
+                        if (tour != null && tour.totalMember != null)
+                          _buildRowIcon(context,
+                              icon: Assets.icons.people,
+                              text: '${tour.totalMember} người')
                       ],
                     ),
                   )
@@ -92,6 +92,7 @@ class BorderTourItem extends StatelessWidget {
             SvgPicture.asset(
               icon,
               height: 12,
+              color: context.colorScheme.onBackground,
             ),
             const SizedBox(width: 5),
           ],
