@@ -63,7 +63,11 @@ class _CollapseContainerState extends State<CollapseContainer>
                 child: Container(
                   height: 200,
                   decoration: BoxDecoration(
-                      gradient: GradientColor.of(context).whiteBottomGradient),
+                    gradient: GradientColor.of(context).whiteBottomGradient,
+                    borderRadius: BorderRadius.vertical(
+                      bottom: Radius.circular(5),
+                    ),
+                  ),
                 ),
               ),
             )
