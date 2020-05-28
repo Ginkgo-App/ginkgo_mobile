@@ -26,14 +26,16 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
         ),
       ),
       body: SingleChildScrollView(
-        child: Column(
+        child: SpacingColumn(
+          spacing: 10,
           children: <Widget>[
             SliderWidget(images: FakeData.simpleTour.images),
-            const SizedBox(height: 10),
+            TourDetail(),
             buildMembers(),
             TimelineWidget(
               timelines: List.generate(11, (_) => FakeData.timeline),
             ),
+            const SizedBox.shrink()
           ],
         ),
       ),

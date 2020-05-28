@@ -59,6 +59,10 @@ class _Icon {
   final tripFull = _ICON_PATH + 'trip-manage-full.svg';
   final tripOutline = _ICON_PATH + 'trip-manage-outline.svg';
   final ribbon = _ICON_PATH + 'ribbon.svg';
+  final startPlace = _ICON_PATH + 'start-place.svg';
+  final endPlace = _ICON_PATH + 'end-place.svg';
+  final groupChat = _ICON_PATH + 'group-chat.svg';
+  
 }
 
 class _Image {

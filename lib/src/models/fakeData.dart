@@ -31,7 +31,7 @@ class FakeData {
       avatar: MultiSizeImage('https://i.imgur.com/ePEkVUYb.jpg'),
       id: 1,
       job: 'an khong ngoi roi',
-      name: 'Accepted Friend',
+      name: 'Ăn hại',
       tourCount: 15,
       friendType: FriendType.accepted);
 

@@ -5,9 +5,9 @@ class AuthProvider {
 
   Future<AuthResponse> login(String email, String password) async {
     // Dùng để hack login khi server sập, lưu ý token có thể hết hạn.
-    // return AuthResponse()
-    //   ..token =
-    //       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIyIiwidW5pcXVlX25hbWUiOiJnYXBoYWd1bjEyQGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsIm5iZiI6MTU4OTkwMDc3OSwiZXhwIjoxNTkwNTA1NTc5LCJpYXQiOjE1ODk5MDA3Nzl9.74LL0gRgWB_-sQXWe9cUuLUgMA2PJTIuxquuxjYV__g';
+    return AuthResponse()
+      ..token =
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIyIiwidW5pcXVlX25hbWUiOiJnYXBoYWd1bjEyQGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsIm5iZiI6MTU4OTkwMDc3OSwiZXhwIjoxNTkwNTA1NTc5LCJpYXQiOjE1ODk5MDA3Nzl9.74LL0gRgWB_-sQXWe9cUuLUgMA2PJTIuxquuxjYV__g';
     final result =
         await _client.connect<AuthResponse>(ApiMethod.POST, Api.login, body: {
       'Email': email,
