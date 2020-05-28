@@ -7,6 +7,7 @@ class Place with Mappable {
   String description;
   int tourCount;
   SimpleUser createBy;
+  KeyValue type;
 
   Place(
       {this.id,
@@ -14,7 +15,8 @@ class Place with Mappable {
       this.images,
       this.description,
       this.tourCount,
-      this.createBy});
+      this.createBy,
+      KeyValue type});
 
   @override
   void mapping(Mapper map) {

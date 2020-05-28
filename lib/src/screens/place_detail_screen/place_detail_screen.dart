@@ -36,44 +36,54 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen> {
       body: args?.place != null
           ? Column(
               children: <Widget>[
-                Container(
-                  height: 200,
-                  child: Stack(
-                    children: <Widget>[
-                      Positioned.fill(
-                        child: ImageWidget(
-                          args.place.images.length > 0
-                              ? args.place.images[0]
-                              : '',
-                          height: 200,
-                          width: MediaQuery.of(context).size.width,
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 0,
-                        left: 0,
-                        right: 0,
-                        child: Container(
-                          padding: EdgeInsets.all(10),
-                          color: Colors.black.withOpacity(0.8),
-                          child: Text(
-                            (args.place.name ?? '') +
-                                (args.place.createBy != null
-                                    ? ' - Thông tin cung cấp bởi ${args.place.createBy.displayName}'
-                                    : ''),
-                            maxLines: 1,
-                            style: context.textTheme.subtitle1.copyWith(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
+                buildTopImage(),
               ],
             )
           : const SizedBox.shrink(),
+    );
+  }
+
+  buildTopImage() {
+    return Container(
+      height: 200,
+      child: Stack(
+        children: <Widget>[
+          Positioned.fill(
+            child: ImageWidget(
+              args.place.images.length > 0 ? args.place.images[0] : '',
+              height: 200,
+              width: MediaQuery.of(context).size.width,
+            ),
+          ),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              padding: EdgeInsets.all(10),
+              color: Colors.black.withOpacity(0.8),
+              child: Text(
+                (args.place.name ?? '') +
+                    (args.place.createBy != null
+                        ? ' - Thông tin cung cấp bởi ${args.place.createBy.displayName}'
+                        : ''),
+                maxLines: 1,
+                style: context.textTheme.subtitle1
+                    .copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  buildChildPlaceList(KeyValue type) {
+    return CollapseContainer( 
+      title: type.value,
+      collapseHeight: 405,
+      headerUnderline: true,
+      child: Column(),
     );
   }
 }
