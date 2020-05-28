@@ -2,30 +2,28 @@ part of 'friend_buttons.dart';
 
 class BlueFriendButton extends StatelessWidget {
   final SimpleUser user;
-  final FriendType friendType;
 
   ///
   /// Mặc định, khi nhấn nút confirm request thì sẽ đồng ý kết bạn.
   /// Nếu muốn tác vụ khác như mở trang friend thì truyền vào đây.
   final Function(SimpleUser user) onConfirmRequest;
 
-  const BlueFriendButton(
-      {Key key, this.user, this.friendType, this.onConfirmRequest})
+  const BlueFriendButton({Key key, @required this.user, this.onConfirmRequest})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final color = _isEnable(friendType)
+    final color = _isEnable(user.friendType)
         ? DesignColor.darkestBlue
         : DesignColor.darkerBlue;
     return CupertinoButton(
-      onPressed: _isEnable(friendType)
+      onPressed: _isEnable(user.friendType)
           ? () {
-              if (friendType == FriendType.requesting &&
+              if (user.friendType == FriendType.requested &&
                   onConfirmRequest != null) {
                 onConfirmRequest(user);
               } else {
-                _onButtonPressed(context, user, friendType);
+                _onButtonPressed(context, user);
               }
             }
           : null,
@@ -38,7 +36,7 @@ class BlueFriendButton extends StatelessWidget {
           border: Border.all(color: color, width: 0.5),
         ),
         child: Text(
-          _getButtonText(friendType),
+          _getButtonText(user.friendType),
           textAlign: TextAlign.center,
           style: context.textTheme.caption.copyWith(color: color),
         ),

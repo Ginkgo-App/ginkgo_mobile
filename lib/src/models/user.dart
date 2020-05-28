@@ -23,7 +23,7 @@ class Gender {
   }
 }
 
-enum FriendType { none, accepted, requesting, waiting }
+enum FriendType { none, accepted, requested, waiting }
 
 class User with Mappable {
   int id;

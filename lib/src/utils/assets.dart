@@ -62,6 +62,8 @@ class _Icon {
 }
 
 class _Image {
+  final message = _IMAGE_PATH + 'message.png';
+  final unfollow = _IMAGE_PATH + 'unfollow.png';
   final authBackground = _IMAGE_PATH + 'auth-background.png';
   final background = _IMAGE_PATH + 'background.png';
   final logo = _IMAGE_PATH + 'logo.png';

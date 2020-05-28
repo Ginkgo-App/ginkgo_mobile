@@ -15,6 +15,8 @@ import 'package:ginkgo_mobile/src/widgets/buttons/commonOutlineButton.dart';
 import 'package:ginkgo_mobile/src/widgets/errorWidgets/errorIndicator.dart';
 import 'package:ginkgo_mobile/src/widgets/widgets.dart';
 
+import '../../../../app.dart';
+
 class FriendList extends StatefulWidget {
   /// UserId = 0 is current user;
   final int userId;
@@ -67,7 +69,9 @@ class _FriendListState extends State<FriendList> {
                     const SizedBox(height: 10),
                     CommonOutlineButton(
                       text: 'Xem tất cả danh sách bạn bè',
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigators.appNavigator.currentState.pushNamed(Routes.friendListScreen);
+                      },
                     )
                   ] else
                     Text(
