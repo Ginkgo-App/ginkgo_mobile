@@ -194,7 +194,8 @@ Nói chung là đáng đồng tiền bỏ ra. Nếu có dịp lần sau sẽ ủ
         MultiSizeImage('https://image.bizlive.vn/uploaded/quynhntn/2018_11_28/dray-nur-1_fbjm.jpg'),
       ],
       description: '',
-      tourCount: 500);
+      tourCount: 500,
+      createBy: currentUser.toSimpleUser());
 
   static final Timeline timeline = Timeline(
       id: 1,

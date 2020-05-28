@@ -6,8 +6,15 @@ class Place with Mappable {
   List<MultiSizeImage> images;
   String description;
   int tourCount;
+  SimpleUser createBy;
 
-  Place({this.id, this.name, this.images, this.description, this.tourCount});
+  Place(
+      {this.id,
+      this.name,
+      this.images,
+      this.description,
+      this.tourCount,
+      this.createBy});
 
   @override
   void mapping(Mapper map) {
@@ -17,6 +24,7 @@ class Place with Mappable {
         'Images', images, (v) => images = v, MultiSizeImageTransform());
     map('Description', description, (v) => description = v);
     map('TourCount', tourCount, (v) => tourCount = v);
+    map('CreateBy', createBy, (v) => createBy = v);
   }
 }
 

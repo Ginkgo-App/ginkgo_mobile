@@ -54,25 +54,17 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen> {
                         left: 0,
                         right: 0,
                         child: Container(
-                          padding: EdgeInsets.all(5),
+                          padding: EdgeInsets.all(10),
                           color: Colors.black.withOpacity(0.8),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                args.place.name ?? '',
-                                maxLines: 1,
-                                style: context.textTheme.caption.copyWith(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                Strings.place.tourCount(args.place.tourCount),
-                                maxLines: 1,
-                                style: context.textTheme.caption
-                                    .copyWith(color: Colors.white),
-                              ),
-                            ],
+                          child: Text(
+                            (args.place.name ?? '') +
+                                (args.place.createBy != null
+                                    ? ' - Thông tin cung cấp bởi ${args.place.createBy.displayName}'
+                                    : ''),
+                            maxLines: 1,
+                            style: context.textTheme.subtitle1.copyWith(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
                           ),
                         ),
                       )
