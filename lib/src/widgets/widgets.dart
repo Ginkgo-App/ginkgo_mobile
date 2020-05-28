@@ -47,3 +47,4 @@ part 'skeleton.dart';
 part 'userWidgets/circleTourUser.dart';
 part 'userWidgets/circleUser.dart';
 part 'userWidgets/user_friend.dart';
+part 'placeWidgets/opacityPlace.dart';

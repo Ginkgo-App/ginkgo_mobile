@@ -73,3 +73,4 @@ part 'manage_tour/manage_tour_screen.dart';
 part 'registerScreen/registerScreen.dart';
 part 'splashScreen/splashScreen.dart';
 part 'tour_detail_screen/tour_detail_screen.dart';
+part 'place_detail_screen/place_detail_screen.dart';

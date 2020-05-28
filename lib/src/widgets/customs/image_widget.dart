@@ -12,8 +12,8 @@ class ImageWidget extends StatelessWidget {
   const ImageWidget(
     this.imageUrl, {
     Key key,
-    this.width = 50,
-    this.height = 50,
+    this.width,
+    this.height,
     this.isCircled = false,
     this.withShadow = false,
     this.isAvatar = false,
@@ -22,9 +22,6 @@ class ImageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _width = isCircled ? (width > height ? height : width) : width;
-    final _height = isCircled ? (width > height ? height : width) : height;
-
     return Container(
       decoration: BoxDecoration(
         borderRadius:
@@ -35,19 +32,25 @@ class ImageWidget extends StatelessWidget {
                 ? DesignColor.defaultDropShadow
                 : DesignColor.imageShadow),
       ),
-      child: ClipRRect(
-        borderRadius:
-            BorderRadius.circular(isCircled ? 90 : (borderRadius ?? 0)),
-        child: CachedNetworkImage(
-          imageUrl: imageUrl,
-          width: _width,
-          height: _height,
-          fit: BoxFit.cover,
-          placeholder: (context, _) => Image.asset(
-            isAvatar ? Assets.images.defaultAvatar : Assets.images.defaultImage,
-            width: _width,
-            height: _height,
+      child: AspectRatio(
+        aspectRatio:
+            isCircled || width == null || height == null ? 1 : width / height,
+        child: ClipRRect(
+          borderRadius:
+              BorderRadius.circular(isCircled ? 90 : (borderRadius ?? 0)),
+          child: CachedNetworkImage(
+            imageUrl: imageUrl,
+            width: width,
+            height: height,
             fit: BoxFit.cover,
+            placeholder: (context, _) => Image.asset(
+              isAvatar
+                  ? Assets.images.defaultAvatar
+                  : Assets.images.defaultImage,
+              width: width,
+              height: height,
+              fit: BoxFit.cover,
+            ),
           ),
         ),
       ),
