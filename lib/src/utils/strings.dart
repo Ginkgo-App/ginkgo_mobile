@@ -32,6 +32,7 @@ class _Button {
   final edit = 'Chỉnh sửa';
   final saveChanges = 'Lưu thay đổi';
   final viewAllImages = 'Xem tất cả hình ảnh';
+  final viewAll = 'Xem tất cả';
   final takePartInNow = 'Tham gia ngay';
   final findFriendNow = 'Tìm bạn ngay';
   final nextStep = 'Sang bước tiếp theo';

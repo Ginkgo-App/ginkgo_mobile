@@ -148,25 +148,24 @@ Nói chung là đáng đồng tiền bỏ ra. Nếu có dịp lần sau sẽ ủ
   );
 
   static final TourInfo tourInfo = TourInfo(
-    id: 1,
-    name: 'Tour du lịch Hội An - Đà Nẵng',
-    images: [
-      MultiSizeImage(
-          'https://images.unsplash.com/photo-1552702565-ed98c940b611?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80'),
-      MultiSizeImage(
-          'https://images.unsplash.com/photo-1552458403-45c1a26d744c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80'),
-      MultiSizeImage(
-          'https://images.unsplash.com/photo-1552524589-c76555c59289?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80'),
-      MultiSizeImage(
-          'https://images.unsplash.com/photo-1552524589-c76555c59289?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80'),
-      MultiSizeImage(
-          'https://images.unsplash.com/photo-1552524589-c76555c59289?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80'),
-    ],
-    startPlace: place,
-    destinatePlace: place,
-    createBy: currentUser.toSimpleUser(),
-    rating: 5
-  );
+      id: 1,
+      name: 'Tour du lịch Hội An - Đà Nẵng',
+      images: [
+        MultiSizeImage(
+            'https://images.unsplash.com/photo-1552702565-ed98c940b611?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80'),
+        MultiSizeImage(
+            'https://images.unsplash.com/photo-1552458403-45c1a26d744c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80'),
+        MultiSizeImage(
+            'https://images.unsplash.com/photo-1552524589-c76555c59289?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80'),
+        MultiSizeImage(
+            'https://images.unsplash.com/photo-1552524589-c76555c59289?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80'),
+        MultiSizeImage(
+            'https://images.unsplash.com/photo-1552524589-c76555c59289?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80'),
+      ],
+      startPlace: place,
+      destinatePlace: place,
+      createBy: currentUser.toSimpleUser(),
+      rating: 5);
 
   static final Tour tour = Tour(
       id: 1,
@@ -189,13 +188,35 @@ Nói chung là đáng đồng tiền bỏ ra. Nếu có dịp lần sau sẽ ủ
   static final Place place = Place(
       id: 1,
       name: 'My home',
+      address: '133 Nguyễn Tất Thành, Pleiku, Gia Lai',
       images: [
-        MultiSizeImage('https://image.bizlive.vn/uploaded/quynhntn/2018_11_28/dray-nur-1_fbjm.jpg'),
-        MultiSizeImage('https://image.bizlive.vn/uploaded/quynhntn/2018_11_28/dray-nur-1_fbjm.jpg'),
+        MultiSizeImage(
+            'https://image.bizlive.vn/uploaded/quynhntn/2018_11_28/dray-nur-1_fbjm.jpg'),
+        MultiSizeImage(
+            'https://image.bizlive.vn/uploaded/quynhntn/2018_11_28/dray-nur-1_fbjm.jpg'),
       ],
       description: '',
       tourCount: 500,
-      createBy: currentUser.toSimpleUser());
+      type: KeyValue(key: 'city', value: 'Thành phố'),
+      createBy: currentUser.toSimpleUser(),
+      children: List.generate(10, (index) => childPlace));
+
+  static final Place childPlace = Place(
+    id: 1,
+    name: 'Ngọc Sê Hotel',
+    address: '133 Nguyễn Tất Thành, Pleiku, Gia Lai',
+    images: [
+      MultiSizeImage(
+          'https://image.bizlive.vn/uploaded/quynhntn/2018_11_28/dray-nur-1_fbjm.jpg'),
+      MultiSizeImage(
+          'https://image.bizlive.vn/uploaded/quynhntn/2018_11_28/dray-nur-1_fbjm.jpg'),
+    ],
+    description:
+        'Khách sạn đạt chuẩn 5 sao, được nhiều khách du lịch tin tưởng và đánh giá tốt... Thêm vài câu mô tả ngắn gọn ở đâyKhách sạn đạt chuẩn 5 sao, được nhiều khách du lịch tin tưởng và đánh giá tốt.Khách sạn đạt chuẩn 5 sao, được nhiều khách du lịch tin tưởng và đánh giá tốt. Thêm vài câu mô tả ngắn gọn ở đây. Khách sạn đạt chuẩn 5 sao, được nhiều khách du lịch tin tưởng và đánh giá tốt.',
+    tourCount: 500,
+    type: KeyValue(key: 'city', value: 'Thành phố'),
+    createBy: currentUser.toSimpleUser(),
+  );
 
   static final Timeline timeline = Timeline(
       id: 1,

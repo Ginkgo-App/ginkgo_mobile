@@ -43,14 +43,13 @@ class PrimaryScaffold extends StatelessWidget {
                       )
                     : null,
                 body: Container(
-                  child: body,
                   color: backgroundColor,
                   decoration: BoxDecoration(
-                    gradient:
-                        gradientBackground == null && backgroundColor == null
-                            ? GradientColor.of(context).backgroundGradient
-                            : null,
-                  ),
+                      gradient:
+                          gradientBackground == null && backgroundColor == null
+                              ? GradientColor.of(context).backgroundGradient
+                              : null),
+                  child: body,
                 ),
               ),
               if (isLoading || state is AuthStateLoading)

@@ -111,11 +111,13 @@ class _Header extends StatelessWidget {
             ],
           ),
         ),
-        Container(
-          width: 80,
-          height: 0.5,
-          color: DesignColor.blockHeader,
-        )
+        if (showUnderline)
+          Container(
+            width: 80,
+            margin: EdgeInsets.only(top: 10),
+            height: 0.5,
+            color: DesignColor.blockHeader,
+          )
       ],
     );
   }
