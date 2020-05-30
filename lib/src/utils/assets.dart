@@ -19,6 +19,7 @@ class _Icon {
   final comment = _ICON_PATH + 'comment.svg';
   final contributor = _ICON_PATH + 'contributor.svg';
   final datetime = _ICON_PATH + 'datetime.svg';
+  final downArrow = _ICON_PATH + 'down-arrow.svg';
   final email = _ICON_PATH + 'email.svg';
   final facebookSquare = _ICON_PATH + 'facebook-square.svg';
   final friendAcceptance = _ICON_PATH + 'friend-acceptance.svg';

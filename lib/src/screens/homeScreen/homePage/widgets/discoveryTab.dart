@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
+import 'package:ginkgo_mobile/src/screens/tour_detail_screen/widgets/review_comment.dart';
+import 'package:ginkgo_mobile/src/screens/tour_detail_screen/widgets/services_provided.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/widgets/buttons/viewMoreButton.dart';
 import 'package:ginkgo_mobile/src/widgets/placeWidgets/opacityPlace.dart';
@@ -21,6 +23,8 @@ class _DiscoveryTabState extends State<DiscoveryTab> {
         spacing: 10,
         isSpacingHeadTale: true,
         children: <Widget>[
+          ServicesProvided(),
+          ReviewComment(),
           _buildSuggestedCreators(),
           _buildSuggestedPlaces(),
           _buildNewTours(),
