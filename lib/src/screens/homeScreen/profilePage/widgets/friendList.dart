@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ginkgo_mobile/src/app.dart';
+import 'package:ginkgo_mobile/src/blocs/currentUser/current_user_bloc.dart';
 import 'package:ginkgo_mobile/src/blocs/userFriend/user_friend_bloc.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/navigators.dart';
@@ -18,10 +19,9 @@ import 'package:ginkgo_mobile/src/widgets/widgets.dart';
 import '../../../../app.dart';
 
 class FriendList extends StatefulWidget {
-  /// UserId = 0 is current user;
-  final int userId;
+  final SimpleUser user;
 
-  const FriendList({Key key, this.userId}) : super(key: key);
+  const FriendList({Key key, this.user}) : super(key: key);
 
   @override
   _FriendListState createState() => _FriendListState();
@@ -37,7 +37,11 @@ class _FriendListState extends State<FriendList> {
   }
 
   _fetchData() {
-    _bloc.add(UserFriendEventFetch(widget.userId, type: FriendType.accepted));
+    _bloc.add(UserFriendEventFetch(
+        CurrentUserBloc().isCurrentUser(simpleUser: widget.user)
+            ? 0
+            : widget.user.id,
+        type: FriendType.accepted));
   }
 
   @override
@@ -54,7 +58,7 @@ class _FriendListState extends State<FriendList> {
       child: BlocBuilder(
         bloc: _bloc,
         builder: (context, state) {
-          if (state is UserFriendFailure) {
+          if (state is UserFriendStateFailure) {
             return ErrorIndicator(
               moreErrorDetail: state.error,
               onReload: _fetchData,
@@ -63,14 +67,22 @@ class _FriendListState extends State<FriendList> {
             return Column(
               children: <Widget>[
                 _buildList(
-                    state is UserFriendSuccess ? state.users.data : null),
-                if (state is UserFriendSuccess)
+                    state is UserFriendStateSuccess ? state.users.data : null),
+                if (state is UserFriendStateSuccess)
                   if (state.users.data.length > 0) ...[
                     const SizedBox(height: 10),
                     CommonOutlineButton(
                       text: 'Xem tất cả danh sách bạn bè',
                       onPressed: () {
-                        Navigators.appNavigator.currentState.pushNamed(Routes.friendListScreen);
+                        if (CurrentUserBloc()
+                            .isCurrentUser(simpleUser: widget.user)) {
+                          Navigators.appNavigator.currentState
+                              .pushNamed(Routes.currentFriendListScreen);
+                        } else {
+                          Navigators.appNavigator.currentState.pushNamed(
+                              Routes.friendListScreen,
+                              arguments: FriendListScreenArgs(widget.user));
+                        }
                       },
                     )
                   ] else

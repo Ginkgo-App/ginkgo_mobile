@@ -12,7 +12,9 @@ class UserFriendBloc extends Bloc<UserFriendEvent, UserFriendState> {
   final Repository _repository = Repository();
 
   @override
-  UserFriendState get initialState => UserFriendInitial();
+  UserFriendState get initialState => UserFriendStateInitial();
+
+  Pagination<SimpleUser> friendList = Pagination();
 
   @override
   Stream<UserFriendState> mapEventToState(
@@ -20,19 +22,18 @@ class UserFriendBloc extends Bloc<UserFriendEvent, UserFriendState> {
   ) async* {
     try {
       if (event is UserFriendEventFetch) {
-        yield UserFriendLoading();
-        Pagination<SimpleUser> _friends;
+        yield UserFriendStateLoading();
         if (event.userId == 0) {
-          _friends = await _repository.user
-              .getMeFriends(event.type, event.page, event.pageSize);
+          friendList = await _repository.user.getMeFriends(event.type,
+              page: event.page, pageSize: event.pageSize);
         } else {
-          _friends = await _repository.user
-              .getUserFriends(event.userId, event.page, event.pageSize);
+          friendList = await _repository.user.getUserFriends(event.userId,
+              page: event.page, pageSize: event.pageSize);
         }
-        yield UserFriendSuccess(_friends);
+        yield UserFriendStateSuccess(friendList);
       }
     } catch (e) {
-      yield UserFriendFailure(e.toString());
+      yield UserFriendStateFailure(e.toString());
     }
   }
 }

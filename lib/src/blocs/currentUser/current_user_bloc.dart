@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:ginkgo_mobile/src/blocs/current_user_friends/current_user_friends_bloc.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/repositories/repository.dart';
 import 'package:meta/meta.dart';
@@ -14,6 +15,9 @@ class CurrentUserBloc extends Bloc<CurrentUserEvent, CurrentUserState> {
   factory CurrentUserBloc() => _instance;
 
   final Repository _repository = Repository();
+  final CurrentUserFriendsBloc acceptedFriendsBloc = CurrentUserFriendsBloc(FriendType.accepted);
+  final CurrentUserFriendsBloc requestedFriendsBloc = CurrentUserFriendsBloc(FriendType.requested);
+  final CurrentUserFriendsBloc waitingFriendsBloc = CurrentUserFriendsBloc(FriendType.waiting);
 
   User _currentUser;
   List<User> _friends;
@@ -21,9 +25,15 @@ class CurrentUserBloc extends Bloc<CurrentUserEvent, CurrentUserState> {
   User get currentUser => _currentUser;
   List<User> get friends => _friends;
 
+  bool isCurrentUser({SimpleUser simpleUser, User user}) =>
+      simpleUser?.id == _currentUser.id || user?.id == _currentUser.id;
+
   @override
   Future<void> close() {
     _instance.close();
+    acceptedFriendsBloc.close();
+    requestedFriendsBloc.close();
+    waitingFriendsBloc.close();
     return super.close();
   }
 
@@ -36,15 +46,15 @@ class CurrentUserBloc extends Bloc<CurrentUserEvent, CurrentUserState> {
   ) async* {
     try {
       if (event is CurrentUserEventFetch) {
-        yield CurrentUserLoading();
+        yield CurrentUserStateLoading();
         _currentUser = await _repository.user.getMe();
-        yield CurrentUserSuccess(_currentUser);
+        yield CurrentUserStageSuccess(_currentUser);
       } else if (event is CurrentUserEventOnHaveChanges) {
         _currentUser = event.newInfo;
         yield CurrentUserStateHaveChanges();
       }
     } catch (e) {
-      yield CurrentUserFailure(e.toString());
+      yield CurrentUserStateFailure(e.toString());
     }
   }
 }

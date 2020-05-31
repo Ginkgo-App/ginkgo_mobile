@@ -2,7 +2,6 @@ library app;
 
 import 'package:base/base.dart';
 import 'package:flutter/material.dart';
-import 'package:ginkgo_mobile/src/screens/friend_list_page/friend_list_screen.dart';
 import 'package:ginkgo_mobile/src/screens/screens.dart';
 
 import 'screens/screens.dart';

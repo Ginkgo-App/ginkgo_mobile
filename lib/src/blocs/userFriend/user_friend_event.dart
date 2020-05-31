@@ -16,5 +16,5 @@ class UserFriendEventFetch extends UserFriendEvent {
       {this.page = 1, this.pageSize = 6, this.type = FriendType.none});
 
   @override
-  String toString() => '$runtimeType $userId Page: $page PageSize: $pageSize';
+  String toString() => '$runtimeType UserId: $userId Page: $page PageSize: $pageSize Type: $type';
 }

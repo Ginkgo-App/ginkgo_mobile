@@ -62,7 +62,6 @@ class _Icon {
   final startPlace = _ICON_PATH + 'start-place.svg';
   final endPlace = _ICON_PATH + 'end-place.svg';
   final groupChat = _ICON_PATH + 'group-chat.svg';
-  
 }
 
 class _Image {
@@ -75,4 +74,5 @@ class _Image {
   final defaultAvatar = _IMAGE_PATH + 'default-avatar.png';
   final homeEllipse = _IMAGE_PATH + 'home-ellipse.png';
   final homeLeafs = _IMAGE_PATH + 'home-leafs.png';
+  final notFound = _IMAGE_PATH + 'not-found.png';
 }

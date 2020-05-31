@@ -15,12 +15,16 @@ class UserProvider {
   }
 
   Future<Pagination<SimpleUser>> getMeFriends(FriendType type,
-      [int page = 1, int pageSize = 10]) async {
+      {int page = 1, int pageSize = 10}) async {
+    if (type == FriendType.none) {
+      type = FriendType.accepted;
+    }
+
     final response =
         await _client.normalConnect(ApiMethod.GET, Api.meFriends, query: {
       'page': page.toString(),
       'pageSize': pageSize.toString(),
-      'type': enumToString(type ?? FriendType.none)
+      'type': enumToString(type ?? FriendType.accepted),
     });
 
     return Pagination(response.data['Pagination'], response.data['Data']);
@@ -54,5 +58,17 @@ class UserProvider {
       if (avatar != null) ...{'avatar': avatar}
     });
     return result;
+  }
+
+  Future addFriend(int userId) async {
+    await _client.normalConnect(ApiMethod.POST, Api.addFriend(userId));
+  }
+
+  Future removeFriend(int userId) async {
+    await _client.normalConnect(ApiMethod.DELETE, Api.deleteFriend(userId));
+  }
+
+  Future acceptFriend(int userId) async {
+    await _client.normalConnect(ApiMethod.POST, Api.acceptFriend(userId));
   }
 }

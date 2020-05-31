@@ -57,7 +57,7 @@ class FriendTypeTransform implements Transformable<FriendType, String> {
       }
     }
 
-    return null;
+    return FriendType.none;
   }
 
   @override

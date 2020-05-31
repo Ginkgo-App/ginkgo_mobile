@@ -49,7 +49,7 @@ class _UserScreenState extends State<UserScreen> {
         return PrimaryScaffold(
           isLoading: state is UserStateLoading,
           appBar: BackAppBar(title: user.fullName),
-          body: state is CurrentUserFailure
+          body: state is CurrentUserStateFailure
               ? ErrorIndicator(
                   moreErrorDetail: state.error,
                   onReload: _fetchUserInfo,
@@ -69,7 +69,7 @@ class _UserScreenState extends State<UserScreen> {
                             AboutBox(user: user),
                             const SizedBox(height: 10),
                             if (user?.id != null) ...[
-                              FriendList(userId: user.id),
+                              FriendList(user: args.simpleUser),
                               const SizedBox(height: 10),
                             ],
                             InfoBox(user: user),

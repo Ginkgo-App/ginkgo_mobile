@@ -33,6 +33,7 @@ class _Button {
   final saveChanges = 'Lưu thay đổi';
   final viewAllImages = 'Xem tất cả hình ảnh';
   final takePartInNow = 'Tham gia ngay';
+  final findFriendNow = 'Tìm bạn ngay';
 }
 
 class _Error {
@@ -41,7 +42,8 @@ class _Error {
   final phoneNumberIncorrectForm = 'Số điện thoại không đúng định dạng.';
   final rePasswordIsNotMatch = 'Re-password is not match with password.';
   final cannotRegisterWithFacebook = 'Cannot register with facebook';
-  final error = 'Đã xảy ra lỗi. Click để xem chi tiết.';
+  final errorClick = 'Đã xảy ra lỗi. Click để xem chi tiết.';
+  final error = 'Đã xảy ra lỗi.';
   final updateProfile = 'Xảy ra lỗi trong khi cập nhật.';
   final updateBio = 'Xảy ra lỗi trong khi cập nhật tự giới thiệu.';
   final updateSolgan = 'Xảy ra lỗi trong khi cập nhật sologan.';
@@ -81,7 +83,8 @@ class _Post {
   final justCreateATour = ' vừa thêm một chuyến đi mới';
   final createdATour = ' đã thêm một chuyến đi mới';
   String totalLike(int totalLike) => '$totalLike lượt yêu thích';
-  String viewAllComment(int totalComment) => 'Xem tất cả $totalComment lượt bình luận';
+  String viewAllComment(int totalComment) =>
+      'Xem tất cả $totalComment lượt bình luận';
   final addComment = 'Thêm bình luận';
   final reviewTitle = ' đã thêm một nhận xét mới cho ';
 }

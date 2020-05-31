@@ -1,7 +1,7 @@
 import 'package:base/base.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ginkgo_mobile/src/blocs/update_profile_bloc/update_profile_bloc.dart';
+import 'package:ginkgo_mobile/src/blocs/update_profile/update_profile_bloc.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/utils/designColor.dart';
 import 'package:ginkgo_mobile/src/utils/strings.dart';

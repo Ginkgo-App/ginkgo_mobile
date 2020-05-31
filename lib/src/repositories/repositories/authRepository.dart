@@ -9,7 +9,7 @@ class _AuthRepository {
   Future<String> get token async {
     if (!_token.isExistAndNotEmpty) {
       _token = await _storageProvider.read(StorageKey.Token.toString());
-      debugPrint('\x1B[94m' + _token + '\x1B[0m');
+      if (_token != null) debugPrint('\x1B[94m' + _token + '\x1B[0m');
     }
     return _token;
   }

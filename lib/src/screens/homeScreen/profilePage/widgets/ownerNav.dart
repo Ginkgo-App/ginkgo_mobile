@@ -2,6 +2,10 @@ import 'package:base/base.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:ginkgo_mobile/src/app.dart';
+import 'package:ginkgo_mobile/src/blocs/currentUser/current_user_bloc.dart';
+import 'package:ginkgo_mobile/src/navigators.dart';
+import 'package:ginkgo_mobile/src/screens/screens.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/utils/designColor.dart';
 import 'package:ginkgo_mobile/src/utils/strings.dart';
@@ -43,7 +47,8 @@ class OwnerNav extends StatelessWidget {
               imageIcon: Assets.icons.friends,
               label: 'Bạn bè',
               onPressed: () {
-                Toast.show(Strings.common.developingFeature, context);
+                Navigators.appNavigator.currentState
+                    .pushNamed(Routes.currentFriendListScreen);
               },
             ),
             _Button(
@@ -57,6 +62,7 @@ class OwnerNav extends StatelessWidget {
     );
   }
 }
+
 class UserNav extends StatelessWidget {
   final Function onCustomButtonPressed;
 

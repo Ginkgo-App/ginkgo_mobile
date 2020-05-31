@@ -8,6 +8,7 @@ class BorderContainer extends StatelessWidget {
   final String icon;
   final String title;
   final List<Widget> actions;
+  final Color color;
 
   const BorderContainer({
     Key key,
@@ -18,6 +19,7 @@ class BorderContainer extends StatelessWidget {
     this.children,
     this.margin,
     this.actions = const [],
+    this.color,
   })  : assert(child == null || children == null),
         super(key: key);
 
@@ -29,10 +31,11 @@ class BorderContainer extends StatelessWidget {
         // border: Border.all(color: Color(0xffE4D8D8), width: 1),
         boxShadow: DesignColor.defaultDropShadow,
         borderRadius: BorderRadius.circular(5),
-        color: context.colorScheme.background,
+        color: color ?? context.colorScheme.background,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           if (title != null || icon != null)

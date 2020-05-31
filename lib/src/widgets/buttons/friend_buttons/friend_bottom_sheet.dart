@@ -1,6 +1,12 @@
 part of 'friend_buttons.dart';
 
 showFriendMenuBottomSheet(BuildContext context, SimpleUser user) {
+  if (user.friendType != FriendType.accepted) {
+    Toast.show('Không thể mở menu vì chưa là bạn bè', context);
+  }
+
+  final AddFriendBloc addFriendBloc = AddFriendBloc();
+
   showSlidingBottomSheet(
     context,
     builder: (context) {
@@ -47,125 +53,47 @@ showFriendMenuBottomSheet(BuildContext context, SimpleUser user) {
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: 15,
+                const SizedBox(height: 15),
+                _RowItem(
+                  title: 'Nhắn tin cho ${user.displayName}',
+                  pngIcon: Assets.images.message,
+                  onPressed: () {
+                    Toast.show(Strings.common.developingFeature, context);
+                  },
                 ),
-                Row(
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      child: Image.asset(
-                        Assets.images.message,
-                        width: 20,
-                        height: 20,
-                      ),
-                    ),
-                    Expanded(
-                        child: Text(
-                      'Nhắn tin cho ${user.displayName}',
-                      style:
-                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                    )),
-                  ],
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                Row(
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      child: Image.asset(
-                        Assets.images.unfollow,
-                        width: 20,
-                        height: 20,
-                      ),
-                    ),
-                    Expanded(
-                        child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          'Bỏ theo dõi ${user.displayName}',
-                          style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          'Không nhìn thấy bài viết của nhau nữa nhưng vẫn là bạn bè',
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              fontSize: 14,
-                              color: context.colorScheme.onSurface),
-                        ),
-                      ],
-                    )),
-                  ],
+                const SizedBox(height: 15),
+                _RowItem(
+                  title: 'Bỏ theo dõi ${user.displayName}',
+                  subTitle:
+                      'Không nhìn thấy bài viết của nhau nữa nhưng vẫn là bạn bè',
+                  pngIcon: Assets.images.unfollow,
+                  onPressed: () {
+                    Toast.show(Strings.common.developingFeature, context);
+                  },
                 ),
                 const SizedBox(
                   height: 15,
                 ),
-                Row(
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      width: 20,
-                      height: 20,
-                      child: Image.asset(Assets.images.unfollow),
-                    ),
-                    Expanded(
-                        child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          'Chặn ${user.displayName}',
-                          style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          '${user.displayName} sẽ không thể nhìn thấy bạn hoặc liên hệ với bạn trên Ginkgo',
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              fontSize: 14,
-                              color: context.colorScheme.onSurface),
-                        ),
-                      ],
-                    )),
-                  ],
+                _RowItem(
+                  title: 'Chặn ${user.displayName}',
+                  subTitle:
+                      '${user.displayName} sẽ không thể nhìn thấy bạn hoặc liên hệ với bạn trên Ginkgo',
+                  onPressed: () {
+                    Toast.show(Strings.common.developingFeature, context);
+                  },
                 ),
                 const SizedBox(
                   height: 15,
                 ),
-                Row(
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      width: 20,
-                      height: 20,
-                      child: Image.asset(Assets.images.unfollow),
-                    ),
-                    Expanded(
-                        child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          'Hủy kết bạn với ${user.displayName}',
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: DesignColor.lightRed,
-                          ),
-                        ),
-                        Text(
-                          'Xóa ${user.displayName} khỏi danh sách bạn bè',
-                          style: TextStyle(
-                              fontSize: 14,
-                              color: context.colorScheme.onSurface),
-                        ),
-                      ],
-                    )),
-                  ],
+                _RowItem(
+                  title: 'Hủy kết bạn với ${user.displayName}',
+                  subTitle: 'Xóa ${user.displayName} khỏi danh sách bạn bè',
+                  isImportant: true,
+                  onPressed: () {
+                    onRemoveFriend(context, user, () {
+                      addFriendBloc.add(AddFriendEventRemoveFriend(user.id));
+                    });
+                  },
                 ),
                 const SizedBox(
                   height: 15,
@@ -176,5 +104,62 @@ showFriendMenuBottomSheet(BuildContext context, SimpleUser user) {
         },
       );
     },
-  );
+  ).then((_) {
+    addFriendBloc.close();
+  });
+}
+
+class _RowItem extends StatelessWidget {
+  final String title;
+  final String subTitle;
+  final String pngIcon;
+  final Function onPressed;
+  final bool isImportant;
+
+  const _RowItem(
+      {Key key,
+      @required this.title,
+      this.subTitle,
+      this.pngIcon,
+      this.onPressed,
+      this.isImportant = false})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onPressed,
+      child: Row(
+        children: <Widget>[
+          const SizedBox(width: 20),
+          if (pngIcon != null) Padding(
+            padding: const EdgeInsets.only(right: 10),
+            child: Image.asset(pngIcon, width: 20, height: 20),
+          ),
+          Expanded(
+              child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                title,
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  color: isImportant
+                      ? DesignColor.lightRed
+                      : context.colorScheme.onBackground,
+                ),
+              ),
+              if (subTitle != null)
+                Text(
+                  subTitle,
+                  style: TextStyle(
+                      fontSize: 14, color: context.colorScheme.onSurface),
+                ),
+            ],
+          )),
+        ],
+      ),
+    );
+  }
 }

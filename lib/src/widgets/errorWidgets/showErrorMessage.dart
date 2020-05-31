@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-import '../customs/toast.dart';
-
-void showErrorMessage(BuildContext context, String message) {
-  Toast.show(message, context, duration: 3);
+void showErrorMessage(BuildContext context, String message) async {
+  Fluttertoast.showToast(
+    msg: message,
+    gravity: ToastGravity.BOTTOM,
+    timeInSecForIosWeb: 1,
+    backgroundColor: Colors.black.withOpacity(0.7),
+    textColor: Colors.white,
+    fontSize: 16.0,
+  );
 }

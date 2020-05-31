@@ -23,6 +23,12 @@ class Api {
   static final meFriends = AppConfig.instance.apiUrl + '/users/me/friends';
   static final meTours = AppConfig.instance.apiUrl + '/users/me/tours';
 
+  static String addFriend(int userId) =>
+      AppConfig.instance.apiUrl + '/users/me/friends/$userId';
+  static String deleteFriend(int userId) =>
+      AppConfig.instance.apiUrl + '/users/me/friends/$userId';
+  static String acceptFriend(int userId) =>
+      AppConfig.instance.apiUrl + '/users/me/accept-friend/$userId';
   static String userTours(int userId) =>
       AppConfig.instance.apiUrl + '/users/$userId/tours';
   static String userFriends(int userId) =>

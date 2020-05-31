@@ -23,7 +23,7 @@ class Gender {
   }
 }
 
-enum FriendType { none, accepted, requested, waiting }
+enum FriendType { me, none, accepted, requested, waiting }
 
 class User with Mappable {
   int id;
@@ -117,8 +117,8 @@ class SimpleUser with Mappable {
     map('Email', email, (v) => email = v);
     map('Avatar', avatar, (v) => avatar = v, MultiSizeImageTransform());
     map('Job', job, (v) => job = v);
+    map('FriendType', friendType, (v) => friendType = v, FriendTypeTransform());
     map('TourCount', tourCount, (v) => tourCount = v);
-    map('FrienType', friendType, (v) => friendType = v, FriendTypeTransform());
   }
 }
 

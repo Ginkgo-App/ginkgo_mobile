@@ -1,13 +1,16 @@
 part of 'models.dart';
 
 class Pagination<T> {
-  _PaginationDetail pagination;
-  List<T> data;
+  _PaginationDetail pagination = _PaginationDetail();
+  List<T> data = [];
 
-  Pagination(Map<String, dynamic> paginationJson, List dataJson)
-      : pagination =
-            Mapper.fromJson(paginationJson).toObject<_PaginationDetail>(),
-        data = dataJson.map((e) => Mapper.fromJson(e).toObject<T>()).toList();
+  Pagination([Map<String, dynamic> paginationJson, List dataJson])
+      : pagination = paginationJson == null
+            ? _PaginationDetail()
+            : Mapper.fromJson(paginationJson).toObject<_PaginationDetail>(),
+        data = dataJson == null
+            ? []
+            : dataJson.map((e) => Mapper.fromJson(e).toObject<T>()).toList();
 }
 
 class _PaginationDetail with Mappable {

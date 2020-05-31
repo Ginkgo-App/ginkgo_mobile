@@ -6,23 +6,23 @@ abstract class UserFriendState {
   String toString() => runtimeType.toString();
 }
 
-class UserFriendInitial extends UserFriendState {}
+class UserFriendStateInitial extends UserFriendState {}
 
-class UserFriendLoading extends UserFriendState {}
+class UserFriendStateLoading extends UserFriendState {}
 
-class UserFriendSuccess extends UserFriendState {
+class UserFriendStateSuccess extends UserFriendState {
   final Pagination<SimpleUser> users;
 
-  UserFriendSuccess(this.users);
+  UserFriendStateSuccess(this.users);
 
   @override
   String toString() => '$runtimeType ${users.pagination.toJsonString()}';
 }
 
-class UserFriendFailure extends UserFriendState {
+class UserFriendStateFailure extends UserFriendState {
   final String error;
 
-  UserFriendFailure(this.error);
+  UserFriendStateFailure(this.error);
 
   @override
   String toString() => '$runtimeType $error';
