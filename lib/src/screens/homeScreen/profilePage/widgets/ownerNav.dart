@@ -67,7 +67,8 @@ class UserNav extends StatelessWidget {
   final SimpleUser user;
   final Function onCustomButtonPressed;
 
-  const UserNav({Key key, this.onCustomButtonPressed, @required this.user}) : super(key: key);
+  const UserNav({Key key, this.onCustomButtonPressed, @required this.user})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +94,7 @@ class UserNav extends StatelessWidget {
               imageIcon: getFriendNavIcon(user.friendType),
               label: getFriendButtonText(user.friendType),
               onPressed: () {
-                Toast.show(Strings.common.developingFeature, context);
+                getFriendAction(context, user)();
               },
             ),
             _Button(

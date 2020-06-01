@@ -138,12 +138,44 @@ String getFriendNavIcon(FriendType friendType) {
   }
 }
 
+Function getFriendAction(BuildContext context, SimpleUser user) {
+  switch (user.friendType) {
+    case FriendType.waiting:
+      return () {};
+    case FriendType.requested:
+      return () => showConfirmFriendRequest(context, user);
+    case FriendType.accepted:
+      return () => showFriendMenuBottomSheet(context, user);
+    case FriendType.none:
+    default:
+      return () => _onAddFriend(context, user);
+  }
+}
+
 bool _isEnable(FriendType friendType) =>
     friendType == FriendType.none || friendType == FriendType.requested;
 
 _onRemoveFriend(BuildContext context, int userId) {
   final AddFriendBloc addFriendBloc = AddFriendBloc();
   addFriendBloc.add(AddFriendEventRemoveFriend(userId));
+
+  addFriendBloc.listen((state) {
+    if (state is AddFriendStateLoading) {
+      LoadingManager().show(context);
+      return;
+    } else if (state is AddFriendStateFailure) {
+      showErrorMessage(
+          context, Strings.error.error + '\n' + state.error.toString());
+    }
+
+    LoadingManager().hide(context);
+    addFriendBloc.close();
+  });
+}
+
+_onAddFriend(BuildContext context, SimpleUser user) {
+  final AddFriendBloc addFriendBloc = AddFriendBloc();
+  addFriendBloc.add(AddFriendEventAddFriend(user));
 
   addFriendBloc.listen((state) {
     if (state is AddFriendStateLoading) {

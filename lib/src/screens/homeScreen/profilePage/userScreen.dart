@@ -44,6 +44,7 @@ class _UserScreenState extends State<UserScreen> {
             avatar: args?.simpleUser?.avatar);
         if (state is UserStateSuccess) {
           user = state.user;
+          user.friendType = args?.simpleUser?.friendType;
         }
 
         return PrimaryScaffold(
