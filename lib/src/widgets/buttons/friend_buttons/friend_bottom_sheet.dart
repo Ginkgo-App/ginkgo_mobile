@@ -90,8 +90,8 @@ showFriendMenuBottomSheet(BuildContext context, SimpleUser user) {
                   subTitle: 'Xóa ${user.displayName} khỏi danh sách bạn bè',
                   isImportant: true,
                   onPressed: () {
-                    onRemoveFriend(context, user, () {
-                      addFriendBloc.add(AddFriendEventRemoveFriend(user.id));
+                    showRemoveFriendConfirm(context, user).then((_) {
+                      Navigator.pop(context);
                     });
                   },
                 ),
@@ -132,10 +132,11 @@ class _RowItem extends StatelessWidget {
       child: Row(
         children: <Widget>[
           const SizedBox(width: 20),
-          if (pngIcon != null) Padding(
-            padding: const EdgeInsets.only(right: 10),
-            child: Image.asset(pngIcon, width: 20, height: 20),
-          ),
+          if (pngIcon != null)
+            Padding(
+              padding: const EdgeInsets.only(right: 10),
+              child: Image.asset(pngIcon, width: 20, height: 20),
+            ),
           Expanded(
               child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

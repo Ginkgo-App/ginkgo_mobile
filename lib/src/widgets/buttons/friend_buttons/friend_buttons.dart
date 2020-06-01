@@ -61,8 +61,8 @@ Future onConfirmFriendRequest(BuildContext context, SimpleUser user,
       ),
     );
 
-onRemoveFriend(BuildContext context, SimpleUser user, Function onRemove) {
-  showCupertinoDialog(
+Future showRemoveFriendConfirm(BuildContext context, SimpleUser user) {
+  return showCupertinoDialog(
     context: context,
     builder: (context) => CupertinoAlertDialog(
       content: Text(
@@ -72,7 +72,7 @@ onRemoveFriend(BuildContext context, SimpleUser user, Function onRemove) {
           child: Text('Đồng ý'),
           onPressed: () {
             Navigator.of(context).pop();
-            onRemove();
+            _onRemoveFriend(context, user.id);
           },
           isDefaultAction: true,
         ),
@@ -96,7 +96,8 @@ onCancelFriendRequest(BuildContext context, SimpleUser user) {
         CupertinoDialogAction(
           child: Text('Đồng ý'),
           onPressed: () {
-            Toast.show(Strings.common.developingFeature, context);
+            Navigator.of(context).pop();
+            _onRemoveFriend(context, user.id);
           },
           isDefaultAction: true,
         ),
@@ -126,3 +127,21 @@ String _getButtonText(FriendType friendType) {
 
 bool _isEnable(FriendType friendType) =>
     friendType == FriendType.none || friendType == FriendType.requested;
+
+_onRemoveFriend(BuildContext context, int userId) {
+  final AddFriendBloc addFriendBloc = AddFriendBloc();
+  addFriendBloc.add(AddFriendEventRemoveFriend(userId));
+
+  addFriendBloc.listen((state) {
+    if (state is AddFriendStateLoading) {
+      LoadingManager().show(context);
+      return;
+    } else if (state is AddFriendStateFailure) {
+      showErrorMessage(
+          context, Strings.error.error + '\n' + state.error.toString());
+    }
+
+    LoadingManager().hide(context);
+    addFriendBloc.close();
+  });
+}

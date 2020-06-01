@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:base/base.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -5,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ginkgo_mobile/src/app.dart';
 import 'package:ginkgo_mobile/src/blocs/currentUser/current_user_bloc.dart';
-import 'package:ginkgo_mobile/src/blocs/userFriend/user_friend_bloc.dart';
+import 'package:ginkgo_mobile/src/blocs/user_friends/user_friends_bloc.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/navigators.dart';
 import 'package:ginkgo_mobile/src/screens/screens.dart';
@@ -28,25 +30,28 @@ class FriendList extends StatefulWidget {
 }
 
 class _FriendListState extends State<FriendList> {
-  final UserFriendBloc _bloc = UserFriendBloc();
+  UserFriendsBloc bloc;
 
   @override
   void initState() {
     super.initState();
-    _fetchData();
+    if (CurrentUserBloc().isCurrentUser(simpleUser: widget.user)) {
+      bloc = CurrentUserBloc().acceptedFriendsBloc;
+    } else {
+      bloc = UserFriendsBloc.forOtherUser(widget.user);
+    }
+    onRefresh();
   }
 
-  _fetchData() {
-    _bloc.add(UserFriendEventFetch(
-        CurrentUserBloc().isCurrentUser(simpleUser: widget.user)
-            ? 0
-            : widget.user.id,
-        type: FriendType.accepted));
+  onRefresh() {
+    bloc.add(UserFriendsEventFirstFetch());
   }
 
   @override
   void dispose() {
-    _bloc.close();
+    if (!bloc.isCurrentUser) {
+      bloc.close();
+    }
     super.dispose();
   }
 
@@ -56,33 +61,28 @@ class _FriendListState extends State<FriendList> {
       title: 'Danh sách bạn bè',
       icon: Assets.icons.friendList,
       child: BlocBuilder(
-        bloc: _bloc,
+        bloc: bloc,
         builder: (context, state) {
-          if (state is UserFriendStateFailure) {
+          if (state is UserFriendsStateFailure) {
             return ErrorIndicator(
               moreErrorDetail: state.error,
-              onReload: _fetchData,
+              onReload: onRefresh,
             );
           } else {
             return Column(
               children: <Widget>[
-                _buildList(
-                    state is UserFriendStateSuccess ? state.users.data : null),
-                if (state is UserFriendStateSuccess)
-                  if (state.users.data.length > 0) ...[
+                _buildList(state is FriendsStateSuccess
+                    ? bloc.friendList.sublist(0, min(6, bloc.friendList.length))
+                    : null),
+                if (state is FriendsStateSuccess)
+                  if (bloc.friendList.length > 0) ...[
                     const SizedBox(height: 10),
                     CommonOutlineButton(
                       text: 'Xem tất cả danh sách bạn bè',
                       onPressed: () {
-                        if (CurrentUserBloc()
-                            .isCurrentUser(simpleUser: widget.user)) {
-                          Navigators.appNavigator.currentState
-                              .pushNamed(Routes.currentFriendListScreen);
-                        } else {
-                          Navigators.appNavigator.currentState.pushNamed(
-                              Routes.friendListScreen,
-                              arguments: FriendListScreenArgs(widget.user));
-                        }
+                        Navigators.appNavigator.currentState.pushNamed(
+                            Routes.friendListScreen,
+                            arguments: FriendListScreenArgs(widget.user));
                       },
                     )
                   ] else
@@ -122,8 +122,10 @@ class _FriendListItem extends StatelessWidget {
       enabled: user == null,
       child: GestureDetector(
         onTap: () {
-          Navigators.appNavigator.currentState
-              .pushNamed(Routes.user, arguments: UserScreenArgs(user));
+          if (!CurrentUserBloc().isCurrentUser(simpleUser: user)) {
+            Navigators.appNavigator.currentState
+                .pushNamed(Routes.user, arguments: UserScreenArgs(user));
+          }
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

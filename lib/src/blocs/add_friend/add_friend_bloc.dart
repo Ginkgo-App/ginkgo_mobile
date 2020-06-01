@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:ginkgo_mobile/src/blocs/currentUser/current_user_bloc.dart';
-import 'package:ginkgo_mobile/src/blocs/current_user_friends/current_user_friends_bloc.dart';
+import 'package:ginkgo_mobile/src/blocs/user_friends/user_friends_bloc.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/repositories/repository.dart';
 import 'package:meta/meta.dart';
@@ -26,31 +26,31 @@ class AddFriendBloc extends Bloc<AddFriendEvent, AddFriendState> {
         await _repository.user.acceptFriend(event.user.id);
         yield AddFriendStateSuccess();
         CurrentUserBloc().acceptedFriendsBloc.add(
-            CurrentUserFriendsEventAddToList(
+            UserFriendsEventAddToList(
                 event.user..friendType = FriendType.accepted));
         CurrentUserBloc()
             .requestedFriendsBloc
-            .add(CurrentUserFriendsEventRemoveFromList(event.user.id));
+            .add(UserFriendsEventRemoveFromList(event.user.id));
       } else if (event is AddFriendEventAddFriend) {
         yield AddFriendStateLoading();
         await _repository.user.addFriend(event.user.id);
         yield AddFriendStateSuccess();
         CurrentUserBloc()
             .waitingFriendsBloc
-            .add(CurrentUserFriendsEventAddToList(event.user));
+            .add(UserFriendsEventAddToList(event.user));
       } else if (event is AddFriendEventRemoveFriend) {
         yield AddFriendStateLoading();
         await _repository.user.removeFriend(event.userId);
         yield AddFriendStateSuccess();
         CurrentUserBloc()
             .acceptedFriendsBloc
-            .add(CurrentUserFriendsEventRemoveFromList(event.userId));
+            .add(UserFriendsEventRemoveFromList(event.userId));
         CurrentUserBloc()
             .requestedFriendsBloc
-            .add(CurrentUserFriendsEventRemoveFromList(event.userId));
+            .add(UserFriendsEventRemoveFromList(event.userId));
         CurrentUserBloc()
             .waitingFriendsBloc
-            .add(CurrentUserFriendsEventRemoveFromList(event.userId));
+            .add(UserFriendsEventRemoveFromList(event.userId));
       }
     } catch (e) {
       yield AddFriendStateFailure(e);

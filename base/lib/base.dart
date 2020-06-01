@@ -18,3 +18,4 @@ part 'src/helper.dart';
 part 'src/serverError.dart';
 part 'src/storageProvider.dart';
 part 'src/utils.dart';
+part 'src/mixins/loadmore_mixin.dart';

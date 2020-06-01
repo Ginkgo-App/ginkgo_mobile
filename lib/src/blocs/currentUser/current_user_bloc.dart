@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:ginkgo_mobile/src/blocs/current_user_friends/current_user_friends_bloc.dart';
+import 'package:ginkgo_mobile/src/blocs/user_friends/user_friends_bloc.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/repositories/repository.dart';
 import 'package:meta/meta.dart';
@@ -12,12 +12,22 @@ part 'current_user_state.dart';
 class CurrentUserBloc extends Bloc<CurrentUserEvent, CurrentUserState> {
   static CurrentUserBloc _instance = CurrentUserBloc._();
   CurrentUserBloc._();
-  factory CurrentUserBloc() => _instance;
+
+  factory CurrentUserBloc() {
+    if (_instance == null) {
+      _instance = CurrentUserBloc._();
+    }
+
+    return _instance;
+  }
 
   final Repository _repository = Repository();
-  final CurrentUserFriendsBloc acceptedFriendsBloc = CurrentUserFriendsBloc(FriendType.accepted);
-  final CurrentUserFriendsBloc requestedFriendsBloc = CurrentUserFriendsBloc(FriendType.requested);
-  final CurrentUserFriendsBloc waitingFriendsBloc = CurrentUserFriendsBloc(FriendType.waiting);
+  final UserFriendsBloc acceptedFriendsBloc =
+      UserFriendsBloc.forCurrentUser(FriendType.accepted);
+  final UserFriendsBloc requestedFriendsBloc =
+      UserFriendsBloc.forCurrentUser(FriendType.requested);
+  final UserFriendsBloc waitingFriendsBloc =
+      UserFriendsBloc.forCurrentUser(FriendType.waiting);
 
   User _currentUser;
   List<User> _friends;
