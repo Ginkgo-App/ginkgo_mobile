@@ -108,7 +108,7 @@ class UserFriendWidget extends StatelessWidget {
                               color: DesignColor.darkestGreen,
                             ),
                             onPressed: () {
-                              onConfirmFriendRequest(context, user);
+                              showConfirmFriendRequest(context, user);
                             },
                             focusColor: Colors.greenAccent,
                             highlightColor: Colors.greenAccent,

@@ -36,7 +36,7 @@ class BlueFriendButton extends StatelessWidget {
           border: Border.all(color: color, width: 0.5),
         ),
         child: Text(
-          _getButtonText(user.friendType),
+          getFriendButtonText(user.friendType),
           textAlign: TextAlign.center,
           style: context.textTheme.caption.copyWith(color: color),
         ),

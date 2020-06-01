@@ -98,7 +98,7 @@ class _FriendListScreenState extends State<FriendListScreen>
           friends: bloc.friendList,
           readonly: !isCurrentUser,
           isLoading: state is UserFriendsStateLoading,
-          isLoadingMore: state is UserFriendsStateLoadingMore,
+          canLoadmore: bloc.pagination?.canLoadmore ?? false,
           onFirstFetch: () {
             bloc.add(UserFriendsEventFirstFetch());
           },

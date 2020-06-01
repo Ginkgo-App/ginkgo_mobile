@@ -60,7 +60,8 @@ class UserFriendsBloc extends Bloc<UserFriendsEvent, UserFriendsState> {
         yield UserFriendsStateFailure(e.toString());
       }
     } else if (event is UserFriendsEventLoadMore &&
-        _pagination.pagination.currentPage < _pagination.pagination.totalPage) {
+        _pagination.pagination.currentPage < _pagination.pagination.totalPage &&
+        _friendList.length > 0) {
       try {
         yield UserFriendsStateLoadingMore();
 

@@ -4,6 +4,8 @@ class Pagination<T> {
   _PaginationDetail pagination = _PaginationDetail();
   List<T> data = [];
 
+  bool get canLoadmore => pagination.currentPage < pagination.totalPage;
+
   Pagination([Map<String, dynamic> paginationJson, List dataJson])
       : pagination = paginationJson == null
             ? _PaginationDetail()

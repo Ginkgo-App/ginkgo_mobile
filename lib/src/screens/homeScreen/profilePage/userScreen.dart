@@ -64,7 +64,7 @@ class _UserScreenState extends State<UserScreen> {
                         padding: EdgeInsets.symmetric(horizontal: 10),
                         child: Column(
                           children: <Widget>[
-                            UserNav(),
+                            UserNav(user: user.toSimpleUser()),
                             const SizedBox(height: 10),
                             AboutBox(user: user),
                             const SizedBox(height: 10),

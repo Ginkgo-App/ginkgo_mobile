@@ -8,7 +8,7 @@ import 'package:ginkgo_mobile/src/widgets/widgets.dart';
 class FriendListWidget extends StatefulWidget {
   final List<SimpleUser> friends;
   final bool isLoading;
-  final bool isLoadingMore;
+  final bool canLoadmore;
   final Function onLoadingMore;
   final Function onFirstFetch;
   final bool readonly;
@@ -17,7 +17,7 @@ class FriendListWidget extends StatefulWidget {
     Key key,
     this.isLoading = true,
     @required this.friends,
-    this.isLoadingMore = false,
+    this.canLoadmore = false,
     this.onLoadingMore,
     this.onFirstFetch,
     this.readonly = true,
@@ -58,9 +58,9 @@ class _FriendListWidgetState extends State<FriendListWidget>
                       .map<Widget>((e) =>
                           UserFriendWidget(user: e, readonly: widget.readonly))
                       .toList(),
-                  if (widget.isLoadingMore)
+                  if (widget.canLoadmore)
                     ...List.generate(
-                        10, (_) => UserFriendWidget(readonly: widget.readonly))
+                        2, (_) => UserFriendWidget(readonly: widget.readonly))
                 ],
         ),
       ),

@@ -3,10 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ginkgo_mobile/src/app.dart';
+import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/navigators.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/utils/designColor.dart';
 import 'package:ginkgo_mobile/src/utils/strings.dart';
+import 'package:ginkgo_mobile/src/widgets/buttons/friend_buttons/friend_buttons.dart';
 import 'package:ginkgo_mobile/src/widgets/customs/toast.dart';
 
 class OwnerNav extends StatelessWidget {
@@ -62,9 +64,10 @@ class OwnerNav extends StatelessWidget {
 }
 
 class UserNav extends StatelessWidget {
+  final SimpleUser user;
   final Function onCustomButtonPressed;
 
-  const UserNav({Key key, this.onCustomButtonPressed}) : super(key: key);
+  const UserNav({Key key, this.onCustomButtonPressed, @required this.user}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -87,8 +90,8 @@ class UserNav extends StatelessWidget {
               },
             ),
             _Button(
-              imageIcon: Assets.icons.friendAcceptance,
-              label: 'Bạn bè',
+              imageIcon: getFriendNavIcon(user.friendType),
+              label: getFriendButtonText(user.friendType),
               onPressed: () {
                 Toast.show(Strings.common.developingFeature, context);
               },

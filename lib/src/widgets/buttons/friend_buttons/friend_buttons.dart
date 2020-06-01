@@ -21,7 +21,7 @@ _onButtonPressed(BuildContext context, SimpleUser user) {
   Toast.show(Strings.common.developingFeature, context);
 }
 
-Future onConfirmFriendRequest(BuildContext context, SimpleUser user,
+Future showConfirmFriendRequest(BuildContext context, SimpleUser user,
         {Function onSuccess}) =>
     showCupertinoDialog(
       context: context,
@@ -111,7 +111,7 @@ onCancelFriendRequest(BuildContext context, SimpleUser user) {
   );
 }
 
-String _getButtonText(FriendType friendType) {
+String getFriendButtonText(FriendType friendType) {
   switch (friendType) {
     case FriendType.waiting:
       return 'Đã gửi';
@@ -122,6 +122,19 @@ String _getButtonText(FriendType friendType) {
     case FriendType.none:
     default:
       return 'Kết bạn';
+  }
+}
+
+String getFriendNavIcon(FriendType friendType) {
+  switch (friendType) {
+    case FriendType.waiting:
+      return Assets.icons.friendSendRequest;
+    case FriendType.requested:
+    case FriendType.accepted:
+      return Assets.icons.friendAcceptance;
+    case FriendType.none:
+    default:
+      return Assets.icons.friendAdd;
   }
 }
 
