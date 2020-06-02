@@ -10,7 +10,11 @@ class AddFriendInitial extends AddFriendState {}
 
 class AddFriendStateLoading extends AddFriendState {}
 
-class AddFriendStateSuccess extends AddFriendState {}
+class AddFriendStateSuccess extends AddFriendState {
+  final SimpleUser user;
+
+  AddFriendStateSuccess(this.user);
+}
 
 class AddFriendStateFailure extends AddFriendState {
   final dynamic error;

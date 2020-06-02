@@ -16,12 +16,12 @@ class AddFriendEventAddFriend extends AddFriendEvent {
 }
 
 class AddFriendEventRemoveFriend extends AddFriendEvent {
-  final int userId;
+  final SimpleUser user;
 
-  AddFriendEventRemoveFriend(this.userId);
+  AddFriendEventRemoveFriend(this.user);
 
   @override
-  String toString() => '$runtimeType $userId';
+  String toString() => '$runtimeType ${user.id}';
 }
 
 class AddFriendEventAcceptFriend extends AddFriendEvent {

@@ -1,6 +1,7 @@
 part of 'friend_buttons.dart';
 
-showFriendMenuBottomSheet(BuildContext context, SimpleUser user) {
+showFriendMenuBottomSheet(BuildContext context, SimpleUser user,
+    {Function onRemoveSuccess}) {
   if (user.friendType != FriendType.accepted) {
     Toast.show('Không thể mở menu vì chưa là bạn bè', context);
   }
@@ -90,7 +91,9 @@ showFriendMenuBottomSheet(BuildContext context, SimpleUser user) {
                   subTitle: 'Xóa ${user.displayName} khỏi danh sách bạn bè',
                   isImportant: true,
                   onPressed: () {
-                    showRemoveFriendConfirm(context, user).then((_) {
+                    showRemoveFriendConfirm(context, user,
+                            onSuccess: onRemoveSuccess)
+                        .then((_) {
                       Navigator.pop(context);
                     });
                   },

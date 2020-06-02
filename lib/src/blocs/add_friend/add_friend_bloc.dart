@@ -24,33 +24,32 @@ class AddFriendBloc extends Bloc<AddFriendEvent, AddFriendState> {
       if (event is AddFriendEventAcceptFriend) {
         yield AddFriendStateLoading();
         await _repository.user.acceptFriend(event.user.id);
-        yield AddFriendStateSuccess();
-        CurrentUserBloc().acceptedFriendsBloc.add(
-            UserFriendsEventAddToList(
-                event.user..friendType = FriendType.accepted));
+        yield AddFriendStateSuccess(event.user);
+        CurrentUserBloc().acceptedFriendsBloc.add(UserFriendsEventAddToList(
+            event.user..friendType = FriendType.accepted));
         CurrentUserBloc()
             .requestedFriendsBloc
             .add(UserFriendsEventRemoveFromList(event.user.id));
       } else if (event is AddFriendEventAddFriend) {
         yield AddFriendStateLoading();
         await _repository.user.addFriend(event.user.id);
-        yield AddFriendStateSuccess();
+        yield AddFriendStateSuccess(event.user);
         CurrentUserBloc()
             .waitingFriendsBloc
             .add(UserFriendsEventAddToList(event.user));
       } else if (event is AddFriendEventRemoveFriend) {
         yield AddFriendStateLoading();
-        await _repository.user.removeFriend(event.userId);
-        yield AddFriendStateSuccess();
+        await _repository.user.removeFriend(event.user.id);
+        yield AddFriendStateSuccess(event.user);
         CurrentUserBloc()
             .acceptedFriendsBloc
-            .add(UserFriendsEventRemoveFromList(event.userId));
+            .add(UserFriendsEventRemoveFromList(event.user.id));
         CurrentUserBloc()
             .requestedFriendsBloc
-            .add(UserFriendsEventRemoveFromList(event.userId));
+            .add(UserFriendsEventRemoveFromList(event.user.id));
         CurrentUserBloc()
             .waitingFriendsBloc
-            .add(UserFriendsEventRemoveFromList(event.userId));
+            .add(UserFriendsEventRemoveFromList(event.user.id));
       }
     } catch (e) {
       yield AddFriendStateFailure(e);

@@ -43,9 +43,10 @@ Future showConfirmFriendRequest(BuildContext context, SimpleUser user,
                 } else if (state is AddFriendStateFailure) {
                   showErrorMessage(context,
                       Strings.error.error + '\n' + state.error.toString());
+                } else if (state is AddFriendStateSuccess) {
+                  onSuccess?.call();
                 }
 
-                onSuccess?.call();
                 LoadingManager().hide(context);
                 addFriendBloc.close();
               });
@@ -61,7 +62,8 @@ Future showConfirmFriendRequest(BuildContext context, SimpleUser user,
       ),
     );
 
-Future showRemoveFriendConfirm(BuildContext context, SimpleUser user) {
+Future showRemoveFriendConfirm(BuildContext context, SimpleUser user,
+    {Function onSuccess}) {
   return showCupertinoDialog(
     context: context,
     builder: (context) => CupertinoAlertDialog(
@@ -72,7 +74,7 @@ Future showRemoveFriendConfirm(BuildContext context, SimpleUser user) {
           child: Text('Đồng ý'),
           onPressed: () {
             Navigator.of(context).pop();
-            _onRemoveFriend(context, user.id);
+            _onRemoveFriend(context, user, onSuccess: onSuccess);
           },
           isDefaultAction: true,
         ),
@@ -86,7 +88,8 @@ Future showRemoveFriendConfirm(BuildContext context, SimpleUser user) {
   );
 }
 
-onCancelFriendRequest(BuildContext context, SimpleUser user) {
+onCancelFriendRequest(BuildContext context, SimpleUser user,
+    {Function onSuccess}) {
   showCupertinoDialog(
     context: context,
     builder: (context) => CupertinoAlertDialog(
@@ -97,7 +100,7 @@ onCancelFriendRequest(BuildContext context, SimpleUser user) {
           child: Text('Đồng ý'),
           onPressed: () {
             Navigator.of(context).pop();
-            _onRemoveFriend(context, user.id);
+            _onRemoveFriend(context, user, onSuccess: onSuccess);
           },
           isDefaultAction: true,
         ),
@@ -138,26 +141,29 @@ String getFriendNavIcon(FriendType friendType) {
   }
 }
 
-Function getFriendAction(BuildContext context, SimpleUser user) {
+Function getFriendAction(BuildContext context, SimpleUser user,
+    {Function onSuccess}) {
   switch (user.friendType) {
     case FriendType.waiting:
       return () {};
     case FriendType.requested:
-      return () => showConfirmFriendRequest(context, user);
+      return () =>
+          showConfirmFriendRequest(context, user, onSuccess: onSuccess);
     case FriendType.accepted:
-      return () => showFriendMenuBottomSheet(context, user);
+      return () =>
+          showFriendMenuBottomSheet(context, user, onRemoveSuccess: onSuccess);
     case FriendType.none:
     default:
-      return () => _onAddFriend(context, user);
+      return () => _onAddFriend(context, user, onSuccess: onSuccess);
   }
 }
 
 bool _isEnable(FriendType friendType) =>
     friendType == FriendType.none || friendType == FriendType.requested;
 
-_onRemoveFriend(BuildContext context, int userId) {
+_onRemoveFriend(BuildContext context, SimpleUser user, {Function onSuccess}) {
   final AddFriendBloc addFriendBloc = AddFriendBloc();
-  addFriendBloc.add(AddFriendEventRemoveFriend(userId));
+  addFriendBloc.add(AddFriendEventRemoveFriend(user));
 
   addFriendBloc.listen((state) {
     if (state is AddFriendStateLoading) {
@@ -166,14 +172,15 @@ _onRemoveFriend(BuildContext context, int userId) {
     } else if (state is AddFriendStateFailure) {
       showErrorMessage(
           context, Strings.error.error + '\n' + state.error.toString());
+    } else if (state is AddFriendStateSuccess) {
+      onSuccess?.call();
     }
-
     LoadingManager().hide(context);
     addFriendBloc.close();
   });
 }
 
-_onAddFriend(BuildContext context, SimpleUser user) {
+_onAddFriend(BuildContext context, SimpleUser user, {Function onSuccess}) {
   final AddFriendBloc addFriendBloc = AddFriendBloc();
   addFriendBloc.add(AddFriendEventAddFriend(user));
 
@@ -184,8 +191,9 @@ _onAddFriend(BuildContext context, SimpleUser user) {
     } else if (state is AddFriendStateFailure) {
       showErrorMessage(
           context, Strings.error.error + '\n' + state.error.toString());
+    } else if (state is AddFriendStateSuccess) {
+      onSuccess?.call();
     }
-
     LoadingManager().hide(context);
     addFriendBloc.close();
   });

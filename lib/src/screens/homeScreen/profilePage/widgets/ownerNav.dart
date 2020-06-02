@@ -66,8 +66,13 @@ class OwnerNav extends StatelessWidget {
 class UserNav extends StatelessWidget {
   final SimpleUser user;
   final Function onCustomButtonPressed;
+  final Function onFriendActionSuccess;
 
-  const UserNav({Key key, this.onCustomButtonPressed, @required this.user})
+  const UserNav(
+      {Key key,
+      this.onCustomButtonPressed,
+      @required this.user,
+      this.onFriendActionSuccess})
       : super(key: key);
 
   @override
@@ -94,7 +99,8 @@ class UserNav extends StatelessWidget {
               imageIcon: getFriendNavIcon(user.friendType),
               label: getFriendButtonText(user.friendType),
               onPressed: () {
-                getFriendAction(context, user)();
+                getFriendAction(context, user,
+                    onSuccess: onFriendActionSuccess)();
               },
             ),
             _Button(
