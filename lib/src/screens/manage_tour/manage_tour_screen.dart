@@ -9,11 +9,37 @@ class _ManageTourScreenState extends State<ManageTourScreen> {
   final PageController pageController = PageController();
   int currentPage = 0;
 
+  onOpenCreateTour() {
+    showCupertinoModalPopup(
+        context: context,
+        builder: (context) {
+          return CupertinoActionSheet(
+            actions: <Widget>[
+              CupertinoActionSheetAction(
+                  onPressed: () {}, child: Text('Tạo mẫu chuyến đi')),
+              CupertinoActionSheetAction(
+                  onPressed: () {}, child: Text('Tạo chuyến đi')),
+            ],
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return PrimaryScaffold(
       appBar: BackAppBar(
         title: 'Quản lý chuyến đi',
+        actions: <Widget>[
+          CupertinoButton(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: Icon(
+              Icons.add,
+              size: 30,
+              color: context.colorScheme.onBackground,
+            ),
+            onPressed: onOpenCreateTour,
+          )
+        ],
       ),
       body: NestedScrollView(
           headerSliverBuilder: (context, _) {
