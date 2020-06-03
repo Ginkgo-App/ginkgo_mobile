@@ -1,11 +1,13 @@
 library screens;
 
 import 'dart:async';
+import 'dart:math';
 
 import 'package:base/base.dart';
 import 'package:extended_tabs/extended_tabs.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_point_tab_bar/pointTabBar.dart';
 import 'package:flutter_svg/svg.dart';
@@ -55,7 +57,7 @@ import '../app.dart';
 
 part 'emailScreen/emailScreen.dart';
 part 'homeScreen/homeScreen.dart';
-part 'homeScreen/profilePage/profileListTourScreen.dart';
+part 'homeScreen/profilePage/tour_list_screen.dart';
 part 'homeScreen/profilePage/profilePage.dart';
 part 'homeScreen/profilePage/profileScreen.dart';
 part 'homeScreen/profilePage/userScreen.dart';
@@ -64,3 +66,5 @@ part 'registerScreen/registerScreen.dart';
 part 'splashScreen/splashScreen.dart';
 part 'tour_detail_screen/tour_detail_screen.dart';
 part 'friend_list/friend_list_screen.dart';
+part 'manage_tour/manage_tour_screen.dart';
+part 'create_tour/create_tour_screen.dart';

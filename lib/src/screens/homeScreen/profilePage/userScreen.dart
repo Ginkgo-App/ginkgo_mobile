@@ -80,7 +80,7 @@ class _UserScreenState extends State<UserScreen> {
                             InfoBox(user: user),
                             const SizedBox(height: 10),
                             if (user?.id != null) ...[
-                              TourListWidget(userId: user.id),
+                              TourListWidget(user: user.toSimpleUser()),
                               const SizedBox(height: 10),
                             ],
                             ActivityBox(),
