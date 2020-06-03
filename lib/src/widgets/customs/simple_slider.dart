@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -34,12 +35,28 @@ class ImageSliderWidgetState extends State<ImageSliderWidget> {
 
   final _controller = PageController();
 
+  Timer timer;
+
   @override
   void initState() {
     super.initState();
     _pages = widget.imageUrls.map((url) {
       return _buildImagePageItem(url);
     }).toList();
+
+    timer = Timer.periodic(Duration(seconds: 5), (_) {
+      setState(() {
+        page = page == _pages.length - 1 ? page = 0 : page + 1;
+        _controller.animateToPage(page,
+            duration: Duration(milliseconds: 1000), curve: Curves.easeOutQuint);
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
   }
 
   @override
