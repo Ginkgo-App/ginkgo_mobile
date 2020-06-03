@@ -27,6 +27,8 @@ import 'package:ginkgo_mobile/src/screens/homeScreen/profilePage/widgets/friendL
 import 'package:ginkgo_mobile/src/screens/homeScreen/profilePage/widgets/infoBox.dart';
 import 'package:ginkgo_mobile/src/screens/homeScreen/profilePage/widgets/ownerNav.dart';
 import 'package:ginkgo_mobile/src/screens/homeScreen/profilePage/widgets/tourListWidget.dart';
+import 'package:ginkgo_mobile/src/screens/tour_detail_screen/widgets/review_comment.dart';
+import 'package:ginkgo_mobile/src/screens/tour_detail_screen/widgets/services_provided.dart';
 import 'package:ginkgo_mobile/src/screens/tour_detail_screen/widgets/slider_widget.dart';
 import 'package:ginkgo_mobile/src/screens/tour_detail_screen/widgets/timeline_widget.dart';
 import 'package:ginkgo_mobile/src/screens/tour_detail_screen/widgets/tour_detail.dart';

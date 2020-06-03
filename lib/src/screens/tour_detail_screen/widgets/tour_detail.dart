@@ -14,7 +14,6 @@ class TourDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     return BorderContainer(
       title: simpletour.name,
-      margin: EdgeInsets.symmetric(horizontal: 10),
       child: Padding(
         padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
         child: Column(

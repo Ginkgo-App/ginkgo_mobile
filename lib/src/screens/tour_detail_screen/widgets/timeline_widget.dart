@@ -18,24 +18,21 @@ class TimelineWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return timelines == null || timelines.length == 0
         ? const SizedBox.shrink()
-        : Padding(
-            padding: const EdgeInsets.all(10),
-            child: CollapseContainer(
-              title: 'Lịch trình chi tiết',
-              height: 245,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-                child: Column(
-                  children: timelines
-                      .asMap()
-                      .map((i, e) =>
-                          MapEntry(i, buildTimelineItem(context, i, e)))
-                      .values
-                      .toList(),
-                ),
-              ),
+        : CollapseContainer(
+          title: 'Lịch trình chi tiết',
+          height: 245,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+            child: Column(
+              children: timelines
+                  .asMap()
+                  .map((i, e) =>
+                      MapEntry(i, buildTimelineItem(context, i, e)))
+                  .values
+                  .toList(),
             ),
-          );
+          ),
+        );
   }
 
   Widget buildTimelineItem(BuildContext context, int index, Timeline timeline) {

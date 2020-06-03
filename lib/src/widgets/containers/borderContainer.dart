@@ -7,7 +7,6 @@ class BorderContainer extends StatelessWidget {
   final EdgeInsets margin;
   final String icon;
   final String title;
-  final String flutterIcon;
   final List<Widget> actions;
   final Color color;
 
@@ -19,7 +18,6 @@ class BorderContainer extends StatelessWidget {
     this.title,
     this.children,
     this.margin,
-    this.flutterIcon,
     this.actions = const [],
     this.color,
   })  : assert(child == null || children == null),
@@ -46,7 +44,6 @@ class BorderContainer extends StatelessWidget {
               child: _Header(
                 title: title,
                 icon: icon,
-                flutterIcon: flutterIcon,
                 actions: actions,
               ),
             ),
@@ -71,11 +68,9 @@ class BorderContainer extends StatelessWidget {
 class _Header extends StatelessWidget {
   final String title;
   final String icon;
-  final String flutterIcon;
   final List<Widget> actions;
 
-  const _Header(
-      {Key key, this.title, this.icon, this.flutterIcon, this.actions})
+  const _Header({Key key, this.title, this.icon, this.actions})
       : super(key: key);
 
   @override
@@ -100,15 +95,6 @@ class _Header extends StatelessWidget {
               ),
             ),
           const SizedBox(width: 5),
-          if (flutterIcon.isExistAndNotEmpty)
-            GestureDetector(
-              onTap: () {},
-              child: SvgPicture.asset(
-                flutterIcon,
-                height: 10,
-                width: 10,
-              ),
-            ),
           ...actions
         ],
       ),

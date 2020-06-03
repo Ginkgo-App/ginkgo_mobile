@@ -26,16 +26,25 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
         ),
       ),
       body: SingleChildScrollView(
-        child: SpacingColumn(
-          spacing: 10,
+        child: Column(
           children: <Widget>[
             SliderWidget(images: FakeData.simpleTour.images),
-            TourDetail(),
-            buildMembers(),
-            TimelineWidget(
-              timelines: List.generate(11, (_) => FakeData.timeline),
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 10),
+              child: SpacingColumn(
+                spacing: 10,
+                isSpacingHeadTale: true,
+                children: <Widget>[
+                  TourDetail(),
+                  ServiceList(),
+                  buildMembers(),
+                  TimelineWidget(
+                    timelines: List.generate(11, (_) => FakeData.timeline),
+                  ),
+                  ReviewList(),
+                ],
+              ),
             ),
-            const SizedBox.shrink()
           ],
         ),
       ),
@@ -44,7 +53,6 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
 
   buildMembers() {
     return BorderContainer(
-      margin: EdgeInsets.symmetric(horizontal: 10),
       title: 'Những người tham gia',
       childPadding: EdgeInsets.only(bottom: 10),
       child: SingleChildScrollView(

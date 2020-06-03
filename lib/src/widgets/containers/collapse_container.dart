@@ -22,31 +22,44 @@ class CollapseContainer extends StatefulWidget {
 
 class _CollapseContainerState extends State<CollapseContainer>
     with SingleTickerProviderStateMixin {
+  final key = GlobalKey();
+  final GlobalKey childKey = GlobalKey();
   bool isCollapsing;
   AnimationController _controller;
-  final GlobalKey childKey = GlobalKey();
+  double widgetHeight;
 
   @override
   void initState() {
     super.initState();
     isCollapsing = widget.isCollapsing;
+    widgetHeight = widget.height;
     _controller = AnimationController(vsync: this, duration: widget.duration);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final RenderBox renderBoxRed = key.currentContext.findRenderObject();
+      if (renderBoxRed.size.height < widget.height) {
+        setState(() {
+          widgetHeight = null;
+        });
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return BorderContainer(
+      key: key,
       title: widget.title,
       childPadding: EdgeInsets.zero,
-      actions: <Widget>[if (widget.height != null) buildCollapseButton()],
+      actions: <Widget>[if (widgetHeight != null) buildCollapseButton()],
       child: AnimatedContainer(
         duration: widget.duration,
-        height: !isCollapsing || widget.height == null
+        height: !isCollapsing || widgetHeight == null
             ? (childKey.currentContext?.findRenderObject() as RenderBox)
                     ?.size
                     ?.height ??
                 null
-            : widget.height,
+            : widgetHeight,
         child: Stack(
           children: <Widget>[
             SingleChildScrollView(
@@ -59,7 +72,7 @@ class _CollapseContainerState extends State<CollapseContainer>
               right: 0,
               child: AnimatedOpacity(
                 duration: widget.duration,
-                opacity: isCollapsing && widget.height != null ? 1 : 0,
+                opacity: isCollapsing && widgetHeight != null ? 1 : 0,
                 child: Container(
                   height: 200,
                   decoration: BoxDecoration(

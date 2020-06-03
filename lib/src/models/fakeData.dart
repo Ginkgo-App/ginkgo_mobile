@@ -130,11 +130,11 @@ Nói chung là đáng đồng tiền bỏ ra. Nếu có dịp lần sau sẽ ủ
     tour: simpleTour,
     content:
         '''Hôm nay có thời gian nên mình review chuyến đi Đà Nẵng, 
-        Hội An vừa qua của mình. Ta nói vui ơi là vui, 
-        ban tổ chức cực kỳ chu đáo, có xe đưa rước tận nơi,
-        dịch vụ vui chơi thì khỏi chê vào đâu. 
-        Khách sạn sạch sẽ, đẹp,... bla bla bla bò bí bô la la la...
-        Nói chung là đáng đồng tiền bỏ ra. Nếu có dịp lần sau sẽ ủng hộ tiếp hihi...''',
+Hội An vừa qua của mình. Ta nói vui ơi là vui, 
+ban tổ chức cực kỳ chu đáo, có xe đưa rước tận nơi,
+dịch vụ vui chơi thì khỏi chê vào đâu. 
+Khách sạn sạch sẽ, đẹp,... bla bla bla bò bí bô la la la...
+Nói chung là đáng đồng tiền bỏ ra. Nếu có dịp lần sau sẽ ủng hộ tiếp hihi...''',
     createAt: DateTime(2019, 1, 1, 12, 12),
     featuredComments: [
       Comment(
