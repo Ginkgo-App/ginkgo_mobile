@@ -84,7 +84,7 @@ class BorderTourItem extends StatelessWidget {
     return Container(
       color: context.colorScheme.background,
       margin:
-          EdgeInsets.only(right: text.isExistAndNotEmpty ? null : 40, top: 5),
+          EdgeInsets.only(right: text.isExistAndNotEmpty ? 0 : 40, top: 5),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[

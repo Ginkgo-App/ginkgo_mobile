@@ -55,7 +55,7 @@ class SimpleTour with Mappable {
   SimpleUser host;
   double price;
   double rating;
-  SimpleUser friend;
+  List<SimpleUser> friends;
 
   SimpleTour(
       {this.id,
@@ -67,7 +67,7 @@ class SimpleTour with Mappable {
       this.host,
       this.price,
       this.rating,
-      this.friend});
+      this.friends});
 
   @override
   void mapping(Mapper map) {
@@ -76,11 +76,11 @@ class SimpleTour with Mappable {
     map('StartDay', startDay, (v) => startDay = v, DateTimeTransform());
     map('EndDay', endDay, (v) => endDay = v, DateTimeTransform());
     map('TotalMember', totalMember, (v) => totalMember = v);
-    map('Host', host, (v) => host = v);
+    map('Host', host, (v) => host = Mapper.fromJson(v).toObject<SimpleUser>());
     map<MultiSizeImage>(
         'Images', images, (v) => images = v, MultiSizeImageTransform());
     map('Price', price, (v) => price = v);
     map('Rating', rating, (v) => rating = v);
-    map('Friend', friend, (v) => friend = v);
+    map<SimpleUser>('Friend', friends, (v) => friends = v);
   }
 }

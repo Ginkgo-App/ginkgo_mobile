@@ -24,7 +24,7 @@ class FakeData {
     price: 10000,
     rating: 4,
     totalMember: 2,
-    friend: currentUser.toSimpleUser(),
+    friends: [currentUser.toSimpleUser()],
   );
 
   static final SimpleUser simpleUser = SimpleUser(
@@ -128,8 +128,7 @@ Nói chung là đáng đồng tiền bỏ ra. Nếu có dịp lần sau sẽ ủ
     id: '1',
     author: currentUser,
     tour: simpleTour,
-    content:
-        '''Hôm nay có thời gian nên mình review chuyến đi Đà Nẵng, 
+    content: '''Hôm nay có thời gian nên mình review chuyến đi Đà Nẵng, 
 Hội An vừa qua của mình. Ta nói vui ơi là vui, 
 ban tổ chức cực kỳ chu đáo, có xe đưa rước tận nơi,
 dịch vụ vui chơi thì khỏi chê vào đâu. 

@@ -67,9 +67,9 @@ class TourInfoWidget extends StatelessWidget {
                 _buildRowIcon(context,
                     icon: Assets.icons.people,
                     text: tour != null ? '${tour.totalMember} người' : '',
-                    richText: tour.friend != null && showFriend
+                    richText: showFriend && tour.friends != null && tour.friends.length > 0
                         ? _buildRichTextFriend(
-                            context, tour.friend, tour.totalMember)
+                            context, tour.friends[0], tour.totalMember)
                         : null),
               if (showPrice)
                 _buildRowIcon(context,

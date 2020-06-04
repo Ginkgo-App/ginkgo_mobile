@@ -87,7 +87,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             const SizedBox(height: 10),
                             InfoBox(user: user, editMode: editMode),
                             const SizedBox(height: 10),
-                            TourListWidget(user: user.toSimpleUser()),
+                            TourListWidget(user: user?.toSimpleUser()),
                             const SizedBox(height: 10),
                             ActivityBox(),
                             const SizedBox(height: 20),
