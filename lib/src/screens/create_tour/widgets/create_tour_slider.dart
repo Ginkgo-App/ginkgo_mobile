@@ -29,9 +29,11 @@ class CreateTourSlider extends StatelessWidget {
           left: 0,
           bottom: 0,
           child: Container(
-            padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+            height: 50,
             color: Colors.black.withOpacity(0.7),
+            padding: EdgeInsets.symmetric(horizontal: 10),
             child: SpacingColumn(
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               spacing: 5,
               isSpacingHeadTale: true,

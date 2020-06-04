@@ -10,6 +10,7 @@ class CreateTourScreen extends StatefulWidget {
 }
 
 class _CreateTourScreenState extends State<CreateTourScreen> {
+  final PageController pageController = PageController();
   TourInfo tourInfo;
 
   @override
@@ -19,9 +20,83 @@ class _CreateTourScreenState extends State<CreateTourScreen> {
       appBar: BackAppBar(
         title: 'Tạo chuyến đi',
       ),
-      body: Column(
-        children: <Widget>[CreateTourSlider(tourInfo: tourInfo)],
+      body: NestedScrollView(
+        headerSliverBuilder: (context, _) {
+          return [
+            SliverPersistentHeader(
+              floating: true,
+              pinned: true,
+              delegate: _SliverCreateTourAppBarDelegate(tourInfo),
+            ),
+          ];
+        },
+        body: Column(
+          children: <Widget>[
+            ProgressBar(),
+            Expanded(
+              child: ExtendedPageView(
+                controller: pageController,
+                cacheExtent: 3,
+                children: <Widget>[
+                  buildTab1(),
+                  buildTab2(),
+                  buildTab3(),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
+
+  buildTab1() {
+    return BorderContainer(
+      key: GlobalKey(),
+      title: 'Tab1',
+    );
+  }
+
+  buildTab2() {
+    return BorderContainer(
+      key: GlobalKey(),
+      title: 'Tab1',
+    );
+  }
+
+  buildTab3() {
+    return BorderContainer(
+      key: GlobalKey(),
+      title: 'Tab1',
+    );
+  }
+}
+
+class _SliverCreateTourAppBarDelegate extends SliverPersistentHeaderDelegate {
+  final double expandedHeight = 175;
+  final double minHeight = 50;
+  final TourInfo tourInfo;
+
+  @override
+  final FloatingHeaderSnapConfiguration snapConfiguration;
+
+  _SliverCreateTourAppBarDelegate(
+    this.tourInfo, {
+    this.snapConfiguration,
+  });
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return CreateTourSlider(tourInfo: tourInfo);
+  }
+
+  @override
+  double get maxExtent => expandedHeight;
+
+  @override
+  double get minExtent => minHeight;
+
+  @override
+  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) => true;
 }

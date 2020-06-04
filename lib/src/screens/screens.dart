@@ -19,6 +19,7 @@ import 'package:ginkgo_mobile/src/blocs/user/user_bloc.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/navigators.dart';
 import 'package:ginkgo_mobile/src/screens/create_tour/widgets/create_tour_slider.dart';
+import 'package:ginkgo_mobile/src/screens/create_tour/widgets/progressBar.dart';
 import 'package:ginkgo_mobile/src/screens/friend_list/widgets/friend_list_tab.dart';
 import 'package:ginkgo_mobile/src/screens/homeScreen/homePage/homePage.dart';
 import 'package:ginkgo_mobile/src/screens/homeScreen/homeProvider.dart';
