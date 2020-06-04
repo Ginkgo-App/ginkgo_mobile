@@ -18,7 +18,11 @@ class _ManageTourScreenState extends State<ManageTourScreen> {
               CupertinoActionSheetAction(
                   onPressed: () {}, child: Text('Tạo mẫu chuyến đi')),
               CupertinoActionSheetAction(
-                  onPressed: () {}, child: Text('Tạo chuyến đi')),
+                  onPressed: () {
+                    Navigators.appNavigator.currentState
+                        .pushNamed(Routes.createTour);
+                  },
+                  child: Text('Tạo chuyến đi')),
             ],
           );
         });
