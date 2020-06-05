@@ -15,7 +15,7 @@ class ProgressBar extends StatelessWidget {
   final int currentIndex;
   final Function(int) onPageChanged;
 
-  const ProgressBar({Key key, this.currentIndex = 1, this.onPageChanged})
+  const ProgressBar({Key key, this.currentIndex = 0, this.onPageChanged})
       : super(key: key);
 
   @override
@@ -30,15 +30,15 @@ class ProgressBar extends StatelessWidget {
             top: 20,
             child: SpacingRow(
               children: [
-                Expanded(child: buildLine(currentIndex - 1 >= 0)),
-                Expanded(child: buildLine(currentIndex - 1 >= 1)),
+                Expanded(child: buildLine(currentIndex >= 0)),
+                Expanded(child: buildLine(currentIndex >= 1)),
               ],
             ),
           ),
           SpacingRow(
             children: List.generate(
               3,
-              (i) => buildPoint(context, i, currentIndex - 1 >= i),
+              (i) => buildPoint(context, i, currentIndex >= i),
             ).addBetweenEvery(Expanded(child: const SizedBox.shrink())),
           ),
         ],

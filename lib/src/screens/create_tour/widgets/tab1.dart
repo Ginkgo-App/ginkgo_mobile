@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ginkgo_mobile/src/widgets/widgets.dart';
+import 'package:ginkgo_mobile/src/utils/gradientColor.dart';
+import 'package:ginkgo_mobile/src/widgets/gradientOutlineBorder.dart';
 
 class CreateTourTab1 extends StatelessWidget {
   final formKey = GlobalKey<EditableTextState>();
@@ -8,12 +9,26 @@ class CreateTourTab1 extends StatelessWidget {
     return Form(
       key: formKey,
       child: Column(
-        children: [
-          GradientTextFormField(
-            label: '* Tên chuyến đi:',
-          )
-        ],
+        children: [],
       ),
+    );
+  }
+
+  buildTextField(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        
+        TextFormField(
+          decoration: InputDecoration(
+            contentPadding: EdgeInsets.all(5),
+            border: GradientOutlineInputBorder(
+                focusedGradient: GradientColor.of(context).primaryGradient,
+                borderRadius: BorderRadius.circular(5)),
+            hasFloatingPlaceholder: true,
+            hintText: 'Ten chuyen di',
+          ),
+        ),
+      ],
     );
   }
 }

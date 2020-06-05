@@ -9,9 +9,21 @@ class CreateTourScreen extends StatefulWidget {
   _CreateTourScreenState createState() => _CreateTourScreenState();
 }
 
-class _CreateTourScreenState extends State<CreateTourScreen> {
-  final PageController pageController = PageController();
+class _CreateTourScreenState extends State<CreateTourScreen>
+    with TickerProviderStateMixin {
+  TabController tabController;
   TourInfo tourInfo;
+  int currentStep = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    tabController = TabController(length: 3, vsync: this);
+  }
+
+  validateTab() {
+    return true;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,16 +41,28 @@ class _CreateTourScreenState extends State<CreateTourScreen> {
               delegate: _SliverCreateTourAppBarDelegate(
                 tourInfo,
                 bottom: PreferredSize(
-                  child: ProgressBar(),
-                  preferredSize: Size.fromHeight(150),
+                  child: ProgressBar(
+                    currentIndex: currentStep,
+                    onPageChanged: (i) {
+                      if (i - currentStep < 2 && validateTab()) {
+                        setState(() {
+                          currentStep = i;
+                          tabController.animateTo(i);
+                        });
+                      }
+                    },
+                  ),
+                  preferredSize: Size.fromHeight(110),
                 ),
               ),
             ),
           ];
         },
-        body: ExtendedPageView(
-          controller: pageController,
+        body: ExtendedTabBarView(
+          controller: tabController,
           cacheExtent: 3,
+          physics: NeverScrollableScrollPhysics(),
+          linkWithAncestor: true,
           children: <Widget>[
             buildTab1(),
             buildTab2(),
@@ -50,8 +74,12 @@ class _CreateTourScreenState extends State<CreateTourScreen> {
   }
 
   buildTab1() {
-    return BorderContainer(
-      child: CreateTourTab1(),
+    return Column(
+      children: <Widget>[
+        BorderContainer(
+          child: CreateTourTab1(),
+        ),
+      ],
     );
   }
 
@@ -92,9 +120,35 @@ class _SliverCreateTourAppBarDelegate extends SliverPersistentHeaderDelegate {
         min(1.0, max<double>(0.0, shrinkOffset / (maxExtent - minExtent)));
     final height = maxExtent - (maxExtent - minExtent) * scrollRate;
 
-    return CreateTourSlider(
-      tourInfo: tourInfo,
-      height: height,
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: <Color>[
+            DesignColor.lighterPink,
+            Color(0xfffff2ee),
+            Color(0xfffff2ee).withOpacity(0),
+          ],
+          stops: [0, 0.95, 1],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        ),
+      ),
+      child: SingleChildScrollView(
+        physics: NeverScrollableScrollPhysics(),
+        child: Column(
+          children: <Widget>[
+            SizedBox(
+              height:
+                  expandedHeight - (expandedHeight - minHeight) * scrollRate,
+              child: CreateTourSlider(
+                tourInfo: tourInfo,
+                height: height,
+              ),
+            ),
+            if (bottom != null) bottom
+          ],
+        ),
+      ),
     );
   }
 
@@ -102,7 +156,7 @@ class _SliverCreateTourAppBarDelegate extends SliverPersistentHeaderDelegate {
   double get maxExtent => expandedHeight + (bottom?.preferredSize?.height ?? 0);
 
   @override
-  double get minExtent => minHeight;
+  double get minExtent => minHeight + (bottom?.preferredSize?.height ?? 0);
 
   @override
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) => true;
