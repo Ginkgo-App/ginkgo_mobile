@@ -26,24 +26,23 @@ class _CreateTourScreenState extends State<CreateTourScreen> {
             SliverPersistentHeader(
               floating: true,
               pinned: true,
-              delegate: _SliverCreateTourAppBarDelegate(tourInfo),
+              delegate: _SliverCreateTourAppBarDelegate(
+                tourInfo,
+                bottom: PreferredSize(
+                  child: ProgressBar(),
+                  preferredSize: Size.fromHeight(150),
+                ),
+              ),
             ),
           ];
         },
-        body: Column(
+        body: ExtendedPageView(
+          controller: pageController,
+          cacheExtent: 3,
           children: <Widget>[
-            ProgressBar(),
-            Expanded(
-              child: ExtendedPageView(
-                controller: pageController,
-                cacheExtent: 3,
-                children: <Widget>[
-                  buildTab1(),
-                  buildTab2(),
-                  buildTab3(),
-                ],
-              ),
-            ),
+            buildTab1(),
+            buildTab2(),
+            buildTab3(),
           ],
         ),
       ),
@@ -52,8 +51,7 @@ class _CreateTourScreenState extends State<CreateTourScreen> {
 
   buildTab1() {
     return BorderContainer(
-      key: GlobalKey(),
-      title: 'Tab1',
+      child: CreateTourTab1(),
     );
   }
 
@@ -76,6 +74,7 @@ class _SliverCreateTourAppBarDelegate extends SliverPersistentHeaderDelegate {
   final double expandedHeight = 175;
   final double minHeight = 50;
   final TourInfo tourInfo;
+  final PreferredSizeWidget bottom;
 
   @override
   final FloatingHeaderSnapConfiguration snapConfiguration;
@@ -83,16 +82,24 @@ class _SliverCreateTourAppBarDelegate extends SliverPersistentHeaderDelegate {
   _SliverCreateTourAppBarDelegate(
     this.tourInfo, {
     this.snapConfiguration,
+    this.bottom,
   });
 
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return CreateTourSlider(tourInfo: tourInfo);
+    final scrollRate =
+        min(1.0, max<double>(0.0, shrinkOffset / (maxExtent - minExtent)));
+    final height = maxExtent - (maxExtent - minExtent) * scrollRate;
+
+    return CreateTourSlider(
+      tourInfo: tourInfo,
+      height: height,
+    );
   }
 
   @override
-  double get maxExtent => expandedHeight;
+  double get maxExtent => expandedHeight + (bottom?.preferredSize?.height ?? 0);
 
   @override
   double get minExtent => minHeight;

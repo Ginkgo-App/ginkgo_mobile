@@ -7,10 +7,11 @@ import 'package:ginkgo_mobile/src/widgets/spacingColumn.dart';
 
 class CreateTourSlider extends StatelessWidget {
   final TourInfo tourInfo;
+  final double height;
 
   const CreateTourSlider({
     Key key,
-    this.tourInfo,
+    this.tourInfo, this.height,
   }) : super(key: key);
 
   @override
@@ -22,7 +23,8 @@ class CreateTourSlider extends StatelessWidget {
           imageBorderRadius: BorderRadius.circular(0),
           padding: EdgeInsets.zero,
           showDot: false,
-          showButton: true
+          showButton: true,
+          imageHeight: height,
         ),
         Positioned(
           right: 0,
