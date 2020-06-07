@@ -20,7 +20,7 @@ class TimelineWidget extends StatelessWidget {
         ? const SizedBox.shrink()
         : CollapseContainer(
           title: 'Lịch trình chi tiết',
-          height: 245,
+          collapseHeight: 245,
           child: Padding(
             padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
             child: Column(

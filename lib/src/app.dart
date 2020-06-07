@@ -12,6 +12,7 @@ part 'routes/routes.dart';
 class App extends AppBase {
   @override
   Widget build(BuildContext context) {
+    
     return GestureDetector(
       onTap: () {
         FocusScopeNode currentFocus = FocusScope.of(context);
@@ -21,7 +22,7 @@ class App extends AppBase {
         }
       },
       child: MaterialApp(
-        title: 'Ginkgo Mobile',
+        title: 'Ginkgo',
         initialRoute: Routes.splash,
         routes: _routeBuilder,
         onGenerateRoute: _onGenerateRoute,

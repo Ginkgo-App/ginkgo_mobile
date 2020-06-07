@@ -11,6 +11,8 @@ class CreateTourScreen extends StatefulWidget {
 
 class _CreateTourScreenState extends State<CreateTourScreen>
     with TickerProviderStateMixin {
+  final CreateTourBloc createTourBloc = CreateTourBloc();
+
   TabController tabController;
   TourInfo tourInfo;
   int currentStep = 0;
@@ -21,143 +23,127 @@ class _CreateTourScreenState extends State<CreateTourScreen>
     tabController = TabController(length: 3, vsync: this);
   }
 
-  validateTab() {
+  dispose() {
+    createTourBloc.close();
+    super.dispose();
+  }
+
+  onChangeStep(int stepIndex) {
+    //Next page
+    if (stepIndex > currentStep) {
+      if (stepIndex - currentStep >= 2) return;
+      if (!submitCurrentStep()) return;
+    }
+
+    setState(() {
+      currentStep = stepIndex;
+      tabController.animateTo(stepIndex);
+    });
+  }
+
+  submitCurrentStep() {
     return true;
   }
 
   @override
   Widget build(BuildContext context) {
     tourInfo = FakeData.tourInfo;
-    return PrimaryScaffold(
-      appBar: BackAppBar(
-        title: 'Tạo chuyến đi',
-      ),
-      body: NestedScrollView(
-        headerSliverBuilder: (context, _) {
-          return [
-            SliverPersistentHeader(
-              floating: true,
-              pinned: true,
-              delegate: _SliverCreateTourAppBarDelegate(
-                tourInfo,
-                bottom: PreferredSize(
-                  child: ProgressBar(
-                    currentIndex: currentStep,
-                    onPageChanged: (i) {
-                      if (i - currentStep < 2 && validateTab()) {
-                        setState(() {
-                          currentStep = i;
-                          tabController.animateTo(i);
-                        });
-                      }
-                    },
+    return BlocProvider.value(
+      value: createTourBloc,
+      child: PrimaryScaffold(
+        appBar: BackAppBar(
+          title: 'Tạo chuyến đi',
+        ),
+        bottomNavigationBar: Container(
+          padding: EdgeInsets.all(10),
+          child: CreateTourBottomButton(
+            currentStep: currentStep,
+            onNextStep: () {
+              onChangeStep(currentStep + 1);
+            },
+            onBackStep: () {
+              onChangeStep(currentStep - 1);
+            },
+          ),
+        ),
+        body: NestedScrollView(
+          headerSliverBuilder: (context, _) {
+            return [
+              SliverPersistentHeader(
+                floating: true,
+                pinned: true,
+                delegate: SliverCreateTourAppBarDelegate(
+                  tourInfo,
+                  bottom: PreferredSize(
+                    child: ProgressBar(
+                      currentIndex: currentStep,
+                      onPageChanged: (i) =>
+                          i < currentStep ? onChangeStep(i) : null,
+                    ),
+                    preferredSize: Size.fromHeight(110),
                   ),
-                  preferredSize: Size.fromHeight(110),
                 ),
               ),
+            ];
+          },
+          body: Container(
+            margin: EdgeInsets.symmetric(vertical: 10),
+            child: ExtendedTabBarView(
+              controller: tabController,
+              cacheExtent: 3,
+              physics: NeverScrollableScrollPhysics(),
+              linkWithAncestor: true,
+              children: <Widget>[
+                buildStep1(),
+                buildStep2(),
+                buildStep3(),
+              ],
             ),
-          ];
-        },
-        body: ExtendedTabBarView(
-          controller: tabController,
-          cacheExtent: 3,
-          physics: NeverScrollableScrollPhysics(),
-          linkWithAncestor: true,
-          children: <Widget>[
-            buildTab1(),
-            buildTab2(),
-            buildTab3(),
-          ],
+          ),
         ),
       ),
     );
   }
 
-  buildTab1() {
-    return Column(
-      children: <Widget>[
-        BorderContainer(
-          child: CreateTourTab1(),
-        ),
-      ],
-    );
-  }
-
-  buildTab2() {
-    return BorderContainer(
-      key: GlobalKey(),
-      title: 'Tab1',
-    );
-  }
-
-  buildTab3() {
-    return BorderContainer(
-      key: GlobalKey(),
-      title: 'Tab1',
-    );
-  }
-}
-
-class _SliverCreateTourAppBarDelegate extends SliverPersistentHeaderDelegate {
-  final double expandedHeight = 175;
-  final double minHeight = 50;
-  final TourInfo tourInfo;
-  final PreferredSizeWidget bottom;
-
-  @override
-  final FloatingHeaderSnapConfiguration snapConfiguration;
-
-  _SliverCreateTourAppBarDelegate(
-    this.tourInfo, {
-    this.snapConfiguration,
-    this.bottom,
-  });
-
-  @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-    final scrollRate =
-        min(1.0, max<double>(0.0, shrinkOffset / (maxExtent - minExtent)));
-    final height = maxExtent - (maxExtent - minExtent) * scrollRate;
-
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: <Color>[
-            DesignColor.lighterPink,
-            Color(0xfffff2ee),
-            Color(0xfffff2ee).withOpacity(0),
-          ],
-          stops: [0, 0.95, 1],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        ),
-      ),
-      child: SingleChildScrollView(
-        physics: NeverScrollableScrollPhysics(),
-        child: Column(
-          children: <Widget>[
-            SizedBox(
-              height:
-                  expandedHeight - (expandedHeight - minHeight) * scrollRate,
-              child: CreateTourSlider(
-                tourInfo: tourInfo,
-                height: height,
+  buildStep1() {
+    return SingleChildScrollView(
+      physics: NeverScrollableScrollPhysics(),
+      child: Column(
+        children: <Widget>[
+          BorderContainer(
+            childPadding: EdgeInsets.zero,
+            margin: EdgeInsets.symmetric(horizontal: 10),
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: CreateTourTab1(
+                initTourName: tourInfo.name,
               ),
             ),
-            if (bottom != null) bottom
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
-  @override
-  double get maxExtent => expandedHeight + (bottom?.preferredSize?.height ?? 0);
+  buildStep2() {
+    return SingleChildScrollView(
+      physics: NeverScrollableScrollPhysics(),
+      child: Column(
+        children: <Widget>[
+          BorderContainer(
+            childPadding: EdgeInsets.zero,
+            margin: EdgeInsets.symmetric(horizontal: 10),
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: CreateTourTab2(),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
-  @override
-  double get minExtent => minHeight + (bottom?.preferredSize?.height ?? 0);
-
-  @override
-  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) => true;
+  buildStep3() {
+    return CreateTourTab3();
+  }
 }

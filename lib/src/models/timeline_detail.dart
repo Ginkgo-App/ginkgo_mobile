@@ -16,3 +16,18 @@ class TimelineDetail with Mappable {
     map('Detail', detail, (v) => detail = v);
   }
 }
+
+class TimelineDetailToPost with Mappable {
+  int placeId;
+  String time;
+  String detail;
+
+  TimelineDetailToPost({this.placeId, this.time, this.detail});
+
+  @override
+  void mapping(Mapper map) {
+    map('PlaceId', placeId, (v) => placeId = v);
+    map('Time', time, (v) => time = v);
+    map('Detail', detail, (v) => detail = v);
+  }
+}

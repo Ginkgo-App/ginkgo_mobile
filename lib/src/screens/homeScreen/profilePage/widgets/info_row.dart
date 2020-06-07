@@ -8,8 +8,8 @@ import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/screens/homeScreen/homeProvider.dart';
 import 'package:ginkgo_mobile/src/screens/homeScreen/profilePage/widgets/changeButton.dart';
 import 'package:ginkgo_mobile/src/utils/strings.dart';
+import 'package:ginkgo_mobile/src/widgets/actionSheets/show_custom_date_picker.dart';
 import 'package:ginkgo_mobile/src/widgets/customs/toast.dart';
-import 'package:ginkgo_mobile/src/widgets/widgets.dart';
 
 class InfoRowModel {
   final GlobalKey key = GlobalKey();
@@ -205,81 +205,15 @@ class _InfoRowState extends State<InfoRow> {
 
   showDatePicker() {
     selectedDate = widget.data.text?.toVietNameseDate();
-    showDialog(
-      context: HomeProvider.of(context).context,
-      builder: (context) {
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: context.colorScheme.background,
-                borderRadius: BorderRadius.circular(5),
-              ),
-              child: Column(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(
-                          'Chọn ngày',
-                          style: textTheme.body1
-                              .copyWith(fontWeight: FontWeight.bold),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: Icon(
-                            Icons.close,
-                            size: 14,
-                            color: context.colorScheme.onBackground,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height / 3,
-                    child: Center(
-                      child: CupertinoDatePicker(
-                        initialDateTime: selectedDate != null &&
-                                selectedDate.compareTo(DateTime(1911)) < 0
-                            ? DateTime(1998, 2, 1)
-                            : selectedDate,
-                        onDateTimeChanged: (DateTime newdate) {
-                          selectedDate = newdate;
-                        },
-                        minimumYear: 1911,
-                        maximumYear: 2018,
-                        mode: CupertinoDatePickerMode.date,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: PrimaryButton(
-                      borderRadius: BorderRadius.circular(5),
-                      title: Strings.button.saveChanges,
-                      onPressed: () {
-                        Navigator.pop(context);
-                        if (selectedDate == null) {
-                          selectedDate = widget.data.text.toVietNameseDate() ??
-                              DateTime(1998, 2, 1);
-                        }
-                        onSubmit();
-                      },
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ],
-        );
+    showCustomDatePicker(
+      HomeProvider.of(context).context,
+      selectedDate: selectedDate,
+      onSubmit: (date) {
+        selectedDate = date;
+        onSubmit();
       },
+      minimumDate: DateTime(1911),
+      maximumDate: DateTime(2018),
     );
   }
 }

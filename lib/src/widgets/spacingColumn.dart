@@ -11,7 +11,7 @@ class SpacingColumn extends Flex {
     VerticalDirection verticalDirection = VerticalDirection.down,
     TextBaseline textBaseline,
     List<Widget> children = const <Widget>[],
-    double spacing,
+    double spacing = 0,
     bool isSpacingHeadTale = false,
     Widget separator,
   }) : super(

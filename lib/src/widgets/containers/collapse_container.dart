@@ -1,20 +1,64 @@
 part of '../widgets.dart';
 
+// class ListCollappseController extends InheritedWidget {
+//   List<CollapseController> _controllers = [];
+
+//   ListCollappseController({Widget child}) : super(child: child);
+
+//   addChild(CollapseController controller) {
+//     _controllers.add(controller);
+//   }
+
+//   collapseAll() {
+//     _controllers.where((e) => !e.isCollapsing).forEach((e) => e.collapse());
+//   }
+
+//   static ListCollappseController of(BuildContext context) => context
+//       .dependOnInheritedWidgetOfExactType(aspect: ListCollappseController);
+
+//   @override
+//   bool updateShouldNotify(InheritedWidget oldWidget) => true;
+// }
+
+class CollapseController extends ChangeNotifier {
+  bool _isCollapsing = true;
+
+  bool get isCollapsing => _isCollapsing;
+
+  CollapseController({bool isCollapsing = true}) {
+    _isCollapsing = isCollapsing;
+  }
+
+  open() {
+    _isCollapsing = false;
+    notifyListeners();
+  }
+
+  collapse() {
+    _isCollapsing = true;
+    notifyListeners();
+  }
+}
+
 class CollapseContainer extends StatefulWidget {
-  final double height;
+  final double collapseHeight;
   final Widget child;
-  final bool isCollapsing;
+  final CollapseController controller;
   final Duration duration;
   final String title;
+  final bool isCollapsing;
+  final Function(bool) onChangeCollapse;
 
-  const CollapseContainer(
-      {Key key,
-      this.height,
-      this.child,
-      this.isCollapsing = true,
-      this.duration = const Duration(milliseconds: 500),
-      this.title})
-      : super(key: key);
+  const CollapseContainer({
+    Key key,
+    this.collapseHeight,
+    this.child,
+    this.duration = const Duration(milliseconds: 500),
+    this.title,
+    this.controller,
+    this.isCollapsing = true,
+    this.onChangeCollapse,
+  }) : super(key: key);
 
   @override
   _CollapseContainerState createState() => _CollapseContainerState();
@@ -24,25 +68,84 @@ class _CollapseContainerState extends State<CollapseContainer>
     with SingleTickerProviderStateMixin {
   final key = GlobalKey();
   final GlobalKey childKey = GlobalKey();
-  bool isCollapsing;
-  AnimationController _controller;
-  double widgetHeight;
+  // CollapseController controller;
+  AnimationController animController;
+  double currentHeight = 0;
+  double minHeight = 0;
+  double maxHeight = 0;
 
   @override
   void initState() {
     super.initState();
-    isCollapsing = widget.isCollapsing;
-    widgetHeight = widget.height;
-    _controller = AnimationController(vsync: this, duration: widget.duration);
+    minHeight = widget.collapseHeight;
+
+    // controller = widget.controller ?? CollapseController();
+    animController =
+        AnimationController(vsync: this, duration: widget.duration);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final RenderBox renderBoxRed = key.currentContext.findRenderObject();
-      if (renderBoxRed.size.height < widget.height) {
-        setState(() {
-          widgetHeight = null;
-        });
-      }
+      final RenderBox renderBoxRed = childKey.currentContext.findRenderObject();
+      setState(() {
+        maxHeight = renderBoxRed.size.height;
+        if (renderBoxRed.size.height < minHeight) {
+          minHeight = null;
+        }
+
+        if (minHeight == null) {
+          currentHeight = maxHeight;
+        } else {
+          if (widget.isCollapsing) {
+            currentHeight = minHeight;
+          } else {
+            currentHeight = maxHeight;
+          }
+        }
+      });
+
+      // controller.addListener(() {
+      //   if (controller.isCollapsing && currentHeight != minHeight) {
+      //     setState(() {
+      //       currentHeight = minHeight;
+      //       animController.reverse();
+      //     });
+      //   } else if (!controller.isCollapsing && currentHeight != maxHeight) {
+      //     setState(() {
+      //       currentHeight = maxHeight;
+      //       animController.forward();s
+      //     });
+      //   }
+      // });
     });
+  }
+
+  didChangeDependencies() {
+    super.didChangeDependencies();
+    if (widget.isCollapsing && currentHeight == maxHeight ||
+        !widget.isCollapsing && currentHeight == minHeight) {
+      if (currentHeight != minHeight) {
+        currentHeight = minHeight;
+        animController.reverse();
+      } else {
+        currentHeight = maxHeight;
+        animController.forward();
+      }
+    }
+  }
+
+  onChange() {
+    if (currentHeight != minHeight) {
+      setState(() {
+        currentHeight = minHeight;
+        animController.reverse();
+        widget.onChangeCollapse?.call(true);
+      });
+    } else {
+      setState(() {
+        currentHeight = maxHeight;
+        animController.forward();
+        widget.onChangeCollapse?.call(false);
+      });
+    }
   }
 
   @override
@@ -51,15 +154,10 @@ class _CollapseContainerState extends State<CollapseContainer>
       key: key,
       title: widget.title,
       childPadding: EdgeInsets.zero,
-      actions: <Widget>[if (widgetHeight != null) buildCollapseButton()],
+      actions: <Widget>[if (minHeight != null) buildCollapseButton()],
       child: AnimatedContainer(
         duration: widget.duration,
-        height: !isCollapsing || widgetHeight == null
-            ? (childKey.currentContext?.findRenderObject() as RenderBox)
-                    ?.size
-                    ?.height ??
-                null
-            : widgetHeight,
+        height: currentHeight,
         child: Stack(
           children: <Widget>[
             SingleChildScrollView(
@@ -72,7 +170,8 @@ class _CollapseContainerState extends State<CollapseContainer>
               right: 0,
               child: AnimatedOpacity(
                 duration: widget.duration,
-                opacity: isCollapsing && widgetHeight != null ? 1 : 0,
+                opacity:
+                    currentHeight != maxHeight && minHeight != null ? 1 : 0,
                 child: Container(
                   height: 200,
                   decoration: BoxDecoration(
@@ -92,19 +191,11 @@ class _CollapseContainerState extends State<CollapseContainer>
 
   buildCollapseButton() {
     return GestureDetector(
-        child: RotationTransition(
-          turns: Tween(begin: 0.0, end: 0.5).animate(_controller),
-          child: Icon(Icons.keyboard_arrow_down),
-        ),
-        onTap: () {
-          if (isCollapsing) {
-            _controller.forward();
-          } else {
-            _controller.reverse();
-          }
-          setState(() {
-            isCollapsing = !isCollapsing;
-          });
-        });
+      child: RotationTransition(
+        turns: Tween(begin: 0.0, end: 0.5).animate(animController),
+        child: Icon(Icons.keyboard_arrow_down),
+      ),
+      onTap: onChange,
+    );
   }
 }
