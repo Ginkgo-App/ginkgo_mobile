@@ -22,7 +22,10 @@ import 'package:ginkgo_mobile/src/utils/gradientColor.dart';
 import 'package:ginkgo_mobile/src/utils/strings.dart';
 import 'package:ginkgo_mobile/src/widgets/buttons/friend_buttons/friend_buttons.dart';
 import 'package:ginkgo_mobile/src/widgets/errorWidgets/showErrorMessage.dart';
+import 'package:ginkgo_mobile/src/widgets/gradientOutlineBorder.dart';
+import 'package:ginkgo_mobile/src/widgets/spacingRow.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:sliding_sheet/sliding_sheet.dart';
 
 part 'addCommentWidget.dart';
 part 'appBars/backAppBar.dart';

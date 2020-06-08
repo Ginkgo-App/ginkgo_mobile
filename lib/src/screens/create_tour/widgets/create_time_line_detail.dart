@@ -113,7 +113,7 @@ class _CreateTimelineDetailState extends State<CreateTimelineDetail> {
                       textInput: GestureDetector(
                         onTap: () async {
                           final place = await showPlaceBottomSheet(context,
-                              selectedPlace: widget.timelineDetail.place);
+                              selectedPlace: widget.timelineDetail?.place);
 
                           if (place != null && place.id != selectedPlace?.id) {
                             setState(() {

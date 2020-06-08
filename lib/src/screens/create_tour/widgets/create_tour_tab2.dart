@@ -97,6 +97,7 @@ class _CreateTourTab2State extends State<CreateTourTab2> {
   buildDayRow() {
     return SpacingRow(
       spacing: 10,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Expanded(
           child: _CreateTourTextFieldBase(
