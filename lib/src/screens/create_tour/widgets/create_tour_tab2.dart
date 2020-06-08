@@ -122,7 +122,7 @@ class _CreateTourTab2State extends State<CreateTourTab2> {
                 child: TextFormField(
                   controller: startDayController,
                   decoration: InputDecoration(
-                    contentPadding: EdgeInsets.all(5),
+                    contentPadding: EdgeInsets.all(10),
                     border: GradientOutlineInputBorder(
                       focusedGradient:
                           GradientColor.of(context).primaryGradient,
@@ -175,7 +175,7 @@ class _CreateTourTab2State extends State<CreateTourTab2> {
                 child: TextFormField(
                   controller: endDayController,
                   decoration: InputDecoration(
-                    contentPadding: EdgeInsets.all(5),
+                    contentPadding: EdgeInsets.all(10),
                     border: GradientOutlineInputBorder(
                       focusedGradient:
                           GradientColor.of(context).primaryGradient,
@@ -228,7 +228,7 @@ class _CreateTourTab2State extends State<CreateTourTab2> {
           child: TextFormField(
             controller: totalDayNightController,
             decoration: InputDecoration(
-                contentPadding: EdgeInsets.all(5),
+                contentPadding: EdgeInsets.all(10),
                 border: GradientOutlineInputBorder(
                   focusedGradient: GradientColor.of(context).primaryGradient,
                   borderRadius: BorderRadius.circular(5),
@@ -264,7 +264,7 @@ class _CreateTourTab2State extends State<CreateTourTab2> {
                     TextFormField(
                       controller: serviceControllers[i],
                       decoration: InputDecoration(
-                        contentPadding: EdgeInsets.all(5),
+                        contentPadding: EdgeInsets.all(10),
                         border: GradientOutlineInputBorder(
                           focusedGradient:
                               GradientColor.of(context).primaryGradient,
@@ -304,38 +304,18 @@ class _CreateTourTab2State extends State<CreateTourTab2> {
               .toList(),
           if (services.length == 0 ||
               services[services.length - 1].isExistAndNotEmpty)
-            CupertinoButton(
-                padding: EdgeInsets.zero,
-                minSize: 0,
-                child: DottedBorder(
-                  borderType: BorderType.RRect,
-                  color: DesignColor.lighterBlack,
-                  radius: Radius.circular(5),
-                  padding: EdgeInsets.symmetric(vertical: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Icon(
-                        Icons.add,
-                        color: DesignColor.lighterBlack,
-                      ),
-                      Text(
-                        'Thêm dịch vụ',
-                        style: context.textTheme.body1
-                            .copyWith(color: DesignColor.lighterBlack),
-                      )
-                    ],
-                  ),
-                ),
-                onPressed: () {
-                  setState(() {
-                    services.add('');
-                    serviceControllers.add(TextEditingController());
-                  });
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    onChange();
-                  });
-                })
+            CreateTourAddButton(
+              text: 'Thêm dịch vụ',
+              onPressed: () {
+                setState(() {
+                  services.add('');
+                  serviceControllers.add(TextEditingController());
+                });
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  onChange();
+                });
+              },
+            )
         ],
       ),
     );

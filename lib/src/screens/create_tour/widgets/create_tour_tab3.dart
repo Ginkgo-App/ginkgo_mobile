@@ -114,7 +114,7 @@ class _CreateTourTab3State extends State<CreateTourTab3> {
                         isOpening: isOpening,
                         timelineIndex: i,
                         onChangeCollapse: (isCollapsing) {
-                          if(!isCollapsing) {
+                          if (!isCollapsing) {
                             setState(() {
                               selectedDay = e.day;
                             });
@@ -142,8 +142,12 @@ class _TimelineItem extends StatelessWidget {
     Key key,
     @required this.timelineIndex,
     this.timelineToPost,
-    this.isOpening = false, this.onChangeCollapse,
+    this.isOpening = false,
+    this.onChangeCollapse,
   }) : super(key: key);
+
+  onShowTimelineDetailBottomSheet(BuildContext context,
+      [TimelineDetailToPost timelineDetailToPost]) {}
 
   @override
   Widget build(BuildContext context) {
@@ -152,12 +156,58 @@ class _TimelineItem extends StatelessWidget {
           'Ngày ${timelineIndex + 1} (${timelineToPost?.day?.toVietNamese()})',
       collapseHeight: 0,
       isCollapsing: !isOpening,
-      onChangeCollapse: onChangeCollapse, 
+      onChangeCollapse: onChangeCollapse,
       child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Container(
-          height: 500,
-          color: Colors.red,
+        padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+        child: SpacingColumn(
+          spacing: 10,
+          children: [
+            ...timelineToPost?.timelineDetails
+                ?.map((e) => buildTextField(context, e))
+                ?.toList(),
+            CreateTourAddButton(
+              text: 'Thêm hoạt động',
+              onPressed: () => onShowTimelineDetailBottomSheet(context),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  buildTextField(BuildContext context, TimelineDetailToPost t) {
+    return TextFormField(
+      initialValue: '$timelineToPost',
+      enabled: false,
+      decoration: InputDecoration(
+        fillColor: DesignColor.darkerWhite,
+        filled: true,
+        contentPadding: EdgeInsets.all(10),
+        border: GradientOutlineInputBorder(
+          focusedGradient: GradientColor.of(context).primaryGradient,
+          borderRadius: BorderRadius.circular(5),
+        ),
+        suffixIcon: SpacingRow(
+          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisSize: MainAxisSize.min,
+          spacing: 5,
+          isSpacingHeadTale: true,
+          children: [
+            GestureDetector(
+              child: Icon(
+                Icons.edit,
+                size: 20,
+              ),
+              onTap: () {},
+            ),
+            GestureDetector(
+              child: Icon(
+                Icons.close,
+                size: 22,
+              ),
+              onTap: () {},
+            ),
+          ],
         ),
       ),
     );

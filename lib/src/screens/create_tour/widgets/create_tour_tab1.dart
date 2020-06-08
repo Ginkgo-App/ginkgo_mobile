@@ -55,7 +55,7 @@ class _CreateTourTab1State extends State<CreateTourTab1> {
             textInput: TextFormField(
               controller: widget.nameController,
               decoration: InputDecoration(
-                contentPadding: EdgeInsets.all(5),
+                contentPadding: EdgeInsets.all(10),
                 border: GradientOutlineInputBorder(
                   focusedGradient: GradientColor.of(context).primaryGradient,
                   borderRadius: BorderRadius.circular(5),
@@ -90,7 +90,7 @@ class _CreateTourTab1State extends State<CreateTourTab1> {
                     isInt: true,
                     initialValue: 1,
                     numberFieldDecoration: InputDecoration(
-                      contentPadding: EdgeInsets.all(5),
+                      contentPadding: EdgeInsets.all(10),
                       border: GradientOutlineInputBorder(
                         focusedGradient:
                             GradientColor.of(context).primaryGradient,
@@ -122,7 +122,7 @@ class _CreateTourTab1State extends State<CreateTourTab1> {
                     incDecFactor: 1000,
                     initialValue: 10000,
                     numberFieldDecoration: InputDecoration(
-                      contentPadding: EdgeInsets.all(5),
+                      contentPadding: EdgeInsets.all(10),
                       border: GradientOutlineInputBorder(
                         focusedGradient:
                             GradientColor.of(context).primaryGradient,

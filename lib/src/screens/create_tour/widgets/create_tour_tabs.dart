@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ginkgo_mobile/src/blocs/create_tour/create_tour_bloc.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
+import 'package:ginkgo_mobile/src/screens/create_tour/widgets/create_tour_add_button.dart';
 import 'package:ginkgo_mobile/src/screens/create_tour/widgets/input_increment_decrement.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/utils/designColor.dart';
