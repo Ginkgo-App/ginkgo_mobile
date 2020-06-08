@@ -14,7 +14,6 @@ import 'package:ginkgo_mobile/src/utils/designColor.dart';
 import 'package:ginkgo_mobile/src/utils/gradientColor.dart';
 import 'package:ginkgo_mobile/src/utils/strings.dart';
 import 'package:ginkgo_mobile/src/widgets/actionSheets/show_custom_date_picker.dart';
-import 'package:ginkgo_mobile/src/widgets/dotted_border/dotted_border.dart';
 import 'package:ginkgo_mobile/src/widgets/errorWidgets/showErrorMessage.dart';
 import 'package:ginkgo_mobile/src/widgets/gradientOutlineBorder.dart';
 import 'package:ginkgo_mobile/src/widgets/spacingColumn.dart';
@@ -22,6 +21,7 @@ import 'package:ginkgo_mobile/src/widgets/spacingRow.dart';
 import 'package:ginkgo_mobile/src/widgets/widgets.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
 
+part 'create_time_line_detail.dart';
 part 'create_tour_tab1.dart';
 part 'create_tour_tab2.dart';
 part 'create_tour_tab3.dart';
@@ -34,7 +34,7 @@ class _CreateTourTextFieldBase extends StatelessWidget {
 
   const _CreateTourTextFieldBase({
     Key key,
-    this.isRequired,
+    this.isRequired = false,
     this.label,
     this.textInput,
     this.unit,

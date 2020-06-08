@@ -1,6 +1,7 @@
 library widget;
 
 import 'dart:async';
+import 'dart:math';
 import 'dart:ui' show lerpDouble;
 
 import 'package:base/base.dart';
@@ -20,6 +21,7 @@ import 'package:ginkgo_mobile/src/utils/designColor.dart';
 import 'package:ginkgo_mobile/src/utils/gradientColor.dart';
 import 'package:ginkgo_mobile/src/utils/strings.dart';
 import 'package:ginkgo_mobile/src/widgets/buttons/friend_buttons/friend_buttons.dart';
+import 'package:ginkgo_mobile/src/widgets/errorWidgets/showErrorMessage.dart';
 import 'package:shimmer/shimmer.dart';
 
 part 'addCommentWidget.dart';
@@ -39,3 +41,4 @@ part 'skeleton.dart';
 part 'userWidgets/circleTourUser.dart';
 part 'userWidgets/circleUser.dart';
 part 'userWidgets/user_friend.dart';
+part 'placeWidgets/place_bottom_sheet.dart';

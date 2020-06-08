@@ -93,7 +93,12 @@ class _CreateTourBottomButtonState extends State<CreateTourBottomButton> {
                           title: Strings.button.complete,
                           width: double.maxFinite,
                           padding: buttonPadding,
-                          onPressed: canSubmit3 ? () => {} : null,
+                          onPressed: canSubmit3
+                              ? () {
+                                  BlocProvider.of<CreateTourBloc>(context)
+                                      .add(CreateTourEventCreate());
+                                }
+                              : null,
                           textStyle: buttonTextStyle.apply(
                               color: context.colorScheme.onPrimary),
                         ),

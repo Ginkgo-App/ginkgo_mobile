@@ -18,16 +18,19 @@ class TimelineDetail with Mappable {
 }
 
 class TimelineDetailToPost with Mappable {
-  int placeId;
+  Place place;
   String time;
   String detail;
 
-  TimelineDetailToPost({this.placeId, this.time, this.detail});
+  TimelineDetailToPost({this.place, this.time, this.detail});
 
   @override
   void mapping(Mapper map) {
-    map('PlaceId', placeId, (v) => placeId = v);
+    map('PlaceId', place?.id, (v) => place?.id = v);
     map('Time', time, (v) => time = v);
     map('Detail', detail, (v) => detail = v);
   }
+
+  @override
+  String toString() => '$time: $detail';
 }

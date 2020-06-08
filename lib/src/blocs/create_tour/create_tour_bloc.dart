@@ -23,7 +23,8 @@ class CreateTourBloc extends Bloc<CreateTourEvent, CreateTourState> {
         _tourToPost.update(event.tourToPost);
         yield CreateTourStateHaveChanged(event.validation, _tourToPost);
       } else if (event is CreateTourEventCreate) {
-        // TODO
+        yield CreateTourStateLoading();
+        yield CreateTourStateSuccess();
       }
     } catch (e) {
       yield CreateTourStateFailure(e);

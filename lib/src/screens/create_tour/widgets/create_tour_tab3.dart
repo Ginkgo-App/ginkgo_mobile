@@ -66,8 +66,8 @@ class _CreateTourTab3State extends State<CreateTourTab3> {
     for (final timeline in timelineList) {
       if (timeline.timelineDetails == null ||
           timeline.timelineDetails.length == 0) {
-        showErrorMessage(
-            context, 'Ngày ${timeline.day.toVietNamese()} chưa có lịch trình.');
+        // showErrorMessage(
+        //     context, 'Ngày ${timeline.day.toVietNamese()} chưa có lịch trình.');
         return false;
       }
     }
@@ -97,15 +97,6 @@ class _CreateTourTab3State extends State<CreateTourTab3> {
                       selectedDay = e.day;
                     }
                     final isOpening = e.day.compareTo(selectedDay) == 0;
-                    final collapseController =
-                        CollapseController(isCollapsing: !isOpening);
-                    collapseController.addListener(() {
-                      if (!collapseController.isCollapsing) {
-                        setState(() {
-                          selectedDay = e.day;
-                        });
-                      }
-                    });
 
                     return MapEntry(
                       i,
@@ -113,6 +104,12 @@ class _CreateTourTab3State extends State<CreateTourTab3> {
                         timelineToPost: e,
                         isOpening: isOpening,
                         timelineIndex: i,
+                        onChanged: (t) {
+                          setState(() {
+                            timelineList[i] = t;
+                            onChange();
+                          });
+                        },
                         onChangeCollapse: (isCollapsing) {
                           if (!isCollapsing) {
                             setState(() {
@@ -137,6 +134,7 @@ class _TimelineItem extends StatelessWidget {
   final TimelineToPost timelineToPost;
   final bool isOpening;
   final Function(bool) onChangeCollapse;
+  final Function(TimelineToPost) onChanged;
 
   const _TimelineItem({
     Key key,
@@ -144,10 +142,54 @@ class _TimelineItem extends StatelessWidget {
     this.timelineToPost,
     this.isOpening = false,
     this.onChangeCollapse,
+    this.onChanged,
   }) : super(key: key);
 
-  onShowTimelineDetailBottomSheet(BuildContext context,
-      [TimelineDetailToPost timelineDetailToPost]) {}
+  onAddItem(TimelineDetailToPost t) {
+    timelineToPost.timelineDetails.add(t);
+    onChanged?.call(timelineToPost);
+  }
+
+  onEditItem(int i, TimelineDetailToPost newV) {
+    timelineToPost.timelineDetails[i] = newV;
+    onChanged?.call(timelineToPost);
+  }
+
+  onRemoveItem(int i) {
+    timelineToPost?.timelineDetails?.removeAt(i);
+    onChanged?.call(timelineToPost);
+  }
+
+  Future<TimelineDetailToPost> onShowTimelineDetailBottomSheet(
+      BuildContext context,
+      [int index]) async {
+    TimelineDetailToPost result;
+
+    await showSlidingBottomSheet(context, builder: (context) {
+      return SlidingSheetDialog(
+        cornerRadius: 5,
+        builder: (context, _) {
+          return CreateTimelineDetail(
+            timelineDetail: index != null
+                ? CreateTimelineDetailData.fromToPost(
+                    timelineToPost.timelineDetails[index])
+                : null,
+            onSubmit: (data) {
+              if (index != null) {
+                result = data.toToPost();
+                onEditItem(index, result);
+              } else {
+                result = data.toToPost();
+                onAddItem(result);
+              }
+            },
+          );
+        },
+      );
+    });
+
+    return result;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -163,7 +205,9 @@ class _TimelineItem extends StatelessWidget {
           spacing: 10,
           children: [
             ...timelineToPost?.timelineDetails
-                ?.map((e) => buildTextField(context, e))
+                ?.asMap()
+                ?.map((i, e) => MapEntry(i, buildTextField(context, i)))
+                ?.values
                 ?.toList(),
             CreateTourAddButton(
               text: 'Thêm hoạt động',
@@ -175,10 +219,11 @@ class _TimelineItem extends StatelessWidget {
     );
   }
 
-  buildTextField(BuildContext context, TimelineDetailToPost t) {
+  buildTextField(BuildContext context, int i) {
     return TextFormField(
-      initialValue: '$timelineToPost',
-      enabled: false,
+      controller: TextEditingController(
+          text: timelineToPost.timelineDetails[i].toString()),
+      readOnly: true,
       decoration: InputDecoration(
         fillColor: DesignColor.darkerWhite,
         filled: true,
@@ -198,14 +243,18 @@ class _TimelineItem extends StatelessWidget {
                 Icons.edit,
                 size: 20,
               ),
-              onTap: () {},
+              onTap: () {
+                onShowTimelineDetailBottomSheet(context, i);
+              },
             ),
             GestureDetector(
               child: Icon(
                 Icons.close,
                 size: 22,
               ),
-              onTap: () {},
+              onTap: () {
+                onRemoveItem(i);
+              },
             ),
           ],
         ),
