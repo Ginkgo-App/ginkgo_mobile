@@ -13,6 +13,7 @@ part 'authProvider.dart';
 part 'systemProvider.dart';
 part 'userProvider.dart';
 part 'placeProvider.dart';
+part 'tourProvider.dart';
 
 class Api {
   static final image = 'https://api.imgur.com/3/image';
