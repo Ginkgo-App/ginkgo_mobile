@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
+import 'package:ginkgo_mobile/src/screens/createTourInfoScreen/create_tour_info.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
+import 'package:ginkgo_mobile/src/widgets/buttons/commonOutlineButton.dart';
 import 'package:ginkgo_mobile/src/widgets/buttons/viewMoreButton.dart';
 import 'package:ginkgo_mobile/src/widgets/spacingColumn.dart';
 import 'package:ginkgo_mobile/src/widgets/spacingRow.dart';
@@ -20,6 +22,15 @@ class _DiscoveryTabState extends State<DiscoveryTab> {
         spacing: 10,
         isSpacingHeadTale: true,
         children: <Widget>[
+          CommonOutlineButton(
+            text: 'Nhấn để tạo tour',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CreateTourInfo()),
+              );
+            },
+          ),
           _buildSuggestedCreators(),
           _buildSuggestedPlaces(),
           _buildNewTours(),

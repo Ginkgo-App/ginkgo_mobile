@@ -6,6 +6,7 @@ class DesignColor {
   static Color darkerWhite = Color(0xffE4D8D8);
   static Color darkestWhite = Color(0xffD7C6C6);
   static Color tinyItems = Color(0xff747576);
+  static Color lightBlack = Color(0xff595758);
   static Color darkRed = Color(0xffF41D00);
   static Color darkestRed = Color(0xffBD1700);
   static Color lightRed = Color(0xffFF5946);
