@@ -3,7 +3,7 @@ part of 'models.dart';
 class Place with Mappable {
   int id;
   String name;
-  List<String> images;
+  List<MultiSizeImage> images;
   String description;
   int tourCount;
 
@@ -13,8 +13,11 @@ class Place with Mappable {
   void mapping(Mapper map) {
     map('Id', id, (v) => id = v);
     map('Name', name, (v) => name = v);
-    map<String>('Images', images, (v) => images = v);
+    map<MultiSizeImage>(
+        'Images', images, (v) => images = v, MultiSizeImageTransform());
     map('Description', description, (v) => description = v);
     map('TourCount', tourCount, (v) => tourCount = v);
   }
 }
+
+enum PlaceSearchType { city, other }

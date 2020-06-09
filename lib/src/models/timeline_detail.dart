@@ -32,5 +32,6 @@ class TimelineDetailToPost with Mappable {
   }
 
   @override
-  String toString() => '$time: $detail';
+  String toString() =>
+      '$time: ${detail.replaceAll("{{place}}", place?.name ?? "")}';
 }

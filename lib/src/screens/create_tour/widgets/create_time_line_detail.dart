@@ -37,14 +37,18 @@ class _CreateTimelineDetailState extends State<CreateTimelineDetail> {
   final formKey = GlobalKey<FormState>();
   TextEditingController timeController;
   TextEditingController detailController;
+  TextEditingController placeController;
   Place selectedPlace;
 
   initState() {
     super.initState();
+
+    selectedPlace = widget.timelineDetail?.place;
+
     timeController = TextEditingController(text: widget.timelineDetail?.time);
     detailController =
         TextEditingController(text: widget.timelineDetail?.detail);
-    selectedPlace = widget.timelineDetail?.place;
+    placeController = TextEditingController(text: selectedPlace?.name ?? '');
   }
 
   onSubmit() {
@@ -112,18 +116,20 @@ class _CreateTimelineDetailState extends State<CreateTimelineDetail> {
                       label: 'Địa điểm:',
                       textInput: GestureDetector(
                         onTap: () async {
-                          final place = await showPlaceBottomSheet(context,
-                              selectedPlace: widget.timelineDetail?.place);
+                          final place =
+                              await PlaceBottomSheet.of(context, selectedPlace)
+                                  .show();
 
                           if (place != null && place.id != selectedPlace?.id) {
                             setState(() {
                               selectedPlace = place;
+                              placeController.text = selectedPlace?.name;
                             });
                           }
                         },
                         child: AbsorbPointer(
                           child: TextFormField(
-                            initialValue: selectedPlace?.name,
+                            controller: placeController,
                             decoration: InputDecoration(
                               contentPadding: EdgeInsets.all(10),
                               border: GradientOutlineInputBorder(

@@ -35,7 +35,7 @@ class TimelineDetailWidget extends StatelessWidget {
         if (timelineDetail?.place?.images != null &&
             timelineDetail.place.images.length > 0)
           ImageWidget(
-            timelineDetail.place.images[0],
+            timelineDetail.place.images[0]?.mediumThumb,
             height: 50,
             width: 80,
             withShadow: true,

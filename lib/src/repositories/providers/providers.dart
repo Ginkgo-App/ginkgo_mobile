@@ -12,6 +12,7 @@ import 'appClient.dart';
 part 'authProvider.dart';
 part 'systemProvider.dart';
 part 'userProvider.dart';
+part 'placeProvider.dart';
 
 class Api {
   static final image = 'https://api.imgur.com/3/image';
@@ -22,6 +23,7 @@ class Api {
   static final me = AppConfig.instance.apiUrl + '/users/me';
   static final meFriends = AppConfig.instance.apiUrl + '/users/me/friends';
   static final meTours = AppConfig.instance.apiUrl + '/users/me/tours';
+  static final places = AppConfig.instance.apiUrl + '/places';
 
   static String addFriend(int userId) =>
       AppConfig.instance.apiUrl + '/users/me/friends/$userId';

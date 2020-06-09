@@ -8,7 +8,7 @@ abstract class PlaceListEvent {
 
 class PlaceListEventFetch extends PlaceListEvent {
   final String keyword;
-  final String type;
+  final PlaceSearchType type;
   final int page;
   final int pageSize;
 

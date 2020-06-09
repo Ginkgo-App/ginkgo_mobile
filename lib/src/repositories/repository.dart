@@ -8,6 +8,7 @@ import 'providers/providers.dart';
 
 part 'repositories/authRepository.dart';
 part 'repositories/userRepository.dart';
+part 'repositories/placeRepository.dart';
 
 class Repository {
   static final Repository _repository = Repository._();
@@ -17,6 +18,7 @@ class Repository {
 
   final _AuthRepository auth = _AuthRepository();
   final _UserRepository user = _UserRepository();
+  final _PlaceRepository place = _PlaceRepository();
 }
 
 enum StorageKey {
