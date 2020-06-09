@@ -13,6 +13,20 @@ class Pagination<T> {
         data = dataJson == null
             ? []
             : dataJson.map((e) => Mapper.fromJson(e).toObject<T>()).toList();
+
+  Pagination.dev({
+    @required this.data,
+    @required int totalPage,
+    @required int totalElement,
+    @required int currentPage,
+    @required int pageSize,
+  }) {
+    pagination = _PaginationDetail();
+    pagination.totalElement = totalElement;
+    pagination.totalPage = totalPage;
+    pagination.currentPage = currentPage;
+    pagination.pageSize = pageSize;
+  }
 }
 
 class _PaginationDetail with Mappable {
