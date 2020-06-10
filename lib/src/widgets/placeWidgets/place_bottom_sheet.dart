@@ -15,7 +15,6 @@ class PlaceBottomSheet {
   }
 
   Future<Place> show() async {
-
     await showSlidingBottomSheet(
       _context,
       builder: (context) {
@@ -54,7 +53,6 @@ class PlaceBottomSheet {
           bloc: _placeListBloc,
           builder: (context, state) {
             return TextField(
-              autofocus: true,
               onChanged: (v) {
                 debouncer.debounce(_fetchData);
               },
@@ -112,10 +110,11 @@ class PlaceBottomSheet {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: (state is PlaceListStateSuccess
                     ? state.placeList.data
-                    : List<Place>.generate(4, (_) => null))
+                    : PlaceListBloc.allPlace != null
+                        ? PlaceListBloc.allPlace
+                        : List<Place>.generate(4, (_) => null))
                 .map<Widget>(
-                  (e) =>
-                      _buildPlaceItem(e, _selectedPlace?.id == e?.id),
+                  (e) => _buildPlaceItem(e, _selectedPlace?.id == e?.id),
                 )
                 .toList()
                 .addBetweenEvery(
