@@ -1,15 +1,4 @@
-
-
-import 'package:base/base.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:ginkgo_mobile/src/screens/createTourInfoScreen/widgets/success_create_tour_info_dialog.dart';
-import 'package:ginkgo_mobile/src/utils/assets.dart';
-import 'package:ginkgo_mobile/src/utils/designColor.dart';
-import 'package:ginkgo_mobile/src/widgets/spacingRow.dart';
-import 'package:ginkgo_mobile/src/widgets/widgets.dart';
-import 'package:sliding_sheet/sliding_sheet.dart';
+part of '../screens.dart';
 
 class CreateTourInfo extends StatefulWidget {
   @override
@@ -98,7 +87,7 @@ class _CreateTourInfoState extends State<CreateTourInfo> {
                   suffixIcon: GestureDetector(
                     child: Icon(Icons.expand_more),
                     onTap: () {
-                      _showPickPlaceBottomSheet(context);
+                      PlaceBottomSheet.of(context).show();
                     },
                   ),
                   focusedBorder: OutlineInputBorder(
@@ -318,86 +307,5 @@ class _CreateTourInfoState extends State<CreateTourInfo> {
         ),
       ),
     );
-  }
-
-  _showPickPlaceBottomSheet(BuildContext context) {
-    showSlidingBottomSheet(
-      context,
-      builder: (context) {
-        return SlidingSheetDialog(
-          elevation: 8,
-          snapSpec: const SnapSpec(
-            snap: true,
-            snappings: [0.8, 0.7, 1.0],
-            positioning: SnapPositioning.relativeToAvailableSpace,
-          ),
-          duration: const Duration(milliseconds: 200),
-          builder: (context, state) {
-            return Material(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  _buildPlaceItem('Cần thơ'),
-                  _buildPlaceItem('Đăk Lăk'),
-                  Container(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    decoration: BoxDecoration(color: DesignColor.lightestBlack),
-                    child: Text(
-                      'Cần thơ',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: DesignColor.lightBlack,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 17,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                        border: Border(
-                      bottom: BorderSide(
-                        color: context.colorScheme.onBackground,
-                        width: 0.5,
-                      ),
-                    )),
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                  ),
-                  _buildPlaceItem('Đăk Nông'),
-                ],
-              ),
-            );
-          },
-        );
-      },
-    );
-  }
-
-  Widget _buildPlaceItem(String place) {
-    return (Column(
-      children: <Widget>[
-        Container(
-          padding: EdgeInsets.symmetric(vertical: 10),
-          child: Text(
-            place,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 17,
-            ),
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          child: Container(
-            decoration: BoxDecoration(
-                border: Border(
-              bottom: BorderSide(
-                color: context.colorScheme.onBackground,
-                width: 0.5,
-              ),
-            )),
-          ),
-        ),
-      ],
-    ));
   }
 }

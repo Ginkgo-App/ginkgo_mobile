@@ -12,6 +12,7 @@ class Routes {
   static const tourDetail = '/tour-detail';
   static const friendListScreen = '/friend-list-screen';
   static const createTour = '/create-tour';
+  static const createTourInfo = '/create-tour-info';
   static const manageTour = '/manage-tour';
   static const placeDetail = '/place-detail';
 }
@@ -27,6 +28,7 @@ final Map<String, Widget Function(BuildContext)> _routeBuilder = {
   Routes.tourDetail: (context) => TourDetailScreen(),
   Routes.friendListScreen: (context) => FriendListScreen(),
   Routes.createTour: (context) => CreateTourScreen(),
+  Routes.createTourInfo: (context) => CreateTourInfo(),
   Routes.manageTour: (context) => ManageTourScreen(),
   Routes.placeDetail: (context) => PlaceDetailScreen(),
 };
@@ -52,6 +54,8 @@ RouteFactory _onGenerateRoute = (RouteSettings settings) {
     case Routes.friendListScreen:
       return _generateMaterialRoute(FriendListScreen());
     case Routes.createTour:
+      return _generateMaterialRoute(CreateTourScreen());
+    case Routes.createTourInfo:
       return _generateMaterialRoute(CreateTourScreen());
     case Routes.manageTour:
       return _generateMaterialRoute(ManageTourScreen());

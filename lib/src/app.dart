@@ -14,7 +14,7 @@ class App extends AppBase {
   Widget build(BuildContext context) {
     
     return GestureDetector(
-      onTap: () {
+      onTap: () {/*  */
         FocusScopeNode currentFocus = FocusScope.of(context);
 
         if (!currentFocus.hasPrimaryFocus) {

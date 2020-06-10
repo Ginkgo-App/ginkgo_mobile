@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:base/base.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:extended_tabs/extended_tabs.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,7 @@ import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/navigators.dart';
 import 'package:ginkgo_mobile/src/screens/create_tour/widgets/create_tour_bottom_button.dart';
 import 'package:ginkgo_mobile/src/screens/create_tour/widgets/create_tour_header.dart';
+import 'package:ginkgo_mobile/src/screens/create_tour/widgets/create_tour_info_widgets.dart';
 import 'package:ginkgo_mobile/src/screens/create_tour/widgets/create_tour_tabs.dart';
 import 'package:ginkgo_mobile/src/screens/create_tour/widgets/progressBar.dart';
 import 'package:ginkgo_mobile/src/screens/friend_list/widgets/friend_list_tab.dart';
@@ -61,6 +63,7 @@ import 'package:sliding_sheet/sliding_sheet.dart';
 
 import '../app.dart';
 
+part 'create_tour/create_tour_info_screen.dart';
 part 'create_tour/create_tour_screen.dart';
 part 'emailScreen/emailScreen.dart';
 part 'friend_list/friend_list_screen.dart';
@@ -71,7 +74,7 @@ part 'homeScreen/profilePage/tour_list_screen.dart';
 part 'homeScreen/profilePage/userScreen.dart';
 part 'loginScreen/loginScreen.dart';
 part 'manage_tour/manage_tour_screen.dart';
+part 'place_detail_screen/place_detail_screen.dart';
 part 'registerScreen/registerScreen.dart';
 part 'splashScreen/splashScreen.dart';
 part 'tour_detail_screen/tour_detail_screen.dart';
-part 'place_detail_screen/place_detail_screen.dart';

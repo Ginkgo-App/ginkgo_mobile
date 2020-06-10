@@ -79,7 +79,7 @@ class _ManageTourScreenState extends State<ManageTourScreen>
                           .pushNamed(Routes.createTour);
                     } else {
                       Navigators.appNavigator.currentState
-                          .pushNamed(Routes.createTour);
+                          .pushNamed(Routes.createTourInfo);
                     }
                   },
                 ),
