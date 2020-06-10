@@ -1,6 +1,7 @@
 library widget;
 
 import 'dart:async';
+import 'dart:math';
 import 'dart:ui' show lerpDouble;
 
 import 'package:base/base.dart';
@@ -12,15 +13,21 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ginkgo_mobile/src/app.dart';
 import 'package:ginkgo_mobile/src/blocs/auth/auth_bloc.dart';
+import 'package:ginkgo_mobile/src/blocs/place_list/place_list_bloc.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/navigators.dart';
 import 'package:ginkgo_mobile/src/screens/screens.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
+import 'package:ginkgo_mobile/src/utils/debouncer.dart';
 import 'package:ginkgo_mobile/src/utils/designColor.dart';
 import 'package:ginkgo_mobile/src/utils/gradientColor.dart';
 import 'package:ginkgo_mobile/src/utils/strings.dart';
 import 'package:ginkgo_mobile/src/widgets/buttons/friend_buttons/friend_buttons.dart';
+import 'package:ginkgo_mobile/src/widgets/errorWidgets/errorIndicator.dart';
+import 'package:ginkgo_mobile/src/widgets/gradientOutlineBorder.dart';
+import 'package:ginkgo_mobile/src/widgets/spacingRow.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:sliding_sheet/sliding_sheet.dart';
 
 part 'addCommentWidget.dart';
 part 'appBars/backAppBar.dart';
@@ -34,6 +41,7 @@ part 'gradientUnderlineBorder.dart';
 part 'hiddenText.dart';
 part 'loadingDotIndicator.dart';
 part 'loadingIndicator.dart';
+part 'placeWidgets/place_bottom_sheet.dart';
 part 'primaryScaffold.dart';
 part 'skeleton.dart';
 part 'userWidgets/circleTourUser.dart';

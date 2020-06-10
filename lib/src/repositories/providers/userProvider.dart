@@ -41,7 +41,8 @@ class UserProvider {
 
   Future<Pagination<SimpleTour>> getUserTours(int userId) async {
     final response = await _client.normalConnect(
-        ApiMethod.GET, userId == 0 ? Api.meTours : Api.userTours(userId));
+        ApiMethod.GET, userId == 0 ? Api.meTours : Api.userTours(userId),
+        query: {'page': '1', 'pageSize': '10'});
 
     return Pagination(response.data['Pagination'], response.data['Data']);
   }

@@ -1,11 +1,11 @@
 part of '../../screens.dart';
 
-class ProfileListTourScreen extends StatefulWidget {
+class TourListScreen extends StatefulWidget {
   @override
-  _ProfileListTourScreenState createState() => _ProfileListTourScreenState();
+  _TourListScreenState createState() => _TourListScreenState();
 }
 
-class _ProfileListTourScreenState extends State<ProfileListTourScreen> {
+class _TourListScreenState extends State<TourListScreen> {
   @override
   Widget build(BuildContext context) {
     User currentUser = FakeData.currentUser;

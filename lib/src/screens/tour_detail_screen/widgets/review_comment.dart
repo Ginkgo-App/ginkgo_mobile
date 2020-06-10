@@ -15,7 +15,7 @@ class ReviewList extends StatelessWidget {
   Widget build(BuildContext context) {
     return CollapseContainer(
         title: 'Nhận xét từ những người đã tham gia trước đó',
-        height: 280,
+        collapseHeight: 280,
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[

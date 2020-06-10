@@ -24,7 +24,7 @@ class FakeData {
     price: 10000,
     rating: 4,
     totalMember: 2,
-    friend: currentUser.toSimpleUser(),
+    friends: [currentUser.toSimpleUser()],
   );
 
   static final SimpleUser simpleUser = SimpleUser(
@@ -128,8 +128,7 @@ Nói chung là đáng đồng tiền bỏ ra. Nếu có dịp lần sau sẽ ủ
     id: '1',
     author: currentUser,
     tour: simpleTour,
-    content:
-        '''Hôm nay có thời gian nên mình review chuyến đi Đà Nẵng, 
+    content: '''Hôm nay có thời gian nên mình review chuyến đi Đà Nẵng, 
 Hội An vừa qua của mình. Ta nói vui ơi là vui, 
 ban tổ chức cực kỳ chu đáo, có xe đưa rước tận nơi,
 dịch vụ vui chơi thì khỏi chê vào đâu. 
@@ -152,30 +151,25 @@ Nói chung là đáng đồng tiền bỏ ra. Nếu có dịp lần sau sẽ ủ
     id: 1,
     name: 'Tour du lịch Hội An - Đà Nẵng',
     images: [
-      'https://images.unsplash.com/photo-1552702565-ed98c940b611?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80',
-      'https://images.unsplash.com/photo-1552458403-45c1a26d744c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80',
-      'https://images.unsplash.com/photo-1552524589-c76555c59289?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80',
-      'https://images.unsplash.com/photo-1552524589-c76555c59289?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80',
-      'https://images.unsplash.com/photo-1552524589-c76555c59289?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80',
+      MultiSizeImage(
+          'https://images.unsplash.com/photo-1552702565-ed98c940b611?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80'),
+      MultiSizeImage(
+          'https://images.unsplash.com/photo-1552458403-45c1a26d744c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80'),
+      MultiSizeImage(
+          'https://images.unsplash.com/photo-1552524589-c76555c59289?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80'),
+      MultiSizeImage(
+          'https://images.unsplash.com/photo-1552524589-c76555c59289?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80'),
+      MultiSizeImage(
+          'https://images.unsplash.com/photo-1552524589-c76555c59289?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80'),
     ],
+    startPlace: place,
+    destinatePlace: place,
     createBy: currentUser,
   );
 
   static final Tour tour = Tour(
       id: 1,
       name: 'Tour du lịch Hội An - Đà Nẵng',
-      images: [
-        MultiSizeImage(
-            'https://images.unsplash.com/photo-1552702565-ed98c940b611?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80'),
-        MultiSizeImage(
-            'https://images.unsplash.com/photo-1552458403-45c1a26d744c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80'),
-        MultiSizeImage(
-            'https://images.unsplash.com/photo-1552524589-c76555c59289?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80'),
-        MultiSizeImage(
-            'https://images.unsplash.com/photo-1552524589-c76555c59289?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80'),
-        MultiSizeImage(
-            'https://images.unsplash.com/photo-1552524589-c76555c59289?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80'),
-      ],
       totalMember: 15,
       destinatePlace: place,
       startPlace: place,
@@ -190,8 +184,8 @@ Nói chung là đáng đồng tiền bỏ ra. Nếu có dịp lần sau sẽ ủ
       id: 1,
       name: 'My home',
       images: [
-        'https://image.bizlive.vn/uploaded/quynhntn/2018_11_28/dray-nur-1_fbjm.jpg',
-        'https://image.bizlive.vn/uploaded/quynhntn/2018_11_28/dray-nur-1_fbjm.jpg',
+        MultiSizeImage('https://image.bizlive.vn/uploaded/quynhntn/2018_11_28/dray-nur-1_fbjm.jpg'),
+        MultiSizeImage('https://image.bizlive.vn/uploaded/quynhntn/2018_11_28/dray-nur-1_fbjm.jpg'),
       ],
       description: '',
       tourCount: 500);

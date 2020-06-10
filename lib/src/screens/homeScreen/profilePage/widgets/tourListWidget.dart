@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ginkgo_mobile/src/app.dart';
+import 'package:ginkgo_mobile/src/blocs/currentUser/current_user_bloc.dart';
 import 'package:ginkgo_mobile/src/blocs/userTour/user_tour_bloc.dart';
+import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/navigators.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/utils/strings.dart';
@@ -14,10 +16,9 @@ import 'package:ginkgo_mobile/src/widgets/widgets.dart';
 import 'package:base/base.dart';
 
 class TourListWidget extends StatefulWidget {
-  /// [UserId] = 0 is current user;
-  final int userId;
+  final SimpleUser user;
 
-  const TourListWidget({Key key, this.userId}) : super(key: key);
+  const TourListWidget({Key key, this.user}) : super(key: key);
 
   @override
   _TourListWidgetState createState() => _TourListWidgetState();
@@ -25,15 +26,27 @@ class TourListWidget extends StatefulWidget {
 
 class _TourListWidgetState extends State<TourListWidget> {
   final UserTourBloc _bloc = UserTourBloc();
+  bool isCurrentUser = false;
 
   @override
   void initState() {
     super.initState();
+    isCurrentUser = CurrentUserBloc().isCurrentUser(simpleUser: widget.user);
     _fetchData();
   }
 
   _fetchData() {
-    _bloc.add(UserTourEventFetch(widget.userId));
+    _bloc.add(
+      UserTourEventFetch(isCurrentUser ? 0 : widget.user.id),
+    );
+  }
+
+  viewAll() {
+    if (isCurrentUser) {
+      Navigators.profileNavigator.currentState.pushNamed(ProfileRoutes.manageTour);
+    } else {
+      Navigators.appNavigator.currentState.pushNamed(Routes.profileTourList);
+    }
   }
 
   @override
@@ -60,10 +73,7 @@ class _TourListWidgetState extends State<TourListWidget> {
                 ),
                 CommonOutlineButton(
                   text: 'Xem tất cả các chuyến đi',
-                  onPressed: () {
-                    Navigators.profileNavigator.currentState
-                        .pushNamed(ProfileRoutes.listTour);
-                  },
+                  onPressed: viewAll,
                 ),
               ],
             );
@@ -91,7 +101,7 @@ class _TourListWidgetState extends State<TourListWidget> {
                   const SizedBox(height: 20),
                   CommonOutlineButton(
                     text: 'Xem tất cả các chuyến đi',
-                    onPressed: () {},
+                    onPressed: viewAll,
                   ),
                 ] else
                   Text(

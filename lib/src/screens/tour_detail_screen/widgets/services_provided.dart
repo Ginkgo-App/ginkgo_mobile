@@ -9,7 +9,7 @@ class ServiceList extends StatelessWidget {
   Widget build(BuildContext context) {
     return CollapseContainer(
       title: 'Các dịch vụ được cung cấp',
-      height: 125,
+      collapseHeight: 125,
       child: Padding(
         padding: const EdgeInsets.only(left: 10),
         child: SpacingColumn(

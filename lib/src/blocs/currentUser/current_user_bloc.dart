@@ -36,7 +36,7 @@ class CurrentUserBloc extends Bloc<CurrentUserEvent, CurrentUserState> {
   List<User> get friends => _friends;
 
   bool isCurrentUser({SimpleUser simpleUser, User user}) =>
-      simpleUser?.id == _currentUser.id || user?.id == _currentUser.id;
+      simpleUser?.id == _currentUser?.id || user?.id == _currentUser?.id;
 
   @override
   Future<void> close() {

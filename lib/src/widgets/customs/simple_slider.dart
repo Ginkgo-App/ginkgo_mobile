@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ginkgo_mobile/src/utils/designColor.dart';
 import 'dot_indicator.dart';
 
 class ImageSliderWidget extends StatefulWidget {
@@ -12,6 +13,8 @@ class ImageSliderWidget extends StatefulWidget {
   final double imageHeight;
   final EdgeInsets padding;
   final Color dotColor;
+  final bool showDot;
+  final bool showButton;
 
   const ImageSliderWidget({
     Key key,
@@ -20,6 +23,8 @@ class ImageSliderWidget extends StatefulWidget {
     this.imageHeight = 350.0,
     this.padding = const EdgeInsets.all(8.0),
     this.dotColor = Colors.red,
+    this.showDot = true,
+    this.showButton = false,
   }) : super(key: key);
 
   @override
@@ -75,7 +80,11 @@ class ImageSliderWidgetState extends State<ImageSliderWidget> {
         child: Stack(
           children: [
             _buildPagerViewSlider(),
-            _buildDotsIndicatorOverlay(),
+            if (widget.showDot) _buildDotsIndicatorOverlay(),
+            if (widget.showButton) ...[
+              _buildButtonLeftIndicatorOverlay(),
+              _buildButtonRightIndicatorOverlay()
+            ]
           ],
         ),
       ),
@@ -117,6 +126,46 @@ class ImageSliderWidgetState extends State<ImageSliderWidget> {
               duration: const Duration(milliseconds: 300),
               curve: Curves.ease,
             );
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildButtonLeftIndicatorOverlay() {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 20),
+        child: CupertinoButton(
+          padding: EdgeInsets.zero,
+          minSize: 0,
+          child: Icon(Icons.chevron_left),
+          color: DesignColor.tinyItems,
+          borderRadius: BorderRadius.circular(90),
+          onPressed: () {
+            _controller.previousPage(
+                duration: Duration(milliseconds: 200), curve: Curves.ease);
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildButtonRightIndicatorOverlay() {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: Padding(
+        padding: const EdgeInsets.only(right: 20),
+        child: CupertinoButton(
+          padding: EdgeInsets.zero,
+          minSize: 0,
+          child: Icon(Icons.chevron_right),
+          color: DesignColor.tinyItems,
+          borderRadius: BorderRadius.circular(90),
+          onPressed: () {
+            _controller.nextPage(
+                duration: Duration(milliseconds: 200), curve: Curves.ease);
           },
         ),
       ),

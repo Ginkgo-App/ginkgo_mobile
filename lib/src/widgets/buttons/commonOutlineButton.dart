@@ -6,25 +6,31 @@ class CommonOutlineButton extends StatelessWidget {
   final String text;
   final Function onPressed;
   final EdgeInsets padding;
+  final BorderRadius borderRadius;
+  final TextStyle textStyle;
 
-  const CommonOutlineButton(
-      {Key key,
-      this.text,
-      this.onPressed,
-      this.padding = const EdgeInsets.symmetric(vertical: 8)})
-      : super(key: key);
+  const CommonOutlineButton({
+    Key key,
+    this.text,
+    this.onPressed,
+    this.padding = const EdgeInsets.symmetric(vertical: 8),
+    this.borderRadius,
+    this.textStyle,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return CupertinoButton(
       padding: EdgeInsets.zero,
+      minSize: 0,
       child: Container(
         padding: padding,
         width: MediaQuery.of(context).size.width * .7,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
-            border: Border.all(color: context.colorScheme.primary)),
-        child: Center(child: Text(text, maxLines: 1)),
+          borderRadius: borderRadius ?? BorderRadius.circular(5),
+          border: Border.all(color: context.colorScheme.primary),
+        ),
+        child: Center(child: Text(text, style: textStyle, maxLines: 1)),
       ),
       onPressed: onPressed,
     );

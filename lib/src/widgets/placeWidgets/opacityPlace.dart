@@ -29,7 +29,7 @@ class OpacityPlace extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(5),
                   child: CachedNetworkImage(
-                    imageUrl: place.images.length > 0 ? place.images[0] : '',
+                    imageUrl: place.images.length > 0 ? place.images[0].mediumThumb : '',
                     fit: BoxFit.cover,
                   ),
                 ),

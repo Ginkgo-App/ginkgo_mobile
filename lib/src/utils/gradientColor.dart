@@ -13,6 +13,15 @@ class GradientColor {
     end: Alignment.bottomRight,
   );
 
+  get primaryDisbleGradient => LinearGradient(
+    colors: <Color>[
+      Color(0xffFFAC9A),
+      Color(0xffFFECE8),
+    ],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
+
   get backgroundGradient => LinearGradient(
     colors: <Color>[
       Color(0xffFEEEEB),

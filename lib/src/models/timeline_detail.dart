@@ -16,3 +16,22 @@ class TimelineDetail with Mappable {
     map('Detail', detail, (v) => detail = v);
   }
 }
+
+class TimelineDetailToPost with Mappable {
+  Place place;
+  String time;
+  String detail;
+
+  TimelineDetailToPost({this.place, this.time, this.detail});
+
+  @override
+  void mapping(Mapper map) {
+    map('PlaceId', place?.id, (v) => place?.id = v);
+    map('Time', time, (v) => time = v);
+    map('Detail', detail, (v) => detail = v);
+  }
+
+  @override
+  String toString() =>
+      '$time: ${detail.replaceAll("{{place}}", place?.name ?? "")}';
+}

@@ -14,6 +14,7 @@ class DesignColor {
   static Color lighterPink = Color(0xffFFECE8);
   static Color lighterRed = Color(0xffFF8E7E);
   static Color lightestBlack = Color(0xff9B9C9D);
+  static Color lighterBlack = Color(0xff747576);
   static const darkestGreen = Color(0xff02842E);
   static const darkerBlue = Color(0xff0DAEE1);
   static const darkestBlue = Color(0xff007DA6);

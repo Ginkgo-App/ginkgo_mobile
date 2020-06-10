@@ -3,6 +3,7 @@ library models;
 import 'dart:io';
 
 import 'package:base/base.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:object_mapper/object_mapper.dart';
@@ -33,6 +34,6 @@ objectMapping() {
     SimpleUser: () => SimpleUser(),
     Tour: () => Tour(),
     SimpleTour: () => SimpleTour(),
-    Place: () => Place,
+    Place: () => Place(),
   };
 }

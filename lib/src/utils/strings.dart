@@ -34,6 +34,9 @@ class _Button {
   final viewAllImages = 'Xem tất cả hình ảnh';
   final takePartInNow = 'Tham gia ngay';
   final findFriendNow = 'Tìm bạn ngay';
+  final nextStep = 'Sang bước tiếp theo';
+  final backStep = 'Trở lại bước trước';
+  final complete = 'Hoàn tất';
 }
 
 class _Error {
