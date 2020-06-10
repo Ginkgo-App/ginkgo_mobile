@@ -14,37 +14,36 @@ class UserProvider {
     return result;
   }
 
-  Future<List<SimpleUser>> getMeFriends(FriendType type,
-      [int page = 1, int pageSize = 10]) async {
+  Future<Pagination<SimpleUser>> getMeFriends(FriendType type,
+      {int page = 1, int pageSize = 10}) async {
+    if (type == FriendType.none) {
+      type = FriendType.accepted;
+    }
+
     final response =
         await _client.normalConnect(ApiMethod.GET, Api.meFriends, query: {
       'page': page.toString(),
       'pageSize': pageSize.toString(),
-      'type': enumToString(type ?? FriendType.none)
+      'type': enumToString(type ?? FriendType.accepted),
     });
 
-    return (response.data['Data'] as List)
-        .map((e) => Mapper.fromJson(e).toObject<SimpleUser>())
-        .toList();
+    return Pagination(response.data['Pagination'], response.data['Data']);
   }
 
-  Future<List<SimpleUser>> getUserFriends(int userId,
+  Future<Pagination<SimpleUser>> getUserFriends(int userId,
       [int page = 1, int pageSize = 10]) async {
     final response = await _client.normalConnect(
         ApiMethod.GET, userId == 0 ? Api.meFriends : Api.userFriends(userId),
         query: {'page': page.toString(), 'pageSize': pageSize.toString()});
 
-    return (response.data['Data'] as List)
-        .map((e) => Mapper.fromJson(e).toObject<SimpleUser>())
-        .toList();
+    return Pagination(response.data['Pagination'], response.data['Data']);
   }
 
-  Future<List<SimpleTour>> getUserTours(int userId) async {
+  Future<Pagination<SimpleTour>> getUserTours(int userId) async {
     final response = await _client.normalConnect(
         ApiMethod.GET, userId == 0 ? Api.meTours : Api.userTours(userId));
-    return (response.data['Data'] as List)
-        .map((e) => Mapper.fromJson(e).toObject<SimpleTour>())
-        .toList();
+
+    return Pagination(response.data['Pagination'], response.data['Data']);
   }
 
   Future<User> updateProfile(UserToPut userToPut) async {
@@ -59,5 +58,17 @@ class UserProvider {
       if (avatar != null) ...{'avatar': avatar}
     });
     return result;
+  }
+
+  Future addFriend(int userId) async {
+    await _client.normalConnect(ApiMethod.POST, Api.addFriend(userId));
+  }
+
+  Future removeFriend(int userId) async {
+    await _client.normalConnect(ApiMethod.DELETE, Api.deleteFriend(userId));
+  }
+
+  Future acceptFriend(int userId) async {
+    await _client.normalConnect(ApiMethod.POST, Api.acceptFriend(userId));
   }
 }

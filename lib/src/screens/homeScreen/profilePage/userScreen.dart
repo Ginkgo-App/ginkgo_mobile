@@ -44,12 +44,13 @@ class _UserScreenState extends State<UserScreen> {
             avatar: args?.simpleUser?.avatar);
         if (state is UserStateSuccess) {
           user = state.user;
+          user.friendType = args?.simpleUser?.friendType;
         }
 
         return PrimaryScaffold(
           isLoading: state is UserStateLoading,
           appBar: BackAppBar(title: user.fullName),
-          body: state is CurrentUserFailure
+          body: state is CurrentUserStateFailure
               ? ErrorIndicator(
                   moreErrorDetail: state.error,
                   onReload: _fetchUserInfo,
@@ -64,12 +65,16 @@ class _UserScreenState extends State<UserScreen> {
                         padding: EdgeInsets.symmetric(horizontal: 10),
                         child: Column(
                           children: <Widget>[
-                            UserNav(),
+                            UserNav(
+                                user: user.toSimpleUser(),
+                                onFriendActionSuccess: () {
+                                  _fetchUserInfo();
+                                }),
                             const SizedBox(height: 10),
                             AboutBox(user: user),
                             const SizedBox(height: 10),
                             if (user?.id != null) ...[
-                              FriendList(userId: user.id),
+                              FriendList(user: args.simpleUser),
                               const SizedBox(height: 10),
                             ],
                             InfoBox(user: user),

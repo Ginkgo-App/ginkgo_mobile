@@ -1,6 +1,4 @@
-import 'package:ginkgo_mobile/src/models/comment.dart';
-import 'package:ginkgo_mobile/src/models/models.dart';
-import 'package:ginkgo_mobile/src/models/tourInfo.dart';
+part of 'models.dart';
 
 class Review {
   final String id;

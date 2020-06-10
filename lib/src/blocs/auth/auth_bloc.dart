@@ -43,6 +43,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     } catch (error) {
       yield AuthStateFailure(error);
+      _goToLogin();
     }
   }
 

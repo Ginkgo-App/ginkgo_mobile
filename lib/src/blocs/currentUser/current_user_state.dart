@@ -8,21 +8,21 @@ abstract class CurrentUserState {
 
 class CurrentUserInitial extends CurrentUserState {}
 
-class CurrentUserLoading extends CurrentUserState {}
+class CurrentUserStateLoading extends CurrentUserState {}
 
-class CurrentUserSuccess extends CurrentUserState {
+class CurrentUserStageSuccess extends CurrentUserState {
   final User currentUser;
 
-  CurrentUserSuccess(this.currentUser);
+  CurrentUserStageSuccess(this.currentUser);
 
   @override
   String toString() => '$runtimeType ${currentUser.toJsonString()}';
 }
 
-class CurrentUserFailure extends CurrentUserState {
+class CurrentUserStateFailure extends CurrentUserState {
   final String error;
 
-  CurrentUserFailure(this.error);
+  CurrentUserStateFailure(this.error);
 
   @override
   String toString() => '$runtimeType $error';

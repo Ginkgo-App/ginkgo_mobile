@@ -7,17 +7,23 @@ class _UserRepository {
 
   Future<User> getUserInfo(int userId) => _userProvider.getUserInfo(userId);
 
-  Future<List<SimpleUser>> getMeFriends(FriendType type,
-          [int page = 1, int pageSize = 10]) =>
-      _userProvider.getMeFriends(type, page, pageSize);
+  Future<Pagination<SimpleUser>> getMeFriends(FriendType type,
+          {int page = 1, int pageSize = 10}) =>
+      _userProvider.getMeFriends(type, page: page, pageSize: pageSize);
 
-  Future<List<SimpleUser>> getUserFriends(int userId,
-          [int page, int pageSize]) =>
+  Future<Pagination<SimpleUser>> getUserFriends(int userId,
+          {int page, int pageSize}) =>
       _userProvider.getUserFriends(userId, page, pageSize);
 
-  Future<List<SimpleTour>> getUserTours(int userId) =>
+  Future<Pagination<SimpleTour>> getUserTours(int userId) =>
       _userProvider.getUserTours(userId);
 
   Future<User> updateProfile(UserToPut userToPut) =>
       _userProvider.updateProfile(userToPut);
+
+  Future addFriend(int userId) => _userProvider.addFriend(userId);
+
+  Future removeFriend(int userId) => _userProvider.removeFriend(userId);
+
+  Future acceptFriend(int userId) => _userProvider.acceptFriend(userId);
 }

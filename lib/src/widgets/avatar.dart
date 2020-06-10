@@ -16,20 +16,12 @@ class Avatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final child = ClipRRect(
-      borderRadius: BorderRadius.circular(isCircle ? 90 : 0),
-      child: CachedNetworkImage(
-        imageUrl: imageUrl,
-        width: size,
-        height: size,
-        fit: BoxFit.cover,
-        placeholder: (context, _) => Image.asset(
-          Assets.images.defaultAvatar,
-          width: size,
-          height: size,
-          fit: BoxFit.cover,
-        ),
-      ),
+    final child = ImageWidget(
+      imageUrl,
+      width: size,
+      height: size,
+      isCircled: true,
+      withShadow: false,
     );
 
     return heroTag != null

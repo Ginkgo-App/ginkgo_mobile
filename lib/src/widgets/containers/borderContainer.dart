@@ -1,4 +1,4 @@
-part of 'widgets.dart';
+part of '../widgets.dart';
 
 class BorderContainer extends StatelessWidget {
   final Widget child;
@@ -8,6 +8,7 @@ class BorderContainer extends StatelessWidget {
   final String icon;
   final String title;
   final List<Widget> actions;
+  final Color color;
 
   const BorderContainer({
     Key key,
@@ -18,6 +19,7 @@ class BorderContainer extends StatelessWidget {
     this.children,
     this.margin,
     this.actions = const [],
+    this.color,
   })  : assert(child == null || children == null),
         super(key: key);
 
@@ -29,10 +31,11 @@ class BorderContainer extends StatelessWidget {
         // border: Border.all(color: Color(0xffE4D8D8), width: 1),
         boxShadow: DesignColor.defaultDropShadow,
         borderRadius: BorderRadius.circular(5),
-        color: context.colorScheme.background,
+        color: color ?? context.colorScheme.background,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           if (title != null || icon != null)
@@ -67,7 +70,7 @@ class _Header extends StatelessWidget {
   final String icon;
   final List<Widget> actions;
 
-  const _Header({Key key, this.title, this.icon, this.actions = const []})
+  const _Header({Key key, this.title, this.icon, this.actions})
       : super(key: key);
 
   @override
@@ -75,12 +78,13 @@ class _Header extends StatelessWidget {
     return IntrinsicHeight(
       child: Row(
         children: <Widget>[
-          if (icon.isExistAndNotEmpty)
+          if (icon.isExistAndNotEmpty) ...[
             SvgPicture.asset(
               icon,
               height: 30,
             ),
-          const SizedBox(width: 10),
+            const SizedBox(width: 10)
+          ],
           if (title.isExistAndNotEmpty)
             Expanded(
               child: Text(
@@ -90,6 +94,7 @@ class _Header extends StatelessWidget {
                     fontWeight: FontWeight.bold),
               ),
             ),
+          const SizedBox(width: 5),
           ...actions
         ],
       ),

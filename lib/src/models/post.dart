@@ -1,7 +1,4 @@
-import 'package:ginkgo_mobile/src/models/comment.dart';
-import 'package:ginkgo_mobile/src/models/models.dart';
-import 'package:ginkgo_mobile/src/models/tour.dart';
-import 'package:ginkgo_mobile/src/utils/assets.dart';
+part of 'models.dart';
 
 class Post {
   final String id;
@@ -12,7 +9,7 @@ class Post {
   final int totalLike;
   final int totalComment;
   final List<Comment> featuredComments;
-  final int rating;
+  final double rating;
   final SimpleTour tour;
 
   PostType get type {

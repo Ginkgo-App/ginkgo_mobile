@@ -1,11 +1,6 @@
 import 'package:base/base.dart';
-import 'package:ginkgo_mobile/src/models/comment.dart';
-import 'package:ginkgo_mobile/src/models/multi_size_image.dart';
-import 'package:ginkgo_mobile/src/models/place.dart';
-import 'package:ginkgo_mobile/src/models/post.dart';
-import 'package:ginkgo_mobile/src/models/tour.dart';
-import 'package:ginkgo_mobile/src/models/tourInfo.dart';
-import 'package:ginkgo_mobile/src/models/user.dart';
+
+import 'models.dart';
 
 class FakeData {
   static final SimpleTour simpleTour = SimpleTour(
@@ -14,11 +9,16 @@ class FakeData {
     startDay: DateTime(2020, 1, 5),
     host: simpleUser,
     images: [
-      'https://image.bizlive.vn/uploaded/quynhntn/2018_11_28/dray-nur-1_fbjm.jpg',
-      'https://images.unsplash.com/photo-1552458403-45c1a26d744c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80',
-      'https://images.unsplash.com/photo-1552524589-c76555c59289?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80',
-      'https://images.unsplash.com/photo-1552524589-c76555c59289?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80',
-      'https://images.unsplash.com/photo-1552524589-c76555c59289?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80',
+      MultiSizeImage(
+          'https://image.bizlive.vn/uploaded/quynhntn/2018_11_28/dray-nur-1_fbjm.jpg'),
+      MultiSizeImage(
+          'https://images.unsplash.com/photo-1552458403-45c1a26d744c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80'),
+      MultiSizeImage(
+          'https://images.unsplash.com/photo-1552524589-c76555c59289?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80'),
+      MultiSizeImage(
+          'https://images.unsplash.com/photo-1552524589-c76555c59289?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80'),
+      MultiSizeImage(
+          'https://images.unsplash.com/photo-1552524589-c76555c59289?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80'),
     ],
     name: 'Tour khám phá Tây Nguyên',
     price: 10000,
@@ -28,12 +28,37 @@ class FakeData {
   );
 
   static final SimpleUser simpleUser = SimpleUser(
-    avatar: MultiSizeImage('https://i.imgur.com/ePEkVUYb.jpg'),
-    id: 1,
-    job: 'an khong ngoi roi',
-    name: 'an hai',
-    tourCount: 15,
-  );
+      avatar: MultiSizeImage('https://i.imgur.com/ePEkVUYb.jpg'),
+      id: 1,
+      job: 'an khong ngoi roi',
+      name: 'Ăn hại',
+      tourCount: 15,
+      friendType: FriendType.accepted);
+
+  static final SimpleUser simpleUser2 = SimpleUser(
+      avatar: MultiSizeImage('https://i.imgur.com/ePEkVUYb.jpg'),
+      id: 1,
+      job: 'Singer, Composer',
+      name:
+          'Requesting David Kevin Sergio Leroy Ederson Mahred Bernaldo Sterling',
+      tourCount: 15,
+      friendType: FriendType.requested);
+
+  static final SimpleUser simpleUser3 = SimpleUser(
+      avatar: MultiSizeImage('https://i.imgur.com/ePEkVUYb.jpg'),
+      id: 1,
+      job: 'Singer, Composer',
+      name: 'Waiting Friend',
+      tourCount: 15,
+      friendType: FriendType.waiting);
+
+  static final SimpleUser simpleUser4 = SimpleUser(
+      avatar: MultiSizeImage('https://i.imgur.com/ePEkVUYb.jpg'),
+      id: 1,
+      job: 'Singer, Composer',
+      name: 'Người lạ ơi',
+      tourCount: 15,
+      friendType: FriendType.none);
 
   static final User currentUser = User(
     phoneNumber: '+8499999999',
@@ -102,9 +127,13 @@ Nói chung là đáng đồng tiền bỏ ra. Nếu có dịp lần sau sẽ ủ
   static final Post review = Post(
     id: '1',
     author: currentUser,
-    tour: tour,
+    tour: simpleTour,
     content:
-        '''Hôm nay có thời gian nên mình review chuyến đi Đà Nẵng, Hội An vừa qua của mình. Ta nói vui ơi là vui, ban tổ chức cực kỳ chu đáo, có xe đưa rước tận nơi, dịch vụ vui chơi thì khỏi chê vào đâu. Khách sạn sạch sẽ, đẹp,... bla bla bla bò bí bô la la la...
+        '''Hôm nay có thời gian nên mình review chuyến đi Đà Nẵng, 
+Hội An vừa qua của mình. Ta nói vui ơi là vui, 
+ban tổ chức cực kỳ chu đáo, có xe đưa rước tận nơi,
+dịch vụ vui chơi thì khỏi chê vào đâu. 
+Khách sạn sạch sẽ, đẹp,... bla bla bla bò bí bô la la la...
 Nói chung là đáng đồng tiền bỏ ra. Nếu có dịp lần sau sẽ ủng hộ tiếp hihi...''',
     createAt: DateTime(2019, 1, 1, 12, 12),
     featuredComments: [
@@ -132,18 +161,30 @@ Nói chung là đáng đồng tiền bỏ ra. Nếu có dịp lần sau sẽ ủ
     createBy: currentUser,
   );
 
-  static final SimpleTour tour = SimpleTour(
-    id: 1,
-    name: 'Tour du lịch Hội An - Đà Nẵng',
-    images: [
-      'https://images.unsplash.com/photo-1552702565-ed98c940b611?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80',
-      'https://images.unsplash.com/photo-1552458403-45c1a26d744c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80',
-      'https://images.unsplash.com/photo-1552524589-c76555c59289?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80',
-      'https://images.unsplash.com/photo-1552524589-c76555c59289?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80',
-      'https://images.unsplash.com/photo-1552524589-c76555c59289?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80',
-    ],
-    totalMember: 15
-  );
+  static final Tour tour = Tour(
+      id: 1,
+      name: 'Tour du lịch Hội An - Đà Nẵng',
+      images: [
+        MultiSizeImage(
+            'https://images.unsplash.com/photo-1552702565-ed98c940b611?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80'),
+        MultiSizeImage(
+            'https://images.unsplash.com/photo-1552458403-45c1a26d744c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80'),
+        MultiSizeImage(
+            'https://images.unsplash.com/photo-1552524589-c76555c59289?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80'),
+        MultiSizeImage(
+            'https://images.unsplash.com/photo-1552524589-c76555c59289?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80'),
+        MultiSizeImage(
+            'https://images.unsplash.com/photo-1552524589-c76555c59289?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=720&q=80'),
+      ],
+      totalMember: 15,
+      destinatePlace: place,
+      startPlace: place,
+      startDay: DateTime.now().subtract(Duration(days: 5)),
+      endDay: DateTime.now().subtract(Duration(days: 3)),
+      host: currentUser.toSimpleUser(),
+      price: 500000,
+      timelines: List.generate(10, (_) => timeline),
+      tourInfo: tourInfo);
 
   static final Place place = Place(
       id: 1,
@@ -154,4 +195,17 @@ Nói chung là đáng đồng tiền bỏ ra. Nếu có dịp lần sau sẽ ủ
       ],
       description: '',
       tourCount: 500);
+
+  static final Timeline timeline = Timeline(
+      id: 1,
+      day: DateTime.now(),
+      descrirption: "Something",
+      timelineDetails: List.generate(4, (_) => timelineDetail));
+
+  static final TimelineDetail timelineDetail = TimelineDetail(
+      id: 1,
+      detail:
+          'Ăn sáng, uống nước, xỉa răng, lau miệng, đi vệ sinh, tắm rửa, lướt face, nghe nhạc tại {{place}}. Lên đường!',
+      place: place,
+      time: '9h - 10h sáng');
 }

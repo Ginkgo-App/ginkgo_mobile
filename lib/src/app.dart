@@ -1,12 +1,13 @@
 library app;
 
+import 'package:base/base.dart';
 import 'package:flutter/material.dart';
 import 'package:ginkgo_mobile/src/screens/screens.dart';
-import 'package:base/base.dart';
+
 import 'screens/screens.dart';
 
-part 'routes/routes.dart';
 part 'routes/profileRoutes.dart';
+part 'routes/routes.dart';
 
 class App extends AppBase {
   @override

@@ -1,11 +1,11 @@
 import 'dart:io';
 
+import 'package:base/base.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ginkgo_mobile/src/utils/strings.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:base/base.dart';
 
 pickImage(BuildContext context, Function(File) onPickedImage) async {
   FocusScope.of(context).unfocus();

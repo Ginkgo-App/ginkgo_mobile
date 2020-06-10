@@ -21,4 +21,13 @@ class GradientColor {
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
   );
+
+  get whiteBottomGradient => LinearGradient(
+    colors: <Color>[
+      Colors.white.withOpacity(0),
+      Colors.white,
+    ],
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+  );
 }

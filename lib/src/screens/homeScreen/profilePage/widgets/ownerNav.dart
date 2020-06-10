@@ -2,9 +2,13 @@ import 'package:base/base.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:ginkgo_mobile/src/app.dart';
+import 'package:ginkgo_mobile/src/models/models.dart';
+import 'package:ginkgo_mobile/src/navigators.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/utils/designColor.dart';
 import 'package:ginkgo_mobile/src/utils/strings.dart';
+import 'package:ginkgo_mobile/src/widgets/buttons/friend_buttons/friend_buttons.dart';
 import 'package:ginkgo_mobile/src/widgets/customs/toast.dart';
 
 class OwnerNav extends StatelessWidget {
@@ -43,7 +47,8 @@ class OwnerNav extends StatelessWidget {
               imageIcon: Assets.icons.friends,
               label: 'Bạn bè',
               onPressed: () {
-                Toast.show(Strings.common.developingFeature, context);
+                Navigators.appNavigator.currentState
+                    .pushNamed(Routes.friendListScreen);
               },
             ),
             _Button(
@@ -57,10 +62,18 @@ class OwnerNav extends StatelessWidget {
     );
   }
 }
-class UserNav extends StatelessWidget {
-  final Function onCustomButtonPressed;
 
-  const UserNav({Key key, this.onCustomButtonPressed}) : super(key: key);
+class UserNav extends StatelessWidget {
+  final SimpleUser user;
+  final Function onCustomButtonPressed;
+  final Function onFriendActionSuccess;
+
+  const UserNav(
+      {Key key,
+      this.onCustomButtonPressed,
+      @required this.user,
+      this.onFriendActionSuccess})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -83,10 +96,11 @@ class UserNav extends StatelessWidget {
               },
             ),
             _Button(
-              imageIcon: Assets.icons.friendAcceptance,
-              label: 'Bạn bè',
+              imageIcon: getFriendNavIcon(user.friendType),
+              label: getFriendButtonText(user.friendType),
               onPressed: () {
-                Toast.show(Strings.common.developingFeature, context);
+                getFriendAction(context, user,
+                    onSuccess: onFriendActionSuccess)();
               },
             ),
             _Button(

@@ -3,7 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ginkgo_mobile/src/models/fakeData.dart';
-import 'package:ginkgo_mobile/src/models/tour.dart';
+import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/utils/designColor.dart';
 import 'package:ginkgo_mobile/src/widgets/tourWidgets/widgets/tourInfoWidget.dart';
 
@@ -31,7 +31,9 @@ class TripItem extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(5),
                   child: CachedNetworkImage(
-                    imageUrl: tour.images.length > 0 ? tour.images[0] : '',
+                    imageUrl: tour.images.length > 0
+                        ? tour.images[0].mediumThumb
+                        : '',
                     fit: BoxFit.fill,
                   ),
                 ),

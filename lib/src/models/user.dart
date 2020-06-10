@@ -1,11 +1,4 @@
-import 'dart:io';
-
-import 'package:ginkgo_mobile/src/models/key_value.dart';
-import 'package:ginkgo_mobile/src/models/multi_size_image.dart';
-import 'package:ginkgo_mobile/src/models/socialProvider.dart';
-import 'package:object_mapper/object_mapper.dart';
-
-import 'date_time_transform.dart';
+part of 'models.dart';
 
 class Gender {
   static const male = const KeyValue(key: 'male', value: 'Nam');
@@ -30,7 +23,7 @@ class Gender {
   }
 }
 
-enum FriendType { none, accepted, requesting, waiting }
+enum FriendType { me, none, accepted, requested, waiting }
 
 class User with Mappable {
   int id;
@@ -48,6 +41,7 @@ class User with Mappable {
   List<SocialProvider> socialProviders;
   Set<User> friends;
   int tourCount;
+  FriendType friendType;
 
   String get displayName => fullName ?? email;
   String get displayGender => Gender.fromKey(gender).value;
@@ -64,6 +58,7 @@ class User with Mappable {
     this.gender = '',
     this.address = '',
     this.tourCount = 0,
+    this.friendType,
     friends,
   }) : this.friends = friends ?? Set.identity();
 
@@ -72,7 +67,8 @@ class User with Mappable {
       name: this.fullName,
       avatar: this.avatar,
       job: this.job,
-      tourCount: this.tourCount);
+      tourCount: this.tourCount,
+      friendType: this.friendType);
 
   @override
   void mapping(Mapper map) {
@@ -91,6 +87,7 @@ class User with Mappable {
     map('TourCount', tourCount, (v) => tourCount = v);
     map<List<SocialProvider>>(
         'SocialProviders', socialProviders, (v) => socialProviders = v);
+    map('FrienType', friendType, (v) => friendType = v, FriendTypeTransform());
   }
 }
 
@@ -101,10 +98,17 @@ class SimpleUser with Mappable {
   MultiSizeImage avatar;
   String job;
   int tourCount;
+  FriendType friendType;
 
   String get displayName => name ?? email;
 
-  SimpleUser({this.id, this.name, this.avatar, this.job, this.tourCount});
+  SimpleUser(
+      {this.id,
+      this.name,
+      this.avatar,
+      this.job,
+      this.tourCount,
+      this.friendType});
 
   @override
   void mapping(Mapper map) {
@@ -113,6 +117,7 @@ class SimpleUser with Mappable {
     map('Email', email, (v) => email = v);
     map('Avatar', avatar, (v) => avatar = v, MultiSizeImageTransform());
     map('Job', job, (v) => job = v);
+    map('FriendType', friendType, (v) => friendType = v, FriendTypeTransform());
     map('TourCount', tourCount, (v) => tourCount = v);
   }
 }

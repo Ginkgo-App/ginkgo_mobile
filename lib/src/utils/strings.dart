@@ -4,6 +4,7 @@ class Strings {
   static final button = _Button();
   static final error = _Error();
   static final noData = _NoData();
+  static final bottomNavigator = _BottomNavigator();
   static final loginScreen = _LoginScreen();
   static final registerScreen = _RegisterScreen();
   static final post = _Post();
@@ -30,6 +31,9 @@ class _Button {
   final cancel = 'Hủy bỏ';
   final edit = 'Chỉnh sửa';
   final saveChanges = 'Lưu thay đổi';
+  final viewAllImages = 'Xem tất cả hình ảnh';
+  final takePartInNow = 'Tham gia ngay';
+  final findFriendNow = 'Tìm bạn ngay';
 }
 
 class _Error {
@@ -38,7 +42,8 @@ class _Error {
   final phoneNumberIncorrectForm = 'Số điện thoại không đúng định dạng.';
   final rePasswordIsNotMatch = 'Re-password is not match with password.';
   final cannotRegisterWithFacebook = 'Cannot register with facebook';
-  final error = 'Đã xảy ra lỗi. Click để xem chi tiết.';
+  final errorClick = 'Đã xảy ra lỗi. Click để xem chi tiết.';
+  final error = 'Đã xảy ra lỗi.';
   final updateProfile = 'Xảy ra lỗi trong khi cập nhật.';
   final updateBio = 'Xảy ra lỗi trong khi cập nhật tự giới thiệu.';
   final updateSolgan = 'Xảy ra lỗi trong khi cập nhật sologan.';
@@ -49,6 +54,14 @@ class _Error {
 class _NoData {
   final friends = 'Không có bạn bè';
   final tours = 'Không có chuyến đi';
+}
+
+class _BottomNavigator {
+  final home = 'Trang chủ';
+  final tour = 'Chuyến đi';
+  final profile = 'Trang cá nhân';
+  final notification = 'Thông báo';
+  final setting = 'Cài đặt';
 }
 
 class _LoginScreen {
@@ -70,7 +83,8 @@ class _Post {
   final justCreateATour = ' vừa thêm một chuyến đi mới';
   final createdATour = ' đã thêm một chuyến đi mới';
   String totalLike(int totalLike) => '$totalLike lượt yêu thích';
-  String viewAllComment(int totalComment) => 'Xem tất cả $totalComment lượt bình luận';
+  String viewAllComment(int totalComment) =>
+      'Xem tất cả $totalComment lượt bình luận';
   final addComment = 'Thêm bình luận';
   final reviewTitle = ' đã thêm một nhận xét mới cho ';
 }

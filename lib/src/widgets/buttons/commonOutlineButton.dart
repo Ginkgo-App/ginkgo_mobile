@@ -11,7 +11,7 @@ class CommonOutlineButton extends StatelessWidget {
       {Key key,
       this.text,
       this.onPressed,
-      this.padding = const EdgeInsets.symmetric(horizontal: 50, vertical: 10)})
+      this.padding = const EdgeInsets.symmetric(vertical: 8)})
       : super(key: key);
 
   @override
@@ -20,10 +20,11 @@ class CommonOutlineButton extends StatelessWidget {
       padding: EdgeInsets.zero,
       child: Container(
         padding: padding,
+        width: MediaQuery.of(context).size.width * .7,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
             border: Border.all(color: context.colorScheme.primary)),
-        child: Text(text),
+        child: Center(child: Text(text, maxLines: 1)),
       ),
       onPressed: onPressed,
     );

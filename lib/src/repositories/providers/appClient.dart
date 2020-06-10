@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:ansicolor/ansicolor.dart';
 import 'package:base/base.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:ginkgo_mobile/src/repositories/repository.dart';
 import 'package:object_mapper/object_mapper.dart';
 
@@ -37,7 +39,10 @@ class ApiClient {
         headers: headers,
         query: query);
 
-    return Mapper.fromJson(response.data['Data'][0]).toObject<T>();
+    return Mapper.fromJson((response.data is String
+            ? jsonDecode(response.data)
+            : response.data)['Data'][0])
+        .toObject<T>();
   }
 
   Future<Response> normalConnect(
@@ -115,20 +120,34 @@ class ApiClient {
       } on DioError catch (e) {
         throw e.message;
       } finally {
-        print(url);
+        AnsiPen pen = new AnsiPen()..blue(bold: true);
+        print(pen(enumToString(method) + ': $url'));
+        pen = new AnsiPen()..yellow();
+        if (query != null) {
+          print(pen('Query: $query'));
+        }
+        if (headers != null) {
+          print(pen('Headers: $headers'));
+        }
+        if (data != null || body != null) {
+          print(pen('Data: ${data ?? body}'));
+        }
       }
 
-      final decoded = response.data;
+      Map<String, dynamic> decoded =
+          response.data is String ? jsonDecode(response.data) : response.data;
+
       // Cache api
       bool isSuccess = decoded != null &&
           decoded is! List &&
-          decoded['Data'] != null &&
-          decoded['Data'] is List &&
+          (decoded['Data'] == null ||
+              decoded['Data'] != null && decoded['Data'] is List) &&
           int.tryParse(decoded['ErrorCode'].toString()) == 0;
 
       if (response.statusCode != 200 && response.statusCode != 201 ||
           !isSuccess) {
         if (handleError) {
+          debugPrint('Error Data: ${decoded['Data']}');
           throw ServerError(
             errorCode: decoded['ErrorCode'],
             message: decoded['Message'],

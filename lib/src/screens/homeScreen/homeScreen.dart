@@ -75,6 +75,7 @@ class _HomeScreenState extends State<HomeScreen>
 
   _buildBottomNavigator(BuildContext context) {
     final colorScheme = context.colorScheme;
+    final textStyle = TextStyle(fontSize: 12);
     return BottomNavigationBar(
       backgroundColor: colorScheme.background,
       elevation: 10,
@@ -93,7 +94,10 @@ class _HomeScreenState extends State<HomeScreen>
             color: colorScheme.onBackground,
             height: 24,
           ),
-          title: Container(),
+          title: Text(
+            Strings.bottomNavigator.home,
+            style: textStyle,
+          ),
           activeIcon: SvgPicture.asset(
             Assets.icons.homeFull,
             color: colorScheme.primary,
@@ -106,7 +110,10 @@ class _HomeScreenState extends State<HomeScreen>
             color: colorScheme.onBackground,
             height: 24,
           ),
-          title: Container(),
+          title: Text(
+            Strings.bottomNavigator.tour,
+            style: textStyle,
+          ),
           activeIcon: SvgPicture.asset(
             Assets.icons.tripFull,
             color: colorScheme.primary,
@@ -119,7 +126,10 @@ class _HomeScreenState extends State<HomeScreen>
             color: colorScheme.onBackground,
             height: 24,
           ),
-          title: Container(),
+          title: Text(
+            Strings.bottomNavigator.profile,
+            style: textStyle,
+          ),
           activeIcon: SvgPicture.asset(
             Assets.icons.meFull,
             color: colorScheme.primary,
@@ -132,7 +142,10 @@ class _HomeScreenState extends State<HomeScreen>
             color: colorScheme.onBackground,
             height: 24,
           ),
-          title: Container(),
+          title: Text(
+            Strings.bottomNavigator.notification,
+            style: textStyle,
+          ),
           activeIcon: SvgPicture.asset(
             Assets.icons.notiFull,
             color: colorScheme.primary,
@@ -145,7 +158,10 @@ class _HomeScreenState extends State<HomeScreen>
             color: colorScheme.onBackground,
             height: 24,
           ),
-          title: Container(),
+          title: Text(
+            Strings.bottomNavigator.setting,
+            style: textStyle,
+          ),
           activeIcon: SvgPicture.asset(
             Assets.icons.settingFull,
             color: colorScheme.primary,

@@ -5,6 +5,7 @@ class PrimaryButton extends StatelessWidget {
   final Function onPressed;
   final bool isLoading;
   final BorderRadius borderRadius;
+  final double width;
 
   const PrimaryButton({
     Key key,
@@ -12,6 +13,7 @@ class PrimaryButton extends StatelessWidget {
     this.onPressed,
     this.isLoading = false,
     this.borderRadius,
+    this.width,
   }) : super(key: key);
 
   @override
@@ -21,6 +23,7 @@ class PrimaryButton extends StatelessWidget {
       minSize: 0,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 8),
+        width: width,
         decoration: BoxDecoration(
             gradient: GradientColor.of(context).primaryGradient,
             borderRadius: borderRadius ?? BorderRadius.circular(90)),
@@ -34,6 +37,7 @@ class PrimaryButton extends StatelessWidget {
               )
             : Text(
                 title,
+                textAlign: TextAlign.center,
                 style: context.textTheme.button
                     .apply(color: context.colorScheme.onPrimary),
               ),

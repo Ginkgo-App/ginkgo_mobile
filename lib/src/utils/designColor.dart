@@ -7,12 +7,16 @@ class DesignColor {
   static Color darkestWhite = Color(0xffD7C6C6);
   static Color tinyItems = Color(0xff747576);
   static Color darkRed = Color(0xffF41D00);
+  static Color darkestRed = Color(0xffBD1700);
   static Color lightRed = Color(0xffFF5946);
   static Color pink = Color(0xffF4988F);
   static Color lightPink = Color(0xffFADBD4);
   static Color lighterPink = Color(0xffFFECE8);
   static Color lighterRed = Color(0xffFF8E7E);
   static Color lightestBlack = Color(0xff9B9C9D);
+  static const darkestGreen = Color(0xff02842E);
+  static const darkerBlue = Color(0xff0DAEE1);
+  static const darkestBlue = Color(0xff007DA6);
 
   static Color shimmerBackground = Colors.grey[200];
   static Color shimmerHightlight = Colors.grey[100];

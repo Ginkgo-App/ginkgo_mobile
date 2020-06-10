@@ -77,7 +77,7 @@ class _TourListWidgetState extends State<TourListWidget> {
                   child: SpacingRow(
                     spacing: 10,
                     children: state is UserTourSuccess
-                        ? state.tours
+                        ? state.tours.data
                             .map((e) => BorderTourItem(tour: e))
                             .toList()
                         : List.generate(3, (i) {
@@ -87,7 +87,7 @@ class _TourListWidgetState extends State<TourListWidget> {
                 ),
               ),
               if (state is UserTourSuccess)
-                if (state.tours.length > 0) ...[
+                if (state.tours.data.length > 0) ...[
                   const SizedBox(height: 20),
                   CommonOutlineButton(
                     text: 'Xem tất cả các chuyến đi',

@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
-import 'package:ginkgo_mobile/src/models/tour.dart';
 import 'package:base/base.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/helper/dateTimeExt.dart';

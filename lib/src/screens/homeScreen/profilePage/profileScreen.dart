@@ -14,12 +14,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-    if (_bloc.currentUser == null && _bloc.state is! CurrentUserLoading) {
+    if (_bloc.currentUser == null && _bloc.state is! CurrentUserStateLoading) {
       _fetchProfile();
     }
 
     currentUserListener = _bloc.listen((state) {
-      if (state is CurrentUserLoading) {
+      if (state is CurrentUserStateLoading) {
         LoadingManager().show(context);
       } else {
         LoadingManager().hide(context);
@@ -49,7 +49,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       bloc: _bloc,
       builder: (context, state) {
         User user;
-        if (state is CurrentUserSuccess ||
+        if (state is CurrentUserStageSuccess ||
             state is CurrentUserStateHaveChanges) {
           user = _bloc.currentUser;
         }
@@ -59,7 +59,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             title: user?.fullName ?? '',
             showBackButton: false,
           ),
-          body: state is CurrentUserFailure
+          body: state is CurrentUserStateFailure
               ? ErrorIndicator(
                   moreErrorDetail: state.error,
                   onReload: () {
@@ -83,7 +83,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             const SizedBox(height: 10),
                             AboutBox(user: user, editMode: editMode),
                             const SizedBox(height: 10),
-                            FriendList(userId: 0),
+                            FriendList(user: user?.toSimpleUser()),
                             const SizedBox(height: 10),
                             InfoBox(user: user, editMode: editMode),
                             const SizedBox(height: 10),
