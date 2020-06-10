@@ -5,24 +5,40 @@ class ManageTourScreen extends StatefulWidget {
   _ManageTourScreenState createState() => _ManageTourScreenState();
 }
 
-class _ManageTourScreenState extends State<ManageTourScreen> {
+enum _Filter { tourInfo, tour }
+
+class _ManageTourScreenState extends State<ManageTourScreen>
+    with TickerProviderStateMixin {
   final PageController pageController = PageController();
   int currentPage = 0;
+  _Filter filter = _Filter.tour;
 
-  onOpenCreateTour() {
+  openSelectFilter() {
     showCupertinoModalPopup(
         context: context,
         builder: (context) {
           return CupertinoActionSheet(
             actions: <Widget>[
               CupertinoActionSheetAction(
-                  onPressed: () {}, child: Text('Tạo mẫu chuyến đi')),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    if (filter != _Filter.tourInfo) {
+                      setState(() {
+                        filter = _Filter.tourInfo;
+                      });
+                    }
+                  },
+                  child: Text('Mẫu chuyến đi')),
               CupertinoActionSheetAction(
                   onPressed: () {
-                    Navigators.appNavigator.currentState
-                        .pushNamed(Routes.createTour);
+                    Navigator.pop(context);
+                    if (filter != _Filter.tour) {
+                      setState(() {
+                        filter = _Filter.tour;
+                      });
+                    }
                   },
-                  child: Text('Tạo chuyến đi')),
+                  child: Text('Chuyến đi cụ thể')),
             ],
           );
         });
@@ -41,9 +57,33 @@ class _ManageTourScreenState extends State<ManageTourScreen> {
               size: 30,
               color: context.colorScheme.onBackground,
             ),
-            onPressed: onOpenCreateTour,
+            onPressed: openSelectFilter,
           )
         ],
+      ),
+      bottomNavigationBar: AnimatedSize(
+        duration: Duration(milliseconds: 200),
+        vsync: this,
+        child: Container(
+          padding: EdgeInsets.all(currentPage == 0 ? 0 : 10),
+          child: currentPage == 0
+              ? const SizedBox.shrink()
+              : PrimaryButton(
+                  title: filter == _Filter.tour
+                      ? 'Tạo thêm chuyến đi'
+                      : 'Tạo thêm khuôn mẫu',
+                  width: double.maxFinite,
+                  onPressed: () {
+                    if (filter == _Filter.tour) {
+                      Navigators.appNavigator.currentState
+                          .pushNamed(Routes.createTour);
+                    } else {
+                      Navigators.appNavigator.currentState
+                          .pushNamed(Routes.createTour);
+                    }
+                  },
+                ),
+        ),
       ),
       body: NestedScrollView(
           headerSliverBuilder: (context, _) {
@@ -98,6 +138,43 @@ class _ManageTourScreenState extends State<ManageTourScreen> {
               ),
               SingleChildScrollView(
                 child: BorderContainer(
+                  title: filter == _Filter.tour
+                      ? 'Chuyến đi cụ thể'
+                      : 'Khuôn mẫu chuyến đi',
+                  actions: <Widget>[
+                    CupertinoButton(
+                      padding: EdgeInsets.zero,
+                      onPressed: openSelectFilter,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 10),
+                        decoration: BoxDecoration(
+                            boxShadow: DesignColor.buttonShadow,
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(2)),
+                        child: Row(
+                          children: <Widget>[
+                            GradientText(
+                              'Lọc',
+                              gradient: LinearGradient(
+                                colors: [
+                                  Color(0xffFDC70C),
+                                  Color(0xffF3903F),
+                                  Color(0xffED683C),
+                                  Color(0xffE93E3A),
+                                ],
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                              ),
+                              style: context.textTheme.button
+                                  .copyWith(color: Colors.white),
+                            ),
+                            SvgPicture.asset(Assets.icons.filter),
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
                   childPadding: EdgeInsets.zero,
                   margin: const EdgeInsets.all(10),
                   child: SingleChildScrollView(
@@ -106,11 +183,11 @@ class _ManageTourScreenState extends State<ManageTourScreen> {
                       child: SpacingColumn(
                         spacing: 10,
                         crossAxisAlignment: CrossAxisAlignment.stretch,
-                        isSpacingHeadTale: true,
                         children: [
                           ...List.generate(5, (_) => FakeData.simpleTour)
                               .map((e) => TripItem(tour: e))
                               .toList(),
+                          const SizedBox.shrink(),
                         ],
                       ),
                     ),

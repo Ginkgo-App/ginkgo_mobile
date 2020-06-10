@@ -22,6 +22,7 @@ class _Icon {
   final downArrow = _ICON_PATH + 'down-arrow.svg';
   final email = _ICON_PATH + 'email.svg';
   final facebookSquare = _ICON_PATH + 'facebook-square.svg';
+  final filter = _ICON_PATH + 'filter.svg';
   final friendAcceptance = _ICON_PATH + 'friend-acceptance.svg';
   final friendAdd = _ICON_PATH + 'friend-add.svg';
   final friendNewRequest = _ICON_PATH + 'friend-new-request.svg';

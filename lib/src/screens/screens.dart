@@ -56,6 +56,7 @@ import 'package:ginkgo_mobile/src/widgets/spacingColumn.dart';
 import 'package:ginkgo_mobile/src/widgets/spacingRow.dart';
 import 'package:ginkgo_mobile/src/widgets/trip/tripItem.dart';
 import 'package:ginkgo_mobile/src/widgets/widgets.dart';
+import 'package:gradient_text/gradient_text.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
 
 import '../app.dart';

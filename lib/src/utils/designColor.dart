@@ -25,21 +25,33 @@ class DesignColor {
 
   static final defaultDropShadow = [
     BoxShadow(
-        color: Color(0xffFF3422).withOpacity(0.25),
-        blurRadius: 5,
-        offset: Offset(0, 4))
+      color: Color(0xffFF3422).withOpacity(0.25),
+      blurRadius: 5,
+      offset: Offset(0, 4),
+    )
   ];
 
   static final backgroundColorShadow = [
     BoxShadow(
-        color: Color(0xffBD1700).withOpacity(0.25),
-        blurRadius: 10,
-        offset: Offset(2, 2)),
+      color: Color(0xffBD1700).withOpacity(0.25),
+      blurRadius: 10,
+      offset: Offset(2, 2),
+    ),
   ];
+
   static final imageShadow = [
     BoxShadow(
-        color: Color(0xff000000).withOpacity(0.25),
-        blurRadius: 4,
-        offset: Offset(4, 4)),
+      color: Color(0xff000000).withOpacity(0.25),
+      blurRadius: 4,
+      offset: Offset(4, 4),
+    ),
+  ];
+
+  static final buttonShadow = [
+    BoxShadow(
+      color: Color(0xff000000).withOpacity(0.25),
+      blurRadius: 4,
+      offset: Offset(0, 1),
+    ),
   ];
 }

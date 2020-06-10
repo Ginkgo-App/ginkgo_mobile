@@ -32,25 +32,19 @@ class ImageWidget extends StatelessWidget {
                 ? DesignColor.defaultDropShadow
                 : DesignColor.imageShadow),
       ),
-      child: AspectRatio(
-        aspectRatio:
-            isCircled || width == null || height == null ? 1 : width / height,
-        child: ClipRRect(
-          borderRadius:
-              BorderRadius.circular(isCircled ? 90 : (borderRadius ?? 0)),
-          child: CachedNetworkImage(
-            imageUrl: imageUrl,
+      child: ClipRRect(
+        borderRadius:
+            BorderRadius.circular(isCircled ? 90 : (borderRadius ?? 0)),
+        child: CachedNetworkImage(
+          imageUrl: imageUrl,
+          width: width,
+          height: height,
+          fit: BoxFit.cover,
+          placeholder: (context, _) => Image.asset(
+            isAvatar ? Assets.images.defaultAvatar : Assets.images.defaultImage,
             width: width,
             height: height,
             fit: BoxFit.cover,
-            placeholder: (context, _) => Image.asset(
-              isAvatar
-                  ? Assets.images.defaultAvatar
-                  : Assets.images.defaultImage,
-              width: width,
-              height: height,
-              fit: BoxFit.cover,
-            ),
           ),
         ),
       ),
