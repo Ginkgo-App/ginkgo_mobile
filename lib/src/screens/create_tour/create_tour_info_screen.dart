@@ -6,258 +6,276 @@ class CreateTourInfo extends StatefulWidget {
 }
 
 class _CreateTourInfoState extends State<CreateTourInfo> {
+  final formKey = GlobalKey<FormState>();
+  final CreateTourInfoBloc bloc = CreateTourInfoBloc();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController startPlaceController = TextEditingController();
+  final TextEditingController endPlaceController = TextEditingController();
+  final TextEditingController exactStartPlaceController =
+      TextEditingController();
+  final TextEditingController exactEndPlaceController = TextEditingController();
+
+  Place startPlace;
+  Place endPlace;
+  Place exactStartPlace;
+  Place exactEndPlace;
+  List<File> images = [];
+
+  onSubmit() {
+    if (!formKey.currentState.validate()) return;
+
+    bloc.add(CreateTourInfoEventCreate(TourInfoToPost(
+      startPlace: startPlace,
+      destinatePlace: endPlace,
+      images: images,
+      name: nameController.text,
+    )));
+  }
+
+  onPickImages() {
+    pickImage(context, (image) {
+      setState(() {
+        this.images.add(image);
+      });
+    });
+  }
+
+  dispose() {
+    bloc.close();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return PrimaryScaffold(
-      appBar: BackAppBar(
-        title: 'Tạo khuôn mẫu chuyến đi',
-        showBackButton: true,
+    return BlocBuilder(
+      bloc: bloc,
+      builder: (context, state) => PrimaryScaffold(
+        isLoading: state is CreateTourInfoStateLoading,
+        appBar: BackAppBar(
+          title: 'Tạo khuôn mẫu chuyến đi',
+          showBackButton: true,
+        ),
+        bottomNavigationBar: Container(
+          padding: EdgeInsets.all(10),
+          child: PrimaryButton(
+            title: 'Hoàn tất',
+            width: double.maxFinite,
+            onPressed: onSubmit,
+          ),
+        ),
+        body: buildBody(),
       ),
-      body: Padding(
+    );
+  }
+
+  Widget buildBody() {
+    return Form(
+      key: formKey,
+      child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              const SizedBox(
-                height: 5,
-              ),
+              const SizedBox(height: 5),
               Text(
                 'Tạo nên khung xương cho những chuyến đi của bạn',
                 style: TextStyle(
                     fontWeight: FontWeight.bold, color: DesignColor.darkRed),
               ),
-              const SizedBox(
-                height: 15,
+              const SizedBox(height: 15),
+              CreateTourTextFieldBase(
+                isRequired: true,
+                label: 'Tên mẫu chuyến đi:',
+                child: TextFormField(
+                  controller: nameController,
+                  decoration: InputDecoration(
+                      contentPadding: EdgeInsets.all(10),
+                      border: GradientOutlineInputBorder(
+                        focusedGradient:
+                            GradientColor.of(context).primaryGradient,
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      filled: true,
+                      fillColor: context.colorScheme.background),
+                  validator: (value) {
+                    if (!value.isExistAndNotEmpty) {
+                      return Strings.error.emptyRequiredInput;
+                    }
+                    return null;
+                  },
+                ),
               ),
-              RichText(
-                  text: TextSpan(
-                text: '*',
-                style: TextStyle(color: DesignColor.darkRed),
-                children: <TextSpan>[
-                  TextSpan(
-                      text: 'Tên Khuôn mẫu:',
-                      style: TextStyle(
-                          color: context.colorScheme.onBackground,
-                          fontSize: 12,
-                          fontStyle: FontStyle.italic)),
-                ],
-              )),
-              const SizedBox(
-                height: 5,
-              ),
-              TextField(
-                decoration: InputDecoration(
-                  fillColor: context.colorScheme.onPrimary,
-                  hoverColor: context.colorScheme.onPrimary,
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: new BorderRadius.circular(5),
-                    borderSide: new BorderSide(color: DesignColor.lightRed),
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: new BorderRadius.circular(5),
-                    borderSide:
-                        new BorderSide(color: context.colorScheme.onSurface),
+              const SizedBox(height: 10),
+              CreateTourTextFieldBase(
+                isRequired: true,
+                label: 'Địa điểm đầu:',
+                child: GestureDetector(
+                  onTap: () async {
+                    final place =
+                        await PlaceBottomSheet.of(context, startPlace).show();
+
+                    if (place != null && place.id != startPlace?.id) {
+                      setState(() {
+                        startPlace = place;
+                        startPlaceController.text = place?.name;
+                      });
+                    }
+                  },
+                  child: AbsorbPointer(
+                    child: TextFormField(
+                      controller: startPlaceController,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.all(10),
+                        border: GradientOutlineInputBorder(
+                          focusedGradient:
+                              GradientColor.of(context).primaryGradient,
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        suffixIcon: Icon(Icons.expand_more),
+                        filled: true,
+                        fillColor: context.colorScheme.background,
+                      ),
+                      validator: (value) {
+                        if (!value.isExistAndNotEmpty) {
+                          return Strings.error.emptyRequiredInput;
+                        }
+                        return null;
+                      },
+                    ),
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 10,
-              ),
-              RichText(
-                  text: TextSpan(
-                text: '*',
-                style: TextStyle(color: DesignColor.darkRed),
-                children: <TextSpan>[
-                  TextSpan(
-                      text: 'Địa điểm đầu:',
-                      style: TextStyle(
-                          color: context.colorScheme.onBackground,
-                          fontSize: 12,
-                          fontStyle: FontStyle.italic)),
-                ],
-              )),
-              const SizedBox(
-                height: 5,
-              ),
-              TextField(
-                decoration: InputDecoration(
-                  fillColor: context.colorScheme.onPrimary,
-                  hoverColor: context.colorScheme.onPrimary,
-                  suffixIcon: GestureDetector(
-                    child: Icon(Icons.expand_more),
-                    onTap: () {
-                      PlaceBottomSheet.of(context).show();
-                    },
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: new BorderRadius.circular(5),
-                    borderSide: new BorderSide(color: DesignColor.lightRed),
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: new BorderRadius.circular(5),
-                    borderSide:
-                        new BorderSide(color: context.colorScheme.onSurface),
+              const SizedBox(height: 10),
+              CreateTourTextFieldBase(
+                label: 'Địa điểm chính xác (không bắt buộc):',
+                child: GestureDetector(
+                  onTap: () async {
+                    final place =
+                        await PlaceBottomSheet.of(context, exactStartPlace)
+                            .show();
+
+                    if (place != null && place.id != exactStartPlace?.id) {
+                      setState(() {
+                        exactStartPlace = place;
+                        exactStartPlaceController.text = place?.name;
+                      });
+                    }
+                  },
+                  child: AbsorbPointer(
+                    child: TextFormField(
+                      controller: exactStartPlaceController,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.all(10),
+                        border: GradientOutlineInputBorder(
+                          focusedGradient:
+                              GradientColor.of(context).primaryGradient,
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        suffixIcon: Icon(Icons.expand_more),
+                        filled: true,
+                        fillColor: context.colorScheme.background,
+                      ),
+                    ),
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 10,
-              ),
-              Text(
-                'Địa điểm chính xác (không bắt buộc):',
-                style: TextStyle(
-                  color: context.colorScheme.onSurface,
-                  fontSize: 12,
-                  fontStyle: FontStyle.italic,
-                ),
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              TextField(
-                decoration: InputDecoration(
-                  fillColor: context.colorScheme.onPrimary,
-                  hoverColor: context.colorScheme.onPrimary,
-                  suffixIcon: GestureDetector(
-                    child: Icon(Icons.expand_more),
-                    onTap: () {},
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: new BorderRadius.circular(5),
-                    borderSide: new BorderSide(color: DesignColor.lightRed),
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: new BorderRadius.circular(5),
-                    borderSide:
-                        new BorderSide(color: context.colorScheme.onSurface),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              RichText(
-                  text: TextSpan(
-                text: '*',
-                style: TextStyle(color: DesignColor.darkRed),
-                children: <TextSpan>[
-                  TextSpan(
-                      text: 'Địa điểm Cuối:',
-                      style: TextStyle(
-                          color: context.colorScheme.onBackground,
-                          fontSize: 12,
-                          fontStyle: FontStyle.italic)),
-                ],
-              )),
-              const SizedBox(
-                height: 5,
-              ),
-              TextField(
-                decoration: InputDecoration(
-                  fillColor: context.colorScheme.onPrimary,
-                  hoverColor: context.colorScheme.onPrimary,
-                  suffixIcon: GestureDetector(
-                    child: Icon(Icons.expand_more),
-                    onTap: () {},
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: new BorderRadius.circular(5),
-                    borderSide: new BorderSide(color: DesignColor.lightRed),
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: new BorderRadius.circular(5),
-                    borderSide:
-                        new BorderSide(color: context.colorScheme.onSurface),
+              const SizedBox(height: 10),
+              CreateTourTextFieldBase(
+                isRequired: true,
+                label: 'Địa điểm Cuối:',
+                child: GestureDetector(
+                  onTap: () async {
+                    final place =
+                        await PlaceBottomSheet.of(context, endPlace).show();
+
+                    if (place != null && place.id != endPlace?.id) {
+                      setState(() {
+                        endPlace = place;
+                        endPlaceController.text = place?.name;
+                      });
+                    }
+                  },
+                  child: AbsorbPointer(
+                    child: TextFormField(
+                      controller: endPlaceController,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.all(10),
+                        border: GradientOutlineInputBorder(
+                          focusedGradient:
+                              GradientColor.of(context).primaryGradient,
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        suffixIcon: Icon(Icons.expand_more),
+                        filled: true,
+                        fillColor: context.colorScheme.background,
+                      ),
+                      validator: (value) {
+                        if (!value.isExistAndNotEmpty) {
+                          return Strings.error.emptyRequiredInput;
+                        }
+                        return null;
+                      },
+                    ),
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 10,
-              ),
-              Text(
-                'Địa điểm chính xác (không bắt buộc):',
-                style: TextStyle(
-                  color: context.colorScheme.onSurface,
-                  fontSize: 12,
-                  fontStyle: FontStyle.italic,
+              const SizedBox(height: 10),
+              CreateTourTextFieldBase(
+                label: 'Địa điểm chính xác (không bắt buộc):',
+                child: GestureDetector(
+                  onTap: () async {
+                    final place =
+                        await PlaceBottomSheet.of(context, exactEndPlace)
+                            .show();
+
+                    if (place != null && place.id != exactEndPlace?.id) {
+                      setState(() {
+                        exactEndPlace = place;
+                        exactEndPlaceController.text = place?.name;
+                      });
+                    }
+                  },
+                  child: AbsorbPointer(
+                    child: TextFormField(
+                      controller: exactEndPlaceController,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.all(10),
+                        border: GradientOutlineInputBorder(
+                          focusedGradient:
+                              GradientColor.of(context).primaryGradient,
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        suffixIcon: Icon(Icons.expand_more),
+                        filled: true,
+                        fillColor: context.colorScheme.background,
+                      ),
+                    ),
+                  ),
                 ),
               ),
-              const SizedBox(
-                height: 5,
-              ),
-              TextField(
-                decoration: InputDecoration(
-                  fillColor: context.colorScheme.onPrimary,
-                  hoverColor: context.colorScheme.onPrimary,
-                  suffixIcon: GestureDetector(
-                    child: Icon(Icons.expand_more),
-                    onTap: () {},
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: new BorderRadius.circular(5),
-                    borderSide: new BorderSide(color: DesignColor.lightRed),
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: new BorderRadius.circular(5),
-                    borderSide:
-                        new BorderSide(color: context.colorScheme.onSurface),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              RichText(
-                text: TextSpan(
-                  text: '*',
-                  style: TextStyle(color: DesignColor.darkRed),
-                  children: <TextSpan>[
-                    TextSpan(
-                        text: 'Hình ảnh:',
-                        style: TextStyle(
-                            color: context.colorScheme.onBackground,
-                            fontSize: 12,
-                            fontStyle: FontStyle.italic)),
+              const SizedBox(height: 10),
+              CreateTourTextFieldBase(
+                isRequired: true,
+                label: 'Hình ảnh:',
+                child: SpacingRow(
+                  spacing: 10,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    ...images?.map((e) => buildImageItem(e))?.toList(),
+                    GestureDetector(
+                      onTap: onPickImages,
+                      child: SvgPicture.asset(
+                        Assets.icons.addImage,
+                        color: context.colorScheme.onBackground,
+                        width: 65,
+                        height: 45,
+                      ),
+                    ),
                   ],
                 ),
               ),
-              const SizedBox(
-                height: 25,
-              ),
-              SpacingRow(
-                spacing: 10,
-                children: <Widget>[
-                  _buildImageItem(),
-                  _buildImageItem(),
-                  Container(
-                    width: 65,
-                    height: 45,
-                    child: Image.asset(
-                      Assets.images.addImage,
-                      color: context.colorScheme.onBackground,
-                    ),
-                  ),
-                  _buildImageItem(),
-                ],
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              PrimaryButton(
-                title: 'Hoàn tất',
-                width: 350,
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => SuccessCreateTourInfoDialog()),
-                  );
-                },
-              ),
-              const SizedBox(
-                height: 5,
-              ),
+              const SizedBox(height: 5),
             ],
           ),
         ),
@@ -265,47 +283,44 @@ class _CreateTourInfoState extends State<CreateTourInfo> {
     );
   }
 
-  Widget _buildImageItem() {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: context.colorScheme.onSurface,
-          width: 1,
+  Widget buildImageItem(File image) {
+    return Stack(
+      children: <Widget>[
+        Container(
+          margin: const EdgeInsets.only(top: 5, right: 5),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(5),
+            child: Image.asset(
+              image.path,
+              fit: BoxFit.cover,
+              width: 65,
+              height: 45,
+            ),
+          ),
         ),
-        borderRadius: BorderRadius.circular(5),
-      ),
-      width: 65,
-      height: 45,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(5),
-        child: Stack(
-          children: <Widget>[
-            Positioned.fill(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(5),
-                child: CachedNetworkImage(
-                  imageUrl:
-                      'https://scontent.fsgn2-1.fna.fbcdn.net/v/t1.0-9/83127578_781402629026013_5572345287713751040_n.jpg?_nc_cat=111&_nc_sid=85a577&_nc_ohc=9e9cgfu5lukAX8EuVG8&_nc_ht=scontent.fsgn2-1.fna&oh=51c5512f6858683b2099ee403bdd5feb&oe=5EFB3E22',
-                  fit: BoxFit.fill,
+        Positioned(
+            right: 0,
+            top: 0,
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  images.remove(image);
+                });
+              },
+              child: Container(
+                padding: const EdgeInsets.all(2),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(90),
+                  color: context.colorScheme.error,
+                ),
+                child: Icon(
+                  Icons.clear,
+                  size: 15,
+                  color: context.colorScheme.onError,
                 ),
               ),
-            ),
-            Positioned(
-                bottom: 29,
-                left: 49,
-                right: 1,
-                top: 1,
-                child: GestureDetector(
-                  child: Icon(
-                    Icons.clear,
-                    size: 15,
-                    color: context.colorScheme.onBackground,
-                  ),
-                  onTap: () {},
-                )),
-          ],
-        ),
-      ),
+            )),
+      ],
     );
   }
 }

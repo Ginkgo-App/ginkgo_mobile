@@ -1,10 +1,10 @@
 library screens;
 
 import 'dart:async';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:base/base.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:extended_tabs/extended_tabs.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +15,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:ginkgo_mobile/src/blocs/auth/auth_bloc.dart';
 import 'package:ginkgo_mobile/src/blocs/authScreen/auth_screen_bloc.dart';
 import 'package:ginkgo_mobile/src/blocs/create_tour/create_tour_bloc.dart';
+import 'package:ginkgo_mobile/src/blocs/create_tour_info/create_tour_info_bloc.dart';
 import 'package:ginkgo_mobile/src/blocs/currentUser/current_user_bloc.dart';
 import 'package:ginkgo_mobile/src/blocs/user/user_bloc.dart';
 import 'package:ginkgo_mobile/src/blocs/user_friends/user_friends_bloc.dart';
@@ -43,16 +44,19 @@ import 'package:ginkgo_mobile/src/screens/tour_detail_screen/widgets/timeline_wi
 import 'package:ginkgo_mobile/src/screens/tour_detail_screen/widgets/tour_detail.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/utils/designColor.dart';
+import 'package:ginkgo_mobile/src/utils/gradientColor.dart';
 import 'package:ginkgo_mobile/src/utils/heroKeys.dart';
 import 'package:ginkgo_mobile/src/utils/strings.dart';
 import 'package:ginkgo_mobile/src/utils/validator.dart';
 import 'package:ginkgo_mobile/src/widgets/LoadingManager.dart';
+import 'package:ginkgo_mobile/src/widgets/actionSheets/pickImageActionSheet.dart';
 import 'package:ginkgo_mobile/src/widgets/buttons/commonOutlineButton.dart';
 import 'package:ginkgo_mobile/src/widgets/buttons/viewMoreButton.dart';
 import 'package:ginkgo_mobile/src/widgets/customs/toast.dart';
 import 'package:ginkgo_mobile/src/widgets/errorWidgets/errorIndicator.dart';
 import 'package:ginkgo_mobile/src/widgets/errorWidgets/not_found_widget.dart';
 import 'package:ginkgo_mobile/src/widgets/errorWidgets/showErrorMessage.dart';
+import 'package:ginkgo_mobile/src/widgets/gradientOutlineBorder.dart';
 import 'package:ginkgo_mobile/src/widgets/logoWidget.dart';
 import 'package:ginkgo_mobile/src/widgets/spacingColumn.dart';
 import 'package:ginkgo_mobile/src/widgets/spacingRow.dart';

@@ -17,3 +17,17 @@ class TourInfo {
     @required this.destinatePlace,
   });
 }
+
+class TourInfoToPost {
+  final Place startPlace;
+  final Place destinatePlace;
+  final List<File> images;
+  final String name;
+
+  TourInfoToPost({
+    @required this.startPlace,
+    @required this.destinatePlace,
+    @required this.images,
+    @required this.name,
+  });
+}

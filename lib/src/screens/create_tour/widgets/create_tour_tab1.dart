@@ -49,10 +49,10 @@ class _CreateTourTab1State extends State<CreateTourTab1> {
         spacing: 10,
         isSpacingHeadTale: true,
         children: [
-          _CreateTourTextFieldBase(
+          CreateTourTextFieldBase(
             isRequired: true,
             label: 'Tên chuyến đi:',
-            textInput: TextFormField(
+            child: TextFormField(
               controller: widget.nameController,
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.all(10),
@@ -78,11 +78,11 @@ class _CreateTourTab1State extends State<CreateTourTab1> {
             children: <Widget>[
               Flexible(
                 flex: 2,
-                child: _CreateTourTextFieldBase(
+                child: CreateTourTextFieldBase(
                   isRequired: true,
                   label: 'Số người dự kiến:',
                   unit: 'người',
-                  textInput: NumberInputWithIncrementDecrement(
+                  child: NumberInputWithIncrementDecrement(
                     controller: totalMemberController,
                     min: 1,
                     max: 100,
@@ -112,11 +112,11 @@ class _CreateTourTab1State extends State<CreateTourTab1> {
               ),
               Flexible(
                 flex: 3,
-                child: _CreateTourTextFieldBase(
+                child: CreateTourTextFieldBase(
                   isRequired: true,
                   label: 'Số tiền dự kiến:',
                   unit: 'đồng',
-                  textInput: NumberInputWithIncrementDecrement(
+                  child: NumberInputWithIncrementDecrement(
                     controller: priceController,
                     min: 10000,
                     incDecFactor: 1000,

@@ -7,7 +7,8 @@ import 'package:ginkgo_mobile/src/utils/strings.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
-pickImage(BuildContext context, Function(File) onPickedImage) async {
+pickImage(BuildContext context, Function(File) onPickedImage,
+    {bool isMulti = false}) async {
   FocusScope.of(context).unfocus();
   showCupertinoModalPopup(
     context: context,

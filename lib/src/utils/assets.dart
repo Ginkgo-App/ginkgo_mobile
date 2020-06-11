@@ -12,6 +12,7 @@ class _Icon {
   final activityTypePhotography = _ICON_PATH + 'activity-type-photography.svg';
   final activityTypePost = _ICON_PATH + 'activity-type-post.svg';
   final activityTypeReview = _ICON_PATH + 'activity-type-review.svg';
+  final addImage = _ICON_PATH + 'add-image.svg';
   final address = _ICON_PATH + 'address.svg';
   final birthday = _ICON_PATH + 'birthday.svg';
   final calendar = _ICON_PATH + 'calendar.svg';
@@ -78,5 +79,4 @@ class _Image {
   final homeEllipse = _IMAGE_PATH + 'home-ellipse.png';
   final homeLeafs = _IMAGE_PATH + 'home-leafs.png';
   final notFound = _IMAGE_PATH + 'not-found.png';
-  final addImage = _ICON_PATH + 'add-image.png';
 }

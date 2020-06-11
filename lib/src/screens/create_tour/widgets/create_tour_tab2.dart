@@ -100,10 +100,10 @@ class _CreateTourTab2State extends State<CreateTourTab2> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Expanded(
-          child: _CreateTourTextFieldBase(
+          child: CreateTourTextFieldBase(
             isRequired: true,
             label: 'Ngày bắt đầu:',
-            textInput: GestureDetector(
+            child: GestureDetector(
               onTap: () {
                 final maxDay =
                     endDay?.subtract(Duration(days: 1))?.removeTime();
@@ -153,10 +153,10 @@ class _CreateTourTab2State extends State<CreateTourTab2> {
           ),
         ),
         Expanded(
-          child: _CreateTourTextFieldBase(
+          child: CreateTourTextFieldBase(
             isRequired: true,
             label: 'Ngày kết thúc:',
-            textInput: GestureDetector(
+            child: GestureDetector(
               onTap: () {
                 final minDay = (startDay?.add(Duration(days: 1)) ??
                         DateTime.now().add(Duration(days: 2)))
@@ -210,10 +210,10 @@ class _CreateTourTab2State extends State<CreateTourTab2> {
   }
 
   buildToTalDayNight() {
-    return _CreateTourTextFieldBase(
+    return CreateTourTextFieldBase(
       isRequired: true,
       label: 'Tổng thời gian dự kiến:',
-      textInput: GestureDetector(
+      child: GestureDetector(
         onTap: () {
           if (startDay == null || endDay == null) return;
           _showMenuBottomSheet(context, startDay, endDay).then((totalDayNight) {
@@ -249,10 +249,10 @@ class _CreateTourTab2State extends State<CreateTourTab2> {
   }
 
   buildServices() {
-    return _CreateTourTextFieldBase(
+    return CreateTourTextFieldBase(
       isRequired: false,
       label: 'Các dịch vụ trong chuyến đi:',
-      textInput: SpacingColumn(
+      child: SpacingColumn(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         spacing: 10,
         children: [
