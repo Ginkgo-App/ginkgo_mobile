@@ -47,23 +47,34 @@ class _CreateTourInfoState extends State<CreateTourInfo> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder(
+    return BlocListener(
       bloc: bloc,
-      builder: (context, state) => PrimaryScaffold(
-        isLoading: state is CreateTourInfoStateLoading,
-        appBar: BackAppBar(
-          title: 'Tạo khuôn mẫu chuyến đi',
-          showBackButton: true,
-        ),
-        bottomNavigationBar: Container(
-          padding: EdgeInsets.all(10),
-          child: PrimaryButton(
-            title: 'Hoàn tất',
-            width: double.maxFinite,
-            onPressed: onSubmit,
+      listener: (context, state) {
+        if (state is CreateTourInfoStateFailure) {
+          showErrorMessage(
+              context, Strings.error.error + '\n' + state.error.toString());
+        } else if (state is CreateTourInfoStateSuccess) {
+          Navigator.pop(context);
+        }
+      },
+      child: BlocBuilder(
+        bloc: bloc,
+        builder: (context, state) => PrimaryScaffold(
+          isLoading: state is CreateTourInfoStateLoading,
+          appBar: BackAppBar(
+            title: 'Tạo khuôn mẫu chuyến đi',
+            showBackButton: true,
           ),
+          bottomNavigationBar: Container(
+            padding: EdgeInsets.all(10),
+            child: PrimaryButton(
+              title: 'Hoàn tất',
+              width: double.maxFinite,
+              onPressed: onSubmit,
+            ),
+          ),
+          body: buildBody(),
         ),
-        body: buildBody(),
       ),
     );
   }
