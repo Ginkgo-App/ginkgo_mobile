@@ -128,7 +128,7 @@ class _ManageTourScreenState extends State<ManageTourScreen>
                         isSpacingHeadTale: true,
                         children: [
                           ...List.generate(5, (_) => FakeData.simpleTour)
-                              .map((e) => TripItem(tour: e))
+                              .map((e) => BlackOpacityTour(tour: e))
                               .toList(),
                         ],
                       ),
@@ -185,7 +185,7 @@ class _ManageTourScreenState extends State<ManageTourScreen>
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           ...List.generate(5, (_) => FakeData.simpleTour)
-                              .map((e) => TripItem(tour: e))
+                              .map((e) => BlackOpacityTour(tour: e))
                               .toList(),
                           const SizedBox.shrink(),
                         ],

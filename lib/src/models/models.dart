@@ -33,6 +33,7 @@ objectMapping() {
     User: () => User(),
     SimpleUser: () => SimpleUser(),
     Tour: () => Tour(),
+    TourInfo: () => TourInfo(),
     SimpleTour: () => SimpleTour(),
     Place: () => Place(),
   };

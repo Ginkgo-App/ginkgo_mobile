@@ -54,7 +54,7 @@ class _TourListScreenState extends State<TourListScreen> {
             isSpacingHeadTale: true,
             children: [
               ...List.generate(3, (_) => FakeData.simpleTour)
-                  .map((e) => TripItem(tour: e))
+                  .map((e) => BlackOpacityTour(tour: e))
                   .toList(),
               CommonOutlineButton(
                 text: 'Xem thêm',

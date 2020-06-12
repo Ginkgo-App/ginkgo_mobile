@@ -22,6 +22,7 @@ class _Icon {
   final datetime = _ICON_PATH + 'datetime.svg';
   final downArrow = _ICON_PATH + 'down-arrow.svg';
   final email = _ICON_PATH + 'email.svg';
+  final endPlace = _ICON_PATH + 'end-place.svg';
   final facebookSquare = _ICON_PATH + 'facebook-square.svg';
   final filter = _ICON_PATH + 'filter.svg';
   final friendAcceptance = _ICON_PATH + 'friend-acceptance.svg';
@@ -33,6 +34,7 @@ class _Icon {
   final gender = _ICON_PATH + 'gender.svg';
   final googlePlusCircle = _ICON_PATH + 'G+logo-circle.svg';
   final googlePlusSquare = _ICON_PATH + 'G+logo-square.svg';
+  final groupChat = _ICON_PATH + 'group-chat.svg';
   final heartOutline = _ICON_PATH + 'heart-outline.svg';
   final homeOutline = _ICON_PATH + 'home-outline.svg';
   final homeFull = _ICON_PATH + 'home-full.svg';
@@ -58,14 +60,12 @@ class _Icon {
   final search = _ICON_PATH + 'search.svg';
   final settingFull = _ICON_PATH + 'setting-full.svg';
   final settingOutline = _ICON_PATH + 'setting-outline.svg';
+  final smile = _ICON_PATH + 'smile.svg';
+  final startPlace = _ICON_PATH + 'start-place.svg';
   final tour = _ICON_PATH + 'tour.svg';
   final tripFull = _ICON_PATH + 'trip-manage-full.svg';
   final tripOutline = _ICON_PATH + 'trip-manage-outline.svg';
   final ribbon = _ICON_PATH + 'ribbon.svg';
-  final startPlace = _ICON_PATH + 'start-place.svg';
-  final endPlace = _ICON_PATH + 'end-place.svg';
-  final groupChat = _ICON_PATH + 'group-chat.svg';
-  final smile = _ICON_PATH + 'smile.svg';
 }
 
 class _Image {

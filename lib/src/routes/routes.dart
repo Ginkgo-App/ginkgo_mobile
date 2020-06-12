@@ -15,6 +15,7 @@ class Routes {
   static const createTourInfo = '/create-tour-info';
   static const manageTour = '/manage-tour';
   static const placeDetail = '/place-detail';
+  static const chooseTourInfo = '/choose-tour-info';
 }
 
 final Map<String, Widget Function(BuildContext)> _routeBuilder = {
@@ -31,6 +32,7 @@ final Map<String, Widget Function(BuildContext)> _routeBuilder = {
   Routes.createTourInfo: (context) => CreateTourInfo(),
   Routes.manageTour: (context) => ManageTourScreen(),
   Routes.placeDetail: (context) => PlaceDetailScreen(),
+  Routes.chooseTourInfo: (context) => ChooseTourInfoScreen(),
 };
 
 RouteFactory _onGenerateRoute = (RouteSettings settings) {
@@ -61,6 +63,8 @@ RouteFactory _onGenerateRoute = (RouteSettings settings) {
       return _generateMaterialRoute(ManageTourScreen());
     case Routes.placeDetail:
       return _generateMaterialRoute(PlaceDetailScreen());
+    case Routes.chooseTourInfo:
+      return _generateMaterialRoute(ChooseTourInfoScreen());
     default:
       return _generateMaterialRoute(SplashScreen());
   }

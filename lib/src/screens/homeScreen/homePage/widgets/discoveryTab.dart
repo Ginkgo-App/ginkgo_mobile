@@ -4,7 +4,6 @@ import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/widgets/buttons/viewMoreButton.dart';
 import 'package:ginkgo_mobile/src/widgets/spacingColumn.dart';
 import 'package:ginkgo_mobile/src/widgets/spacingRow.dart';
-import 'package:ginkgo_mobile/src/widgets/tourWidgets/tourItem.dart';
 import 'package:ginkgo_mobile/src/widgets/widgets.dart';
 
 class DiscoveryTab extends StatefulWidget {

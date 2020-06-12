@@ -1,0 +1,74 @@
+part of '../widgets.dart';
+
+class BlackOpacityTour extends StatelessWidget {
+  final SimpleTour tour;
+  final TourInfo tourInfo;
+
+  const BlackOpacityTour({Key key, this.tour, this.tourInfo})
+      : assert(tourInfo == null || tour == null),
+        super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final images = tour?.images ?? tourInfo?.images ?? [];
+    final image = images.length > 0 ? images[0] : null;
+
+    return Skeleton(
+      enabled: tourInfo == null && tour == null,
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 10),
+        decoration: BoxDecoration(
+          color: context.colorScheme.background,
+          boxShadow: DesignColor.imageShadow,
+          borderRadius: BorderRadius.circular(5),
+        ),
+        width: 320,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(5),
+          child: AspectRatio(
+            aspectRatio: 8 / 5,
+            child: Stack(
+              children: <Widget>[
+                Positioned.fill(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(5),
+                    child: CachedNetworkImage(
+                      imageUrl: image?.mediumThumb ?? '',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Container(
+                    padding: EdgeInsets.all(5),
+                    color: Colors.black.withOpacity(0.7),
+                    child: tour != null
+                        ? TourDetailWidget(
+                            tour: tour,
+                            showFriend: false,
+                            showHost: false,
+                            showDayNight: true,
+                            showTotalMember: true,
+                            showPrice: true,
+                            showRating: true,
+                            textColor: Colors.white,
+                          )
+                        : tourInfo != null
+                            ? TourInfoDetailWidget(
+                                tourInfo: tourInfo,
+                                textColor: Colors.white,
+                              )
+                            : const SizedBox.shrink(),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

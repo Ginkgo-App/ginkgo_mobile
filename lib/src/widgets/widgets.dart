@@ -24,8 +24,11 @@ import 'package:ginkgo_mobile/src/utils/gradientColor.dart';
 import 'package:ginkgo_mobile/src/utils/strings.dart';
 import 'package:ginkgo_mobile/src/widgets/buttons/friend_buttons/friend_buttons.dart';
 import 'package:ginkgo_mobile/src/widgets/errorWidgets/errorIndicator.dart';
+import 'package:ginkgo_mobile/src/widgets/galleryItem.dart';
 import 'package:ginkgo_mobile/src/widgets/gradientOutlineBorder.dart';
 import 'package:ginkgo_mobile/src/widgets/spacingRow.dart';
+import 'package:ginkgo_mobile/src/widgets/tourWidgets/widgets/tourDetailWidget.dart';
+import 'package:ginkgo_mobile/src/widgets/tourWidgets/widgets/tourInfoDetailWidget.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
 
@@ -48,3 +51,5 @@ part 'userWidgets/circleTourUser.dart';
 part 'userWidgets/circleUser.dart';
 part 'userWidgets/user_friend.dart';
 part 'placeWidgets/opacityPlace.dart';
+part 'tourWidgets/tourItem.dart';
+part 'tourWidgets/blackOpacityTour.dart';

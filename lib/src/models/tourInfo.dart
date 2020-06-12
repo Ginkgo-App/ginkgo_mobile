@@ -1,21 +1,36 @@
 part of 'models.dart';
 
-class TourInfo {
-  final int id;
-  final String name;
-  final List<MultiSizeImage> images;
-  final User createBy;
-  final Place startPlace;
-  final Place destinatePlace;
+class TourInfo with Mappable {
+  int id;
+  String name;
+  List<MultiSizeImage> images;
+  User createBy;
+  Place startPlace;
+  Place destinatePlace;
+  double rating;
 
   TourInfo({
-    @required this.createBy,
-    @required this.id,
-    @required this.name,
-    @required this.images,
-    @required this.startPlace,
-    @required this.destinatePlace,
+    this.createBy,
+    this.id,
+    this.name,
+    this.images,
+    this.startPlace,
+    this.destinatePlace,
+    this.rating,
   });
+
+  @override
+  void mapping(Mapper map) {
+    map('Id', id, (v) => id = v);
+    map('Name', name, (v) => name = v);
+    map<MultiSizeImage>(
+        'Images', images, (v) => images = v, MultiSizeImageTransform());
+    map('StartPlace', startPlace,
+        (v) => startPlace = Mapper.fromJson(v).toObject());
+    map('DestinatePlace', destinatePlace,
+        (v) => destinatePlace = Mapper.fromJson(v).toObject());
+    map('Rating', rating, (v) => rating = v);
+  }
 }
 
 class TourInfoToPost {

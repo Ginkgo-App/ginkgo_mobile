@@ -165,6 +165,7 @@ Nói chung là đáng đồng tiền bỏ ra. Nếu có dịp lần sau sẽ ủ
     startPlace: place,
     destinatePlace: place,
     createBy: currentUser,
+    rating: 5
   );
 
   static final Tour tour = Tour(

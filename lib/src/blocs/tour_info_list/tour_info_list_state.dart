@@ -11,12 +11,12 @@ class TourInfoListInitial extends TourInfoListState {}
 class TourInfoListStateLoading extends TourInfoListState {}
 
 class TourInfoListStateSuccess extends TourInfoListState {
-  final Pagination<Place> placeList;
+  final Pagination<TourInfo> tourInfoList;
 
-  TourInfoListStateSuccess(this.placeList);
+  TourInfoListStateSuccess(this.tourInfoList);
 
   @override
-  String toString() => '$runtimeType ${placeList.data.length}';
+  String toString() => '$runtimeType ${tourInfoList.data.length}';
 }
 
 class TourInfoListStateFailure extends TourInfoListState {

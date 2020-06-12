@@ -1,35 +1,77 @@
 part of '../screens.dart';
 
+const _PAGE_SIZE = 10;
+
 class ChooseTourInfoScreen extends StatefulWidget {
   @override
   _ChooseTourInfoScreenState createState() => _ChooseTourInfoScreenState();
 }
 
-class _ChooseTourInfoScreenState extends State<ChooseTourInfoScreen>
-    with TickerProviderStateMixin {
+class _ChooseTourInfoScreenState extends State<ChooseTourInfoScreen> {
+  final TourInfoListBloc tourInfoListBloc = TourInfoListBloc();
+
+  initState() {
+    super.initState();
+
+    fetchData();
+  }
+
+  fetchData([int page = 1]) {
+    tourInfoListBloc.add(TourInfoListEventFetch('', page, _PAGE_SIZE));
+  }
+
+  dispose() {
+    tourInfoListBloc.close();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return PrimaryScaffold(
-      appBar: BackAppBar(title: 'Quản lý chuyến đi'),
+      appBar: BackAppBar(title: 'Chọn mẫu'),
       body: SingleChildScrollView(
         child: BorderContainer(
-          title: 'Khuôn mẫu chuyến đi',
+          title: 'Chọn khuôn mẫu cho chuyến đi của bạn',
           childPadding: EdgeInsets.zero,
           margin: const EdgeInsets.all(10),
-          child: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: IntrinsicHeight(
-              child: SpacingColumn(
-                spacing: 10,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  ...List.generate(5, (_) => FakeData.simpleTour)
-                      .map((e) => TripItem(tour: e))
-                      .toList(),
-                  const SizedBox.shrink(),
-                ],
-              ),
-            ),
+          child: BlocBuilder(
+            bloc: tourInfoListBloc,
+            builder: (context, state) {
+              if (state is TourInfoListStateFailure) {
+                return ErrorIndicator(
+                  message: Strings.error.errorClick,
+                  moreErrorDetail: state.error.toString(),
+                  onReload: fetchData,
+                );
+              }
+
+              return SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: IntrinsicHeight(
+                  child: SpacingColumn(
+                    spacing: 10,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      ...(state is TourInfoListStateSuccess
+                              ? state.tourInfoList.data
+                              : List.generate(5, (_) => null))
+                          .map(
+                            (e) => GestureDetector(
+                              onTap: () {
+                                if (e != null) {
+                                  Navigator.pop(context, e);
+                                }
+                              },
+                              child: BlackOpacityTour(tourInfo: e),
+                            ),
+                          )
+                          .toList(),
+                      const SizedBox.shrink(),
+                    ],
+                  ),
+                ),
+              );
+            },
           ),
         ),
       ),

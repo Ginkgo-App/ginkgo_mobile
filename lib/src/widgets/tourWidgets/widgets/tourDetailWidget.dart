@@ -8,7 +8,7 @@ import 'package:ginkgo_mobile/src/helper/dateTimeExt.dart';
 import 'package:ginkgo_mobile/src/helper/numberExt.dart';
 import '../../rating.dart';
 
-class TourInfoWidget extends StatelessWidget {
+class TourDetailWidget extends StatelessWidget {
   final SimpleTour tour;
   final bool showFriend;
   final bool showHost;
@@ -19,7 +19,7 @@ class TourInfoWidget extends StatelessWidget {
   final Color textColor;
   final EdgeInsets rowPadding;
 
-  const TourInfoWidget({
+  const TourDetailWidget({
     Key key,
     @required this.tour,
     this.showFriend = false,

@@ -1,15 +1,4 @@
-import 'dart:math';
-
-import 'package:base/base.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:ginkgo_mobile/src/app.dart';
-import 'package:ginkgo_mobile/src/models/models.dart';
-import 'package:ginkgo_mobile/src/navigators.dart';
-import 'package:ginkgo_mobile/src/widgets/galleryItem.dart';
-import 'package:ginkgo_mobile/src/widgets/tourWidgets/widgets/tourInfoWidget.dart';
-import 'package:ginkgo_mobile/src/widgets/widgets.dart';
+part of '../widgets.dart';
 
 class TourItem extends StatelessWidget {
   final SimpleTour tour;
@@ -50,7 +39,7 @@ class TourItem extends StatelessWidget {
               const SizedBox(height: 10),
               Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: TourInfoWidget(
+                  child: TourDetailWidget(
                     tour: tour,
                     textColor: context.colorScheme.onBackground,
                     showHost: true,
