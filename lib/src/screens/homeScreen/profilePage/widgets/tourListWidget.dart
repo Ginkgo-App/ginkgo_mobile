@@ -43,7 +43,8 @@ class _TourListWidgetState extends State<TourListWidget> {
 
   viewAll() {
     if (isCurrentUser) {
-      Navigators.profileNavigator.currentState.pushNamed(ProfileRoutes.manageTour);
+      Navigators.profileNavigator.currentState
+          .pushNamed(ProfileRoutes.manageTour);
     } else {
       Navigators.appNavigator.currentState.pushNamed(Routes.profileTourList);
     }
@@ -65,17 +66,9 @@ class _TourListWidgetState extends State<TourListWidget> {
         bloc: _bloc,
         builder: (context, state) {
           if (state is UserTourFailure) {
-            return Column(
-              children: <Widget>[
-                ErrorIndicator(
-                  moreErrorDetail: state.error,
-                  onReload: _fetchData,
-                ),
-                CommonOutlineButton(
-                  text: 'Xem tất cả các chuyến đi',
-                  onPressed: viewAll,
-                ),
-              ],
+            return ErrorIndicator(
+              moreErrorDetail: state.error,
+              onReload: _fetchData,
             );
           }
           return Column(

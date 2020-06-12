@@ -32,7 +32,7 @@ class _ChooseTourInfoScreenState extends State<ChooseTourInfoScreen> {
       body: SingleChildScrollView(
         child: BorderContainer(
           title: 'Chọn khuôn mẫu cho chuyến đi của bạn',
-          childPadding: EdgeInsets.zero,
+          childPadding: EdgeInsets.only(bottom: 10),
           margin: const EdgeInsets.all(10),
           child: BlocBuilder(
             bloc: tourInfoListBloc,

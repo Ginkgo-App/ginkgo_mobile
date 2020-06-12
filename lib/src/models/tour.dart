@@ -121,16 +121,16 @@ class TourToPost with Mappable {
   }
 
   void update(TourToPost t) {
-    name = t.name;
-    startDay = t.startDay;
-    endDay = t.endDay;
-    totalDay = t.totalDay;
-    totalNight = t.totalNight;
-    maxMember = t.maxMember;
-    price = t.price;
-    tourInfoId = t.tourInfoId;
-    timelines = t.timelines;
-    services = t.services;
+    name = t.name ?? name;
+    startDay = t.startDay ?? startDay;
+    endDay = t.endDay ?? endDay;
+    totalDay = t.totalDay ?? totalDay;
+    totalNight = t.totalNight ?? totalNight;
+    maxMember = t.maxMember ?? maxMember;
+    price = t.price ?? price;
+    tourInfoId = t.tourInfoId ?? tourInfoId;
+    timelines = t.timelines ?? timelines;
+    services = t.services ?? services;
   }
 }
 

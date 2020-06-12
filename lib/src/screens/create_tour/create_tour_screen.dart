@@ -25,6 +25,8 @@ class _CreateTourScreenState extends State<CreateTourScreen>
         if (v != null) {
           setState(() {
             tourInfo = v;
+            createTourBloc.add(CreateTourEventChangeData(
+                true, TourToPost(tourInfoId: tourInfo.id)));
           });
         } else {
           Navigator.pop(context);

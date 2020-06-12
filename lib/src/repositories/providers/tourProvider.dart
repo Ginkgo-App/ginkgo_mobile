@@ -15,4 +15,37 @@ class TourProvider {
 
     return Pagination<Tour>(response.data['Pagination'], response.data['Data']);
   }
+
+  Future create(TourToPost tourToPost) async {
+    await _client.normalConnect(
+      ApiMethod.POST,
+      Api.tour(tourToPost.tourInfoId),
+      body: {
+        'Name': tourToPost.name,
+        'StartDay': tourToPost.startDay.toIso8601String(),
+        'EndDay': tourToPost.endDay.toIso8601String(),
+        'TotalDay': tourToPost.totalDay,
+        'TotalNight': tourToPost.totalNight,
+        'MaxMember': tourToPost.maxMember,
+        'Services': tourToPost.services,
+        'TourInfoId': tourToPost.tourInfoId,
+        'Price': tourToPost.price,
+        'Timelines': tourToPost.timelines.map(
+          (timeline) => {
+            'Day': timeline.day.toIso8601String(),
+            'Description': timeline.descrirption,
+            'TimelineDetails': timeline.timelineDetails.map(
+              (detail) => {
+                'PlaceId': detail.place.id,
+                'Time': detail.time,
+                'Detail': detail.detail,
+              },
+            ).toList()
+          },
+        ).toList(),
+      },
+    );
+
+    return;
+  }
 }

@@ -28,6 +28,8 @@ class Api {
   static final places = AppConfig.instance.apiUrl + '/places';
   static final tourInfos = AppConfig.instance.apiUrl + '/tour-infos';
 
+  static String tour(int tourInfoId) =>
+      AppConfig.instance.apiUrl + '/tour-infos/$tourInfoId' + '/tours';
   static String addFriend(int userId) =>
       AppConfig.instance.apiUrl + '/users/me/friends/$userId';
   static String deleteFriend(int userId) =>
