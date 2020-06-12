@@ -23,7 +23,6 @@ class PlaceListBloc extends Bloc<PlaceListEvent, PlaceListState> {
     try {
       if (event is PlaceListEventFetch) {
         yield PlaceListStateLoading();
-        await Future.delayed(Duration(seconds: 2));
 
         final data = await _repository.place.getList(
             type: event.type,

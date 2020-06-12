@@ -34,9 +34,10 @@ class _CreateTourInfoState extends State<CreateTourInfo> {
 
   onPickImages() {
     pickImage(context, (image) {
-      setState(() {
-        this.images.add(image);
-      });
+      if (image != null)
+        setState(() {
+          this.images.add(image);
+        });
     });
   }
 

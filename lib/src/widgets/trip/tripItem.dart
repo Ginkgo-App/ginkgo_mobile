@@ -9,8 +9,12 @@ import 'package:ginkgo_mobile/src/widgets/tourWidgets/widgets/tourInfoWidget.dar
 
 class TripItem extends StatelessWidget {
   final SimpleTour tour;
+  final TourInfo tourInfo;
 
-  const TripItem({Key key, @required this.tour}) : super(key: key);
+  const TripItem({Key key, this.tour, this.tourInfo})
+      : assert((tourInfo == null || tour == null) &&
+            (tourInfo != null || tour != null)),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {

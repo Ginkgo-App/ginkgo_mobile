@@ -10,7 +10,7 @@ class PlaceProvider {
       'page': (page ?? 1).toString(),
       'pageSize': pageSize?.toString() ?? 0,
       if (type != null) 'type': enumToString(type),
-      if (keyword != null) 'keyword': keyword,
+      if (keyword.isExistAndNotEmpty) 'keyword': keyword,
     });
 
     return Pagination<Place>(
