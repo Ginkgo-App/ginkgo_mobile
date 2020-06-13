@@ -6,6 +6,7 @@ import 'package:base/base.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
+import 'package:object_mapper/object_mapper.dart';
 
 import 'appClient.dart';
 
@@ -26,8 +27,11 @@ class Api {
   static final meFriends = AppConfig.instance.apiUrl + '/users/me/friends';
   static final meTours = AppConfig.instance.apiUrl + '/users/me/tours';
   static final places = AppConfig.instance.apiUrl + '/places';
-  static final tourInfos = AppConfig.instance.apiUrl + '/tour-infos';
 
+  static String tourInfos(int tourInfoId) =>
+      AppConfig.instance.apiUrl + '/tour-infos/${tourInfoId ?? ''}';
+  static String tourInfosTourList(int tourInfoId) =>
+      AppConfig.instance.apiUrl + '/tour-infos/$tourInfoId/tours';
   static String tour(int tourInfoId) =>
       AppConfig.instance.apiUrl + '/tour-infos/$tourInfoId' + '/tours';
   static String addFriend(int userId) =>

@@ -22,8 +22,8 @@ class CreateTourInfoBloc
     try {
       if (event is CreateTourInfoEventCreate) {
         yield CreateTourInfoStateLoading();
-        await _repository.tourInfo.create(event.tourInfoToPost);
-        yield CreateTourInfoStateSuccess();
+        yield CreateTourInfoStateSuccess(
+            await _repository.tourInfo.create(event.tourInfoToPost));
       }
     } catch (e) {
       yield CreateTourInfoStateFailure(e);

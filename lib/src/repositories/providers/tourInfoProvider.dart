@@ -6,7 +6,7 @@ class TourInfoProvider {
   Future<Pagination<TourInfo>> getList(
       {int page, int pageSize, String keyword}) async {
     final response =
-        await _client.normalConnect(ApiMethod.GET, Api.tourInfos, query: {
+        await _client.normalConnect(ApiMethod.GET, Api.tourInfos(null), query: {
       'page': (page ?? 1).toString(),
       'pageSize': pageSize?.toString() ?? 0,
       if (keyword != null) 'keyword': keyword,
@@ -16,7 +16,27 @@ class TourInfoProvider {
         response.data['Pagination'], response.data['Data']);
   }
 
-  Future create(TourInfoToPost tourInfoToPost) async {
+  Future<TourInfo> getDetail(int tourInfoId) async {
+    final response =
+        await _client.normalConnect(ApiMethod.GET, Api.tourInfos(tourInfoId));
+
+    return Mapper.fromJson(response.data['Data']).toObject();
+  }
+
+  Future<Pagination<SimpleTour>> getTourList(int tourInfoId,
+      {int page, int pageSize}) async {
+    final response = await _client.normalConnect(
+        ApiMethod.GET, Api.tourInfosTourList(tourInfoId),
+        query: {
+          'page': (page ?? 1).toString(),
+          'pageSize': pageSize?.toString() ?? 0,
+        });
+
+    return Pagination<SimpleTour>(
+        response.data['Pagination'], response.data['Data']);
+  }
+
+  Future<int> create(TourInfoToPost tourInfoToPost) async {
     final List<String> images = [];
 
     if (tourInfoToPost.images.length > 0) {
@@ -30,7 +50,7 @@ class TourInfoProvider {
 
     final response = await _client.normalConnect(
       ApiMethod.POST,
-      Api.tourInfos,
+      Api.tourInfos(null),
       body: {
         'DestinatePlaceId': tourInfoToPost.destinatePlace.id,
         'StartPlaceId': tourInfoToPost.startPlace.id,
@@ -41,6 +61,6 @@ class TourInfoProvider {
 
     debugPrint(response.data);
 
-    return;
+    return response.data.data[0]['Id'];
   }
 }

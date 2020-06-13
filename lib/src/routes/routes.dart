@@ -10,6 +10,7 @@ class Routes {
   static const email = '/email';
   static const profileTourList = '/profile-tour-list';
   static const tourDetail = '/tour-detail';
+  static const tourInfoDetail = '/tour-info-detail';
   static const friendListScreen = '/friend-list-screen';
   static const createTour = '/create-tour';
   static const createTourInfo = '/create-tour-info';
@@ -17,23 +18,6 @@ class Routes {
   static const placeDetail = '/place-detail';
   static const chooseTourInfo = '/choose-tour-info';
 }
-
-final Map<String, Widget Function(BuildContext)> _routeBuilder = {
-  Routes.login: (context) => LoginScreen(),
-  Routes.register: (context) => RegisterScreen(),
-  Routes.home: (context) => HomeScreen(),
-  Routes.profile: (context) => ProfileScreen(),
-  Routes.user: (context) => UserScreen(),
-  Routes.email: (context) => EmailScreen(),
-  Routes.profileTourList: (context) => TourListScreen(),
-  Routes.tourDetail: (context) => TourDetailScreen(),
-  Routes.friendListScreen: (context) => FriendListScreen(),
-  Routes.createTour: (context) => CreateTourScreen(),
-  Routes.createTourInfo: (context) => CreateTourInfo(),
-  Routes.manageTour: (context) => ManageTourScreen(),
-  Routes.placeDetail: (context) => PlaceDetailScreen(),
-  Routes.chooseTourInfo: (context) => ChooseTourInfoScreen(),
-};
 
 RouteFactory _onGenerateRoute = (RouteSettings settings) {
   switch (settings.name) {
@@ -53,6 +37,10 @@ RouteFactory _onGenerateRoute = (RouteSettings settings) {
       return _generateMaterialRoute(TourListScreen());
     case Routes.tourDetail:
       return _generateMaterialRoute(TourDetailScreen());
+    case Routes.tourInfoDetail:
+      return _generateMaterialRoute(TourInfoDetailScreen(
+        args: settings.arguments,
+      ));
     case Routes.friendListScreen:
       return _generateMaterialRoute(FriendListScreen());
     case Routes.createTour:

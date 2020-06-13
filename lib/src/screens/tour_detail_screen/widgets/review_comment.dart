@@ -1,12 +1,11 @@
+import 'package:base/base.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/utils/designColor.dart';
-import 'package:ginkgo_mobile/src/widgets/rating.dart';
 import 'package:ginkgo_mobile/src/widgets/widgets.dart';
-import 'package:base/base.dart';
 
 class ReviewList extends StatelessWidget {
   final Post review = FakeData.review;

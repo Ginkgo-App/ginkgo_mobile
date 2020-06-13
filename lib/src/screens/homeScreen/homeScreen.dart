@@ -25,7 +25,8 @@ class _HomeScreenState extends State<HomeScreen>
     HomePage(),
     Container(),
     ProfilePage(key: GlobalKey()),
-    Container(),
+    TourInfoDetailScreen(
+        args: TourInfoDetailScreenArgs(tourInfo: FakeData.tourInfo)),
     Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

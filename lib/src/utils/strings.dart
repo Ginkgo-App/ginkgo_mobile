@@ -37,6 +37,7 @@ class _Button {
   final nextStep = 'Sang bước tiếp theo';
   final backStep = 'Trở lại bước trước';
   final complete = 'Hoàn tất';
+  final createTourNow = 'Tạo tour ngay';
 }
 
 class _Error {

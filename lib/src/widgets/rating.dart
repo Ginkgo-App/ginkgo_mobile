@@ -1,7 +1,4 @@
-import 'package:base/base.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:ginkgo_mobile/src/utils/designColor.dart';
+part of 'widgets.dart';
 
 class Rating extends StatelessWidget {
   final double rating;

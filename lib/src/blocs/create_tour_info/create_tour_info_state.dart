@@ -17,7 +17,14 @@ class CreateTourInfoStateHaveChanged extends CreateTourInfoState {
 
 class CreateTourInfoStateLoading extends CreateTourInfoState {}
 
-class CreateTourInfoStateSuccess extends CreateTourInfoState {}
+class CreateTourInfoStateSuccess extends CreateTourInfoState {
+  final int newTourInfoId;
+
+  CreateTourInfoStateSuccess(this.newTourInfoId);
+
+  @override
+  String toString() => '$runtimeType $newTourInfoId';
+}
 
 class CreateTourInfoStateFailure extends CreateTourInfoState {
   final dynamic error;

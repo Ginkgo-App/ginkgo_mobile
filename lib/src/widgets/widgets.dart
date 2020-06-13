@@ -53,3 +53,4 @@ part 'userWidgets/user_friend.dart';
 part 'placeWidgets/opacityPlace.dart';
 part 'tourWidgets/tourItem.dart';
 part 'tourWidgets/blackOpacityTour.dart';
+part 'rating.dart';

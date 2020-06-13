@@ -130,7 +130,7 @@ class ApiClient {
           print(pen('Headers: $headers'));
         }
         if (data != null || body != null) {
-          print(pen('Data: ${data ?? body}'));
+          print(pen('Data: ${data ?? jsonEncode(body)}'));
         }
       }
 

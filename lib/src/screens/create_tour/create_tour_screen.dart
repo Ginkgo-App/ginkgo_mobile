@@ -1,6 +1,10 @@
 part of '../screens.dart';
 
 class CreateTourScreen extends StatefulWidget {
+  final TourInfo tourInfo;
+
+  const CreateTourScreen({Key key, this.tourInfo}) : super(key: key);
+
   @override
   _CreateTourScreenState createState() => _CreateTourScreenState();
 }
@@ -18,21 +22,27 @@ class _CreateTourScreenState extends State<CreateTourScreen>
     super.initState();
     tabController = TabController(length: 3, vsync: this);
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Navigators.appNavigator.currentState
-          .pushNamed(Routes.chooseTourInfo)
-          .then((v) {
-        if (v != null) {
-          setState(() {
-            tourInfo = v;
-            createTourBloc.add(CreateTourEventChangeData(
-                true, TourToPost(tourInfoId: tourInfo.id)));
-          });
-        } else {
-          Navigator.pop(context);
-        }
+    if (widget.tourInfo == null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigators.appNavigator.currentState
+            .pushNamed(Routes.chooseTourInfo)
+            .then((v) {
+          if (v != null) {
+            setState(() {
+              tourInfo = v;
+              createTourBloc.add(CreateTourEventChangeData(
+                  true, TourToPost(tourInfoId: tourInfo.id)));
+            });
+          } else {
+            Navigator.pop(context);
+          }
+        });
       });
-    });
+    } else {
+      tourInfo = widget.tourInfo;
+      createTourBloc.add(
+          CreateTourEventChangeData(true, TourToPost(tourInfoId: tourInfo.id)));
+    }
   }
 
   dispose() {
@@ -63,56 +73,70 @@ class _CreateTourScreenState extends State<CreateTourScreen>
         ? const SizedBox.shrink()
         : BlocProvider.value(
             value: createTourBloc,
-            child: PrimaryScaffold(
-              appBar: BackAppBar(
-                title: 'Tạo chuyến đi',
-              ),
-              bottomNavigationBar: Container(
-                padding: EdgeInsets.all(10),
-                child: CreateTourBottomButton(
-                  currentStep: currentStep,
-                  onNextStep: () {
-                    onChangeStep(currentStep + 1);
-                  },
-                  onBackStep: () {
-                    onChangeStep(currentStep - 1);
-                  },
-                ),
-              ),
-              body: NestedScrollView(
-                headerSliverBuilder: (context, _) {
-                  return [
-                    SliverPersistentHeader(
-                      floating: true,
-                      pinned: true,
-                      delegate: SliverCreateTourAppBarDelegate(
-                        tourInfo,
-                        bottom: PreferredSize(
-                          child: ProgressBar(
-                            currentIndex: currentStep,
-                            onPageChanged: (i) =>
-                                i < currentStep ? onChangeStep(i) : null,
+            child: BlocListener(
+              bloc: createTourBloc,
+              listener: (context, state) {
+                if (state is CreateTourStateSuccess) {
+                  Navigator.pop(context, true);
+                }
+              },
+              child: BlocBuilder(
+                bloc: createTourBloc,
+                builder: (context, state) {
+                  return PrimaryScaffold(
+                    isLoading: state is CreateTourStateLoading,
+                    appBar: BackAppBar(
+                      title: 'Tạo chuyến đi',
+                    ),
+                    bottomNavigationBar: Container(
+                      padding: EdgeInsets.all(10),
+                      child: CreateTourBottomButton(
+                        currentStep: currentStep,
+                        onNextStep: () {
+                          onChangeStep(currentStep + 1);
+                        },
+                        onBackStep: () {
+                          onChangeStep(currentStep - 1);
+                        },
+                      ),
+                    ),
+                    body: NestedScrollView(
+                      headerSliverBuilder: (context, _) {
+                        return [
+                          SliverPersistentHeader(
+                            floating: true,
+                            pinned: true,
+                            delegate: SliverCreateTourAppBarDelegate(
+                              tourInfo,
+                              bottom: PreferredSize(
+                                child: ProgressBar(
+                                  currentIndex: currentStep,
+                                  onPageChanged: (i) =>
+                                      i < currentStep ? onChangeStep(i) : null,
+                                ),
+                                preferredSize: Size.fromHeight(110),
+                              ),
+                            ),
                           ),
-                          preferredSize: Size.fromHeight(110),
+                        ];
+                      },
+                      body: Container(
+                        margin: EdgeInsets.symmetric(vertical: 10),
+                        child: ExtendedTabBarView(
+                          controller: tabController,
+                          cacheExtent: 3,
+                          physics: NeverScrollableScrollPhysics(),
+                          linkWithAncestor: true,
+                          children: <Widget>[
+                            buildStep1(),
+                            buildStep2(),
+                            buildStep3(),
+                          ],
                         ),
                       ),
                     ),
-                  ];
+                  );
                 },
-                body: Container(
-                  margin: EdgeInsets.symmetric(vertical: 10),
-                  child: ExtendedTabBarView(
-                    controller: tabController,
-                    cacheExtent: 3,
-                    physics: NeverScrollableScrollPhysics(),
-                    linkWithAncestor: true,
-                    children: <Widget>[
-                      buildStep1(),
-                      buildStep2(),
-                      buildStep3(),
-                    ],
-                  ),
-                ),
               ),
             ),
           );

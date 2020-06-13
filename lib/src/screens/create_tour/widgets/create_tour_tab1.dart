@@ -3,13 +3,10 @@ part of 'create_tour_tabs.dart';
 class CreateTourTab1 extends StatefulWidget {
   final String initTourName;
 
-  final TextEditingController nameController;
-
   CreateTourTab1({
     Key key,
     this.initTourName,
-  })  : nameController = TextEditingController(text: initTourName),
-        super(key: key);
+  }) : super(key: key);
 
   @override
   _CreateTourTab1State createState() => _CreateTourTab1State();
@@ -17,13 +14,15 @@ class CreateTourTab1 extends StatefulWidget {
 
 class _CreateTourTab1State extends State<CreateTourTab1> {
   final formKey = GlobalKey<FormState>();
+  TextEditingController nameController;
   final TextEditingController totalMemberController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
 
   initState() {
     super.initState();
+    nameController = TextEditingController(text: widget.initTourName);
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      onChange();
+      onChange(name: widget.initTourName);
     });
   }
 
@@ -53,7 +52,7 @@ class _CreateTourTab1State extends State<CreateTourTab1> {
             isRequired: true,
             label: 'Tên chuyến đi:',
             child: TextFormField(
-              controller: widget.nameController,
+              controller: nameController,
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.all(10),
                 border: GradientOutlineInputBorder(

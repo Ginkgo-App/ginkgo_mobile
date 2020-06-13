@@ -6,7 +6,7 @@ import 'package:base/base.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/helper/dateTimeExt.dart';
 import 'package:ginkgo_mobile/src/helper/numberExt.dart';
-import '../../rating.dart';
+import 'package:ginkgo_mobile/src/widgets/widgets.dart';
 
 class TourDetailWidget extends StatelessWidget {
   final SimpleTour tour;
