@@ -30,7 +30,9 @@ RouteFactory _onGenerateRoute = (RouteSettings settings) {
     case Routes.profile:
       return _generateMaterialRoute(ProfileScreen());
     case Routes.user:
-      return _generateMaterialRoute(UserScreen());
+      return _generateMaterialRoute(UserScreen(
+        args: settings.arguments,
+      ));
     case Routes.email:
       return _generateMaterialRoute(EmailScreen());
     case Routes.profileTourList:

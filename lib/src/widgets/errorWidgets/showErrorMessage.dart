@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-void showErrorMessage(BuildContext context, String message) async {
+void showErrorMessage(String message) async {
   Fluttertoast.showToast(
     msg: message,
     gravity: ToastGravity.BOTTOM,

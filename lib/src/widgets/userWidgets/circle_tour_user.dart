@@ -1,4 +1,4 @@
-part of '../widgets.dart';
+part of user_widgets;
 
 class CircleTourUser extends StatelessWidget {
   @override

@@ -29,7 +29,8 @@ class _TourInfoDetailScreenState extends State<TourInfoDetailScreen>
   }
 
   fetchData() {
-    tourInfoDetailBloc.add(TourInfoDetailEventFetch(widget.args.tourInfoId));
+    tourInfoDetailBloc.add(TourInfoDetailEventFetch(
+        widget.args.tourInfoId ?? widget.args.tourInfo.id));
   }
 
   @override
@@ -68,6 +69,16 @@ class _TourInfoDetailScreenState extends State<TourInfoDetailScreen>
               child: BlocBuilder(
                 bloc: tourInfoDetailBloc,
                 builder: (context, state) {
+                  if (state is TourInfoDetailStateFailure) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ErrorIndicator(
+                        message: Strings.error.errorClick,
+                        moreErrorDetail: state.error.toString(),
+                        onReload: fetchData,
+                      ),
+                    );
+                  }
                   return SpacingColumn(
                     spacing: 10,
                     isSpacingHeadTale: true,

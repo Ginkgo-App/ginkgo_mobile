@@ -7,7 +7,9 @@ import 'package:connectivity/connectivity.dart';
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:ginkgo_mobile/src/blocs/auth/auth_bloc.dart';
 import 'package:ginkgo_mobile/src/repositories/repository.dart';
+import 'package:ginkgo_mobile/src/widgets/errorWidgets/showErrorMessage.dart';
 import 'package:object_mapper/object_mapper.dart';
 
 class ApiClient {
@@ -118,7 +120,12 @@ class ApiClient {
             break;
         }
       } on DioError catch (e) {
-        throw e.message;
+        if (e.response.statusCode == 401) {
+          showErrorMessage(
+              'Phiên đăng nhập hết hạn. \nVui lòng đăng nhập lại.');
+          AuthBloc().add(AuthEventLogout());
+        } else
+          throw e.message;
       } finally {
         AnsiPen pen = new AnsiPen()..blue(bold: true);
         print(pen(enumToString(method) + ': $url'));

@@ -135,6 +135,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       showSloganBottomSheet(context, user.slogan);
                     }
                   },
+                  {
+                    'text': 'Đăng xuất',
+                    'onPressed': () {
+                      Navigator.pop(context);
+                      AuthBloc().add(AuthEventLogout());
+                    }
+                  },
                 ]
                     .map<Widget>(
                       (e) => FlatButton(

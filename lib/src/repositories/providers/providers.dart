@@ -6,16 +6,15 @@ import 'package:base/base.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
-import 'package:object_mapper/object_mapper.dart';
 
 import 'appClient.dart';
 
 part 'authProvider.dart';
-part 'systemProvider.dart';
-part 'userProvider.dart';
 part 'placeProvider.dart';
-part 'tourProvider.dart';
+part 'systemProvider.dart';
 part 'tourInfoProvider.dart';
+part 'tourProvider.dart';
+part 'userProvider.dart';
 
 class Api {
   static final image = 'https://api.imgur.com/3/image';

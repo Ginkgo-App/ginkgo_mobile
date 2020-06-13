@@ -91,7 +91,7 @@ class _FriendListScreenState extends State<FriendListScreen>
             },
           );
         } else if (state is UserFriendsStateLoadMoreFailure) {
-          showErrorMessage(context, state.error);
+          showErrorMessage( state.error);
         }
 
         return FriendListWidget(

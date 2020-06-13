@@ -17,10 +17,9 @@ class TourInfoProvider {
   }
 
   Future<TourInfo> getDetail(int tourInfoId) async {
-    final response =
-        await _client.normalConnect(ApiMethod.GET, Api.tourInfos(tourInfoId));
-
-    return Mapper.fromJson(response.data['Data']).toObject();
+    final result = await _client.connect<TourInfo>(
+        ApiMethod.GET, Api.tourInfos(tourInfoId));
+    return result;
   }
 
   Future<Pagination<SimpleTour>> getTourList(int tourInfoId,

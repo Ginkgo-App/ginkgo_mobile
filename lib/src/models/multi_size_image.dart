@@ -1,12 +1,15 @@
 part of 'models.dart';
 
 class MultiSizeImage {
+  String _imageId = '';
   String _smallSquare = ''; // 90x90
   String _bigSquare = ''; // 160x160
   String _smallThumb = ''; // 160x160
   String _mediumThumb = ''; // 320x320
   String _largeThumb = ''; // 640x640
   String _hugeThumb = ''; // 1024x1024
+
+  String get imageId => _imageId;
 
   String get smallSquare => _smallSquare;
 
@@ -33,8 +36,9 @@ class MultiSizeImage {
       _mediumThumb = imgurLink + imgurId + 'm.jpg';
       _largeThumb = imgurLink + imgurId + 'l.jpg';
       _hugeThumb = imgurLink + imgurId + 'h.jpg';
+      _imageId = imgurId;
     } else {
-      _smallSquare = _bigSquare =
+      _imageId = _smallSquare = _bigSquare =
           _smallThumb = _mediumThumb = _largeThumb = _hugeThumb = imgUrl;
     }
   }
