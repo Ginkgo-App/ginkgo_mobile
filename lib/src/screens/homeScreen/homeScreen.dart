@@ -18,33 +18,46 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
+  final List<_BottomNavigationBarItemData> items = [
+    _BottomNavigationBarItemData(
+      title: Strings.bottomNavigator.home,
+      svgIconDisable: Assets.icons.homeOutline,
+      svgIconEnable: Assets.icons.homeFull,
+    ),
+    _BottomNavigationBarItemData(
+      title: Strings.bottomNavigator.tour,
+      svgIconDisable: Assets.icons.tripOutline,
+      svgIconEnable: Assets.icons.tripFull,
+    ),
+    _BottomNavigationBarItemData(
+      title: Strings.bottomNavigator.notification,
+      svgIconDisable: Assets.icons.notiOutline,
+      svgIconEnable: Assets.icons.notiFull,
+    ),
+    _BottomNavigationBarItemData(
+      title: Strings.bottomNavigator.profile,
+      svgIconDisable: Assets.icons.meOutline,
+      svgIconEnable: Assets.icons.meFull,
+    ),
+  ];
+
   int _cIndex;
   TabController _tabController;
 
   final _pages = [
     HomePage(),
     Container(),
-    ProfilePage(key: GlobalKey()),
     TourInfoDetailScreen(
         args: TourInfoDetailScreenArgs(tourInfo: FakeData.tourInfo)),
-    Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text(AppConfig.instance.appName),
-          SizedBox(
-            height: 20,
-          ),
-          PrimaryButton(
-            title: Strings.button.logout,
-            onPressed: () {
-              AuthBloc().add(AuthEventLogout());
-            },
-          )
-        ],
-      ),
-    ),
+    ProfilePage(key: GlobalKey()),
   ];
+
+  _onChangeTab(int index) {
+    setState(() {
+      _cIndex = index;
+      _tabController.animateTo(index);
+    });
+  }
 
   @override
   void initState() {
@@ -62,114 +75,103 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   Widget build(BuildContext context) {
     return PrimaryScaffold(
-      bottomNavigationBar: _buildBottomNavigator(context),
-      body: HomeProvider(
-        context,
-        child: TabBarView(
-          physics: NeverScrollableScrollPhysics(),
-          controller: _tabController,
-          children: _pages,
+      // bottomNavigationBar: _buildBottomNavigator(context),
+      body: SpinCircleBottomBarHolder(
+        bottomNavigationBar: SCBottomBarDetails(
+          bnbHeight: 56,
+          circleColors: [
+            Colors.white,
+            context.colorScheme.secondary,
+            context.colorScheme.primary
+          ],
+          iconTheme: IconThemeData(color: Colors.black45, size: 20),
+          activeIconTheme:
+              IconThemeData(color: context.colorScheme.primary, size: 20),
+          backgroundColor: Colors.white,
+          titleStyle: TextStyle(color: Colors.black45, fontSize: 12),
+          activeTitleStyle: TextStyle(
+              color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold),
+          actionButtonDetails: SCActionButtonDetails(
+              color: Colors.redAccent,
+              icon: Icon(
+                Icons.add,
+                color: Colors.white,
+              ),
+              elevation: 2),
+          elevation: 2.0,
+          items: items
+              .asMap()
+              .map(
+                (i, e) => MapEntry(
+                  i,
+                  SCBottomBarItem(
+                      svgIcon: e.svgIconDisable,
+                      svgActiveIcon: e.svgIconEnable,
+                      title: e.title,
+                      onPressed: () {
+                        _onChangeTab(i);
+                      }),
+                ),
+              )
+              .values
+              .toList(),
+          circleItems: [
+            SCItem(icon: Icon(Icons.add), onPressed: () {}),
+            SCItem(icon: Icon(Icons.camera_enhance), onPressed: () {}),
+            SCItem(icon: Icon(Icons.add_comment), onPressed: () {}),
+          ],
+        ),
+        child: HomeProvider(
+          context,
+          child: TabBarView(
+            physics: NeverScrollableScrollPhysics(),
+            controller: _tabController,
+            children: _pages,
+          ),
         ),
       ),
     );
   }
 
-  _buildBottomNavigator(BuildContext context) {
-    final colorScheme = context.colorScheme;
-    final textStyle = TextStyle(fontSize: 12);
-    return BottomNavigationBar(
-      backgroundColor: colorScheme.background,
-      elevation: 10,
-      onTap: (int index) {
-        setState(() {
-          _cIndex = index;
-          _tabController.animateTo(index);
-        });
-      },
-      currentIndex: _cIndex,
-      type: BottomNavigationBarType.fixed,
-      items: [
-        BottomNavigationBarItem(
-          icon: SvgPicture.asset(
-            Assets.icons.homeOutline,
-            color: colorScheme.onBackground,
-            height: 24,
-          ),
-          title: Text(
-            Strings.bottomNavigator.home,
-            style: textStyle,
-          ),
-          activeIcon: SvgPicture.asset(
-            Assets.icons.homeFull,
-            color: colorScheme.primary,
-            height: 24,
-          ),
-        ),
-        BottomNavigationBarItem(
-          icon: SvgPicture.asset(
-            Assets.icons.tripOutline,
-            color: colorScheme.onBackground,
-            height: 24,
-          ),
-          title: Text(
-            Strings.bottomNavigator.tour,
-            style: textStyle,
-          ),
-          activeIcon: SvgPicture.asset(
-            Assets.icons.tripFull,
-            color: colorScheme.primary,
-            height: 24,
-          ),
-        ),
-        BottomNavigationBarItem(
-          icon: SvgPicture.asset(
-            Assets.icons.meOutline,
-            color: colorScheme.onBackground,
-            height: 24,
-          ),
-          title: Text(
-            Strings.bottomNavigator.profile,
-            style: textStyle,
-          ),
-          activeIcon: SvgPicture.asset(
-            Assets.icons.meFull,
-            color: colorScheme.primary,
-            height: 24,
-          ),
-        ),
-        BottomNavigationBarItem(
-          icon: SvgPicture.asset(
-            Assets.icons.notiOutline,
-            color: colorScheme.onBackground,
-            height: 24,
-          ),
-          title: Text(
-            Strings.bottomNavigator.notification,
-            style: textStyle,
-          ),
-          activeIcon: SvgPicture.asset(
-            Assets.icons.notiFull,
-            color: colorScheme.primary,
-            height: 24,
-          ),
-        ),
-        BottomNavigationBarItem(
-          icon: SvgPicture.asset(
-            Assets.icons.settingOutline,
-            color: colorScheme.onBackground,
-            height: 24,
-          ),
-          title: Text(
-            Strings.bottomNavigator.setting,
-            style: textStyle,
-          ),
-          activeIcon: SvgPicture.asset(
-            Assets.icons.settingFull,
-            color: colorScheme.primary,
-            height: 24,
-          ),
-        ),
-      ],
-    );
-  }
+  // Default bottom navigator
+  // _buildBottomNavigator(BuildContext context) {
+  //   final colorScheme = context.colorScheme;
+  //   final textStyle = TextStyle(fontSize: 12);
+  //   return BottomNavigationBar(
+  //     backgroundColor: colorScheme.background,
+  //     elevation: 10,
+  //     onTap: _onChangeTab,
+  //     currentIndex: _cIndex,
+  //     type: BottomNavigationBarType.fixed,
+  //     items: items
+  //         .map(
+  //           (e) => BottomNavigationBarItem(
+  //             icon: SvgPicture.asset(
+  //               e.svgIconDisable,
+  //               color: colorScheme.onBackground,
+  //               height: 24,
+  //             ),
+  //             title: Text(
+  //               e.title,
+  //               style: textStyle,
+  //             ),
+  //             activeIcon: SvgPicture.asset(
+  //               e.svgIconEnable,
+  //               color: colorScheme.primary,
+  //               height: 24,
+  //             ),
+  //           ),
+  //         )
+  //         .toList(),
+  //   );
+  // }
+}
+
+class _BottomNavigationBarItemData {
+  final String svgIconDisable;
+  final String svgIconEnable;
+  final String title;
+
+  _BottomNavigationBarItemData(
+      {this.svgIconDisable, this.svgIconEnable, this.title});
 }

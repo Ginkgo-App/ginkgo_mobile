@@ -1,4 +1,4 @@
-part of '../widgets.dart';
+part of user_widgets;
 
 class UserFriendWidget extends StatelessWidget {
   final SimpleUser user;
@@ -13,8 +13,7 @@ class UserFriendWidget extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        Navigators.appNavigator.currentState
-            .pushNamed(Routes.user, arguments: UserScreenArgs(user));
+        _navigateToUserScreen(user);
       },
       child: Skeleton(
         enabled: isLoading,

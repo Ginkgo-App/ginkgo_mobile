@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:base/base.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -105,87 +104,8 @@ class _FriendListState extends State<FriendList> {
       mainAxisSpacing: 10,
       crossAxisSpacing: 10,
       children: users != null
-          ? users.map<Widget>((e) => _FriendListItem(user: e)).toList()
-          : List.generate(3, (_) => _FriendListItem()),
-    );
-  }
-}
-
-class _FriendListItem extends StatelessWidget {
-  final SimpleUser user;
-
-  const _FriendListItem({Key key, this.user}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Skeleton(
-      enabled: user == null,
-      child: GestureDetector(
-        onTap: () {
-          if (!CurrentUserBloc().isCurrentUser(simpleUser: user)) {
-            Navigators.appNavigator.currentState
-                .pushNamed(Routes.user, arguments: UserScreenArgs(user));
-          }
-        },
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: context.colorScheme.background,
-                ),
-                child: AspectRatio(
-                  aspectRatio: 1,
-                  child: CachedNetworkImage(
-                    imageUrl: user?.avatar?.mediumThumb ?? '',
-                    fit: BoxFit.cover,
-                    placeholder: (context, _) {
-                      return Image.asset(
-                        Assets.images.defaultAvatar,
-                        fit: BoxFit.cover,
-                      );
-                    },
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Container(
-              color: context.colorScheme.background,
-              child: Text(
-                user?.name ?? '',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-            if (user == null || user.job.isExistAndNotEmpty) ...[
-              SizedBox(
-                height: 5,
-              ),
-              Container(
-                color: context.colorScheme.background,
-                margin: EdgeInsets.symmetric(horizontal: user != null ? 0 : 20),
-                child: Text(
-                  user?.job ?? '',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontStyle: FontStyle.italic,
-                      fontSize: 12,
-                      color: Colors.grey),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ]
-          ],
-        ),
-      ),
+          ? users.map<Widget>((e) => RectRadiusUser(user: e)).toList()
+          : List.generate(3, (_) => RectRadiusUser()),
     );
   }
 }

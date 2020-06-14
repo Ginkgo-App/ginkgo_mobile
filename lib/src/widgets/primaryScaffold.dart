@@ -6,17 +6,19 @@ class PrimaryScaffold extends StatelessWidget {
   final PreferredSizeWidget appBar;
   final Color backgroundColor;
   final Gradient gradientBackground;
+  final bool bottomPadding;
   final Widget bottomNavigationBar;
 
-  const PrimaryScaffold(
-      {Key key,
-      this.body,
-      this.isLoading = false,
-      this.appBar,
-      this.backgroundColor,
-      this.gradientBackground,
-      this.bottomNavigationBar})
-      : assert(backgroundColor == null || gradientBackground == null),
+  const PrimaryScaffold({
+    Key key,
+    this.body,
+    this.isLoading = false,
+    this.appBar,
+    this.backgroundColor,
+    this.gradientBackground,
+    this.bottomNavigationBar,
+    this.bottomPadding = true,
+  })  : assert(backgroundColor == null || gradientBackground == null),
         super(key: key);
 
   @override
@@ -28,15 +30,27 @@ class PrimaryScaffold extends StatelessWidget {
             children: <Widget>[
               Scaffold(
                 appBar: appBar,
-                bottomNavigationBar: bottomNavigationBar,
+                bottomNavigationBar: bottomNavigationBar != null
+                    ? Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          bottomNavigationBar,
+                          if (bottomPadding &&
+                              SpinCircleBottomBarProvider.of(context) != null)
+                            const SizedBox(height: 30)
+                        ],
+                      )
+                    : null,
                 body: Container(
                   child: body,
                   color: backgroundColor,
                   decoration: BoxDecoration(
-                      gradient:
-                          gradientBackground == null && backgroundColor == null
-                              ? GradientColor.of(context).backgroundGradient
-                              : null),
+                    gradient:
+                        gradientBackground == null && backgroundColor == null
+                            ? GradientColor.of(context).backgroundGradient
+                            : null,
+                  ),
                 ),
               ),
               if (isLoading || state is AuthStateLoading)

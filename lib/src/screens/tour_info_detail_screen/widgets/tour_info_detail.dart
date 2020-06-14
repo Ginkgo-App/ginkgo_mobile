@@ -24,7 +24,7 @@ class TourInfoDetail extends StatelessWidget {
               const SizedBox(height: 5),
               Rating(rating: tourInfo.rating),
               const SizedBox(height: 10),
-              if (showCreateBy)
+              if (showCreateBy && tourInfo?.createBy != null)
                 _buildRowIcon(
                   context,
                   icon: Assets.icons.planner,
@@ -39,9 +39,8 @@ class TourInfoDetail extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     text: TextSpan(
                       text: 'Điểm bắt đầu tại ',
-                      style: TextStyle(
-                          fontSize: 15,
-                          color: context.colorScheme.onBackground),
+                      style: context.textTheme.body1
+                          .copyWith(color: context.colorScheme.onBackground),
                       children: <TextSpan>[
                         TextSpan(
                             text: tourInfo?.startPlace?.name,
@@ -60,9 +59,8 @@ class TourInfoDetail extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     text: TextSpan(
                       text: 'Điểm kết thúc tại ',
-                      style: TextStyle(
-                          fontSize: 15,
-                          color: context.colorScheme.onBackground),
+                      style: context.textTheme.body1
+                          .copyWith(color: context.colorScheme.onBackground),
                       children: <TextSpan>[
                         TextSpan(
                             text: tourInfo?.destinatePlace?.name,
@@ -90,7 +88,7 @@ class TourInfoDetail extends StatelessWidget {
           if (text.isExistAndNotEmpty) ...[
             SvgPicture.asset(
               icon,
-              height: 12,
+              height: 14,
               color: context.colorScheme.onBackground,
             ),
             const SizedBox(width: 5),
@@ -99,7 +97,7 @@ class TourInfoDetail extends StatelessWidget {
             child: richText == null
                 ? Text(
                     text ?? '',
-                    style: context.textTheme.caption.copyWith(
+                    style: context.textTheme.body1.copyWith(
                       color: context.colorScheme.onBackground,
                     ),
                   )

@@ -61,29 +61,35 @@ class _ManageTourScreenState extends State<ManageTourScreen>
           )
         ],
       ),
-      bottomNavigationBar: AnimatedSize(
-        duration: Duration(milliseconds: 200),
-        vsync: this,
-        child: Container(
-          padding: EdgeInsets.all(currentPage == 0 ? 0 : 10),
-          child: currentPage == 0
-              ? const SizedBox.shrink()
-              : PrimaryButton(
-                  title: filter == _Filter.tour
-                      ? 'Tạo thêm chuyến đi'
-                      : 'Tạo thêm khuôn mẫu',
-                  width: double.maxFinite,
-                  onPressed: () {
-                    if (filter == _Filter.tour) {
-                      Navigators.appNavigator.currentState
-                          .pushNamed(Routes.createTour);
-                    } else {
-                      Navigators.appNavigator.currentState
-                          .pushNamed(Routes.createTourInfo);
-                    }
-                  },
-                ),
-        ),
+      bottomPadding: false,
+      bottomNavigationBar: Column(
+        children: <Widget>[
+          AnimatedSize(
+            duration: Duration(milliseconds: 200),
+            vsync: this,
+            child: Container(
+              padding: EdgeInsets.all(currentPage == 0 ? 0 : 10),
+              child: currentPage == 0
+                  ? const SizedBox.shrink()
+                  : PrimaryButton(
+                      title: filter == _Filter.tour
+                          ? 'Tạo thêm chuyến đi'
+                          : 'Tạo thêm khuôn mẫu',
+                      width: double.maxFinite,
+                      onPressed: () {
+                        if (filter == _Filter.tour) {
+                          Navigators.appNavigator.currentState
+                              .pushNamed(Routes.createTour);
+                        } else {
+                          Navigators.appNavigator.currentState
+                              .pushNamed(Routes.createTourInfo);
+                        }
+                      },
+                    ),
+            ),
+          ),
+          if (currentPage != 0) const SizedBox(height: 30)
+        ],
       ),
       body: NestedScrollView(
           headerSliverBuilder: (context, _) {

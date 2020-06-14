@@ -52,8 +52,7 @@ class _CreateTourInfoState extends State<CreateTourInfo> {
       bloc: bloc,
       listener: (context, state) {
         if (state is CreateTourInfoStateFailure) {
-          showErrorMessage(
-              context, Strings.error.error + '\n' + state.error.toString());
+          showErrorMessage(Strings.error.error + '\n' + state.error.toString());
         } else if (state is CreateTourInfoStateSuccess) {
           Navigator.pop(context);
         }

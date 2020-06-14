@@ -28,7 +28,7 @@ class _AvatarWidgetState extends State<AvatarWidget> {
   final UpdateProfileBloc updateProfileBloc = UpdateProfileBloc();
 
   _onAvatarPress() {
-    // TODO handle show dialog image.
+    PhotoViewDialog(context, images: [widget.user.avatar]).show();
   }
 
   _onUpdateAvatarPress(BuildContext context) {

@@ -66,8 +66,7 @@ class _CreateTourTab3State extends State<CreateTourTab3> {
     for (final timeline in timelineList) {
       if (timeline.timelineDetails == null ||
           timeline.timelineDetails.length == 0) {
-        // showErrorMessage(
-        //     context, 'Ngày ${timeline.day.toVietNamese()} chưa có lịch trình.');
+        // showErrorMessage('Ngày ${timeline.day.toVietNamese()} chưa có lịch trình.');
         return false;
       }
     }

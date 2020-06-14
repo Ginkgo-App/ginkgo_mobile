@@ -4,7 +4,7 @@ class TourInfo with Mappable {
   int id;
   String name;
   List<MultiSizeImage> images;
-  User createBy;
+  SimpleUser createBy;
   Place startPlace;
   Place destinatePlace;
   double rating;
@@ -26,10 +26,12 @@ class TourInfo with Mappable {
     map<MultiSizeImage>(
         'Images', images, (v) => images = v, MultiSizeImageTransform());
     map('StartPlace', startPlace,
-        (v) => startPlace = Mapper.fromJson(v).toObject());
+        (v) => startPlace = Mapper.fromJson(v).toObject<Place>());
     map('DestinatePlace', destinatePlace,
-        (v) => destinatePlace = Mapper.fromJson(v).toObject());
+        (v) => destinatePlace = Mapper.fromJson(v).toObject<Place>());
     map('Rating', rating, (v) => rating = v);
+    map('CreateBy', createBy,
+        (v) => createBy = Mapper.fromJson(v).toObject<SimpleUser>());
   }
 }
 

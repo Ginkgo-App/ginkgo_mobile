@@ -67,7 +67,9 @@ class TourDetailWidget extends StatelessWidget {
                 _buildRowIcon(context,
                     icon: Assets.icons.people,
                     text: tour != null ? '${tour.totalMember} người' : '',
-                    richText: showFriend && tour.friends != null && tour.friends.length > 0
+                    richText: showFriend &&
+                            tour.friends != null &&
+                            tour.friends.length > 0
                         ? _buildRichTextFriend(
                             context, tour.friends[0], tour.totalMember)
                         : null),
@@ -86,7 +88,8 @@ class TourDetailWidget extends StatelessWidget {
                           ]),
                     )),
               SizedBox(height: 5),
-              if (showRating) Rating(rating: tour.rating),
+              if (showRating && tour?.rating != null)
+                Rating(rating: tour.rating),
               SizedBox(height: 5),
             ],
           ),

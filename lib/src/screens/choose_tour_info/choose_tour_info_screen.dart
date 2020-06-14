@@ -56,13 +56,13 @@ class _ChooseTourInfoScreenState extends State<ChooseTourInfoScreen> {
                               ? state.tourInfoList.data
                               : List.generate(5, (_) => null))
                           .map(
-                            (e) => GestureDetector(
-                              onTap: () {
+                            (e) => BlackOpacityTour(
+                              tourInfo: e,
+                              onPressed: () {
                                 if (e != null) {
                                   Navigator.pop(context, e);
                                 }
                               },
-                              child: BlackOpacityTour(tourInfo: e),
                             ),
                           )
                           .toList(),
