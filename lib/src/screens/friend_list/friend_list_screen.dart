@@ -39,7 +39,6 @@ class _FriendListScreenState extends State<FriendListScreen>
     return PrimaryScaffold(
       appBar: BackAppBar(
         title: 'Bạn bè',
-        showBackButton: true,
         bottom: isCurrentUser
             ? TabBar(
                 unselectedLabelColor: DesignColor.tinyItems,
@@ -91,7 +90,7 @@ class _FriendListScreenState extends State<FriendListScreen>
             },
           );
         } else if (state is UserFriendsStateLoadMoreFailure) {
-          showErrorMessage( state.error);
+          showErrorMessage(state.error);
         }
 
         return FriendListWidget(

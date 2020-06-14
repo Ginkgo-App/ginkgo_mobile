@@ -10,10 +10,7 @@ class _TourListScreenState extends State<TourListScreen> {
   Widget build(BuildContext context) {
     User currentUser = FakeData.currentUser;
     return PrimaryScaffold(
-      appBar: BackAppBar(
-        title: currentUser?.fullName ?? '',
-        showBackButton: true,
-      ),
+      appBar: BackAppBar(title: currentUser?.fullName ?? ''),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(10),

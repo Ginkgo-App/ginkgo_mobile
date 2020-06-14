@@ -66,10 +66,7 @@ class _CreateTourInfoScreenState extends State<CreateTourInfoScreen> {
         bloc: bloc,
         builder: (context, state) => PrimaryScaffold(
           isLoading: state is CreateTourInfoStateLoading,
-          appBar: BackAppBar(
-            title: 'Tạo khuôn mẫu chuyến đi',
-            showBackButton: true,
-          ),
+          appBar: BackAppBar(title: 'Tạo khuôn mẫu chuyến đi'),
           bottomNavigationBar: Container(
             padding: EdgeInsets.all(10),
             child: PrimaryButton(

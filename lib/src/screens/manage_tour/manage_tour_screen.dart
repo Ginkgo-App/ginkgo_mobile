@@ -48,18 +48,7 @@ class _ManageTourScreenState extends State<ManageTourScreen>
   Widget build(BuildContext context) {
     return PrimaryScaffold(
       appBar: BackAppBar(
-        title: 'Quản lý chuyến đi',
-        actions: <Widget>[
-          CupertinoButton(
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            child: Icon(
-              Icons.add,
-              size: 30,
-              color: context.colorScheme.onBackground,
-            ),
-            onPressed: openSelectFilter,
-          )
-        ],
+        title: 'Quản lý chuyến đi'
       ),
       bottomPadding: false,
       bottomNavigationBar: Column(

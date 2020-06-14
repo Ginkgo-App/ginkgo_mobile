@@ -46,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen>
 
   final _pages = [
     HomePage(),
-    Container(),
+    ManageTourScreen(),
     TourInfoDetailScreen(
         args: TourInfoDetailScreenArgs(tourInfo: FakeData.tourInfo)),
     ProfilePage(key: GlobalKey()),

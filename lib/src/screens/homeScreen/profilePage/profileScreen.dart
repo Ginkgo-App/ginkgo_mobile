@@ -55,10 +55,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         }
 
         return PrimaryScaffold(
-          appBar: BackAppBar(
-            title: user?.fullName ?? '',
-            showBackButton: false,
-          ),
+          appBar: BackAppBar(title: user?.fullName ?? ''),
           body: state is CurrentUserStateFailure
               ? ErrorIndicator(
                   moreErrorDetail: state.error,

@@ -55,7 +55,8 @@ class _TourInfoDetailScreenState extends State<TourInfoDetailScreen>
           title: Strings.button.createTourNow,
           width: double.maxFinite,
           onPressed: () {
-            Navigators.appNavigator.currentState.pushNamed(Routes.createTour);
+            Navigators.appNavigator.currentState.pushNamed(Routes.createTour,
+                arguments: tourInfoDetailBloc.tourInfo ?? widget.args.tourInfo);
           },
         ),
       ),
@@ -75,7 +76,10 @@ class _TourInfoDetailScreenState extends State<TourInfoDetailScreen>
             controller: scrollController,
             child: Column(
               children: <Widget>[
-                SliderWidget(images: widget.args.tourInfo?.images ?? []),
+                SliderWidget(
+                    images: tourInfoDetailBloc.tourInfo?.images ??
+                        widget.args.tourInfo?.images ??
+                        []),
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 10),
                   child: SpacingColumn(
