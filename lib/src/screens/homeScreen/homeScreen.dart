@@ -146,7 +146,12 @@ class _HomeScreenState extends State<HomeScreen>
               .values
               .toList(),
           circleItems: [
-            SCItem(icon: Icon(Icons.add), onPressed: () {}),
+            SCItem(
+                icon: Icon(Icons.add),
+                onPressed: () {
+                  Navigators.appNavigator.currentState
+                      .pushNamed(Routes.createPost);
+                }),
             SCItem(icon: Icon(Icons.camera_enhance), onPressed: () {}),
             SCItem(icon: Icon(Icons.add_comment), onPressed: () {}),
           ],

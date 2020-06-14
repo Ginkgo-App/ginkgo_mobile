@@ -17,6 +17,7 @@ class Routes {
   static const manageTour = '/manage-tour';
   static const placeDetail = '/place-detail';
   static const chooseTourInfo = '/choose-tour-info';
+  static const createPost = '/create-post-screen';
 }
 
 RouteFactory _onGenerateRoute = (RouteSettings settings) {
@@ -61,6 +62,8 @@ RouteFactory _onGenerateRoute = (RouteSettings settings) {
       ));
     case Routes.chooseTourInfo:
       return _generateMaterialRoute(ChooseTourInfoScreen());
+    case Routes.createPost:
+      return _generateMaterialRoute(CreatePostScreen());
     default:
       return _generateMaterialRoute(SplashScreen());
   }
