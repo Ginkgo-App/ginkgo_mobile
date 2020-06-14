@@ -22,8 +22,10 @@ class TourInfoDetail extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               const SizedBox(height: 5),
-              Rating(rating: tourInfo.rating),
-              const SizedBox(height: 10),
+              if (tourInfo?.rating != null) ...[
+                Rating(rating: tourInfo.rating),
+                const SizedBox(height: 10),
+              ],
               if (showCreateBy && tourInfo?.createBy != null)
                 _buildRowIcon(
                   context,

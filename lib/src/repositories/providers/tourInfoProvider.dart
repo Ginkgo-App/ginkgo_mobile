@@ -35,7 +35,7 @@ class TourInfoProvider {
         response.data['Pagination'], response.data['Data']);
   }
 
-  Future<int> create(TourInfoToPost tourInfoToPost) async {
+  Future<TourInfo> create(TourInfoToPost tourInfoToPost) async {
     final List<String> images = [];
 
     if (tourInfoToPost.images.length > 0) {
@@ -47,7 +47,7 @@ class TourInfoProvider {
       );
     }
 
-    final response = await _client.normalConnect(
+    final tourInfo = await _client.connect<TourInfo>(
       ApiMethod.POST,
       Api.tourInfos(null),
       body: {
@@ -58,8 +58,6 @@ class TourInfoProvider {
       },
     );
 
-    debugPrint(response.data);
-
-    return response.data.data[0]['Id'];
+    return tourInfo;
   }
 }

@@ -10,7 +10,6 @@ import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/screens/homeScreen/homeProvider.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/utils/heroKeys.dart';
-import 'package:ginkgo_mobile/src/widgets/actionSheets/pickImageActionSheet.dart';
 import 'package:ginkgo_mobile/src/widgets/widgets.dart';
 
 class AvatarWidget extends StatefulWidget {

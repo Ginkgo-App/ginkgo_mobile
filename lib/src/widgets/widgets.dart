@@ -1,6 +1,7 @@
 library widget;
 
 import 'dart:async';
+import 'dart:io';
 import 'dart:math';
 import 'dart:ui' show lerpDouble;
 
@@ -29,6 +30,9 @@ import 'package:ginkgo_mobile/src/widgets/spacingRow.dart';
 import 'package:ginkgo_mobile/src/widgets/spincircle_bottom_bar/spincircle_bottom_bar.dart';
 import 'package:ginkgo_mobile/src/widgets/tourWidgets/widgets/tourDetailWidget.dart';
 import 'package:ginkgo_mobile/src/widgets/tourWidgets/widgets/tourInfoDetailWidget.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:shimmer/shimmer.dart';
@@ -56,3 +60,4 @@ part 'rating.dart';
 part 'skeleton.dart';
 part 'tourWidgets/blackOpacityTour.dart';
 part 'tourWidgets/tourItem.dart';
+part 'actionSheets/pick_image_action_sheet.dart';

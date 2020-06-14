@@ -1,7 +1,6 @@
 library screens;
 
 import 'dart:async';
-import 'dart:io';
 import 'dart:math';
 
 import 'package:base/base.dart';
@@ -51,7 +50,6 @@ import 'package:ginkgo_mobile/src/utils/heroKeys.dart';
 import 'package:ginkgo_mobile/src/utils/strings.dart';
 import 'package:ginkgo_mobile/src/utils/validator.dart';
 import 'package:ginkgo_mobile/src/widgets/LoadingManager.dart';
-import 'package:ginkgo_mobile/src/widgets/actionSheets/pickImageActionSheet.dart';
 import 'package:ginkgo_mobile/src/widgets/buttons/commonOutlineButton.dart';
 import 'package:ginkgo_mobile/src/widgets/buttons/viewMoreButton.dart';
 import 'package:ginkgo_mobile/src/widgets/customs/toast.dart';

@@ -1,11 +1,4 @@
-import 'dart:io';
-
-import 'package:base/base.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:ginkgo_mobile/src/utils/strings.dart';
-import 'package:image_cropper/image_cropper.dart';
-import 'package:image_picker/image_picker.dart';
+part of '../widgets.dart';
 
 pickImage(BuildContext context, Function(File) onPickedImage,
     {bool isMulti = false}) async {
@@ -44,6 +37,28 @@ pickImage(BuildContext context, Function(File) onPickedImage,
       ),
     ),
   );
+}
+
+Future<List<FileAsset>> pickMultiImage(
+    BuildContext context, List<FileAsset> selectedAssets,
+    {int maxImages = 4}) async {
+  final assets = await MultiImagePicker.pickImages(
+    maxImages: maxImages,
+    enableCamera: true,
+    selectedAssets: selectedAssets.map((e) => e.asset).toList(),
+    materialOptions: MaterialOptions(
+      actionBarColor: context.colorScheme.primary.toHex(),
+      startInAllView: true,
+      lightStatusBar: true,
+    ),
+    cupertinoOptions: CupertinoOptions(
+        selectionFillColor: context.colorScheme.primary.toHex(),
+        selectionCharacter: "✓",
+        selectionStrokeColor: context.colorScheme.primary.toHex(),
+        backgroundColor: context.colorScheme.primary.toHex()),
+  );
+
+  return await Future.wait(assets.map((e) => FileAsset.fromAsset(e)).toList());
 }
 
 Future<File> _cropImage(BuildContext context, File image) async {

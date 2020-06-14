@@ -1,11 +1,11 @@
 part of '../screens.dart';
 
-class CreateTourInfo extends StatefulWidget {
+class CreateTourInfoScreen extends StatefulWidget {
   @override
-  _CreateTourInfoState createState() => _CreateTourInfoState();
+  _CreateTourInfoScreenState createState() => _CreateTourInfoScreenState();
 }
 
-class _CreateTourInfoState extends State<CreateTourInfo> {
+class _CreateTourInfoScreenState extends State<CreateTourInfoScreen> {
   final formKey = GlobalKey<FormState>();
   final CreateTourInfoBloc bloc = CreateTourInfoBloc();
   final TextEditingController nameController = TextEditingController();
@@ -19,7 +19,7 @@ class _CreateTourInfoState extends State<CreateTourInfo> {
   Place endPlace;
   Place exactStartPlace;
   Place exactEndPlace;
-  List<File> images = [];
+  List<FileAsset> images = [];
 
   onSubmit() {
     if (!formKey.currentState.validate()) return;
@@ -27,17 +27,19 @@ class _CreateTourInfoState extends State<CreateTourInfo> {
     bloc.add(CreateTourInfoEventCreate(TourInfoToPost(
       startPlace: startPlace,
       destinatePlace: endPlace,
-      images: images,
+      images: images.map((e) => e.file).toList(),
       name: nameController.text,
     )));
   }
 
-  onPickImages() {
-    pickImage(context, (image) {
-      if (image != null)
-        setState(() {
-          this.images.add(image);
-        });
+  onPickImages() async {
+    this.images = [...await pickMultiImage(context, images, maxImages: 10)];
+    setState(() {});
+  }
+
+  onRemoveImage(FileAsset image) {
+    setState(() {
+      this.images.remove(image);
     });
   }
 
@@ -54,7 +56,10 @@ class _CreateTourInfoState extends State<CreateTourInfo> {
         if (state is CreateTourInfoStateFailure) {
           showErrorMessage(Strings.error.error + '\n' + state.error.toString());
         } else if (state is CreateTourInfoStateSuccess) {
-          Navigator.pop(context);
+          Navigators.appNavigator.currentState.pushReplacementNamed(
+            Routes.tourInfoDetail,
+            arguments: TourInfoDetailScreenArgs(tourInfo: state.newTourInfo),
+          );
         }
       },
       child: BlocBuilder(
@@ -294,7 +299,7 @@ class _CreateTourInfoState extends State<CreateTourInfo> {
     );
   }
 
-  Widget buildImageItem(File image) {
+  Widget buildImageItem(FileAsset image) {
     return Stack(
       children: <Widget>[
         Container(
@@ -302,7 +307,7 @@ class _CreateTourInfoState extends State<CreateTourInfo> {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(5),
             child: Image.asset(
-              image.path,
+              image.file.path,
               fit: BoxFit.cover,
               width: 65,
               height: 45,
@@ -314,9 +319,7 @@ class _CreateTourInfoState extends State<CreateTourInfo> {
             top: 0,
             child: GestureDetector(
               onTap: () {
-                setState(() {
-                  images.remove(image);
-                });
+                onRemoveImage(image);
               },
               child: Container(
                 padding: const EdgeInsets.all(2),

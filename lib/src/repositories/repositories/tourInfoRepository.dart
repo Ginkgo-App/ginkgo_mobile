@@ -7,7 +7,7 @@ class _TourInfoRepository {
           {int page, int pageSize, String keyword}) =>
       _provider.getList(keyword: keyword, page: page, pageSize: pageSize);
 
-  Future<int> create(TourInfoToPost toPost) => _provider.create(toPost);
+  Future<TourInfo> create(TourInfoToPost toPost) => _provider.create(toPost);
 
   Future<TourInfo> getDetail(int tourInfoId) => _provider.getDetail(tourInfoId);
 
