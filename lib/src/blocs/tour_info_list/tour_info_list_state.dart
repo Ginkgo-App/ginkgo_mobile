@@ -16,7 +16,8 @@ class TourInfoListStateSuccess extends TourInfoListState {
   TourInfoListStateSuccess(this.tourInfoList);
 
   @override
-  String toString() => '$runtimeType ${tourInfoList.data.length}';
+  String toString() =>
+      '$runtimeType ${tourInfoList.data.length} / ${tourInfoList.pagination.totalPage}';
 }
 
 class TourInfoListStateFailure extends TourInfoListState {

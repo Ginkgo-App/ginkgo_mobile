@@ -21,7 +21,8 @@ class UserTourBloc extends Bloc<UserTourEvent, UserTourState> {
     try {
       if (event is UserTourEventFetch) {
         yield UserTourLoading();
-        final _tours = await _repository.user.getUserTours(event.userId);
+        final _tours = await _repository.user
+            .getUserTours(userId: event.userId, page: 1, pageSize: 6);
         yield UserTourSuccess(_tours);
       }
     } catch (e) {

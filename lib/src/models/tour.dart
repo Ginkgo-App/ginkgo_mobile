@@ -1,5 +1,9 @@
 part of 'models.dart';
 
+enum MeTourType { owner, member, all }
+
+enum TourListType { recommend, friend, forYou }
+
 class Tour with Mappable {
   int id;
   String name;
@@ -74,8 +78,10 @@ class SimpleTour with Mappable {
     map('EndDay', endDay, (v) => endDay = v, DateTimeTransform());
     map('TotalMember', totalMember, (v) => totalMember = v);
     map('Host', host, (v) => host = Mapper.fromJson(v).toObject<SimpleUser>());
-    map<MultiSizeImage>(
-        'Images', images, (v) => images = v, MultiSizeImageTransform());
+    map<MultiSizeImage>('Images', images, (v) {
+      images = v;
+      images?.shuffle();
+    }, MultiSizeImageTransform());
     map('Price', price, (v) => price = v);
     map('Rating', rating, (v) => rating = v);
     map<SimpleUser>('Friend', friends, (v) => friends = v);

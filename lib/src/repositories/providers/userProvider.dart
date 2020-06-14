@@ -30,6 +30,8 @@ class UserProvider {
     return Pagination(response.data['Pagination'], response.data['Data']);
   }
 
+  ///
+  /// [userId == 0] => me
   Future<Pagination<SimpleUser>> getUserFriends(int userId,
       [int page = 1, int pageSize = 10]) async {
     final response = await _client.normalConnect(
@@ -39,10 +41,15 @@ class UserProvider {
     return Pagination(response.data['Pagination'], response.data['Data']);
   }
 
-  Future<Pagination<SimpleTour>> getUserTours(int userId) async {
+  Future<Pagination<SimpleTour>> getUserTours(
+      int userId, int page, int pageSize, String keyword) async {
     final response = await _client.normalConnect(
         ApiMethod.GET, userId == 0 ? Api.meTours : Api.userTours(userId),
-        query: {'page': '1', 'pageSize': '10'});
+        query: {
+          'page': page.toString(),
+          'pageSize': pageSize.toString(),
+          if (keyword.isExistAndNotEmpty) 'keyword': keyword,
+        });
 
     return Pagination(response.data['Pagination'], response.data['Data']);
   }

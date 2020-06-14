@@ -26,15 +26,13 @@ class BlackOpacityTour extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final images = tour?.images ?? tourInfo?.images ?? [];
-    final image =
-        images.length > 0 ? images[Random().nextInt(images.length)] : null;
+    final image = images.length > 0 ? images[0] : null;
 
     return GestureDetector(
       onTap: _onPressed,
       child: Skeleton(
         enabled: tourInfo == null && tour == null,
         child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 10),
           decoration: BoxDecoration(
             color: context.colorScheme.background,
             boxShadow: DesignColor.imageShadow,

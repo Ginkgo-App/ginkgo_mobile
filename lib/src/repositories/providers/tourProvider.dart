@@ -3,7 +3,7 @@ part of providers;
 class TourProvider {
   final _client = ApiClient();
 
-  Future<Pagination<Tour>> getList(
+  Future<Pagination<SimpleTour>> getList(
       {int page, int pageSize, String keyword, PlaceSearchType type}) async {
     final response =
         await _client.normalConnect(ApiMethod.GET, Api.places, query: {
@@ -13,7 +13,8 @@ class TourProvider {
       if (keyword != null) 'keyword': keyword,
     });
 
-    return Pagination<Tour>(response.data['Pagination'], response.data['Data']);
+    return Pagination<SimpleTour>(
+        response.data['Pagination'], response.data['Data']);
   }
 
   Future create(TourToPost tourToPost) async {
@@ -30,19 +31,23 @@ class TourProvider {
         'Services': tourToPost.services,
         'TourInfoId': tourToPost.tourInfoId,
         'Price': tourToPost.price,
-        'Timelines': tourToPost.timelines.map(
-          (timeline) => {
-            'Day': timeline.day.toIso8601String(),
-            'Description': timeline.descrirption,
-            'TimelineDetails': timeline.timelineDetails.map(
-              (detail) => {
-                'PlaceId': detail.place.id,
-                'Time': detail.time,
-                'Detail': detail.detail,
+        'Timelines': tourToPost.timelines
+            .map(
+              (timeline) => {
+                'Day': timeline.day.toIso8601String(),
+                'Description': timeline.descrirption,
+                'TimelineDetails': timeline.timelineDetails
+                    .map(
+                      (detail) => {
+                        'PlaceId': detail.place.id,
+                        'Time': detail.time,
+                        'Detail': detail.detail,
+                      },
+                    )
+                    .toList()
               },
-            ).toList()
-          },
-        ).toList(),
+            )
+            .toList(),
       },
     );
 

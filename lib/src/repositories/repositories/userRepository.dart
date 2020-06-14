@@ -15,8 +15,9 @@ class _UserRepository {
           {int page, int pageSize}) =>
       _userProvider.getUserFriends(userId, page, pageSize);
 
-  Future<Pagination<SimpleTour>> getUserTours(int userId) =>
-      _userProvider.getUserTours(userId);
+  Future<Pagination<SimpleTour>> getUserTours(
+          {int userId, int page, int pageSize, String keyword}) =>
+      _userProvider.getUserTours(userId, page, pageSize, keyword);
 
   Future<User> updateProfile(UserToPut userToPut) =>
       _userProvider.updateProfile(userToPut);

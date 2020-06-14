@@ -8,12 +8,10 @@ abstract class TourInfoListEvent {
 
 class TourInfoListEventFetch extends TourInfoListEvent {
   final String keyword;
-  final int page;
-  final int pageSize;
 
-  TourInfoListEventFetch(this.keyword, this.page, this.pageSize);
+  TourInfoListEventFetch({this.keyword});
 
   @override
   String toString() =>
-      '$runtimeType Keyword: $keyword Page: $page PageSize: $pageSize';
+      '$runtimeType Keyword: $keyword';
 }

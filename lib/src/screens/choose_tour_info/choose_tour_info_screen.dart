@@ -8,7 +8,7 @@ class ChooseTourInfoScreen extends StatefulWidget {
 }
 
 class _ChooseTourInfoScreenState extends State<ChooseTourInfoScreen> {
-  final TourInfoListBloc tourInfoListBloc = TourInfoListBloc();
+  final TourInfoListBloc tourInfoListBloc = TourInfoListBloc(_PAGE_SIZE);
 
   initState() {
     super.initState();
@@ -16,8 +16,9 @@ class _ChooseTourInfoScreenState extends State<ChooseTourInfoScreen> {
     fetchData();
   }
 
-  fetchData([int page = 1]) {
-    tourInfoListBloc.add(TourInfoListEventFetch('', page, _PAGE_SIZE));
+  fetchData() {
+    tourInfoListBloc
+        .add(TourInfoListEventFetch());
   }
 
   dispose() {
