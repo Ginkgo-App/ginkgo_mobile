@@ -44,7 +44,6 @@ class TourInfoDetailBloc
         yield TourInfoDetailStateSuccess();
       } catch (e) {
         yield TourInfoDetailStateFailure(e);
-        print(e.stackTrace);
       }
     } else if (event is TourInfoDetailEventLoadMore &&
         _tourInfo != null &&

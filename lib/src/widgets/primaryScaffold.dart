@@ -6,6 +6,7 @@ class PrimaryScaffold extends StatelessWidget {
   final PreferredSizeWidget appBar;
   final Color backgroundColor;
   final Gradient gradientBackground;
+  final bool bottomPadding;
   final Widget bottomNavigationBar;
 
   const PrimaryScaffold({
@@ -16,6 +17,7 @@ class PrimaryScaffold extends StatelessWidget {
     this.backgroundColor,
     this.gradientBackground,
     this.bottomNavigationBar,
+    this.bottomPadding = true,
   })  : assert(backgroundColor == null || gradientBackground == null),
         super(key: key);
 
@@ -34,7 +36,8 @@ class PrimaryScaffold extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
                           bottomNavigationBar,
-                          if (SpinCircleBottomBarProvider.of(context) != null)
+                          if (bottomPadding &&
+                              SpinCircleBottomBarProvider.of(context) != null)
                             const SizedBox(height: 30)
                         ],
                       )

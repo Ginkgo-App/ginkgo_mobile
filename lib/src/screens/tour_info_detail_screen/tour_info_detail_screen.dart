@@ -59,27 +59,26 @@ class _TourInfoDetailScreenState extends State<TourInfoDetailScreen>
           },
         ),
       ),
-      body: SingleChildScrollView(
-        controller: scrollController,
-        child: Column(
-          children: <Widget>[
-            SliderWidget(images: widget.args.tourInfo?.images ?? []),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 10),
-              child: BlocBuilder(
-                bloc: tourInfoDetailBloc,
-                builder: (context, state) {
-                  if (state is TourInfoDetailStateFailure) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ErrorIndicator(
-                        message: Strings.error.errorClick,
-                        moreErrorDetail: state.error.toString(),
-                        onReload: fetchData,
-                      ),
-                    );
-                  }
-                  return SpacingColumn(
+      body: BlocBuilder(
+        bloc: tourInfoDetailBloc,
+        builder: (context, state) {
+          if (state is TourInfoDetailStateFailure) {
+            return Center(
+              child: ErrorIndicator(
+                message: Strings.error.errorClick,
+                moreErrorDetail: state.error.toString(),
+                onReload: fetchData,
+              ),
+            );
+          }
+          return SingleChildScrollView(
+            controller: scrollController,
+            child: Column(
+              children: <Widget>[
+                SliderWidget(images: widget.args.tourInfo?.images ?? []),
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
+                  child: SpacingColumn(
                     spacing: 10,
                     isSpacingHeadTale: true,
                     children: <Widget>[
@@ -91,12 +90,12 @@ class _TourInfoDetailScreenState extends State<TourInfoDetailScreen>
                         tourList: tourInfoDetailBloc.tourList?.data,
                       ),
                     ],
-                  );
-                },
-              ),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

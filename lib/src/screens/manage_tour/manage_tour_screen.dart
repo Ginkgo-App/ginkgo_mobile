@@ -61,6 +61,7 @@ class _ManageTourScreenState extends State<ManageTourScreen>
           )
         ],
       ),
+      bottomPadding: false,
       bottomNavigationBar: Column(
         children: <Widget>[
           AnimatedSize(

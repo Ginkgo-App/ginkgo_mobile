@@ -164,7 +164,7 @@ Nói chung là đáng đồng tiền bỏ ra. Nếu có dịp lần sau sẽ ủ
     ],
     startPlace: place,
     destinatePlace: place,
-    createBy: currentUser,
+    createBy: currentUser.toSimpleUser(),
     rating: 5
   );
 

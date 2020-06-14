@@ -116,13 +116,11 @@ class _HomeScreenState extends State<HomeScreen>
               .values
               .toList(),
           circleItems: [
-            //Suggested Count: 3
             SCItem(icon: Icon(Icons.add), onPressed: () {}),
-            SCItem(icon: Icon(Icons.print), onPressed: () {}),
-            SCItem(icon: Icon(Icons.map), onPressed: () {}),
+            SCItem(icon: Icon(Icons.camera_enhance), onPressed: () {}),
+            SCItem(icon: Icon(Icons.add_comment), onPressed: () {}),
           ],
         ),
-        // Put your Screen Content in Child
         child: HomeProvider(
           context,
           child: TabBarView(
