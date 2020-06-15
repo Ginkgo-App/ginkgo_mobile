@@ -15,7 +15,15 @@ class _UserRepository {
           {int page, int pageSize}) =>
       _userProvider.getUserFriends(userId, page, pageSize);
 
+  Future<Pagination<SimpleTour>> getMeTours(
+          {int page, int pageSize, String keyword, MeTourType type}) =>
+      _userProvider.getMeTours(page, pageSize, keyword, type);
+
   Future<Pagination<SimpleTour>> getUserTours(
+          {int userId, int page, int pageSize, String keyword}) =>
+      _userProvider.getUserTours(userId, page, pageSize, keyword);
+
+  Future<Pagination<SimpleTour>> getme(
           {int userId, int page, int pageSize, String keyword}) =>
       _userProvider.getUserTours(userId, page, pageSize, keyword);
 

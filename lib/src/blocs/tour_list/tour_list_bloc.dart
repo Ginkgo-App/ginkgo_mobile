@@ -37,11 +37,14 @@ class TourListBloc extends Bloc<TourListEvent, TourListState> {
         yield TourListStateSuccess(_tourList);
       } else if (event is TourListEventFetchOfMe && _tourList.canLoadmore) {
         yield TourListStateLoading();
-        _tourList.add(await _repository.user.getUserTours(
-            userId: 0,
+        _tourList.add(
+          await _repository.user.getMeTours(
             page: _tourList.pagination.currentPage + 1,
             pageSize: _pageSize,
-            keyword: event.keyword));
+            keyword: event.keyword,
+            type: event.type,
+          ),
+        );
 
         yield TourListStateSuccess(_tourList);
       } else if (event is TourListEventFetch && _tourList.canLoadmore) {

@@ -84,213 +84,210 @@ class _CreateTourInfoScreenState extends State<CreateTourInfoScreen> {
   Widget buildBody() {
     return Form(
       key: formKey,
-      child: Padding(
+      child: SingleChildScrollView(
         padding: const EdgeInsets.all(10.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              const SizedBox(height: 5),
-              Text(
-                'Tạo nên khung xương cho những chuyến đi của bạn',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold, color: DesignColor.darkRed),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            const SizedBox(height: 5),
+            Text(
+              'Tạo nên khung xương cho những chuyến đi của bạn',
+              style: TextStyle(
+                  fontWeight: FontWeight.bold, color: DesignColor.darkRed),
+            ),
+            const SizedBox(height: 15),
+            CreateTourTextFieldBase(
+              isRequired: true,
+              label: 'Tên mẫu chuyến đi:',
+              child: TextFormField(
+                controller: nameController,
+                decoration: InputDecoration(
+                    contentPadding: EdgeInsets.all(10),
+                    border: GradientOutlineInputBorder(
+                      focusedGradient:
+                          GradientColor.of(context).primaryGradient,
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    filled: true,
+                    fillColor: context.colorScheme.background),
+                validator: (value) {
+                  if (!value.isExistAndNotEmpty) {
+                    return Strings.error.emptyRequiredInput;
+                  }
+                  return null;
+                },
               ),
-              const SizedBox(height: 15),
-              CreateTourTextFieldBase(
-                isRequired: true,
-                label: 'Tên mẫu chuyến đi:',
-                child: TextFormField(
-                  controller: nameController,
-                  decoration: InputDecoration(
+            ),
+            const SizedBox(height: 10),
+            CreateTourTextFieldBase(
+              isRequired: true,
+              label: 'Địa điểm đầu:',
+              child: GestureDetector(
+                onTap: () async {
+                  final place =
+                      await PlaceBottomSheet.of(context, startPlace).show();
+
+                  if (place != null && place.id != startPlace?.id) {
+                    setState(() {
+                      startPlace = place;
+                      startPlaceController.text = place?.name;
+                    });
+                  }
+                },
+                child: AbsorbPointer(
+                  child: TextFormField(
+                    controller: startPlaceController,
+                    decoration: InputDecoration(
                       contentPadding: EdgeInsets.all(10),
                       border: GradientOutlineInputBorder(
                         focusedGradient:
                             GradientColor.of(context).primaryGradient,
                         borderRadius: BorderRadius.circular(5),
                       ),
+                      suffixIcon: Icon(Icons.expand_more),
                       filled: true,
-                      fillColor: context.colorScheme.background),
-                  validator: (value) {
-                    if (!value.isExistAndNotEmpty) {
-                      return Strings.error.emptyRequiredInput;
-                    }
-                    return null;
-                  },
+                      fillColor: context.colorScheme.background,
+                    ),
+                    validator: (value) {
+                      if (!value.isExistAndNotEmpty) {
+                        return Strings.error.emptyRequiredInput;
+                      }
+                      return null;
+                    },
+                  ),
                 ),
               ),
-              const SizedBox(height: 10),
-              CreateTourTextFieldBase(
-                isRequired: true,
-                label: 'Địa điểm đầu:',
-                child: GestureDetector(
-                  onTap: () async {
-                    final place =
-                        await PlaceBottomSheet.of(context, startPlace).show();
+            ),
+            const SizedBox(height: 10),
+            CreateTourTextFieldBase(
+              label: 'Địa điểm chính xác (không bắt buộc):',
+              child: GestureDetector(
+                onTap: () async {
+                  final place =
+                      await PlaceBottomSheet.of(context, exactStartPlace)
+                          .show();
 
-                    if (place != null && place.id != startPlace?.id) {
-                      setState(() {
-                        startPlace = place;
-                        startPlaceController.text = place?.name;
-                      });
-                    }
-                  },
-                  child: AbsorbPointer(
-                    child: TextFormField(
-                      controller: startPlaceController,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.all(10),
-                        border: GradientOutlineInputBorder(
-                          focusedGradient:
-                              GradientColor.of(context).primaryGradient,
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        suffixIcon: Icon(Icons.expand_more),
-                        filled: true,
-                        fillColor: context.colorScheme.background,
+                  if (place != null && place.id != exactStartPlace?.id) {
+                    setState(() {
+                      exactStartPlace = place;
+                      exactStartPlaceController.text = place?.name;
+                    });
+                  }
+                },
+                child: AbsorbPointer(
+                  child: TextFormField(
+                    controller: exactStartPlaceController,
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.all(10),
+                      border: GradientOutlineInputBorder(
+                        focusedGradient:
+                            GradientColor.of(context).primaryGradient,
+                        borderRadius: BorderRadius.circular(5),
                       ),
-                      validator: (value) {
-                        if (!value.isExistAndNotEmpty) {
-                          return Strings.error.emptyRequiredInput;
-                        }
-                        return null;
-                      },
+                      suffixIcon: Icon(Icons.expand_more),
+                      filled: true,
+                      fillColor: context.colorScheme.background,
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: 10),
-              CreateTourTextFieldBase(
-                label: 'Địa điểm chính xác (không bắt buộc):',
-                child: GestureDetector(
-                  onTap: () async {
-                    final place =
-                        await PlaceBottomSheet.of(context, exactStartPlace)
-                            .show();
+            ),
+            const SizedBox(height: 10),
+            CreateTourTextFieldBase(
+              isRequired: true,
+              label: 'Địa điểm Cuối:',
+              child: GestureDetector(
+                onTap: () async {
+                  final place =
+                      await PlaceBottomSheet.of(context, endPlace).show();
 
-                    if (place != null && place.id != exactStartPlace?.id) {
-                      setState(() {
-                        exactStartPlace = place;
-                        exactStartPlaceController.text = place?.name;
-                      });
-                    }
-                  },
-                  child: AbsorbPointer(
-                    child: TextFormField(
-                      controller: exactStartPlaceController,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.all(10),
-                        border: GradientOutlineInputBorder(
-                          focusedGradient:
-                              GradientColor.of(context).primaryGradient,
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        suffixIcon: Icon(Icons.expand_more),
-                        filled: true,
-                        fillColor: context.colorScheme.background,
+                  if (place != null && place.id != endPlace?.id) {
+                    setState(() {
+                      endPlace = place;
+                      endPlaceController.text = place?.name;
+                    });
+                  }
+                },
+                child: AbsorbPointer(
+                  child: TextFormField(
+                    controller: endPlaceController,
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.all(10),
+                      border: GradientOutlineInputBorder(
+                        focusedGradient:
+                            GradientColor.of(context).primaryGradient,
+                        borderRadius: BorderRadius.circular(5),
                       ),
+                      suffixIcon: Icon(Icons.expand_more),
+                      filled: true,
+                      fillColor: context.colorScheme.background,
+                    ),
+                    validator: (value) {
+                      if (!value.isExistAndNotEmpty) {
+                        return Strings.error.emptyRequiredInput;
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            CreateTourTextFieldBase(
+              label: 'Địa điểm chính xác (không bắt buộc):',
+              child: GestureDetector(
+                onTap: () async {
+                  final place =
+                      await PlaceBottomSheet.of(context, exactEndPlace).show();
+
+                  if (place != null && place.id != exactEndPlace?.id) {
+                    setState(() {
+                      exactEndPlace = place;
+                      exactEndPlaceController.text = place?.name;
+                    });
+                  }
+                },
+                child: AbsorbPointer(
+                  child: TextFormField(
+                    controller: exactEndPlaceController,
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.all(10),
+                      border: GradientOutlineInputBorder(
+                        focusedGradient:
+                            GradientColor.of(context).primaryGradient,
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      suffixIcon: Icon(Icons.expand_more),
+                      filled: true,
+                      fillColor: context.colorScheme.background,
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: 10),
-              CreateTourTextFieldBase(
-                isRequired: true,
-                label: 'Địa điểm Cuối:',
-                child: GestureDetector(
-                  onTap: () async {
-                    final place =
-                        await PlaceBottomSheet.of(context, endPlace).show();
-
-                    if (place != null && place.id != endPlace?.id) {
-                      setState(() {
-                        endPlace = place;
-                        endPlaceController.text = place?.name;
-                      });
-                    }
-                  },
-                  child: AbsorbPointer(
-                    child: TextFormField(
-                      controller: endPlaceController,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.all(10),
-                        border: GradientOutlineInputBorder(
-                          focusedGradient:
-                              GradientColor.of(context).primaryGradient,
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        suffixIcon: Icon(Icons.expand_more),
-                        filled: true,
-                        fillColor: context.colorScheme.background,
-                      ),
-                      validator: (value) {
-                        if (!value.isExistAndNotEmpty) {
-                          return Strings.error.emptyRequiredInput;
-                        }
-                        return null;
-                      },
+            ),
+            const SizedBox(height: 10),
+            CreateTourTextFieldBase(
+              isRequired: true,
+              label: 'Hình ảnh:',
+              child: SpacingRow(
+                spacing: 10,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  ...images?.map((e) => buildImageItem(e))?.toList(),
+                  GestureDetector(
+                    onTap: onPickImages,
+                    child: SvgPicture.asset(
+                      Assets.icons.addImage,
+                      color: context.colorScheme.onBackground,
+                      width: 65,
+                      height: 45,
                     ),
                   ),
-                ),
+                ],
               ),
-              const SizedBox(height: 10),
-              CreateTourTextFieldBase(
-                label: 'Địa điểm chính xác (không bắt buộc):',
-                child: GestureDetector(
-                  onTap: () async {
-                    final place =
-                        await PlaceBottomSheet.of(context, exactEndPlace)
-                            .show();
-
-                    if (place != null && place.id != exactEndPlace?.id) {
-                      setState(() {
-                        exactEndPlace = place;
-                        exactEndPlaceController.text = place?.name;
-                      });
-                    }
-                  },
-                  child: AbsorbPointer(
-                    child: TextFormField(
-                      controller: exactEndPlaceController,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.all(10),
-                        border: GradientOutlineInputBorder(
-                          focusedGradient:
-                              GradientColor.of(context).primaryGradient,
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        suffixIcon: Icon(Icons.expand_more),
-                        filled: true,
-                        fillColor: context.colorScheme.background,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 10),
-              CreateTourTextFieldBase(
-                isRequired: true,
-                label: 'Hình ảnh:',
-                child: SpacingRow(
-                  spacing: 10,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: <Widget>[
-                    ...images?.map((e) => buildImageItem(e))?.toList(),
-                    GestureDetector(
-                      onTap: onPickImages,
-                      child: SvgPicture.asset(
-                        Assets.icons.addImage,
-                        color: context.colorScheme.onBackground,
-                        width: 65,
-                        height: 45,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 5),
-            ],
-          ),
+            ),
+            const SizedBox(height: 5),
+          ],
         ),
       ),
     );

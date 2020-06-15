@@ -9,7 +9,6 @@ class TourListBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return BorderContainer(
       title: 'Các chuyến đi',
-      childPadding: EdgeInsets.zero,
       child: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: tourList != null && tourList.length == 0
@@ -18,12 +17,9 @@ class TourListBox extends StatelessWidget {
                 child: SpacingColumn(
                   spacing: 10,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    ...(tourList ?? List.generate(5, (_) => null))
-                        .map((e) => BlackOpacityTour(tour: e))
-                        .toList(),
-                    const SizedBox.shrink(),
-                  ],
+                  children: (tourList ?? List.generate(5, (_) => null))
+                      .map((e) => BlackOpacityTour(tour: e))
+                      .toList(),
                 ),
               ),
       ),

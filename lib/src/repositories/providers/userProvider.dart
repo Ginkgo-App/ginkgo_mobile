@@ -41,6 +41,23 @@ class UserProvider {
     return Pagination(response.data['Pagination'], response.data['Data']);
   }
 
+  Future<Pagination<SimpleTour>> getMeTours(
+    int page,
+    int pageSize,
+    String keyword,
+    MeTourType type,
+  ) async {
+    final response =
+        await _client.normalConnect(ApiMethod.GET, Api.meTours, query: {
+      'page': page.toString(),
+      'pageSize': pageSize.toString(),
+      if (keyword.isExistAndNotEmpty) 'keyword': keyword,
+      if (type != null) 'type': enumToString(type),
+    });
+
+    return Pagination(response.data['Pagination'], response.data['Data']);
+  }
+
   Future<Pagination<SimpleTour>> getUserTours(
       int userId, int page, int pageSize, String keyword) async {
     final response = await _client.normalConnect(
