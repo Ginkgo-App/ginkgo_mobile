@@ -1,6 +1,5 @@
 part of 'models.dart';
 
-
 class FileAsset {
   File _file;
   Asset _asset;

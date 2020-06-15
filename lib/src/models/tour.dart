@@ -7,41 +7,61 @@ enum TourListType { recommend, friend, forYou }
 class Tour with Mappable {
   int id;
   String name;
+  double rating;
   DateTime startDay;
   DateTime endDay;
-  Place startPlace;
-  Place destinatePlace;
+  int totalDay;
+  int totalNight;
   int totalMember;
-  SimpleUser host;
+  int maxMember;
+  List<String> services;
+  SimpleUser createBy;
   double price;
-  TourInfo tourInfo;
   List<Timeline> timelines;
+  TourInfo tourInfo;
+  DateTime joinAt;
+  DateTime acceptedAt;
 
-  Tour(
-      {this.id,
-      this.name,
-      this.startDay,
-      this.endDay,
-      this.startPlace,
-      this.destinatePlace,
-      this.totalMember,
-      this.host,
-      this.price,
-      this.tourInfo,
-      this.timelines});
+  List<MultiSizeImage> get images => tourInfo?.images ?? []; 
+
+  Tour({
+    this.id,
+    this.name,
+    this.rating,
+    this.startDay,
+    this.endDay,
+    this.totalDay,
+    this.totalNight,
+    this.totalMember,
+    this.maxMember,
+    this.services,
+    this.createBy,
+    this.price,
+    this.timelines,
+    this.tourInfo,
+    this.joinAt,
+    this.acceptedAt,
+  });
 
   @override
   void mapping(Mapper map) {
     map('Id', id, (v) => id = v);
     map('Name', name, (v) => name = v);
+    map('Rating', rating, (v) => rating = v);
     map('StartDay', startDay, (v) => startDay = v, DateTimeTransform());
     map('EndDay', endDay, (v) => endDay = v, DateTimeTransform());
-    map('StartPlace', startPlace, (v) => startPlace = v);
-    map('DestinatePlace', destinatePlace, (v) => destinatePlace = v);
+    map('TotalDay', totalDay, (v) => totalDay = v);
+    map('TotalNight', totalNight, (v) => totalNight = v);
     map('TotalMember', totalMember, (v) => totalMember = v);
-    map('Host', host, (v) => host = v);
-    map('Price', price, (v) => price = v);
-    map('TourInfo', tourInfo, (v) => tourInfo = v);
+    map('MaxMember', maxMember, (v) => maxMember = v);
+    map<Timeline>('TimeLines', timelines, (v) => timelines = v);
+    map<String>('Services', services, (v) => services = v);
+    map('TourInfo', tourInfo,
+        (v) => tourInfo = Mapper.fromJson(v).toObject<TourInfo>());
+    map('Createby', createBy,
+        (v) => createBy = Mapper.fromJson(v).toObject<SimpleUser>());
+    map('JoinAt', joinAt, (v) => joinAt = v, DateTimeTransform());
+    map('AcceptedAt', acceptedAt, (v) => acceptedAt = v, DateTimeTransform());
   }
 }
 

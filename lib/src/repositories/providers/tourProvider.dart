@@ -3,6 +3,12 @@ part of providers;
 class TourProvider {
   final _client = ApiClient();
 
+  Future<Tour> getDetail(int tourId) async {
+    final result = await _client.connect(ApiMethod.GET, Api.tour(tourId));
+
+    return result;
+  }
+
   Future<Pagination<SimpleTour>> getList(
       {int page, int pageSize, String keyword, PlaceSearchType type}) async {
     final response =
@@ -20,7 +26,7 @@ class TourProvider {
   Future create(TourToPost tourToPost) async {
     await _client.normalConnect(
       ApiMethod.POST,
-      Api.tour(tourToPost.tourInfoId),
+      Api.tourInTourInfo(tourToPost.tourInfoId),
       body: {
         'Name': tourToPost.name,
         'StartDay': tourToPost.startDay.toIso8601String(),
