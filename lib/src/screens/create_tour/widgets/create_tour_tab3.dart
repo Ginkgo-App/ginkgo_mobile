@@ -39,7 +39,7 @@ class _CreateTourTab3State extends State<CreateTourTab3> {
   onDayChange(DateTime startDay, DateTime endDay) {
     if (startDay == null || endDay == null) return;
 
-    final dayDifferent = startDay.difference(endDay).inDays.abs();
+    final dayDifferent = startDay.difference(endDay).inDays.abs() + 1;
     final currentLength = timelineList.length;
 
     if (currentLength != dayDifferent) {

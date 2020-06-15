@@ -46,7 +46,9 @@ RouteFactory _onGenerateRoute = (RouteSettings settings) {
     case Routes.friendListScreen:
       return _generateMaterialRoute(FriendListScreen());
     case Routes.createTour:
-      return _generateMaterialRoute(CreateTourScreen());
+      return _generateMaterialRoute(CreateTourScreen(
+        tourInfo: settings.arguments,
+      ));
     case Routes.createTourInfo:
       return _generateMaterialRoute(CreateTourInfoScreen());
     case Routes.manageTour:

@@ -24,7 +24,6 @@ class _CreateTourTab2State extends State<CreateTourTab2> {
   DateTime startDay;
   DateTime endDay;
   TotalDayNight totalDayNight;
-  List<String> services = [];
   List<TextEditingController> serviceControllers = [];
 
   onChange({
@@ -42,7 +41,7 @@ class _CreateTourTab2State extends State<CreateTourTab2> {
           totalDay: totalDayNight?.totalDay ?? this.totalDayNight?.totalDay,
           totalNight:
               totalDayNight?.totalNight ?? this.totalDayNight?.totalNight,
-          services: services ?? this.services,
+          services: services ?? serviceControllers.map((e) => e.text).toList(),
         ),
       ),
     );
@@ -256,7 +255,7 @@ class _CreateTourTab2State extends State<CreateTourTab2> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         spacing: 10,
         children: [
-          ...services
+          ...serviceControllers
               .asMap()
               .map(
                 (i, e) {
@@ -276,7 +275,6 @@ class _CreateTourTab2State extends State<CreateTourTab2> {
                           child: Icon(Icons.close),
                           onTap: () {
                             setState(() {
-                              services.removeAt(i);
                               serviceControllers.removeAt(i);
                             });
                             WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -291,9 +289,8 @@ class _CreateTourTab2State extends State<CreateTourTab2> {
                         }
                         return null;
                       },
-                      onChanged: (v) {
+                      onFieldSubmitted: (v) {
                         setState(() {
-                          services[i] = v;
                           onChange();
                         });
                       },
@@ -303,13 +300,12 @@ class _CreateTourTab2State extends State<CreateTourTab2> {
               )
               .values
               .toList(),
-          if (services.length == 0 ||
-              services[services.length - 1].isExistAndNotEmpty)
+          if (serviceControllers.length == 0 ||
+              serviceControllers.last.text.isExistAndNotEmpty)
             CreateTourAddButton(
               text: 'Thêm dịch vụ',
               onPressed: () {
                 setState(() {
-                  services.add('');
                   serviceControllers.add(TextEditingController());
                 });
                 WidgetsBinding.instance.addPostFrameCallback((_) {
