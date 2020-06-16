@@ -87,7 +87,7 @@ class _FriendListState extends State<FriendList> {
                   ] else
                     Text(
                       Strings.noData.friends,
-                      style: context.textTheme.body1
+                      style: context.textTheme.bodyText2
                           .copyWith(color: context.colorScheme.onSurface),
                     )
               ],

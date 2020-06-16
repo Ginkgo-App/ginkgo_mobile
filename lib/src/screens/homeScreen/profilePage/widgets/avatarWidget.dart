@@ -120,7 +120,7 @@ class _AvatarWidgetState extends State<AvatarWidget> {
             children: <Widget>[
               Text(
                 widget.user?.displayName ?? '',
-                style: context.textTheme.title
+                style: context.textTheme.headline6
                     .copyWith(color: Colors.white, fontWeight: FontWeight.bold),
               ),
               if (widget.user?.slogan != null &&
@@ -130,7 +130,7 @@ class _AvatarWidgetState extends State<AvatarWidget> {
                 ),
                 Text(
                   widget.user.slogan,
-                  style: context.textTheme.body1.copyWith(color: Colors.white),
+                  style: context.textTheme.bodyText2.copyWith(color: Colors.white),
                 )
               ],
             ],

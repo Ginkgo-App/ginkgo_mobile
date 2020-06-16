@@ -42,7 +42,7 @@ class CreateTourSlider extends StatelessWidget {
               children: <Widget>[
                 Text(
                   tourInfo?.name ?? '',
-                  style: context.textTheme.body1.copyWith(
+                  style: context.textTheme.bodyText2.copyWith(
                       color: Colors.white, fontWeight: FontWeight.bold),
                 ),
                 Text(

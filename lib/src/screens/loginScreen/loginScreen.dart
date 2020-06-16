@@ -130,7 +130,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Text(
                 errorMessage,
                 textAlign: TextAlign.left,
-                style: context.textTheme.body1.copyWith(
+                style: context.textTheme.bodyText2.copyWith(
                   color: context.colorScheme.error,
                   fontStyle: FontStyle.italic,
                 ),
@@ -147,7 +147,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Text(
               Strings.button.forgotPassword,
               textAlign: TextAlign.center,
-              style: context.textTheme.body1.apply(
+              style: context.textTheme.bodyText2.apply(
                 color: Colors.blueAccent,
               ),
             ),
@@ -170,7 +170,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           Text(
             Strings.loginScreen.orLoginWith,
-            style: context.textTheme.body1.copyWith(
+            style: context.textTheme.bodyText2.copyWith(
                 color: context.colorScheme.onBackground,
                 fontStyle: FontStyle.italic),
           ),
@@ -207,7 +207,7 @@ class _LoginScreenState extends State<LoginScreen> {
       Text(
         Strings.loginScreen.doNotHaveAccount,
         textAlign: TextAlign.center,
-        style: context.textTheme.body1
+        style: context.textTheme.bodyText2
             .apply(color: context.colorScheme.onBackground),
       ),
       GestureDetector(
@@ -215,7 +215,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Text(
           Strings.loginScreen.registerNow,
           textAlign: TextAlign.center,
-          style: context.textTheme.body1.copyWith(
+          style: context.textTheme.bodyText2.copyWith(
             color: Colors.blueAccent,
             decoration: TextDecoration.underline,
           ),

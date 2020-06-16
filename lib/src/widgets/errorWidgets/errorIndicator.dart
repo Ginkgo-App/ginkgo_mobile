@@ -32,7 +32,7 @@ class _ErrorIndicatorState extends State<ErrorIndicator> {
             child: Text(
               widget.message ?? Strings.error.errorClick,
               textAlign: TextAlign.center,
-              style: context.textTheme.body1
+              style: context.textTheme.bodyText2
                   .copyWith(color: context.colorScheme.error),
             ),
           ),

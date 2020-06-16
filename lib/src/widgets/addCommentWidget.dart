@@ -10,7 +10,7 @@ class AddCommentWidget extends StatelessWidget {
         Expanded(
           child: Text(
             Strings.post.addComment,
-            style: context.textTheme.subhead.copyWith(
+            style: context.textTheme.subtitle1.copyWith(
               fontStyle: FontStyle.italic,
               color: context.colorScheme.onSurface,
             ),

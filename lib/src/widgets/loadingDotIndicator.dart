@@ -45,7 +45,7 @@ class _LoadingDotIndicatorState extends State<LoadingDotIndicator> {
         if (widget.message != null)
           Text(
             widget.message,
-            style: context.textTheme.body1
+            style: context.textTheme.bodyText2
                 .copyWith(color: context.colorScheme.onBackground),
           ),
         if (widget.child != null) widget.child,

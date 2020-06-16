@@ -99,7 +99,7 @@ class _TourListWidgetState extends State<TourListWidget> {
                 ] else
                   Text(
                     Strings.noData.tours,
-                    style: context.textTheme.body1
+                    style: context.textTheme.bodyText2
                         .copyWith(color: context.colorScheme.onSurface),
                   )
             ],

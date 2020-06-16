@@ -38,7 +38,9 @@ RouteFactory _onGenerateRoute = (RouteSettings settings) {
     case Routes.profileTourList:
       return _generateMaterialRoute(TourListScreen());
     case Routes.tourDetail:
-      return _generateMaterialRoute(TourDetailScreen());
+      return _generateMaterialRoute(TourDetailScreen(
+        args: settings.arguments,
+      ));
     case Routes.tourInfoDetail:
       return _generateMaterialRoute(TourInfoDetailScreen(
         args: settings.arguments,

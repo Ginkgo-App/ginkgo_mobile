@@ -29,7 +29,7 @@ class NotFoundWidget extends StatelessWidget {
           child: Text(
             message,
             textAlign: TextAlign.center,
-            style: context.textTheme.body2,
+            style: context.textTheme.bodyText1,
           ),
         ),
         if (bottom != null) bottom,

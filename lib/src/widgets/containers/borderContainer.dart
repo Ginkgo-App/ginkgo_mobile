@@ -89,7 +89,7 @@ class _Header extends StatelessWidget {
             Expanded(
               child: Text(
                 title,
-                style: context.textTheme.subhead.copyWith(
+                style: context.textTheme.subtitle1.copyWith(
                     color: DesignColor.blockHeader,
                     fontWeight: FontWeight.bold),
               ),

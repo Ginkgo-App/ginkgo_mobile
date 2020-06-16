@@ -7,32 +7,38 @@ import 'package:ginkgo_mobile/src/widgets/spacingColumn.dart';
 import 'package:ginkgo_mobile/src/widgets/widgets.dart';
 
 class TimelineWidget extends StatelessWidget {
+  final bool isLoading;
   final List<Timeline> timelines;
 
   static final Color _startColor = DesignColor.lighterRed;
   static final Color _endColor = DesignColor.darkestRed;
 
-  const TimelineWidget({Key key, @required this.timelines}) : super(key: key);
+  const TimelineWidget(
+      {Key key, @required this.timelines, this.isLoading = false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return timelines == null || timelines.length == 0
         ? const SizedBox.shrink()
         : CollapseContainer(
-          title: 'Lịch trình chi tiết',
-          collapseHeight: 245,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-            child: Column(
-              children: timelines
-                  .asMap()
-                  .map((i, e) =>
-                      MapEntry(i, buildTimelineItem(context, i, e)))
-                  .values
-                  .toList(),
+            title: 'Lịch trình chi tiết',
+            collapseHeight: 245,
+            child: Skeleton(
+              enabled: isLoading,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+                child: Column(
+                  children: timelines
+                      .asMap()
+                      .map((i, e) =>
+                          MapEntry(i, buildTimelineItem(context, i, e)))
+                      .values
+                      .toList(),
+                ),
+              ),
             ),
-          ),
-        );
+          );
   }
 
   Widget buildTimelineItem(BuildContext context, int index, Timeline timeline) {
@@ -52,16 +58,21 @@ class TimelineWidget extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Text(
-                    'Ngày ${index + 1} (${timeline.day.toVietNamese()})',
-                    style: context.textTheme.body1
-                        .copyWith(fontWeight: FontWeight.bold, color: color),
+                  Container(
+                    color: context.colorScheme.background,
+                    child: Text(
+                      'Ngày ${index + 1} (${timeline?.day?.toVietNamese()})',
+                      style: context.textTheme.bodyText2
+                          .copyWith(fontWeight: FontWeight.bold, color: color),
+                    ),
                   ),
                   const SizedBox(height: 5),
                   SpacingColumn(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     spacing: 5,
-                    children: timeline.timelineDetails.map(
+                    children: (timeline?.timelineDetails ??
+                            List.generate(2, (index) => null))
+                        .map(
                       (e) {
                         if (e?.place?.images != null &&
                             e.place.images.length > 0) {
@@ -69,6 +80,7 @@ class TimelineWidget extends StatelessWidget {
                         }
 
                         return TimelineDetailWidget(
+                          isLoading: isLoading,
                           timelineDetail: e,
                           isRightImage: (detailHasImageCount & 0x01) != 0,
                         );
@@ -103,7 +115,7 @@ class TimelineWidget extends StatelessWidget {
             child: Center(
               child: Text(
                 (index + 1).toString(),
-                style: context.textTheme.body1
+                style: context.textTheme.bodyText2
                     .copyWith(fontWeight: FontWeight.bold, color: Colors.white),
               ),
             ),

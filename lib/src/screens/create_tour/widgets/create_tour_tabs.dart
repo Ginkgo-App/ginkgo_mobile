@@ -49,7 +49,7 @@ class CreateTourTextFieldBase extends StatelessWidget {
           RichText(
             text: TextSpan(
               text: !isRequired ? '' : '* ',
-              style: context.textTheme.body1
+              style: context.textTheme.bodyText2
                   .copyWith(color: context.colorScheme.error),
               children: [
                 TextSpan(
@@ -66,7 +66,7 @@ class CreateTourTextFieldBase extends StatelessWidget {
             if (unit.isExistAndNotEmpty)
               Text(
                 unit,
-                style: context.textTheme.body1.copyWith(
+                style: context.textTheme.bodyText2.copyWith(
                     fontStyle: FontStyle.italic,
                     color: DesignColor.lightestBlack),
               )

@@ -344,7 +344,7 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
                           child: Center(
                             child: Text(
                               e,
-                              style: context.textTheme.body1.copyWith(
+                              style: context.textTheme.bodyText2.copyWith(
                                 fontWeight: FontWeight.bold,
                                 color: selecteds[i]
                                     ? context.colorScheme.onPrimary

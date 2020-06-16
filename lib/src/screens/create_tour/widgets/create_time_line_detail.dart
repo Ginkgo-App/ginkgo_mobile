@@ -78,7 +78,7 @@ class _CreateTimelineDetailState extends State<CreateTimelineDetail> {
                 widget.timelineDetail == null
                     ? 'Thêm thông tin hoạt động'
                     : 'Sửa thông tin hoạt động',
-                style: context.textTheme.title
+                style: context.textTheme.headline6
                     .copyWith(fontWeight: FontWeight.bold),
               ),
               SpacingRow(

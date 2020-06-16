@@ -30,7 +30,7 @@ class CreateTourAddButton extends StatelessWidget {
               ),
               Text(
                 text ?? 'Thêm',
-                style: context.textTheme.body1
+                style: context.textTheme.bodyText2
                     .copyWith(color: DesignColor.lighterBlack),
               )
             ],

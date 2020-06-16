@@ -41,7 +41,7 @@ class TourInfoDetail extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     text: TextSpan(
                       text: 'Điểm bắt đầu tại ',
-                      style: context.textTheme.body1
+                      style: context.textTheme.bodyText2
                           .copyWith(color: context.colorScheme.onBackground),
                       children: <TextSpan>[
                         TextSpan(
@@ -61,7 +61,7 @@ class TourInfoDetail extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     text: TextSpan(
                       text: 'Điểm kết thúc tại ',
-                      style: context.textTheme.body1
+                      style: context.textTheme.bodyText2
                           .copyWith(color: context.colorScheme.onBackground),
                       children: <TextSpan>[
                         TextSpan(
@@ -99,7 +99,7 @@ class TourInfoDetail extends StatelessWidget {
             child: richText == null
                 ? Text(
                     text ?? '',
-                    style: context.textTheme.body1.copyWith(
+                    style: context.textTheme.bodyText2.copyWith(
                       color: context.colorScheme.onBackground,
                     ),
                   )

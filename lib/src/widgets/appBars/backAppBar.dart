@@ -31,7 +31,7 @@ class BackAppBar extends StatelessWidget implements PreferredSizeWidget {
           : const SizedBox(),
       title: Text(
         title ?? 'Ginkgo',
-        style: context.textTheme.title.merge(
+        style: context.textTheme.headline6.merge(
           TextStyle(color: context.colorScheme.onBackground),
         ),
       ),

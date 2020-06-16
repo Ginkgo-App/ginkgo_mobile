@@ -142,7 +142,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ]
                     .map<Widget>(
                       (e) => FlatButton(
-                        child: Text(e['text'], style: context.textTheme.body1),
+                        child: Text(e['text'], style: context.textTheme.bodyText2),
                         color: context.colorScheme.background,
                         highlightColor: DesignColor.darkestWhite,
                         padding: EdgeInsets.symmetric(vertical: 20),

@@ -142,7 +142,7 @@ class PlaceBottomSheet {
               color: Colors.transparent,
               child: Text(
                 data?.name?.toString() ?? '',
-                style: _context.textTheme.body1,
+                style: _context.textTheme.bodyText2,
               ),
             ),
             if (isSelected)
