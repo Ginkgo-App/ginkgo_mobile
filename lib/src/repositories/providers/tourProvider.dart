@@ -9,6 +9,20 @@ class TourProvider {
     return result;
   }
 
+  Future<Pagination<TourMember>> getMembers(int tourId,
+      {int page, int pageSize, String keyword, TourMembersType type}) async {
+    final response = await _client
+        .normalConnect(ApiMethod.GET, Api.tour(tourId) + '/members', query: {
+      'page': (page ?? 1).toString(),
+      'pageSize': pageSize?.toString() ?? 0,
+      if (type != null) 'type': enumToString(type),
+      if (keyword != null) 'keyword': keyword,
+    });
+
+    return Pagination<TourMember>(
+        response.data['Pagination'], response.data['Data']);
+  }
+
   Future<Pagination<SimpleTour>> getList(
       {int page, int pageSize, String keyword, PlaceSearchType type}) async {
     final response =

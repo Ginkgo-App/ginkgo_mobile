@@ -5,6 +5,11 @@ class _TourRepository {
 
   Future<Tour> getDetail(int tourId) => _tourProvider.getDetail(tourId);
 
+  Future<Pagination<TourMember>> getMembers(int tourId,
+          {int page, int pageSize, String keyword, TourMembersType type}) =>
+      _tourProvider.getMembers(tourId,
+          keyword: keyword, page: page, pageSize: pageSize, type: type);
+
   Future<Pagination<SimpleTour>> getList(
           {int page, int pageSize, String keyword}) =>
       _tourProvider.getList(keyword: keyword, page: page, pageSize: pageSize);

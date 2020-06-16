@@ -4,6 +4,8 @@ enum MeTourType { owner, member, all }
 
 enum TourListType { recommend, friend, forYou }
 
+enum TourMembersType { accepted, requesting }
+
 class Tour with Mappable {
   int id;
   String name;
@@ -22,7 +24,7 @@ class Tour with Mappable {
   DateTime joinAt;
   DateTime acceptedAt;
 
-  List<MultiSizeImage> get images => tourInfo?.images ?? []; 
+  List<MultiSizeImage> get images => tourInfo?.images ?? [];
 
   Tour({
     this.id,
@@ -196,4 +198,34 @@ class TotalDayNight {
   @override
   String toString() =>
       '${totalDay > 0 ? '$totalDay ngày ' : ''}${totalNight > 0 ? '$totalNight đêm' : ''}';
+}
+
+class TourMember extends SimpleUser with Mappable {
+  DateTime joinAt;
+  DateTime acceptedAt;
+
+  TourMember({
+    int id,
+    String name,
+    MultiSizeImage avatar,
+    String job,
+    int tourCount,
+    FriendType friendType,
+    this.joinAt,
+    this.acceptedAt,
+  }) : super(
+          id: id,
+          name: name,
+          avatar: avatar,
+          job: job,
+          tourCount: tourCount,
+          friendType: friendType,
+        );
+
+  @override
+  void mapping(Mapper map) {
+    super.mapping(map);
+    map('JoinAt', joinAt, (v) => joinAt = v, DateTimeTransform());
+    map('AcceptedAt', acceptedAt, (v) => acceptedAt = v, DateTimeTransform());
+  }
 }
