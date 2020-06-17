@@ -23,6 +23,18 @@ class TourProvider {
         response.data['Pagination'], response.data['Data']);
   }
 
+  Future<Pagination<Post>> getReviews(int tourId,
+      {int page, int pageSize}) async {
+    final response = await _client
+        .normalConnect(ApiMethod.GET, Api.tour(tourId) + '/feedbacks', query: {
+      'page': (page ?? 1).toString(),
+      'pageSize': pageSize?.toString() ?? 0,
+    });
+
+    return Pagination<Post>(
+        response.data['Pagination'], response.data['Data']);
+  }
+
   Future<Pagination<SimpleTour>> getList(
       {int page, int pageSize, String keyword, PlaceSearchType type}) async {
     final response =

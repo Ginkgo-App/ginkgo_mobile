@@ -21,6 +21,7 @@ import 'package:ginkgo_mobile/src/blocs/tour_info_detail/tour_info_detail_bloc.d
 import 'package:ginkgo_mobile/src/blocs/tour_info_list/tour_info_list_bloc.dart';
 import 'package:ginkgo_mobile/src/blocs/tour_list/tour_list_bloc.dart';
 import 'package:ginkgo_mobile/src/blocs/tour_members/tour_members_bloc.dart';
+import 'package:ginkgo_mobile/src/blocs/tour_reviews/tour_reviews_bloc.dart';
 import 'package:ginkgo_mobile/src/blocs/user/user_bloc.dart';
 import 'package:ginkgo_mobile/src/blocs/user_friends/user_friends_bloc.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';

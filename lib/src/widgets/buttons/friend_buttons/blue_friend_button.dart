@@ -13,11 +13,12 @@ class BlueFriendButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = _isEnable(user.friendType)
+    final color = user != null && _isEnable(user.friendType)
         ? DesignColor.darkestBlue
         : DesignColor.darkerBlue;
+
     return CupertinoButton(
-      onPressed: _isEnable(user.friendType)
+      onPressed: user != null && _isEnable(user.friendType)
           ? () {
               if (user.friendType == FriendType.requested &&
                   onConfirmRequest != null) {
@@ -36,7 +37,7 @@ class BlueFriendButton extends StatelessWidget {
           border: Border.all(color: color, width: 0.5),
         ),
         child: Text(
-          getFriendButtonText(user.friendType),
+          user != null ? getFriendButtonText(user.friendType) : '',
           textAlign: TextAlign.center,
           style: context.textTheme.caption.copyWith(color: color),
         ),

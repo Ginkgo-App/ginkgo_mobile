@@ -20,18 +20,29 @@ class TourDetailScreen extends StatefulWidget {
 class _TourDetailScreenState extends State<TourDetailScreen> {
   final TourDetailBloc _tourDetailBloc = TourDetailBloc();
   final TourMembersBloc _tourMembersBloc = TourMembersBloc(10);
+  final TourReviewsBloc _tourReviewsBloc = TourReviewsBloc(10);
 
   initState() {
     super.initState();
-    fetchData();
+    _fetchData();
   }
 
-  fetchData() {
+  _fetchData() {
     _tourDetailBloc.add(TourDetailEventFetch(widget.args.simpleTour.id));
+    _fetchFriend();
+    _fetchReview();
+  }
+
+  _fetchFriend() {
     _tourMembersBloc.add(
       TourMembersEventFetch(
           tourId: widget.args.simpleTour.id, type: TourMembersType.accepted),
     );
+  }
+
+  _fetchReview() {
+    _tourReviewsBloc
+        .add(TourReviewsEventFetch(tourId: widget.args.simpleTour.id));
   }
 
   _onJoinTour() {}
@@ -39,6 +50,7 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
   dispose() {
     _tourDetailBloc.close();
     _tourMembersBloc.close();
+    _tourReviewsBloc.close();
     super.dispose();
   }
 
@@ -76,11 +88,10 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                 ),
                 if (state is TourDetailStateFailure)
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.only(top: 20),
                     child: ErrorIndicator(
-                      message: Strings.error.errorClick,
                       moreErrorDetail: state.error.toString(),
-                      onReload: fetchData,
+                      onReload: _fetchData,
                     ),
                   )
                 else
@@ -104,10 +115,9 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                             _tourDetailBloc.tour?.timelines != null)
                           TimelineWidget(
                             isLoading: state is TourDetailStateLoading,
-                            timelines:
-                                List.generate(11, (_) => FakeData.timeline),
+                            timelines: _tourDetailBloc.tour?.timelines,
                           ),
-                        ReviewList(),
+                        _buildReviews(),
                       ],
                     ),
                   ),
@@ -123,28 +133,68 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
     return BorderContainer(
       title: 'Những người tham gia',
       childPadding: EdgeInsets.only(bottom: 10),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: IntrinsicHeight(
-          child: SpacingRow(
-            spacing: 10,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            isSpacingHeadTale: true,
-            children: [
-              ...[
-                FakeData.simpleUser3,
-                FakeData.simpleUser,
-                FakeData.simpleUser2,
-                FakeData.simpleUser4,
-              ].map((e) => CircleUser(user: e)).toList(),
-              ViewMoreButton(
-                onPressed: () {},
-                width: 100,
-              )
-            ],
-          ),
-        ),
+      child: BlocBuilder(
+        bloc: _tourMembersBloc,
+        builder: (context, state) {
+          if (state is TourMembersStateFailure) {
+            return ErrorIndicator(
+              moreErrorDetail: state.error.toString(),
+              onReload: _fetchFriend,
+            );
+          }
+
+          return SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: IntrinsicHeight(
+              child: SpacingRow(
+                spacing: 10,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                isSpacingHeadTale: true,
+                children: [
+                  ...(state is TourMembersStateLoading
+                          ? List.generate(5, (index) => null)
+                          : _tourMembersBloc.memberList?.data ?? [])
+                      .map((e) => CircleUser(user: e))
+                      .toList(),
+                  ViewMoreButton(
+                    onPressed: () {
+                      // TODO Navigate to tour members screen.
+                    },
+                    width: 100,
+                  )
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
+  }
+
+  _buildReviews() {
+    return CollapseContainer(
+        title: 'Nhận xét từ những người đã tham gia trước đó',
+        collapseHeight: 280,
+        child: BlocBuilder(
+          bloc: _tourReviewsBloc,
+          builder: (context, state) {
+            if (state is TourReviewsStateFailure) {
+              return ErrorIndicator(
+                moreErrorDetail: state.error.toString(),
+                onReload: _fetchReview,
+              );
+            }
+
+            return SingleChildScrollView(
+              child: Column(
+                children: (state is TourReviewsStateSuccess
+                        ? _tourReviewsBloc.reviewList.data
+                        : List.generate(3, (index) => null))
+                    .map((e) => ReviewItem(review: e))
+                    .toList(),
+              ),
+            );
+          },
+        ));
   }
 }
