@@ -37,8 +37,8 @@ class TourProvider {
         response.data['Pagination'], response.data['Data']);
   }
 
-  Future create(TourToPost tourToPost) async {
-    await _client.normalConnect(
+  Future<Tour> create(TourToPost tourToPost) async {
+    final result = await _client.connect<Tour>(
       ApiMethod.POST,
       Api.tourInTourInfo(tourToPost.tourInfoId),
       body: {
@@ -71,6 +71,6 @@ class TourProvider {
       },
     );
 
-    return;
+    return result;
   }
 }

@@ -31,6 +31,19 @@ class Tour with Mappable {
   bool canJoin(SimpleUser user) =>
       !isHost(user) && joinAt == null && acceptedAt == null;
 
+  SimpleTour toSimpleTour() => SimpleTour(
+        id: id,
+        endDay: endDay,
+        friends: [],
+        host: createBy,
+        images: tourInfo?.images ?? [],
+        name: name,
+        price: price,
+        rating: rating,
+        startDay: startDay,
+        totalMember: totalMember,
+      );
+
   Tour({
     this.id,
     this.name,
@@ -202,7 +215,7 @@ class TotalDayNight {
 
   @override
   String toString() =>
-      '${totalDay > 0 ? '$totalDay ngày ' : ''}${totalNight > 0 ? '$totalNight đêm' : ''}';
+      '${totalDay != null && totalDay > 0 ? '$totalDay ngày ' : ''}${totalNight != null && totalNight > 0 ? '$totalNight đêm' : ''}';
 }
 
 class TourMember extends SimpleUser with Mappable {

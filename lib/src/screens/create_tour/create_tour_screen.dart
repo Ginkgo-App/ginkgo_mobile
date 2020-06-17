@@ -77,8 +77,10 @@ class _CreateTourScreenState extends State<CreateTourScreen>
               bloc: createTourBloc,
               listener: (context, state) {
                 if (state is CreateTourStateSuccess) {
-                  // TODO go to tour detail screen
-                  Navigator.pop(context, true);
+                  Navigators.appNavigator.currentState.pushReplacementNamed(
+                    Routes.tourDetail,
+                    arguments: TourDetailScreenArgs(state.tour.toSimpleTour()),
+                  );
                 }
               },
               child: BlocBuilder(

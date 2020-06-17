@@ -31,11 +31,11 @@ class TourDetail extends StatelessWidget {
             spacing: 5,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Rating(rating: tour.rating),
+              if (tour?.rating != null) Rating(rating: tour.rating),
               if (isLoading || tour?.createBy != null)
                 _buildRowIcon(context,
                     icon: Assets.icons.planner,
-                    text: tour.createBy.displayName),
+                    text: tour?.createBy?.displayName),
               if (isLoading || tour?.startDay != null && tour?.endDay != null)
                 _buildRowIcon(context,
                     icon: Assets.icons.calendar,

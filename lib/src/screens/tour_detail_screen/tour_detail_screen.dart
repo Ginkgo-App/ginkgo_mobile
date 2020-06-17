@@ -21,6 +21,19 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
   final TourDetailBloc _tourDetailBloc = TourDetailBloc();
   final TourMembersBloc _tourMembersBloc = TourMembersBloc(10);
 
+  initState() {
+    super.initState();
+    fetchData();
+  }
+
+  fetchData() {
+    _tourDetailBloc.add(TourDetailEventFetch(widget.args.simpleTour.id));
+    _tourMembersBloc.add(
+      TourMembersEventFetch(
+          tourId: widget.args.simpleTour.id, type: TourMembersType.accepted),
+    );
+  }
+
   _onJoinTour() {}
 
   dispose() {
@@ -48,6 +61,7 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                 ? PrimaryButton(
                     title: Strings.button.takePartInNow,
                     width: double.maxFinite,
+                    onPressed: _onJoinTour,
                   )
                 : null,
           ),
@@ -60,32 +74,43 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                       images:
                           _tourDetailBloc.tour?.images ?? simpleTour.images),
                 ),
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 10),
-                  child: SpacingColumn(
-                    spacing: 10,
-                    isSpacingHeadTale: true,
-                    children: <Widget>[
-                      TourDetail(
-                        tourName: simpleTour.name,
-                        tour: _tourDetailBloc.tour,
-                        isLoading: state is TourDetailStateLoading,
-                      ),
-                      if (state is! TourDetailStateSuccess ||
-                          _tourDetailBloc.tour?.services != null)
-                        ServiceList(),
-                      buildMembers(),
-                      if (state is! TourDetailStateSuccess ||
-                          _tourDetailBloc.tour?.timelines != null)
-                        TimelineWidget(
+                if (state is TourDetailStateFailure)
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ErrorIndicator(
+                      message: Strings.error.errorClick,
+                      moreErrorDetail: state.error.toString(),
+                      onReload: fetchData,
+                    ),
+                  )
+                else
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 10),
+                    child: SpacingColumn(
+                      spacing: 10,
+                      isSpacingHeadTale: true,
+                      children: <Widget>[
+                        TourDetail(
+                          tourName: simpleTour.name,
+                          tour: _tourDetailBloc.tour,
                           isLoading: state is TourDetailStateLoading,
-                          timelines:
-                              List.generate(11, (_) => FakeData.timeline),
                         ),
-                      ReviewList(),
-                    ],
+                        if (state is! TourDetailStateSuccess ||
+                            _tourDetailBloc.tour?.services != null &&
+                                _tourDetailBloc.tour.services.length > 0)
+                          ServiceList(),
+                        buildMembers(),
+                        if (state is! TourDetailStateSuccess ||
+                            _tourDetailBloc.tour?.timelines != null)
+                          TimelineWidget(
+                            isLoading: state is TourDetailStateLoading,
+                            timelines:
+                                List.generate(11, (_) => FakeData.timeline),
+                          ),
+                        ReviewList(),
+                      ],
+                    ),
                   ),
-                ),
               ],
             ),
           ),
