@@ -3,10 +3,16 @@ part of '../screens.dart';
 class PlaceDetailScreenArgs {
   final Place place;
 
-  PlaceDetailScreenArgs(this.place);
+  PlaceDetailScreenArgs(this.place) : assert(place != null);
 }
 
 class PlaceDetailScreen extends StatefulWidget {
+  final PlaceDetailScreenArgs args;
+
+  const PlaceDetailScreen({Key key, this.args})
+      : assert(args != null),
+        super(key: key);
+
   @override
   _PlaceDetailScreenState createState() => _PlaceDetailScreenState();
 }
@@ -17,16 +23,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      args = ModalRoute.of(context).settings.arguments;
-
-      if (args == null || args.place == null) {
-        debugPrint('Place null');
-        Navigator.of(context).pop();
-      } else {
-        setState(() {});
-      }
-    });
+    args = widget.args;
   }
 
   @override
@@ -60,7 +57,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen> {
       child: Stack(
         children: <Widget>[
           ImageWidget(
-            args.place.images.length > 0 ? args.place.images[0] : '',
+            args.place.images.length > 0 ? args.place.images[0].largeThumb : '',
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.width * 200 / 375,
           ),

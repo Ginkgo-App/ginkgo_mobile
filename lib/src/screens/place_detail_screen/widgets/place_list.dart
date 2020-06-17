@@ -72,7 +72,7 @@ class PlaceList extends StatelessWidget {
     return Stack(
       children: <Widget>[
         ImageWidget(
-          place.images.length > 0 ? place.images[0] : '',
+          place.images.length > 0 ? place.images[0].largeThumb : '',
           height: height,
         ),
         Positioned(
@@ -105,6 +105,7 @@ class PlaceList extends StatelessWidget {
       padding: const EdgeInsets.all(10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(
             place?.name ?? '',
@@ -112,14 +113,7 @@ class PlaceList extends StatelessWidget {
           ),
           Text(
             place?.address ?? '',
-            style: context.textTheme.overline
-                .copyWith(color: DesignColor.tinyItems),
-          ),
-          const SizedBox(height: 5),
-          Text(
-            place?.description ?? '',
-            overflow: TextOverflow.ellipsis,
-            style: context.textTheme.overline
+            style: context.textTheme.caption
                 .copyWith(color: DesignColor.tinyItems),
           ),
         ],

@@ -56,7 +56,9 @@ RouteFactory _onGenerateRoute = (RouteSettings settings) {
     case Routes.manageTour:
       return _generateMaterialRoute(ManageTourScreen());
     case Routes.placeDetail:
-      return _generateMaterialRoute(PlaceDetailScreen());
+      return _generateMaterialRoute(PlaceDetailScreen(
+        args: settings.arguments,
+      ));
     case Routes.chooseTourInfo:
       return _generateMaterialRoute(ChooseTourInfoScreen());
     default:
