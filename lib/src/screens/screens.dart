@@ -80,6 +80,7 @@ import 'package:sliding_sheet/sliding_sheet.dart';
 import '../app.dart';
 
 part 'choose_tour_info/choose_tour_info_screen.dart';
+part 'create_post/create_post_screen.dart';
 part 'create_tour/create_tour_info_screen.dart';
 part 'create_tour/create_tour_screen.dart';
 part 'emailScreen/emailScreen.dart';
@@ -97,4 +98,3 @@ part 'splashScreen/splashScreen.dart';
 part 'tour_detail_screen/tour_detail_screen.dart';
 part 'tour_info_detail_screen/tour_info_detail_screen.dart';
 part 'notification/notification_screen.dart';
-part 'create_post/create_post_screen.dart';

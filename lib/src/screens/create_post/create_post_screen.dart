@@ -50,11 +50,39 @@ class _ComposeTweetReplyPageState extends State<CreatePostScreen> {
         return 'Nhận xét chuyến đi';
       } else if (args.post != null) {
         return 'Nhập bình luận';
-      } else if (args.comment != null) {
+      } else {
         return 'Nhập bình luận';
       }
     } else {
       return 'Hôm nay bạn thế nào?';
+    }
+  }
+
+  String _getReplyText() {
+    if (isReply) {
+      if (args.tour != null) {
+        return 'Nhận xét chuyến đi ${args.tour.name}';
+      } else if (args.post != null) {
+        return 'Bình luận ${args.post.author?.displayName}';
+      } else {
+        return 'Nhập bình luận ${args.comment.author?.displayName}';
+      }
+    } else {
+      return '';
+    }
+  }
+
+  String _getReplyContent() {
+    if (isReply) {
+      if (args.tour != null) {
+        return '${args.tour.tourInfo?.startPlace?.name} - ${args.tour.tourInfo?.destinatePlace?.name}';
+      } else if (args.post != null) {
+        return args.post.content;
+      } else {
+        return args.comment.content;
+      }
+    } else {
+      return '';
     }
   }
 
@@ -81,13 +109,23 @@ class _ComposeTweetReplyPageState extends State<CreatePostScreen> {
           children: <Widget>[
             SingleChildScrollView(
               controller: scrollcontroller,
-              child: _CreatePost(
-                images: _images,
-                onRemovedImage: (image) {
-                  setState(() {
-                    _images.remove(image);
-                  });
-                },
+              child: Column(
+                children: <Widget>[
+                  _ReplyCard(
+                    content: _getReplyContent(),
+                    replyText: _getReplyText(),
+                    timeText: 'time difference',
+                  ),
+                  _CreatePost(
+                    images: _images,
+                    textFieldPlaceholder: _getTextFieldPlaceholder(),
+                    onRemovedImage: (image) {
+                      setState(() {
+                        _images.remove(image);
+                      });
+                    },
+                  ),
+                ],
               ),
             ),
             Align(
@@ -105,7 +143,12 @@ class _ComposeTweetReplyPageState extends State<CreatePostScreen> {
 }
 
 class _ReplyCard extends StatelessWidget {
-  
+  final String content;
+  final String replyText;
+  final String timeText;
+
+  const _ReplyCard({Key key, this.content, this.replyText, this.timeText})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -146,13 +189,14 @@ class _ReplyCard extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 30),
-                  UrlText(
-                    text: 'Trả lời ${FakeData.currentUser.displayName}',
-                    style: TextStyle(
-                      color: context.colorScheme.onSurface,
-                      fontSize: 13,
+                  if (replyText != null)
+                    UrlText(
+                      text: replyText,
+                      style: TextStyle(
+                        color: context.colorScheme.onSurface,
+                        fontSize: 13,
+                      ),
                     ),
-                  ),
                 ],
               ),
             ),
@@ -173,12 +217,12 @@ class _ReplyCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis),
                 ),
                 SizedBox(width: 5),
-                Padding(
-                  padding: EdgeInsets.only(top: 3),
-                  child: customText(
-                      '- ${'getChatTime(viewState.model.createdAt)'}',
-                      style: context.textTheme.caption),
-                )
+                if (timeText != null)
+                  Padding(
+                    padding: EdgeInsets.only(top: 3),
+                    child: customText('- $timeText',
+                        style: context.textTheme.caption),
+                  )
               ],
             ),
           ],
@@ -189,11 +233,16 @@ class _ReplyCard extends StatelessWidget {
 }
 
 class _CreatePost extends StatelessWidget {
+  const _CreatePost(
+      {Key key,
+      this.images,
+      this.onRemovedImage,
+      this.textFieldPlaceholder = ''})
+      : super(key: key);
+
   final List<FileAsset> images;
   final Function(FileAsset) onRemovedImage;
-
-  const _CreatePost({Key key, this.images, this.onRemovedImage})
-      : super(key: key);
+  final String textFieldPlaceholder;
 
   @override
   Widget build(BuildContext context) {
@@ -203,7 +252,7 @@ class _CreatePost extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          _replyCard(context),
+          _ReplyCard(),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -211,7 +260,7 @@ class _CreatePost extends StatelessWidget {
                   height: 40),
               const SizedBox(width: 10),
               Expanded(
-                child: _TextField(isTweet: false),
+                child: _TextField(placeholder: textFieldPlaceholder),
               )
             ],
           ),
@@ -228,15 +277,14 @@ class _CreatePost extends StatelessWidget {
 }
 
 class _TextField extends StatelessWidget {
-  const _TextField(
-      {Key key,
-      this.textEditingController,
-      this.isTweet = false,
-      this.isRetweet = false})
-      : super(key: key);
+  const _TextField({
+    Key key,
+    this.textEditingController,
+    this.placeholder = '',
+  }) : super(key: key);
+
   final TextEditingController textEditingController;
-  final bool isTweet;
-  final bool isRetweet;
+  final String placeholder;
 
   @override
   Widget build(BuildContext context) {
@@ -249,12 +297,16 @@ class _TextField extends StatelessWidget {
           maxLines: null,
           decoration: InputDecoration(
               border: InputBorder.none,
-              hintText: isTweet
-                  ? 'What\'s happening?'
-                  : isRetweet ? 'Add a comment' : 'Tweet your reply',
+              hintText: placeholder,
               hintStyle: TextStyle(fontSize: 18)),
         ),
       ],
     );
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(StringProperty('placeholder', placeholder));
   }
 }

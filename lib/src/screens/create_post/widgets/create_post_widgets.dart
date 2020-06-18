@@ -9,11 +9,9 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:ginkgo_mobile/src/models/fakeData.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
-import 'package:ginkgo_mobile/src/utils/designColor.dart';
 import 'package:ginkgo_mobile/src/widgets/spacingRow.dart';
 import 'package:ginkgo_mobile/src/widgets/widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:base/base.dart';
 
 part 'compose_bottom_icon_widget.dart';
 part 'create_post_image.dart';
@@ -64,7 +62,7 @@ Widget customText(String msg,
   } else {
     if (context != null && style != null) {
       var fontSize =
-          style.fontSize ?? Theme.of(context).textTheme.body1.fontSize;
+          style.fontSize ?? Theme.of(context).textTheme.bodyText2.fontSize;
       style = style.copyWith(
         fontSize: fontSize - (MediaQuery.of(context).size.width <= 375 ? 2 : 0),
       );
