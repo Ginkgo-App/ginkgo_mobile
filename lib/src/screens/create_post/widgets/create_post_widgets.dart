@@ -92,7 +92,7 @@ Widget customImage(
     child: CircleAvatar(
       maxRadius: height / 2,
       backgroundColor: Theme.of(context).cardColor,
-      backgroundImage: CachedNetworkImageProvider(path),
+      backgroundImage: CachedNetworkImageProvider(path ?? ''),
     ),
   );
 }

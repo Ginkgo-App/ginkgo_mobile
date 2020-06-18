@@ -58,31 +58,38 @@ class _ComposeTweetReplyPageState extends State<CreatePostScreen> {
     }
   }
 
-  String _getReplyText() {
+  _ReplyData _getReplyData() {
     if (isReply) {
       if (args.tour != null) {
-        return 'Nhận xét chuyến đi ${args.tour.name}';
+        return _ReplyData(
+          image: args.tour.images != null && args.tour.images.length > 0
+              ? args.tour.images[0].smallSquare
+              : '',
+          content:
+              '${args.tour.tourInfo?.startPlace?.name} - ${args.tour.tourInfo?.destinatePlace?.name}',
+          replyText: 'Nhận xét chuyến đi ${args.tour.name}',
+          timeText: '${args.tour.startDay.toVietNamese()}',
+          title: args.tour.name,
+        );
       } else if (args.post != null) {
-        return 'Bình luận ${args.post.author?.displayName}';
+        return _ReplyData(
+          image: args.post.author?.avatar?.smallSquare,
+          content: args.post.content,
+          replyText: 'Bình luận ${args.post.author?.displayName}',
+          timeText: '${args.post.createAt.toVietNamese()}',
+          title: args.post.author?.displayName,
+        );
       } else {
-        return 'Nhập bình luận ${args.comment.author?.displayName}';
+        return _ReplyData(
+          image: args.comment.author?.avatar?.smallSquare,
+          content: args.comment.content,
+          replyText: 'Bình luận ${args.comment.author?.displayName}',
+          timeText: '${args.comment.createAt.toVietNamese()}',
+          title: args.comment.author?.displayName,
+        );
       }
     } else {
-      return '';
-    }
-  }
-
-  String _getReplyContent() {
-    if (isReply) {
-      if (args.tour != null) {
-        return '${args.tour.tourInfo?.startPlace?.name} - ${args.tour.tourInfo?.destinatePlace?.name}';
-      } else if (args.post != null) {
-        return args.post.content;
-      } else {
-        return args.comment.content;
-      }
-    } else {
-      return '';
+      return null;
     }
   }
 
@@ -109,23 +116,31 @@ class _ComposeTweetReplyPageState extends State<CreatePostScreen> {
           children: <Widget>[
             SingleChildScrollView(
               controller: scrollcontroller,
-              child: Column(
-                children: <Widget>[
-                  _ReplyCard(
-                    content: _getReplyContent(),
-                    replyText: _getReplyText(),
-                    timeText: 'time difference',
-                  ),
-                  _CreatePost(
-                    images: _images,
-                    textFieldPlaceholder: _getTextFieldPlaceholder(),
-                    onRemovedImage: (image) {
-                      setState(() {
-                        _images.remove(image);
-                      });
-                    },
-                  ),
-                ],
+              child: Container(
+                height: MediaQuery.of(context).size.height,
+                padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    if (isReply)
+                      _ReplyCard(
+                        data: _getReplyData(),
+                      ),
+                    _CreatePost(
+                      textFieldPlaceholder: _getTextFieldPlaceholder(),
+                    ),
+                    Flexible(
+                      child: CreatePostImageList(
+                        images: _images,
+                        onRemovedImage: (image) {
+                          setState(() {
+                            _images.remove(image);
+                          });
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             Align(
@@ -142,18 +157,30 @@ class _ComposeTweetReplyPageState extends State<CreatePostScreen> {
   }
 }
 
-class _ReplyCard extends StatelessWidget {
+class _ReplyData {
   final String content;
   final String replyText;
   final String timeText;
+  final String image;
+  final String title;
 
-  const _ReplyCard({Key key, this.content, this.replyText, this.timeText})
-      : super(key: key);
+  _ReplyData(
+      {this.content, this.replyText, this.timeText, this.image, this.title});
+}
+
+class _ReplyCard extends StatelessWidget {
+  final _ReplyData data;
+
+  const _ReplyCard({
+    Key key,
+    @required this.data,
+  })  : assert(data != null),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Stack(
@@ -175,7 +202,7 @@ class _ReplyCard extends StatelessWidget {
                   Container(
                     width: MediaQuery.of(context).size.width - 72,
                     child: UrlText(
-                      text: content ?? '',
+                      text: data?.content ?? '',
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 16,
@@ -189,9 +216,9 @@ class _ReplyCard extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 30),
-                  if (replyText != null)
+                  if (data?.replyText != null)
                     UrlText(
-                      text: replyText,
+                      text: data?.replyText,
                       style: TextStyle(
                         color: context.colorScheme.onSurface,
                         fontSize: 13,
@@ -204,23 +231,22 @@ class _ReplyCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                customImage(context, FakeData.currentUser.avatar.smallThumb,
-                    height: 40),
+                customImage(context, data?.image ?? '', height: 40),
                 SizedBox(width: 10),
                 ConstrainedBox(
                   constraints: BoxConstraints(
                       minWidth: 0,
                       maxWidth: MediaQuery.of(context).size.width * .5),
-                  child: TitleText(FakeData.currentUser.displayName,
+                  child: TitleText(data?.title ?? '',
                       fontSize: 16,
                       fontWeight: FontWeight.w800,
                       overflow: TextOverflow.ellipsis),
                 ),
                 SizedBox(width: 5),
-                if (timeText != null)
+                if (data?.timeText != null)
                   Padding(
                     padding: EdgeInsets.only(top: 3),
-                    child: customText('- $timeText',
+                    child: customText('- ${data.timeText}',
                         style: context.textTheme.caption),
                   )
               ],
@@ -233,45 +259,23 @@ class _ReplyCard extends StatelessWidget {
 }
 
 class _CreatePost extends StatelessWidget {
-  const _CreatePost(
-      {Key key,
-      this.images,
-      this.onRemovedImage,
-      this.textFieldPlaceholder = ''})
+  const _CreatePost({Key key, this.textFieldPlaceholder = ''})
       : super(key: key);
 
-  final List<FileAsset> images;
-  final Function(FileAsset) onRemovedImage;
   final String textFieldPlaceholder;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height,
-      padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          _ReplyCard(),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              customImage(context, FakeData.currentUser.avatar.smallThumb,
-                  height: 40),
-              const SizedBox(width: 10),
-              Expanded(
-                child: _TextField(placeholder: textFieldPlaceholder),
-              )
-            ],
-          ),
-          Flexible(
-            child: CreatePostImageList(
-              images: images,
-              onRemovedImage: onRemovedImage,
-            ),
-          ),
-        ],
-      ),
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        customImage(context, FakeData.currentUser.avatar.smallThumb,
+            height: 40),
+        const SizedBox(width: 10),
+        Expanded(
+          child: _TextField(placeholder: textFieldPlaceholder),
+        )
+      ],
     );
   }
 }

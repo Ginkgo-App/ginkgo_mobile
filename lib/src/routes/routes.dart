@@ -63,7 +63,9 @@ RouteFactory _onGenerateRoute = (RouteSettings settings) {
     case Routes.chooseTourInfo:
       return _generateMaterialRoute(ChooseTourInfoScreen());
     case Routes.createPost:
-      return _generateMaterialRoute(CreatePostScreen());
+      return _generateMaterialRoute(CreatePostScreen(
+        args: settings.arguments,
+      ));
     default:
       return _generateMaterialRoute(SplashScreen());
   }

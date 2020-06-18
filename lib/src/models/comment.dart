@@ -5,6 +5,7 @@ class Comment {
   final String postId;
   final User author;
   final String content;
+  final DateTime createAt;
 
-  Comment({this.id, this.postId, this.author, this.content});
+  Comment({this.id, this.postId, this.author, this.createAt, this.content});
 }
