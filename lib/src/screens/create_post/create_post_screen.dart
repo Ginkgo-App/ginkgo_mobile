@@ -1,30 +1,38 @@
 part of '../screens.dart';
 
-class CreatePostScreen extends StatefulWidget {
-  CreatePostScreen({Key key, this.isTweet = true}) : super(key: key);
+class CreatePostScreenArgs {
+  final Post post;
+  final Comment comment;
+  final Tour tour;
 
-  final bool isTweet;
+  CreatePostScreenArgs({this.post, this.comment, this.tour})
+      : assert(post != null && comment == null && tour == null ||
+            comment != null && post == null && tour == null ||
+            tour != null && comment == null && post == null);
+}
+
+class CreatePostScreen extends StatefulWidget {
+  final CreatePostScreenArgs args;
+
+  CreatePostScreen({Key key, this.args}) : super(key: key);
+
   _ComposeTweetReplyPageState createState() => _ComposeTweetReplyPageState();
 }
 
 class _ComposeTweetReplyPageState extends State<CreatePostScreen> {
-  bool isScrollingDown = false;
+  CreatePostScreenArgs args;
   ScrollController scrollcontroller;
   List<FileAsset> _images = [];
 
   TextEditingController _textEditingController;
 
-  @override
-  void dispose() {
-    scrollcontroller.dispose();
-    _textEditingController.dispose();
-    super.dispose();
-  }
+  bool get isReply => args != null;
 
   @override
   void initState() {
     scrollcontroller = ScrollController();
     _textEditingController = TextEditingController();
+    args = widget.args;
     super.initState();
   }
 
@@ -36,19 +44,31 @@ class _ComposeTweetReplyPageState extends State<CreatePostScreen> {
     }
   }
 
+  String _getTextFieldPlaceholder() {
+    if (isReply) {
+      if (args.tour != null) {
+        return 'Nhận xét chuyến đi';
+      } else if (args.post != null) {
+        return 'Nhập bình luận';
+      } else if (args.comment != null) {
+        return 'Nhập bình luận';
+      }
+    } else {
+      return 'Hôm nay bạn thế nào?';
+    }
+  }
+
+  @override
+  void dispose() {
+    scrollcontroller.dispose();
+    _textEditingController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        title: Text(
-          '',
-          style: TextStyle(
-            color: Colors.black87,
-            fontFamily: 'HelveticaNeue',
-            fontWeight: FontWeight.w900,
-            fontSize: 20,
-          ),
-        ),
         onActionPressed: () {},
         isCrossButton: true,
         submitButtonText: 'Đăng',
@@ -61,7 +81,7 @@ class _ComposeTweetReplyPageState extends State<CreatePostScreen> {
           children: <Widget>[
             SingleChildScrollView(
               controller: scrollcontroller,
-              child: _ComposeTweet(
+              child: _CreatePost(
                 images: _images,
                 onRemovedImage: (image) {
                   setState(() {
@@ -84,14 +104,11 @@ class _ComposeTweetReplyPageState extends State<CreatePostScreen> {
   }
 }
 
-class _ComposeTweet extends StatelessWidget {
-  final List<FileAsset> images;
-  final Function(FileAsset) onRemovedImage;
+class _ReplyCard extends StatelessWidget {
+  
 
-  const _ComposeTweet({Key key, this.images, this.onRemovedImage})
-      : super(key: key);
-
-  Widget _tweerCard(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -115,7 +132,7 @@ class _ComposeTweet extends StatelessWidget {
                   Container(
                     width: MediaQuery.of(context).size.width - 72,
                     child: UrlText(
-                      text: 'Comment content',
+                      text: content ?? '',
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 16,
@@ -169,6 +186,14 @@ class _ComposeTweet extends StatelessWidget {
       ],
     );
   }
+}
+
+class _CreatePost extends StatelessWidget {
+  final List<FileAsset> images;
+  final Function(FileAsset) onRemovedImage;
+
+  const _CreatePost({Key key, this.images, this.onRemovedImage})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -178,7 +203,7 @@ class _ComposeTweet extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          _tweerCard(context),
+          _replyCard(context),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[

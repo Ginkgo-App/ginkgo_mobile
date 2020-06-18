@@ -36,29 +36,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => appBarHeight;
 
-  Widget _searchField() {
-    return Container(
-        height: 50,
-        padding: EdgeInsets.symmetric(vertical: 5),
-        child: TextField(
-          onChanged: onSearchChanged,
-          controller: textController,
-          decoration: InputDecoration(
-            border: OutlineInputBorder(
-              borderSide: BorderSide(width: 0, style: BorderStyle.none),
-              borderRadius: const BorderRadius.all(
-                const Radius.circular(25.0),
-              ),
-            ),
-            hintText: 'Search..',
-            fillColor: Colors.grey,
-            filled: true,
-            focusColor: Colors.white,
-            contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-          ),
-        ));
-  }
-
   List<Widget> _getActionButtons(BuildContext context) {
     return <Widget>[
       submitButtonText != null
@@ -82,7 +59,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   child: Text(
                     submitButtonText,
                     style: TextStyle(
-                      fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.bold,
                         color: Theme.of(context).colorScheme.onPrimary),
                   ),
                 ),
@@ -121,7 +98,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       iconTheme: IconThemeData(color: context.colorScheme.onBackground),
-      backgroundColor: Colors.white,
+      backgroundColor: context.colorScheme.background,
       elevation: 0,
       leading: isBackButton
           ? BackButton()
@@ -133,7 +110,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   },
                 )
               : _getUserAvatar(context),
-      title: title != null ? title : _searchField(),
+      title: title ?? null,
       actions: _getActionButtons(context),
     );
   }
