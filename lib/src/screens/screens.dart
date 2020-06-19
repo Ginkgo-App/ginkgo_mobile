@@ -32,6 +32,7 @@ import 'package:ginkgo_mobile/src/blocs/user_friends/user_friends_bloc.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/navigators.dart';
 import 'package:ginkgo_mobile/src/screens/create_post/widgets/create_post_widgets.dart';
+import 'package:ginkgo_mobile/src/screens/create_post/widgets/star_rating.dart';
 import 'package:ginkgo_mobile/src/screens/create_tour/widgets/create_tour_bottom_button.dart';
 import 'package:ginkgo_mobile/src/screens/create_tour/widgets/create_tour_header.dart';
 import 'package:ginkgo_mobile/src/screens/create_tour/widgets/create_tour_tabs.dart';

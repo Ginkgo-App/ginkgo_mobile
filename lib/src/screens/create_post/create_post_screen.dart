@@ -62,15 +62,15 @@ class _ComposeTweetReplyPageState extends State<CreatePostScreen> {
     if (isReply) {
       if (args.tour != null) {
         return _ReplyData(
-          image: args.tour.images != null && args.tour.images.length > 0
-              ? args.tour.images[0].smallSquare
-              : '',
-          content:
-              '${args.tour.tourInfo?.startPlace?.name} - ${args.tour.tourInfo?.destinatePlace?.name}',
-          replyText: 'Nhận xét chuyến đi ${args.tour.name}',
-          timeText: '${args.tour.startDay.toVietNamese()}',
-          title: args.tour.name,
-        );
+            image: args.tour.images != null && args.tour.images.length > 0
+                ? args.tour.images[0].smallSquare
+                : '',
+            content:
+                '${args.tour.tourInfo?.startPlace?.name} - ${args.tour.tourInfo?.destinatePlace?.name}',
+            replyText: 'Đánh giá chuyến đi ${args.tour.name}',
+            timeText: '${args.tour.startDay.toVietNamese()}',
+            title: args.tour.name,
+            onRatingChanged: (i) {});
       } else if (args.post != null) {
         return _ReplyData(
           image: args.post.author?.avatar?.smallSquare,
@@ -163,9 +163,16 @@ class _ReplyData {
   final String timeText;
   final String image;
   final String title;
+  final Function(int) onRatingChanged;
 
-  _ReplyData(
-      {this.content, this.replyText, this.timeText, this.image, this.title});
+  _ReplyData({
+    this.content,
+    this.replyText,
+    this.timeText,
+    this.image,
+    this.title,
+    this.onRatingChanged,
+  });
 }
 
 class _ReplyCard extends StatelessWidget {
@@ -179,81 +186,86 @@ class _ReplyCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        Stack(
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.only(left: 30),
-              margin: EdgeInsets.only(left: 20, top: 20, bottom: 3),
-              decoration: BoxDecoration(
-                border: Border(
-                  left: BorderSide(
-                    width: 2.0,
-                    color: Colors.grey.shade400,
-                  ),
-                ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Container(
-                    width: MediaQuery.of(context).size.width - 72,
-                    child: UrlText(
-                      text: data?.content ?? '',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      urlStyle: TextStyle(
-                        fontSize: 16,
-                        color: Colors.blue,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 30),
-                  if (data?.replyText != null)
-                    UrlText(
-                      text: data?.replyText,
-                      style: TextStyle(
-                        color: context.colorScheme.onSurface,
-                        fontSize: 13,
-                      ),
-                    ),
-                ],
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
+    return IntrinsicHeight(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              customImage(context, data?.image ?? '', height: 40),
+              Expanded(
+                child: Container(width: 2, color: context.colorScheme.surface),
+              )
+            ],
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                customImage(context, data?.image ?? '', height: 40),
-                SizedBox(width: 10),
-                ConstrainedBox(
-                  constraints: BoxConstraints(
-                      minWidth: 0,
-                      maxWidth: MediaQuery.of(context).size.width * .5),
-                  child: TitleText(data?.title ?? '',
-                      fontSize: 16,
-                      fontWeight: FontWeight.w800,
-                      overflow: TextOverflow.ellipsis),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Flexible(
+                      fit: FlexFit.loose,
+                      child: TitleText(data?.title ?? '',
+                          fontSize: 16,
+                          fontWeight: FontWeight.w800,
+                          overflow: TextOverflow.ellipsis),
+                    ),
+                    SizedBox(width: 5),
+                    if (data?.timeText != null)
+                      customText('- ${data.timeText}',
+                          style: context.textTheme.caption)
+                  ],
                 ),
-                SizedBox(width: 5),
-                if (data?.timeText != null)
-                  Padding(
-                    padding: EdgeInsets.only(top: 3),
-                    child: customText('- ${data.timeText}',
-                        style: context.textTheme.caption),
+                UrlText(
+                  text: data?.content ?? '',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  urlStyle: TextStyle(
+                    fontSize: 16,
+                    color: Colors.blue,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                SizedBox(height: 30),
+                if (data?.replyText != null)
+                  UrlText(
+                    text: data?.replyText,
+                    style: TextStyle(
+                      color: context.colorScheme.onSurface,
+                      fontSize: 13,
+                    ),
+                  ),
+                if (data?.onRatingChanged != null) ...[
+                  const SizedBox(height: 10),
+                  Center(
+                    child: Container(
+                      margin: const EdgeInsets.only(right: 50),
+                      child: StarRating(
+                        allowHalfRating: false,
+                        filledIconData: Icons.favorite,
+                        defaultIconData: Icons.favorite_border,
+                        borderColor: context.colorScheme.primary,
+                        color: context.colorScheme.primary,
+                        starCount: 5,
+                        rating: 3,
+                      ),
+                    ),
                   )
+                ]
               ],
             ),
-          ],
-        ),
-      ],
+          ),
+        ],
+      ),
     );
   }
 }
@@ -269,8 +281,14 @@ class _CreatePost extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        customImage(context, FakeData.currentUser.avatar.smallThumb,
-            height: 40),
+        Padding(
+          padding: const EdgeInsets.only(top: 5),
+          child: customImage(
+            context,
+            FakeData.currentUser.avatar.smallThumb,
+            height: 40,
+          ),
+        ),
         const SizedBox(width: 10),
         Expanded(
           child: _TextField(placeholder: textFieldPlaceholder),
