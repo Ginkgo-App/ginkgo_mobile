@@ -28,8 +28,8 @@ class PlaceListBloc extends Bloc<PlaceListEvent, PlaceListState> {
   Stream<PlaceListState> mapEventToState(PlaceListEvent event) async* {
     try {
       if (event is PlaceListEventFetch) {
-        if(!_placeList.canLoadmore && _keyword == event.keyword) return;
-        
+        if (!_placeList.canLoadmore && _keyword == event.keyword) return;
+
         yield PlaceListStateLoading();
 
         int nextPage = _placeList.pagination.currentPage + 1;
@@ -55,12 +55,13 @@ class PlaceListBloc extends Bloc<PlaceListEvent, PlaceListState> {
       } else if (event is PlaceListEventFetchBestList) {
         yield PlaceListStateLoading();
 
-        final data = await _repository.place.getList(
+        // TODO change to load best place list
+        _placeList.add(await _repository.place.getList(
           pageSize: pageSize,
           page: _placeList.pagination.currentPage + 1,
-        );
+        ));
 
-        yield PlaceListStateSuccess(data);
+        yield PlaceListStateSuccess(_placeList);
       }
     } catch (e) {
       yield PlaceListStateFailure(e);
