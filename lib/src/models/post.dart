@@ -1,7 +1,9 @@
 part of 'models.dart';
 
+enum PostType { normal, image, images, tourJustCreated, tourCreated, rating }
+
 class Post {
-  final String id;
+  final int id;
   final User author;
   final DateTime createAt;
   final String content;
@@ -31,7 +33,7 @@ class Post {
   }
 
   String get icon {
-    if(type == PostType.image || type == PostType.images) {
+    if (type == PostType.image || type == PostType.images) {
       return Assets.icons.activityTypePhotography;
     } else if (type == PostType.rating) {
       return Assets.icons.activityTypeReview;
@@ -53,4 +55,16 @@ class Post {
   });
 }
 
-enum PostType { normal, image, images, tourJustCreated, tourCreated, rating }
+class PostToPost {
+  final String content;
+  final List<File> images;
+  final int tourId;
+  final int rating;
+
+  PostToPost({
+    @required this.content,
+    this.images = const [],
+    this.tourId,
+    this.rating,
+  });
+}

@@ -11,6 +11,7 @@ part 'repositories/userRepository.dart';
 part 'repositories/placeRepository.dart';
 part 'repositories/tourRepository.dart';
 part 'repositories/tourInfoRepository.dart';
+part 'repositories/post_repository.dart';
 
 class Repository {
   static final Repository _repository = Repository._();
@@ -23,6 +24,7 @@ class Repository {
   final _PlaceRepository place = _PlaceRepository();
   final _TourRepository tour = _TourRepository();
   final _TourInfoRepository tourInfo = _TourInfoRepository();
+  final _PostRepository post = _PostRepository();
 }
 
 enum StorageKey {

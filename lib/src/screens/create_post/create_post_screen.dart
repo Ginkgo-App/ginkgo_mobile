@@ -20,20 +20,43 @@ class CreatePostScreen extends StatefulWidget {
 }
 
 class _ComposeTweetReplyPageState extends State<CreatePostScreen> {
-  CreatePostScreenArgs args;
-  ScrollController scrollcontroller;
+  final PostCommentBloc _postCommentBloc = PostCommentBloc();
+  CreatePostScreenArgs _args;
+  ScrollController _scrollcontroller;
   List<FileAsset> _images = [];
+  int _rating;
 
-  TextEditingController _textEditingController;
+  TextEditingController _contentController;
 
-  bool get isReply => args != null;
+  bool get _isReply =>
+      _args != null && (_args.comment != null || _args.post != null);
 
   @override
   void initState() {
-    scrollcontroller = ScrollController();
-    _textEditingController = TextEditingController();
-    args = widget.args;
+    _scrollcontroller = ScrollController();
+    _contentController = TextEditingController();
+    _args = widget.args;
     super.initState();
+  }
+
+  void _onSubmit() {
+    if (!_isReply) {
+      final postToPost = PostToPost(
+        content: _contentController.text,
+        images: _images.map((e) => e.file).toList(),
+        tourId: _args.tour?.id,
+        rating: _rating,
+      );
+
+      _postCommentBloc.add(PostCommentEventCreatePost(postToPost));
+    } else {
+      final commentToPost = CommentToPost(
+        _args.post?.id ?? _args.comment?.id,
+        content: _contentController.text,
+      );
+
+      _postCommentBloc.add(PostCommentEventCreateComment(commentToPost));
+    }
   }
 
   void _onImageIconSelected(List<FileAsset> files) {
@@ -45,10 +68,10 @@ class _ComposeTweetReplyPageState extends State<CreatePostScreen> {
   }
 
   String _getTextFieldPlaceholder() {
-    if (isReply) {
-      if (args.tour != null) {
+    if (_isReply) {
+      if (_args.tour != null) {
         return 'Nhận xét chuyến đi';
-      } else if (args.post != null) {
+      } else if (_args.post != null) {
         return 'Nhập bình luận';
       } else {
         return 'Nhập bình luận';
@@ -59,33 +82,38 @@ class _ComposeTweetReplyPageState extends State<CreatePostScreen> {
   }
 
   _ReplyData _getReplyData() {
-    if (isReply) {
-      if (args.tour != null) {
+    if (_isReply) {
+      if (_args.tour != null) {
         return _ReplyData(
-            image: args.tour.images != null && args.tour.images.length > 0
-                ? args.tour.images[0].smallSquare
+            image: _args.tour.images != null && _args.tour.images.length > 0
+                ? _args.tour.images[0].smallSquare
                 : '',
             content:
-                '${args.tour.tourInfo?.startPlace?.name} - ${args.tour.tourInfo?.destinatePlace?.name}',
-            replyText: 'Đánh giá chuyến đi ${args.tour.name}',
-            timeText: '${args.tour.startDay.toVietNamese()}',
-            title: args.tour.name,
-            onRatingChanged: (i) {});
-      } else if (args.post != null) {
+                '${_args.tour.tourInfo?.startPlace?.name} - ${_args.tour.tourInfo?.destinatePlace?.name}',
+            replyText: 'Đánh giá chuyến đi ${_args.tour.name}',
+            timeText: '${_args.tour.startDay.toVietNamese()}',
+            title: _args.tour.name,
+            rating: _rating,
+            onRatingChanged: (i) {
+              setState(() {
+                _rating = i.round();
+              });
+            });
+      } else if (_args.post != null) {
         return _ReplyData(
-          image: args.post.author?.avatar?.smallSquare,
-          content: args.post.content,
-          replyText: 'Bình luận ${args.post.author?.displayName}',
-          timeText: '${args.post.createAt.toVietNamese()}',
-          title: args.post.author?.displayName,
+          image: _args.post.author?.avatar?.smallSquare,
+          content: _args.post.content,
+          replyText: 'Bình luận ${_args.post.author?.displayName}',
+          timeText: '${_args.post.createAt.toVietNamese()}',
+          title: _args.post.author?.displayName,
         );
       } else {
         return _ReplyData(
-          image: args.comment.author?.avatar?.smallSquare,
-          content: args.comment.content,
-          replyText: 'Bình luận ${args.comment.author?.displayName}',
-          timeText: '${args.comment.createAt.toVietNamese()}',
-          title: args.comment.author?.displayName,
+          image: _args.comment.author?.avatar?.smallSquare,
+          content: _args.comment.content,
+          replyText: 'Bình luận ${_args.comment.author?.displayName}',
+          timeText: '${_args.comment.createAt.toVietNamese()}',
+          title: _args.comment.author?.displayName,
         );
       }
     } else {
@@ -95,63 +123,78 @@ class _ComposeTweetReplyPageState extends State<CreatePostScreen> {
 
   @override
   void dispose() {
-    scrollcontroller.dispose();
-    _textEditingController.dispose();
+    _scrollcontroller.dispose();
+    _contentController.dispose();
+    _postCommentBloc.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBar(
-        onActionPressed: () {},
-        isCrossButton: true,
-        submitButtonText: 'Đăng',
-        isSubmitDisable: false,
-        isbootomLine: true,
-      ),
-      backgroundColor: context.colorScheme.background,
-      body: Container(
-        child: Stack(
-          children: <Widget>[
-            SingleChildScrollView(
-              controller: scrollcontroller,
-              child: Container(
-                height: MediaQuery.of(context).size.height,
-                padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    if (isReply)
-                      _ReplyCard(
-                        data: _getReplyData(),
+    return BlocListener(
+      bloc: _postCommentBloc,
+      listener: (context, state) {
+        if (state is PostCommentStatePostSuccess) {
+          showErrorMessage('Thành công');
+          Navigator.pop(context);
+        } else if (state is PostCommentStateFailure) {
+          showErrorMessage(Strings.error.error + '\n' + state.error.toString());
+        }
+      },
+      child: BlocBuilder(
+        bloc: _postCommentBloc,
+        builder: (context, state) {
+          return PrimaryScaffold(
+            isLoading: state is PostCommentStateLoading,
+            appBar: CustomAppBar(
+              onActionPressed: _onSubmit,
+              isCrossButton: true,
+              submitButtonText: 'Đăng',
+              isSubmitDisable: false,
+              isbootomLine: true,
+            ),
+            backgroundColor: context.colorScheme.background,
+            body: Container(
+              child: Stack(
+                children: <Widget>[
+                  SingleChildScrollView(
+                    controller: _scrollcontroller,
+                    child: Container(
+                      height: MediaQuery.of(context).size.height,
+                      padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          if (_isReply) _ReplyCard(data: _getReplyData()),
+                          _CreatePost(
+                            textFieldPlaceholder: _getTextFieldPlaceholder(),
+                          ),
+                          Flexible(
+                            child: CreatePostImageList(
+                              images: _images,
+                              onRemovedImage: (image) {
+                                setState(() {
+                                  _images.remove(image);
+                                });
+                              },
+                            ),
+                          ),
+                        ],
                       ),
-                    _CreatePost(
-                      textFieldPlaceholder: _getTextFieldPlaceholder(),
                     ),
-                    Flexible(
-                      child: CreatePostImageList(
-                        images: _images,
-                        onRemovedImage: (image) {
-                          setState(() {
-                            _images.remove(image);
-                          });
-                        },
-                      ),
+                  ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: ComposeBottomIconWidget(
+                      textEditingController: _contentController,
+                      onImageIconSelected: _onImageIconSelected,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: ComposeBottomIconWidget(
-                textEditingController: _textEditingController,
-                onImageIconSelected: _onImageIconSelected,
-              ),
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
@@ -163,7 +206,8 @@ class _ReplyData {
   final String timeText;
   final String image;
   final String title;
-  final Function(int) onRatingChanged;
+  final int rating;
+  final Function(double) onRatingChanged;
 
   _ReplyData({
     this.content,
@@ -171,6 +215,7 @@ class _ReplyData {
     this.timeText,
     this.image,
     this.title,
+    this.rating,
     this.onRatingChanged,
   });
 }
@@ -257,6 +302,7 @@ class _ReplyCard extends StatelessWidget {
                         color: context.colorScheme.primary,
                         starCount: 5,
                         rating: 3,
+                        onRatingChanged: data.onRatingChanged,
                       ),
                     ),
                   )
@@ -285,7 +331,7 @@ class _CreatePost extends StatelessWidget {
           padding: const EdgeInsets.only(top: 5),
           child: customImage(
             context,
-            FakeData.currentUser.avatar.smallThumb,
+            CurrentUserBloc().currentUser?.avatar?.mediumThumb ?? '',
             height: 40,
           ),
         ),
@@ -318,9 +364,10 @@ class _TextField extends StatelessWidget {
           onChanged: (text) {},
           maxLines: null,
           decoration: InputDecoration(
-              border: InputBorder.none,
-              hintText: placeholder,
-              hintStyle: TextStyle(fontSize: 18)),
+            border: InputBorder.none,
+            hintText: placeholder,
+            hintStyle: TextStyle(fontSize: 18),
+          ),
         ),
       ],
     );

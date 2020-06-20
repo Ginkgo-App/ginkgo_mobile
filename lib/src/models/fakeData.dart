@@ -81,7 +81,7 @@ Nguyễn Thanh Tùng hay được biết đến với nghệ danh Sơn Tùng M-T
   );
 
   static final Post post = Post(
-    id: '1',
+    id: 1,
     author: currentUser,
     content:
         '''Hôm nay có thời gian nên mình review chuyến đi Đà Nẵng, Hội An vừa qua của mình. Ta nói vui ơi là vui, ban tổ chức cực kỳ chu đáo, có xe đưa rước tận nơi, dịch vụ vui chơi thì khỏi chê vào đâu. Khách sạn sạch sẽ, đẹp,... bla bla bla bò bí bô la la la...
@@ -96,17 +96,14 @@ Nói chung là đáng đồng tiền bỏ ra. Nếu có dịp lần sau sẽ ủ
     ],
     featuredComments: [
       Comment(
-          id: '12',
-          postId: '1',
-          author: currentUser,
-          content: 'Ôi ảnh đẹp quá bạn ơi...')
+          id: '12', author: currentUser, content: 'Ôi ảnh đẹp quá bạn ơi...')
     ],
     totalComment: 10,
     totalLike: 10,
   );
 
   static final Post postNoImage = Post(
-    id: '1',
+    id: 1,
     author: currentUser,
     content:
         '''Hôm nay có thời gian nên mình review chuyến đi Đà Nẵng, Hội An vừa qua của mình. Ta nói vui ơi là vui, ban tổ chức cực kỳ chu đáo, có xe đưa rước tận nơi, dịch vụ vui chơi thì khỏi chê vào đâu. Khách sạn sạch sẽ, đẹp,... bla bla bla bò bí bô la la la...
@@ -115,17 +112,14 @@ Nói chung là đáng đồng tiền bỏ ra. Nếu có dịp lần sau sẽ ủ
     images: [],
     featuredComments: [
       Comment(
-          id: '12',
-          postId: '1',
-          author: currentUser,
-          content: 'Ôi ảnh đẹp quá bạn ơi...')
+          id: '12', author: currentUser, content: 'Ôi ảnh đẹp quá bạn ơi...')
     ],
     totalComment: 10,
     totalLike: 10,
   );
 
   static final Post review = Post(
-    id: '1',
+    id: 1,
     author: currentUser,
     tour: simpleTour,
     content: '''Hôm nay có thời gian nên mình review chuyến đi Đà Nẵng, 
@@ -137,10 +131,7 @@ Nói chung là đáng đồng tiền bỏ ra. Nếu có dịp lần sau sẽ ủ
     createAt: DateTime(2019, 1, 1, 12, 12),
     featuredComments: [
       Comment(
-          id: '12',
-          postId: '1',
-          author: currentUser,
-          content: 'Ôi ảnh đẹp quá bạn ơi...')
+          id: '12', author: currentUser, content: 'Ôi ảnh đẹp quá bạn ơi...')
     ],
     totalComment: 10,
     totalLike: 10,

@@ -15,6 +15,7 @@ part 'systemProvider.dart';
 part 'tourInfoProvider.dart';
 part 'tourProvider.dart';
 part 'userProvider.dart';
+part 'post_provider.dart';
 
 class Api {
   static final image = 'https://api.imgur.com/3/image';
@@ -28,6 +29,8 @@ class Api {
 
   static String places(int placeId) =>
       AppConfig.instance.apiUrl + '/places/${placeId ?? ''}';
+  static String posts(int postId) =>
+      AppConfig.instance.apiUrl + '/posts/$postId';
   static String tourInfos(int tourInfoId) =>
       AppConfig.instance.apiUrl + '/tour-infos/${tourInfoId ?? ''}';
   static String tourInfosTourList(int tourInfoId) =>

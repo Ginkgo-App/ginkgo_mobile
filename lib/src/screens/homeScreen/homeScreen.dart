@@ -150,7 +150,7 @@ class _HomeScreenState extends State<HomeScreen>
                 icon: Icon(Icons.add),
                 onPressed: () {
                   Navigators.appNavigator.currentState
-                      .pushNamed(Routes.createPost, arguments: CreatePostScreenArgs(tour: FakeData.tour));
+                      .pushNamed(Routes.createPost);
                 }),
             SCItem(icon: Icon(Icons.camera_enhance), onPressed: () {}),
             SCItem(icon: Icon(Icons.add_comment), onPressed: () {}),
