@@ -6,7 +6,7 @@ class PlaceBottomSheet {
   String _keyword = '';
   BuildContext _context;
   Place _selectedPlace;
-  PlaceListBloc _placeListBloc = PlaceListBloc();
+  PlaceListBloc _placeListBloc = PlaceListBloc(10);
 
   PlaceBottomSheet.of(BuildContext context, [Place selectedPlace]) {
     _context = context;
@@ -39,7 +39,11 @@ class PlaceBottomSheet {
   }
 
   _fetchData() {
-    _placeListBloc.add(PlaceListEventFetch(_keyword, null, 1, 0));
+    _placeListBloc.add(PlaceListEventFetch(_keyword, null));
+  }
+
+  _onLoadMore() {
+    _fetchData();
   }
 
   _buildHeader() {
@@ -54,6 +58,7 @@ class PlaceBottomSheet {
           builder: (context, state) {
             return TextField(
               onChanged: (v) {
+                _keyword = v;
                 debouncer.debounce(_fetchData);
               },
               decoration: InputDecoration(
@@ -106,24 +111,61 @@ class PlaceBottomSheet {
             );
           }
 
+          final data = state is PlaceListStateSuccess
+              ? state.placeList.data
+              : PlaceListBloc.allPlace != null
+                  ? PlaceListBloc.allPlace
+                  : List<Place>.generate(4, (_) => null);
+
+          data.removeWhere((element) =>
+              _selectedPlace != null && element?.id == _selectedPlace?.id);
+
+          if (_selectedPlace != null) data.insert(0, _selectedPlace);
+
           return Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: (state is PlaceListStateSuccess
-                    ? state.placeList.data
-                    : PlaceListBloc.allPlace != null
-                        ? PlaceListBloc.allPlace
-                        : List<Place>.generate(4, (_) => null))
-                .map<Widget>(
-                  (e) => _buildPlaceItem(e, _selectedPlace?.id == e?.id),
-                )
-                .toList()
-                .addBetweenEvery(
-                  Container(
-                    height: 0.5,
-                    margin: EdgeInsets.symmetric(horizontal: 10),
-                    color: DesignColor.lightestBlack,
+            children: [
+              ...data
+                  .map<Widget>(
+                    (e) => _buildPlaceItem(e, _selectedPlace?.id == e?.id),
+                  )
+                  .toList()
+                  .addBetweenEvery(
+                    Container(
+                      height: 0.5,
+                      margin: EdgeInsets.symmetric(horizontal: 10),
+                      color: DesignColor.lightestBlack,
+                    ),
                   ),
+              if (state is! PlaceListStateFailure &&
+                  _placeListBloc.placeList.canLoadmore) ...[
+                Container(
+                  height: 0.5,
+                  margin: EdgeInsets.symmetric(horizontal: 10),
+                  color: DesignColor.lightestBlack,
                 ),
+                FlatButton(
+                  child: state is PlaceListStateLoading
+                      ? LoadingIndicator(
+                          color: context.colorScheme.primary,
+                        )
+                      : Container(
+                          color: Colors.transparent,
+                          child: Text(
+                            'Tải thêm',
+                            style: _context.textTheme.bodyText2
+                                .copyWith(color: Colors.blueAccent),
+                          ),
+                        ),
+                  color: _context.colorScheme.background,
+                  highlightColor: DesignColor.darkestWhite,
+                  padding: EdgeInsets.symmetric(vertical: 20),
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  onPressed:
+                      state is PlaceListStateLoading ? null : _onLoadMore,
+                )
+              ]
+            ],
           );
         },
       ),

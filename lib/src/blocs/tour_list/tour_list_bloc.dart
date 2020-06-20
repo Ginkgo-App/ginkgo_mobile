@@ -12,6 +12,8 @@ class TourListBloc extends Bloc<TourListEvent, TourListState> {
   final Repository _repository = Repository();
   final int _pageSize;
 
+  String _keyword;
+
   Pagination<SimpleTour> _tourList = Pagination<SimpleTour>();
 
   Pagination<SimpleTour> get tourList => _tourList;
@@ -28,20 +30,31 @@ class TourListBloc extends Bloc<TourListEvent, TourListState> {
     try {
       if (event is TourListEventFetchOfUser && _tourList.canLoadmore) {
         yield TourListStateLoading();
+
+        if (event.keyword != null) {
+          _keyword = event.keyword;
+        }
+
         _tourList.add(await _repository.user.getUserTours(
-            userId: event.userId,
-            page: _tourList.pagination.currentPage + 1,
-            pageSize: _pageSize,
-            keyword: event.keyword));
+          userId: event.userId,
+          page: _tourList.pagination.currentPage + 1,
+          pageSize: _pageSize,
+          keyword: _keyword,
+        ));
 
         yield TourListStateSuccess(_tourList);
       } else if (event is TourListEventFetchOfMe && _tourList.canLoadmore) {
         yield TourListStateLoading();
+
+        if (event.keyword != null) {
+          _keyword = event.keyword;
+        }
+
         _tourList.add(
           await _repository.user.getMeTours(
             page: _tourList.pagination.currentPage + 1,
             pageSize: _pageSize,
-            keyword: event.keyword,
+            keyword: _keyword,
             type: event.type,
           ),
         );
@@ -50,10 +63,14 @@ class TourListBloc extends Bloc<TourListEvent, TourListState> {
       } else if (event is TourListEventFetch && _tourList.canLoadmore) {
         yield TourListStateLoading();
 
+        if (event.keyword != null) {
+          _keyword = event.keyword;
+        }
+
         _tourList.add(await _repository.tour.getList(
             pageSize: _pageSize,
             page: _tourList.pagination.currentPage + 1,
-            keyword: event.keyword));
+            keyword: _keyword));
 
         yield TourListStateSuccess(_tourList);
       }

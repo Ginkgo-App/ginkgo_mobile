@@ -33,7 +33,11 @@ class Place with Mappable {
     map('Description', description, (v) => description = v);
     map('TourCount', tourCount, (v) => tourCount = v);
     map('CreateBy', createBy, (v) => createBy = v);
-    map('Type', type, (v) => type = KeyValue(key: v['Key'], value: v['Value']));
+    map(
+        'Type',
+        type,
+        (v) => type =
+            v != null ? KeyValue(key: v['Id'].toString(), value: v['Value']) : null);
     map<Place>('Children', children, (v) => children = v);
   }
 }

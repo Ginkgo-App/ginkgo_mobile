@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ginkgo_mobile/src/blocs/place_list/place_list_bloc.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/widgets/buttons/viewMoreButton.dart';
@@ -12,6 +13,17 @@ class DiscoveryTab extends StatefulWidget {
 }
 
 class _DiscoveryTabState extends State<DiscoveryTab> {
+  final PlaceListBloc _bestPlaceBloc = PlaceListBloc(10);
+
+  _fetchBestPlaceList() {
+    _bestPlaceBloc.add(PlaceListEventFetchBestList());
+  }
+
+  dispose() {
+    _bestPlaceBloc.close();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
