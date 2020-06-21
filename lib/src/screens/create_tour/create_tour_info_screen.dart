@@ -163,16 +163,18 @@ class _CreateTourInfoScreenState extends State<CreateTourInfoScreen> {
               label: 'Địa điểm chính xác (không bắt buộc):',
               child: GestureDetector(
                 onTap: () async {
-                  final place =
-                      await PlaceBottomSheet.of(context, exactStartPlace)
-                          .show();
+                  showErrorMessage(Strings.common.developingFeature);
 
-                  if (place != null && place.id != exactStartPlace?.id) {
-                    setState(() {
-                      exactStartPlace = place;
-                      exactStartPlaceController.text = place?.name;
-                    });
-                  }
+                  // final place =
+                  //     await PlaceBottomSheet.of(context, exactStartPlace)
+                  //         .show();
+
+                  // if (place != null && place.id != exactStartPlace?.id) {
+                  //   setState(() {
+                  //     exactStartPlace = place;
+                  //     exactStartPlaceController.text = place?.name;
+                  //   });
+                  // }
                 },
                 child: AbsorbPointer(
                   child: TextFormField(
@@ -237,15 +239,16 @@ class _CreateTourInfoScreenState extends State<CreateTourInfoScreen> {
               label: 'Địa điểm chính xác (không bắt buộc):',
               child: GestureDetector(
                 onTap: () async {
-                  final place =
-                      await PlaceBottomSheet.of(context, exactEndPlace).show();
+                  showErrorMessage(Strings.common.developingFeature);
+                  // final place =
+                  //     await PlaceBottomSheet.of(context, exactEndPlace).show();
 
-                  if (place != null && place.id != exactEndPlace?.id) {
-                    setState(() {
-                      exactEndPlace = place;
-                      exactEndPlaceController.text = place?.name;
-                    });
-                  }
+                  // if (place != null && place.id != exactEndPlace?.id) {
+                  //   setState(() {
+                  //     exactEndPlace = place;
+                  //     exactEndPlaceController.text = place?.name;
+                  //   });
+                  // }
                 },
                 child: AbsorbPointer(
                   child: TextFormField(
