@@ -23,6 +23,7 @@ class _UserScreenState extends State<UserScreen> {
   void initState() {
     super.initState();
     args = widget.args;
+    _fetchUserInfo();
   }
 
   _fetchUserInfo() {
@@ -61,7 +62,7 @@ class _UserScreenState extends State<UserScreen> {
                         child: Column(
                           children: <Widget>[
                             UserNav(
-                                user: user.toSimpleUser(),
+                                user: user?.toSimpleUser() ??  args?.simpleUser,
                                 onFriendActionSuccess: () {
                                   _fetchUserInfo();
                                 }),

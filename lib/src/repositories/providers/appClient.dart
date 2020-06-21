@@ -139,6 +139,9 @@ class ApiClient {
         if (data != null || body != null) {
           print(pen('Data: ${data ?? jsonEncode(body)}'));
         }
+        if (response?.data is Map && response.data['Data'] is List) {
+          print(pen('ResponseData[0]: ${response.data['Data'][0]}'));
+        }
       }
 
       Map<String, dynamic> decoded =
