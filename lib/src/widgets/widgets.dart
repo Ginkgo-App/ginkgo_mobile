@@ -27,6 +27,7 @@ import 'package:ginkgo_mobile/src/utils/strings.dart';
 import 'package:ginkgo_mobile/src/widgets/errorWidgets/errorIndicator.dart';
 import 'package:ginkgo_mobile/src/widgets/galleryItem.dart';
 import 'package:ginkgo_mobile/src/widgets/gradientOutlineBorder.dart';
+import 'package:ginkgo_mobile/src/widgets/spacingColumn.dart';
 import 'package:ginkgo_mobile/src/widgets/spacingRow.dart';
 import 'package:ginkgo_mobile/src/widgets/spincircle_bottom_bar/spincircle_bottom_bar.dart';
 import 'package:ginkgo_mobile/src/widgets/tourWidgets/widgets/tourDetailWidget.dart';

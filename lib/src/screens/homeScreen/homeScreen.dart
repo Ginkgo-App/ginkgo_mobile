@@ -123,7 +123,8 @@ class _HomeScreenState extends State<HomeScreen>
         ),
         child: HomeProvider(
           context,
-          child: TabBarView(
+          child: ExtendedTabBarView(
+            cacheExtent: 4,
             physics: NeverScrollableScrollPhysics(),
             controller: _tabController,
             children: _pages,

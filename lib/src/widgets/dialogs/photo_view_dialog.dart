@@ -1,6 +1,12 @@
 part of '../widgets.dart';
 
-class PhotoViewDescription {}
+class PhotoViewDescription {
+  final String title;
+  final String subTitle;
+  final String content;
+
+  PhotoViewDescription({this.title, this.subTitle, this.content});
+}
 
 class PhotoViewDialog {
   final BuildContext context;
@@ -18,15 +24,19 @@ class PhotoViewDialog {
         context: context,
         useRootNavigator: true,
         builder: (context) {
-          return _PhotoView(images: images);
+          return _PhotoView(images: images, descriptions: descriptions);
         });
   }
 }
 
 class _PhotoView extends StatefulWidget {
   final List<MultiSizeImage> images;
+  final List<PhotoViewDescription> descriptions;
 
-  const _PhotoView({Key key, this.images = const []}) : super(key: key);
+  const _PhotoView({Key key, this.images = const [], this.descriptions})
+      : assert(descriptions == null || descriptions.length == images.length,
+            'Mảng images và mảng description phải có cùng độ dài'),
+        super(key: key);
 
   @override
   __PhotoViewState createState() => __PhotoViewState();
@@ -34,7 +44,7 @@ class _PhotoView extends StatefulWidget {
 
 class __PhotoViewState extends State<_PhotoView> {
   int currentPage = 0;
-  
+
   _onBack(BuildContext context) {
     Navigator.pop(context);
   }
@@ -50,7 +60,9 @@ class __PhotoViewState extends State<_PhotoView> {
             scrollPhysics: const BouncingScrollPhysics(),
             itemCount: widget.images.length,
             onPageChanged: (i) {
-
+              setState(() {
+                currentPage = i;
+              });
             },
             builder: (context, index) {
               return PhotoViewGalleryPageOptions(
@@ -66,25 +78,78 @@ class __PhotoViewState extends State<_PhotoView> {
               return LoadingIndicator();
             },
           ),
-          Positioned.fill(
-            child: Container(
-              color: Colors.black87,
-
+          if (widget.descriptions != null)
+            Positioned(
+              left: 10,
+              bottom: 10,
+              right: 10,
+              child: Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: Colors.black.withOpacity(0.7),
+                ),
+                child: SpacingColumn(
+                  spacing: 2,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    if (widget.descriptions[currentPage].title != null)
+                      Text(
+                        widget.descriptions[currentPage].title ?? '',
+                        style: context.textTheme.bodyText1
+                            .copyWith(color: Colors.white),
+                      ),
+                    if (widget.descriptions[currentPage].subTitle != null)
+                      Text(
+                        widget.descriptions[currentPage].subTitle ?? '',
+                        style: context.textTheme.caption
+                            .copyWith(color: Colors.white70),
+                      ),
+                    const SizedBox(height: 4),
+                    if (widget.descriptions[currentPage].content != null)
+                      ConstrainedBox(
+                        constraints: BoxConstraints(
+                          maxHeight: MediaQuery.of(context).size.height * 0.6,
+                        ),
+                        child: SingleChildScrollView(
+                          child: HiddenText(
+                            (widget.descriptions[currentPage].content ?? '')
+                                .replaceAll('\\n', '\n'),
+                            maxLength: 200,
+                            duration: 300,
+                            readmoreText: '',
+                            style: context.textTheme.bodyText2
+                                .copyWith(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
             ),
-          ),
           Positioned(
             top: 12,
             left: 14,
+            right: 14,
             child: SafeArea(
-              child: CupertinoButton(
-                pressedOpacity: 0.7,
-                padding: EdgeInsets.all(0),
-                onPressed: () => _onBack(context),
-                child: Icon(
-                  Icons.close,
-                  color: context.colorScheme.background,
-                  size: 30,
-                ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  CupertinoButton(
+                    pressedOpacity: 0.7,
+                    padding: EdgeInsets.all(0),
+                    onPressed: () => _onBack(context),
+                    child: Icon(
+                      Icons.close,
+                      color: context.colorScheme.background,
+                      size: 30,
+                    ),
+                  ),
+                  if (widget.images.length > 1)
+                    Text('${currentPage + 1} / ${widget.images.length}',
+                        style: context.textTheme.headline6
+                            .copyWith(color: Colors.white))
+                ],
               ),
             ),
           ),
