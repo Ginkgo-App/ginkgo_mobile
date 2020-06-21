@@ -3,6 +3,23 @@ part of providers;
 class TourInfoProvider {
   final _client = ApiClient();
 
+  Future<Pagination<TourInfo>> getListOfUser(int userId,
+      {int page, int pageSize, String keyword}) async {
+    final response = await _client.normalConnect(
+        ApiMethod.GET,
+        userId != null && userId > 0
+            ? '${Api.userInfo(userId)}/tour-infos'
+            : '${Api.me}/tour-infos',
+        query: {
+          'page': (page ?? 1).toString(),
+          'pageSize': pageSize?.toString() ?? 0,
+          if (keyword != null) 'keyword': keyword,
+        });
+
+    return Pagination<TourInfo>(
+        response.data['Pagination'], response.data['Data']);
+  }
+
   Future<Pagination<TourInfo>> getList(
       {int page, int pageSize, String keyword}) async {
     final response =

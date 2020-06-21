@@ -11,12 +11,14 @@ part 'tour_info_list_state.dart';
 class TourInfoListBloc extends Bloc<TourInfoListEvent, TourInfoListState> {
   final Repository _repository = Repository();
   final int _pageSize;
+  final int _userId;
+  String _keyword;
 
   Pagination<TourInfo> _tourInfoList = Pagination<TourInfo>();
 
   Pagination<TourInfo> get tourInfoList => _tourInfoList;
 
-  TourInfoListBloc(this._pageSize);
+  TourInfoListBloc(this._pageSize, {int userId}) : _userId = userId;
 
   @override
   TourInfoListState get initialState => TourInfoListInitial();
@@ -29,11 +31,24 @@ class TourInfoListBloc extends Bloc<TourInfoListEvent, TourInfoListState> {
       if (event is TourInfoListEventFetch && _tourInfoList.canLoadmore) {
         yield TourInfoListStateLoading();
 
-        _tourInfoList.add(await _repository.tourInfo.getList(
-          page: _tourInfoList.pagination.currentPage + 1,
-          pageSize: _pageSize,
-          keyword: event.keyword,
-        ));
+        int nextPage = _tourInfoList.pagination.currentPage + 1;
+        if (_keyword != event.keyword && event.keyword != null) {
+          _keyword = event.keyword;
+          nextPage = 1;
+        }
+
+        _tourInfoList.add(_userId != null
+            ? await _repository.tourInfo.getListOfUser(
+                _userId,
+                page: nextPage,
+                pageSize: _pageSize,
+                keyword: event.keyword,
+              )
+            : await _repository.tourInfo.getList(
+                page: nextPage,
+                pageSize: _pageSize,
+                keyword: event.keyword,
+              ));
 
         yield TourInfoListStateSuccess(_tourInfoList);
       }

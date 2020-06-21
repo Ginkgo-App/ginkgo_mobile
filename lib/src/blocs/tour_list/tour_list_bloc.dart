@@ -10,7 +10,10 @@ part 'tour_list_state.dart';
 
 class TourListBloc extends Bloc<TourListEvent, TourListState> {
   final Repository _repository = Repository();
-  final int _pageSize;
+  final int pageSize;
+  final TourListType tourListType; // Để get các list ngoài trang chủ
+  final int userId;
+  final MeTourType meType; // Để get các list khác nhau của mình
 
   String _keyword;
 
@@ -18,7 +21,7 @@ class TourListBloc extends Bloc<TourListEvent, TourListState> {
 
   Pagination<SimpleTour> get tourList => _tourList;
 
-  TourListBloc(this._pageSize);
+  TourListBloc(this.pageSize, {this.tourListType, this.userId, this.meType});
 
   @override
   TourListState get initialState => TourListInitial();
@@ -28,49 +31,36 @@ class TourListBloc extends Bloc<TourListEvent, TourListState> {
     TourListEvent event,
   ) async* {
     try {
-      if (event is TourListEventFetchOfUser && _tourList.canLoadmore) {
+      if (event is TourListEventFetch && _tourList.canLoadmore) {
         yield TourListStateLoading();
 
-        if (event.keyword != null) {
+        int _nextPage = _tourList.pagination.currentPage + 1;
+        if (event.keyword != null && _keyword != event.keyword) {
           _keyword = event.keyword;
-        }
-
-        _tourList.add(await _repository.user.getUserTours(
-          userId: event.userId,
-          page: _tourList.pagination.currentPage + 1,
-          pageSize: _pageSize,
-          keyword: _keyword,
-        ));
-
-        yield TourListStateSuccess(_tourList);
-      } else if (event is TourListEventFetchOfMe && _tourList.canLoadmore) {
-        yield TourListStateLoading();
-
-        if (event.keyword != null) {
-          _keyword = event.keyword;
+          _nextPage = 1;
         }
 
         _tourList.add(
-          await _repository.user.getMeTours(
-            page: _tourList.pagination.currentPage + 1,
-            pageSize: _pageSize,
-            keyword: _keyword,
-            type: event.type,
-          ),
+          userId != null
+              ? (userId == 0
+                  ? await _repository.user.getMeTours(
+                      page: _nextPage,
+                      pageSize: pageSize,
+                      keyword: _keyword,
+                      type: meType,
+                    )
+                  : await _repository.user.getUserTours(
+                      userId: userId,
+                      page: _nextPage,
+                      pageSize: pageSize,
+                      keyword: _keyword,
+                    ))
+              : await _repository.tour.getList(
+                  pageSize: pageSize,
+                  page: _nextPage,
+                  keyword: _keyword,
+                ),
         );
-
-        yield TourListStateSuccess(_tourList);
-      } else if (event is TourListEventFetch && _tourList.canLoadmore) {
-        yield TourListStateLoading();
-
-        if (event.keyword != null) {
-          _keyword = event.keyword;
-        }
-
-        _tourList.add(await _repository.tour.getList(
-            pageSize: _pageSize,
-            page: _tourList.pagination.currentPage + 1,
-            keyword: _keyword));
 
         yield TourListStateSuccess(_tourList);
       }

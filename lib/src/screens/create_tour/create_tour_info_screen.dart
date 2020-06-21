@@ -124,6 +124,7 @@ class _CreateTourInfoScreenState extends State<CreateTourInfoScreen> {
               label: 'Địa điểm đầu:',
               child: GestureDetector(
                 onTap: () async {
+                  FocusScope.of(context).unfocus();
                   final place =
                       await PlaceBottomSheet.of(context, startPlace).show();
 
@@ -200,6 +201,7 @@ class _CreateTourInfoScreenState extends State<CreateTourInfoScreen> {
               label: 'Địa điểm Cuối:',
               child: GestureDetector(
                 onTap: () async {
+                  FocusScope.of(context).unfocus();
                   final place =
                       await PlaceBottomSheet.of(context, endPlace).show();
 

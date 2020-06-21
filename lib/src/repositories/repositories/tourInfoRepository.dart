@@ -3,6 +3,12 @@ part of repo;
 class _TourInfoRepository {
   final TourInfoProvider _provider = TourInfoProvider();
 
+  /// userId == 0 => me
+  Future<Pagination<TourInfo>> getListOfUser(int userId,
+          {int page, int pageSize, String keyword}) =>
+      _provider.getListOfUser(userId,
+          keyword: keyword, page: page, pageSize: pageSize);
+
   Future<Pagination<TourInfo>> getList(
           {int page, int pageSize, String keyword}) =>
       _provider.getList(keyword: keyword, page: page, pageSize: pageSize);

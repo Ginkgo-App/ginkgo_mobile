@@ -1,11 +1,12 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ginkgo_mobile/src/utils/designColor.dart';
+import 'package:ginkgo_mobile/src/widgets/widgets.dart';
 import 'dot_indicator.dart';
+import 'package:base/base.dart';
 
 class ImageSliderWidget extends StatefulWidget {
   final List<String> imageUrls;
@@ -178,9 +179,7 @@ class ImageSliderWidgetState extends State<ImageSliderWidget> {
       child: CachedNetworkImage(
         imageUrl: imgUrl,
         placeholder: (context, url) => Center(
-          child: Platform.isIOS
-              ? CupertinoActivityIndicator()
-              : CircularProgressIndicator(),
+          child: LoadingIndicator(color: context.colorScheme.primary),
         ),
         errorWidget: (context, url, error) => Icon(Icons.error),
         fit: BoxFit.cover,

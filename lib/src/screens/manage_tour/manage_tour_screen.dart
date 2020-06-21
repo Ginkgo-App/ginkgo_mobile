@@ -12,9 +12,12 @@ class _ManageTourScreenState extends State<ManageTourScreen>
   static const _PAGE_SIZE = 3;
 
   final PageController _pageController = PageController();
-  final TourListBloc _memberTourListBloc = TourListBloc(_PAGE_SIZE);
-  final TourListBloc _ownerTourListBloc = TourListBloc(_PAGE_SIZE);
-  final TourInfoListBloc _ownerTourInfoListBloc = TourInfoListBloc(_PAGE_SIZE);
+  final TourListBloc _memberTourListBloc =
+      TourListBloc(_PAGE_SIZE, userId: 0, meType: MeTourType.member);
+  final TourListBloc _ownerTourListBloc =
+      TourListBloc(_PAGE_SIZE, userId: 0, meType: MeTourType.owner);
+  final TourInfoListBloc _ownerTourInfoListBloc =
+      TourInfoListBloc(_PAGE_SIZE, userId: 0);
 
   int _currentPage = 0;
   _Filter _filter = _Filter.tour;
@@ -46,13 +49,13 @@ class _ManageTourScreenState extends State<ManageTourScreen>
 
   _fetchMemberTourList() {
     if (_memberTourListBloc.state is! TourListStateLoading) {
-      _memberTourListBloc.add(TourListEventFetchOfMe(type: MeTourType.member));
+      _memberTourListBloc.add(TourListEventFetch());
     }
   }
 
   _fetchOwnerTourList() {
     if (_ownerTourListBloc.state is! TourListStateLoading) {
-      _ownerTourListBloc.add(TourListEventFetchOfMe(type: MeTourType.owner));
+      _ownerTourListBloc.add(TourListEventFetch());
     }
   }
 

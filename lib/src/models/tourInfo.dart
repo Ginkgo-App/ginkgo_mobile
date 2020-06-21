@@ -30,8 +30,11 @@ class TourInfo with Mappable {
     map('DestinatePlace', destinatePlace,
         (v) => destinatePlace = Mapper.fromJson(v).toObject<Place>());
     map('Rating', rating, (v) => rating = v);
-    map('CreateBy', createBy,
-        (v) => createBy = Mapper.fromJson(v).toObject<SimpleUser>());
+    map(
+        'CreateBy',
+        createBy,
+        (v) => createBy =
+            v != null ? Mapper.fromJson(v).toObject<SimpleUser>() : null);
   }
 }
 
