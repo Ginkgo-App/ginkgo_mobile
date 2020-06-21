@@ -67,7 +67,7 @@ class __PhotoViewState extends State<_PhotoView> {
             builder: (context, index) {
               return PhotoViewGalleryPageOptions(
                 imageProvider:
-                    CachedNetworkImageProvider(widget.images[index].hugeThumb),
+                    CachedNetworkImageProvider(widget.images[index].original),
                 minScale: PhotoViewComputedScale.contained * 1,
                 maxScale: PhotoViewComputedScale.contained * 5,
                 heroAttributes:
