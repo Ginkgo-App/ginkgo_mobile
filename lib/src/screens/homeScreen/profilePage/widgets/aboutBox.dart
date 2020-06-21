@@ -47,7 +47,10 @@ class _AboutBoxState extends State<AboutBox> {
       bloc: updateProfileBloc,
       listener: (context, state) {
         if (state is UpdateProfileStateFailure) {
-          showErrorMessage( Strings.error.updateBio + '\n' + state.error);
+          showErrorMessage(Strings.error.updateBio + '\n' + state.error);
+          setState(() {
+            controller.text = widget.user?.bio ?? '';
+          });
         }
       },
       child: widget.editMode ||
@@ -55,7 +58,7 @@ class _AboutBoxState extends State<AboutBox> {
           ? BorderContainer(
               title: 'Tự giới thiệu',
               icon: Assets.icons.introduction,
-              child: isEditing ? buildTextField() : HiddenText(widget.user.bio),
+              child: isEditing ? buildTextField() : HiddenText(controller.text),
               actions: <Widget>[
                 if (widget.editMode)
                   BlocBuilder(
@@ -86,9 +89,10 @@ class _AboutBoxState extends State<AboutBox> {
       controller: controller,
       maxLines: 4,
       decoration: InputDecoration(
-          hintText: 'Tự giới thiệu',
-          border: InputBorder.none,
-          contentPadding: EdgeInsets.all(2)),
+        hintText: 'Tự giới thiệu',
+        border: InputBorder.none,
+        contentPadding: EdgeInsets.all(2),
+      ),
     );
   }
 }
