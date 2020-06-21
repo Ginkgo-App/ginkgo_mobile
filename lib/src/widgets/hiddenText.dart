@@ -6,6 +6,9 @@ class HiddenText extends StatefulWidget {
   final TextOverflow overflow;
   final TextStyle style;
   final TextAlign textAlign;
+  final String readmoreText;
+  final Color readmoreColor;
+  final int duration;
 
   const HiddenText(
     this.text, {
@@ -14,13 +17,16 @@ class HiddenText extends StatefulWidget {
     this.overflow,
     this.style,
     this.textAlign,
+    this.readmoreText = '[Xem thêm]',
+    this.readmoreColor,
+    this.duration = 100,
   }) : super(key: key);
 
   @override
   _HiddenTextState createState() => _HiddenTextState();
 }
 
-class _HiddenTextState extends State<HiddenText> with TickerProviderStateMixin{
+class _HiddenTextState extends State<HiddenText> with TickerProviderStateMixin {
   bool isShow = false;
   TextStyle textStyle;
 
@@ -31,8 +37,10 @@ class _HiddenTextState extends State<HiddenText> with TickerProviderStateMixin{
     textStyle = widget.style ?? context.textTheme.bodyText2;
     return AnimatedSize(
       vsync: this,
-      duration: Duration(milliseconds: 100),
-      reverseDuration: Duration(microseconds: 100),
+      duration: Duration(milliseconds: widget.duration),
+      reverseDuration: Duration(microseconds: widget.duration),
+      curve: Curves.ease,
+      alignment: AlignmentDirectional.topCenter,
       child: GestureDetector(
         onTap: () {
           setState(() {
@@ -49,8 +57,9 @@ class _HiddenTextState extends State<HiddenText> with TickerProviderStateMixin{
             ),
             if (isCollapsing)
               TextSpan(
-                text: '[Xem thêm]',
-                style: TextStyle(color: DesignColor.cta),
+                text: widget.readmoreText,
+                style:
+                    TextStyle(color: widget.readmoreColor ?? DesignColor.cta),
               ),
           ]),
         ),
