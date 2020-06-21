@@ -19,6 +19,7 @@ import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/navigators.dart';
 import 'package:ginkgo_mobile/src/screens/screens.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
+import 'package:ginkgo_mobile/src/utils/constrains.dart';
 import 'package:ginkgo_mobile/src/utils/debouncer.dart';
 import 'package:ginkgo_mobile/src/utils/designColor.dart';
 import 'package:ginkgo_mobile/src/utils/gradientColor.dart';

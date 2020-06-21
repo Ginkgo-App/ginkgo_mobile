@@ -9,6 +9,7 @@ class BorderContainer extends StatelessWidget {
   final String title;
   final List<Widget> actions;
   final Color color;
+  final bool headerUnderline;
 
   const BorderContainer({
     Key key,
@@ -20,6 +21,7 @@ class BorderContainer extends StatelessWidget {
     this.margin,
     this.actions = const [],
     this.color,
+    this.headerUnderline = false,
   })  : assert(child == null || children == null),
         super(key: key);
 
@@ -45,6 +47,7 @@ class BorderContainer extends StatelessWidget {
                 title: title,
                 icon: icon,
                 actions: actions,
+                showUnderline: headerUnderline,
               ),
             ),
           if (child != null)
@@ -69,35 +72,53 @@ class _Header extends StatelessWidget {
   final String title;
   final String icon;
   final List<Widget> actions;
+  final bool showUnderline;
 
-  const _Header({Key key, this.title, this.icon, this.actions})
+  const _Header(
+      {Key key,
+      this.title,
+      this.icon,
+      this.actions = const [],
+      this.showUnderline = false})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return IntrinsicHeight(
-      child: Row(
-        children: <Widget>[
-          if (icon.isExistAndNotEmpty) ...[
-            SvgPicture.asset(
-              icon,
-              height: 30,
-            ),
-            const SizedBox(width: 10)
-          ],
-          if (title.isExistAndNotEmpty)
-            Expanded(
-              child: Text(
-                title,
-                style: context.textTheme.subtitle1.copyWith(
-                    color: DesignColor.blockHeader,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-          const SizedBox(width: 5),
-          ...actions
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        IntrinsicHeight(
+          child: Row(
+            children: <Widget>[
+              if (icon.isExistAndNotEmpty) ...[
+                SvgPicture.asset(
+                  icon,
+                  height: 30,
+                ),
+                const SizedBox(width: 10)
+              ],
+              if (title.isExistAndNotEmpty)
+                Expanded(
+                  child: Text(
+                    title,
+                    style: context.textTheme.subtitle1.copyWith(
+                        color: DesignColor.blockHeader,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              const SizedBox(width: 5),
+              ...actions
+            ],
+          ),
+        ),
+        if (showUnderline)
+          Container(
+            width: 80,
+            margin: EdgeInsets.only(top: 10),
+            height: 0.5,
+            color: DesignColor.blockHeader,
+          )
+      ],
     );
   }
 }

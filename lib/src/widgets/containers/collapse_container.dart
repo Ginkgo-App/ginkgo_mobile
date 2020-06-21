@@ -7,6 +7,7 @@ class CollapseContainer extends StatefulWidget {
   final String title;
   final bool isCollapsing;
   final Function(bool) onChangeCollapse;
+  final bool headerUnderline;
 
   const CollapseContainer({
     Key key,
@@ -16,6 +17,7 @@ class CollapseContainer extends StatefulWidget {
     this.title,
     this.isCollapsing = true,
     this.onChangeCollapse,
+    this.headerUnderline = false,
   }) : super(key: key);
 
   @override
@@ -61,6 +63,7 @@ class _CollapseContainerState extends State<CollapseContainer>
     return BorderContainer(
       key: key,
       title: widget.title,
+      headerUnderline: widget.headerUnderline,
       childPadding: EdgeInsets.zero,
       actions: <Widget>[if (minHeight != null) buildCollapseButton()],
       child: Stack(

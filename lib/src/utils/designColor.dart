@@ -6,14 +6,14 @@ class DesignColor {
   static Color darkerWhite = Color(0xffE4D8D8);
   static Color darkestWhite = Color(0xffD7C6C6);
   static Color tinyItems = Color(0xff747576);
-  static Color lightBlack = Color(0xff595758);
   static Color darkRed = Color(0xffF41D00);
   static Color darkestRed = Color(0xffBD1700);
   static Color lightRed = Color(0xffFF5946);
+  static Color lighterRed = Color(0xffFF8E7E);
   static Color pink = Color(0xffF4988F);
   static Color lightPink = Color(0xffFADBD4);
   static Color lighterPink = Color(0xffFFECE8);
-  static Color lighterRed = Color(0xffFF8E7E);
+  static Color lightBlack = Color(0xff595758);
   static Color lightestBlack = Color(0xff9B9C9D);
   static Color lighterBlack = Color(0xff747576);
   static const darkestGreen = Color(0xff02842E);
