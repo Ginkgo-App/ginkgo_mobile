@@ -31,14 +31,13 @@ class TourProvider {
       'pageSize': pageSize?.toString() ?? 0,
     });
 
-    return Pagination<Post>(
-        response.data['Pagination'], response.data['Data']);
+    return Pagination<Post>(response.data['Pagination'], response.data['Data']);
   }
 
   Future<Pagination<SimpleTour>> getList(
       {int page, int pageSize, String keyword, PlaceSearchType type}) async {
     final response =
-        await _client.normalConnect(ApiMethod.GET, Api.places, query: {
+        await _client.normalConnect(ApiMethod.GET, Api.places(null), query: {
       'page': (page ?? 1).toString(),
       'pageSize': pageSize?.toString() ?? 0,
       if (type != null) 'type': enumToString(type),

@@ -4,7 +4,7 @@ class Place with Mappable {
   int id;
   String name;
   String address;
-  List<MultiSizeImage> images;
+  List<MultiSizeImage> images = [];
   String description;
   int tourCount;
   SimpleUser createBy;
@@ -23,6 +23,23 @@ class Place with Mappable {
     this.children,
   });
 
+  Map<KeyValue, List<Place>> childrenMap() {
+    Map<KeyValue, List<Place>> result = {};
+
+    if (children != null && children.length > 0) {
+      children.forEach((element) {
+        if (element.type != null) {
+          if (result[element.type] == null) {
+            result[element.type] = [];
+          }
+          result[element.type].add(element);
+        }
+      });
+    }
+
+    return result;
+  }
+
   @override
   void mapping(Mapper map) {
     map('Id', id, (v) => id = v);
@@ -36,9 +53,10 @@ class Place with Mappable {
     map(
         'Type',
         type,
-        (v) => type =
-            v != null ? KeyValue(key: v['Id'].toString(), value: v['Value']) : null);
-    map<Place>('Children', children, (v) => children = v);
+        (v) => type = v != null
+            ? KeyValue(key: v['Id'].toString(), value: v['Value'])
+            : null);
+    map<Place>('ChildPlaces', children, (v) => children = v);
   }
 }
 

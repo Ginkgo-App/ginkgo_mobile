@@ -18,35 +18,78 @@ class PlaceDetailScreen extends StatefulWidget {
 }
 
 class _PlaceDetailScreenState extends State<PlaceDetailScreen> {
-  PlaceDetailScreenArgs args;
+  final PlaceDetailBloc _placeDetailBloc = PlaceDetailBloc();
+  PlaceDetailScreenArgs _args;
 
   @override
   void initState() {
     super.initState();
-    args = widget.args;
+    _args = widget.args;
+    _fetchData();
+  }
+
+  _fetchData() {
+    _placeDetailBloc.add(PlaceDetailEventFetch(_args.place?.id));
+  }
+
+  dispose() {
+    _placeDetailBloc.close();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return PrimaryScaffold(
       appBar: BackAppBar(title: 'Thông tin điểm đến'),
-      body: args?.place != null
-          ? SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  buildTopImage(),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: SpacingColumn(
-                      spacing: 10,
-                      isSpacingHeadTale: true,
-                      children: <Widget>[
-                        buildChildPlaceList(args.place.children)
-                      ],
-                    ),
-                  )
-                ],
-              ),
+      body: _args?.place != null
+          ? BlocBuilder(
+              bloc: _placeDetailBloc,
+              builder: (context, state) {
+                if (state is PlaceDetailStateFailure) {
+                  return ErrorIndicator(
+                    moreErrorDetail: state.error.toString(),
+                    onReload: _fetchData,
+                  );
+                }
+                return SingleChildScrollView(
+                  child: Column(
+                    children: <Widget>[
+                      buildTopImage(),
+                      if (state is PlaceDetailStateSuccess &&
+                          _placeDetailBloc.place.children.length == 0)
+                        NotFoundWidget(
+                          message:
+                              'Không có địa điểm du lịch.\nHãy liên hệ BQT để cung cấp thông tin.',
+                        )
+                      else
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: SpacingColumn(
+                            spacing: 10,
+                            isSpacingHeadTale: true,
+                            children: (state is PlaceDetailStateSuccess
+                                    ? _placeDetailBloc.place.childrenMap()
+                                    : {
+                                        KeyValue(key: '', value: 'Đang tải...'):
+                                            null
+                                      })
+                                .map(
+                                  (key, value) => MapEntry(
+                                    key,
+                                    buildChildPlaceList(
+                                        key.value, _args.place.children,
+                                        isLoading:
+                                            state is PlaceDetailStateLoading),
+                                  ),
+                                )
+                                .values
+                                .toList(),
+                          ),
+                        )
+                    ],
+                  ),
+                );
+              },
             )
           : const SizedBox.shrink(),
     );
@@ -57,7 +100,9 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen> {
       child: Stack(
         children: <Widget>[
           ImageWidget(
-            args.place.images.length > 0 ? args.place.images[0].largeThumb : '',
+            _args?.place?.images != null && _args.place.images.length > 0
+                ? _args.place.images[0].largeThumb
+                : '',
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.width * 200 / 375,
           ),
@@ -73,12 +118,16 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen> {
                     style: context.textTheme.subtitle1.copyWith(
                         color: Colors.white, fontWeight: FontWeight.bold),
                     children: [
-                      TextSpan(text: args.place.name ?? ''),
-                      if (args?.place?.name != null)
+                      TextSpan(text: _args.place.name ?? ''),
+                      if (_args.place?.createBy?.displayName != null)
                         TextSpan(
                             text:
-                                ' - Thông tin cung cấp bởi ${args.place.createBy.displayName}',
-                            style: TextStyle(fontSize: 14)),
+                                ' - Thông tin cung cấp bởi ${_args.place?.createBy?.displayName}',
+                            style: TextStyle(fontSize: 14))
+                      else if (_args.place?.description != null)
+                        TextSpan(
+                            text: ' - ${_args.place?.description}',
+                            style: TextStyle(fontSize: 14))
                     ]),
               ),
             ),
@@ -88,14 +137,15 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen> {
     );
   }
 
-  buildChildPlaceList(List<Place> data) {
+  Widget buildChildPlaceList(String title, List<Place> data,
+      {bool isLoading = false}) {
     return CollapseContainer(
-      title: 'type.value',
+      title: title ?? '',
       collapseHeight: 405,
       headerUnderline: true,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: PlaceList(places: args.place.children),
+        child: PlaceList(isLoading: isLoading, places: data),
       ),
     );
   }

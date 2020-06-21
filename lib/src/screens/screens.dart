@@ -17,6 +17,7 @@ import 'package:ginkgo_mobile/src/blocs/authScreen/auth_screen_bloc.dart';
 import 'package:ginkgo_mobile/src/blocs/create_tour/create_tour_bloc.dart';
 import 'package:ginkgo_mobile/src/blocs/create_tour_info/create_tour_info_bloc.dart';
 import 'package:ginkgo_mobile/src/blocs/currentUser/current_user_bloc.dart';
+import 'package:ginkgo_mobile/src/blocs/place_detail/place_detail_bloc.dart';
 import 'package:ginkgo_mobile/src/blocs/tour_detail/tour_detail_bloc.dart';
 import 'package:ginkgo_mobile/src/blocs/tour_info_detail/tour_info_detail_bloc.dart';
 import 'package:ginkgo_mobile/src/blocs/tour_info_list/tour_info_list_bloc.dart';

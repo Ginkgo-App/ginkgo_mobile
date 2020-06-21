@@ -25,8 +25,9 @@ class Api {
   static final me = AppConfig.instance.apiUrl + '/users/me';
   static final meFriends = AppConfig.instance.apiUrl + '/users/me/friends';
   static final meTours = AppConfig.instance.apiUrl + '/users/me/tours';
-  static final places = AppConfig.instance.apiUrl + '/places';
 
+  static String places(int placeId) =>
+      AppConfig.instance.apiUrl + '/places/${placeId ?? ''}';
   static String tourInfos(int tourInfoId) =>
       AppConfig.instance.apiUrl + '/tour-infos/${tourInfoId ?? ''}';
   static String tourInfosTourList(int tourInfoId) =>

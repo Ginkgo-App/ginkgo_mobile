@@ -11,4 +11,6 @@ class _PlaceRepository {
         pageSize: pageSize,
         type: type,
       );
+
+  Future<Place> getDetail(int placeId) => _placeProvider.getDetail(placeId);
 }
