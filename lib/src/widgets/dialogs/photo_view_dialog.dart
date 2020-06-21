@@ -96,8 +96,8 @@ class __PhotoViewState extends State<_PhotoView> {
                     if (widget.descriptions[currentPage].title != null)
                       Text(
                         widget.descriptions[currentPage].title ?? '',
-                        style: context.textTheme.bodyText1
-                            .copyWith(color: Colors.white),
+                        style: context.textTheme.subtitle1.copyWith(
+                            color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                     if (widget.descriptions[currentPage].subTitle != null)
                       Text(
