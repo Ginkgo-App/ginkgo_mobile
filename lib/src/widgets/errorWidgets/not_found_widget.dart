@@ -1,3 +1,4 @@
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/widgets/widgets.dart';
@@ -20,17 +21,17 @@ class NotFoundWidget extends StatelessWidget {
       margin: EdgeInsets.all(10),
       childPadding: EdgeInsets.zero,
       children: <Widget>[
-        ClipRRect(
-          borderRadius: BorderRadius.circular(5),
-          child: Image.asset(Assets.images.notFound),
+        FlareActor(
+          "assets/images/404.flr",
+          alignment: Alignment.center,
+          sizeFromArtboard: true,
+          fit: BoxFit.contain,
+          animation: "Untitled",
         ),
-        Transform.translate(
-          offset: Offset(0, -15),
-          child: Text(
-            message,
-            textAlign: TextAlign.center,
-            style: context.textTheme.bodyText1,
-          ),
+        Text(
+          message,
+          textAlign: TextAlign.center,
+          style: context.textTheme.bodyText1,
         ),
         if (bottom != null) bottom,
         const SizedBox(height: 20),
