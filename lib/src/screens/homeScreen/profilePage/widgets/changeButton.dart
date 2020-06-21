@@ -29,7 +29,7 @@ class ChangeButton extends StatelessWidget {
             child: Text(
               (isEditing ? Strings.button.saveChanges : Strings.button.edit)
                   .toUpperCase(),
-              style: context.textTheme.body1.copyWith(color: DesignColor.cta),
+              style: context.textTheme.bodyText2.copyWith(color: DesignColor.cta),
             ),
           );
   }

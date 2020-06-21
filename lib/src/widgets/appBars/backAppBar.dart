@@ -3,15 +3,9 @@ part of '../widgets.dart';
 class BackAppBar extends StatelessWidget implements PreferredSizeWidget {
   final List<Widget> actions;
   final PreferredSizeWidget bottom;
-  final bool showBackButton;
   final String title;
 
-  BackAppBar(
-      {Key key,
-      this.actions,
-      this.bottom,
-      this.showBackButton = true,
-      this.title})
+  BackAppBar({Key key, this.actions, this.bottom, this.title})
       : preferredSize = Size.fromHeight(
             56.0 + (bottom != null ? bottom.preferredSize.height : 0)),
         super(key: key);
@@ -26,7 +20,7 @@ class BackAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 4,
       centerTitle: true,
       bottom: bottom,
-      leading: showBackButton
+      leading: Navigator.canPop(context)
           ? IconButton(
               icon: Icon(
                 Icons.arrow_back_ios,
@@ -34,10 +28,10 @@ class BackAppBar extends StatelessWidget implements PreferredSizeWidget {
               ),
               onPressed: () => Navigator.pop(context),
             )
-          : Container(),
+          : const SizedBox(),
       title: Text(
         title ?? 'Ginkgo',
-        style: context.textTheme.title.merge(
+        style: context.textTheme.headline6.merge(
           TextStyle(color: context.colorScheme.onBackground),
         ),
       ),

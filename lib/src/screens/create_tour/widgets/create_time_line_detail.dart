@@ -78,7 +78,7 @@ class _CreateTimelineDetailState extends State<CreateTimelineDetail> {
                 widget.timelineDetail == null
                     ? 'Thêm thông tin hoạt động'
                     : 'Sửa thông tin hoạt động',
-                style: context.textTheme.title
+                style: context.textTheme.headline6
                     .copyWith(fontWeight: FontWeight.bold),
               ),
               SpacingRow(
@@ -87,10 +87,10 @@ class _CreateTimelineDetailState extends State<CreateTimelineDetail> {
                 children: <Widget>[
                   Flexible(
                     flex: 2,
-                    child: _CreateTourTextFieldBase(
+                    child: CreateTourTextFieldBase(
                       isRequired: true,
                       label: 'Thời gian:',
-                      textInput: TextFormField(
+                      child: TextFormField(
                         controller: timeController,
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.all(10),
@@ -112,9 +112,9 @@ class _CreateTimelineDetailState extends State<CreateTimelineDetail> {
                   ),
                   Flexible(
                     flex: 3,
-                    child: _CreateTourTextFieldBase(
+                    child: CreateTourTextFieldBase(
                       label: 'Địa điểm:',
-                      textInput: GestureDetector(
+                      child: GestureDetector(
                         onTap: () async {
                           final place =
                               await PlaceBottomSheet.of(context, selectedPlace)
@@ -147,10 +147,10 @@ class _CreateTimelineDetailState extends State<CreateTimelineDetail> {
                   ),
                 ],
               ),
-              _CreateTourTextFieldBase(
+              CreateTourTextFieldBase(
                 isRequired: true,
                 label: 'Nội dung hoạt động:',
-                textInput: TextFormField(
+                child: TextFormField(
                   controller: detailController,
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.all(10),

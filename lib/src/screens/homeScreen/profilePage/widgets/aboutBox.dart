@@ -47,8 +47,7 @@ class _AboutBoxState extends State<AboutBox> {
       bloc: updateProfileBloc,
       listener: (context, state) {
         if (state is UpdateProfileStateFailure) {
-          showErrorMessage(
-              context, Strings.error.updateBio + '\n' + state.error);
+          showErrorMessage( Strings.error.updateBio + '\n' + state.error);
         }
       },
       child: widget.editMode ||

@@ -1,6 +1,7 @@
 library widget;
 
 import 'dart:async';
+import 'dart:io';
 import 'dart:math';
 import 'dart:ui' show lerpDouble;
 
@@ -18,16 +19,27 @@ import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/navigators.dart';
 import 'package:ginkgo_mobile/src/screens/screens.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
+import 'package:ginkgo_mobile/src/utils/constrains.dart';
 import 'package:ginkgo_mobile/src/utils/debouncer.dart';
 import 'package:ginkgo_mobile/src/utils/designColor.dart';
 import 'package:ginkgo_mobile/src/utils/gradientColor.dart';
 import 'package:ginkgo_mobile/src/utils/strings.dart';
-import 'package:ginkgo_mobile/src/widgets/buttons/friend_buttons/friend_buttons.dart';
 import 'package:ginkgo_mobile/src/widgets/errorWidgets/errorIndicator.dart';
+import 'package:ginkgo_mobile/src/widgets/galleryItem.dart';
 import 'package:ginkgo_mobile/src/widgets/gradientOutlineBorder.dart';
 import 'package:ginkgo_mobile/src/widgets/spacingRow.dart';
+import 'package:ginkgo_mobile/src/widgets/spincircle_bottom_bar/spincircle_bottom_bar.dart';
+import 'package:ginkgo_mobile/src/widgets/tourWidgets/widgets/tourDetailWidget.dart';
+import 'package:ginkgo_mobile/src/widgets/tourWidgets/widgets/tourInfoDetailWidget.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:multi_image_picker/multi_image_picker.dart';
+import 'package:photo_view/photo_view.dart';
+import 'package:photo_view/photo_view_gallery.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
+
+export 'userWidgets/user_widgets.dart';
 
 part 'addCommentWidget.dart';
 part 'appBars/backAppBar.dart';
@@ -36,14 +48,17 @@ part 'buttons/primaryButton.dart';
 part 'containers/borderContainer.dart';
 part 'containers/collapse_container.dart';
 part 'customs/image_widget.dart';
+part 'dialogs/photo_view_dialog.dart';
 part 'gradientTextFormField.dart';
 part 'gradientUnderlineBorder.dart';
 part 'hiddenText.dart';
 part 'loadingDotIndicator.dart';
 part 'loadingIndicator.dart';
+part 'placeWidgets/opacityPlace.dart';
 part 'placeWidgets/place_bottom_sheet.dart';
 part 'primaryScaffold.dart';
+part 'rating.dart';
 part 'skeleton.dart';
-part 'userWidgets/circleTourUser.dart';
-part 'userWidgets/circleUser.dart';
-part 'userWidgets/user_friend.dart';
+part 'tourWidgets/blackOpacityTour.dart';
+part 'tourWidgets/tourItem.dart';
+part 'actionSheets/pick_image_action_sheet.dart';

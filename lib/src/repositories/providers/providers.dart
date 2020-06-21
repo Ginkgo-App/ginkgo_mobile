@@ -10,10 +10,11 @@ import 'package:ginkgo_mobile/src/models/models.dart';
 import 'appClient.dart';
 
 part 'authProvider.dart';
-part 'systemProvider.dart';
-part 'userProvider.dart';
 part 'placeProvider.dart';
+part 'systemProvider.dart';
+part 'tourInfoProvider.dart';
 part 'tourProvider.dart';
+part 'userProvider.dart';
 
 class Api {
   static final image = 'https://api.imgur.com/3/image';
@@ -24,8 +25,17 @@ class Api {
   static final me = AppConfig.instance.apiUrl + '/users/me';
   static final meFriends = AppConfig.instance.apiUrl + '/users/me/friends';
   static final meTours = AppConfig.instance.apiUrl + '/users/me/tours';
-  static final places = AppConfig.instance.apiUrl + '/places';
 
+  static String places(int placeId) =>
+      AppConfig.instance.apiUrl + '/places/${placeId ?? ''}';
+  static String tourInfos(int tourInfoId) =>
+      AppConfig.instance.apiUrl + '/tour-infos/${tourInfoId ?? ''}';
+  static String tourInfosTourList(int tourInfoId) =>
+      AppConfig.instance.apiUrl + '/tour-infos/$tourInfoId/tours';
+  static String tourInTourInfo(int tourInfoId) =>
+      AppConfig.instance.apiUrl + '/tour-infos/$tourInfoId' + '/tours';
+  static String tour(int tourId) =>
+      AppConfig.instance.apiUrl + '/tours/$tourId';
   static String addFriend(int userId) =>
       AppConfig.instance.apiUrl + '/users/me/friends/$userId';
   static String deleteFriend(int userId) =>

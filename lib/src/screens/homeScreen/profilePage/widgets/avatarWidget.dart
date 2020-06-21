@@ -10,7 +10,6 @@ import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/screens/homeScreen/homeProvider.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/utils/heroKeys.dart';
-import 'package:ginkgo_mobile/src/widgets/actionSheets/pickImageActionSheet.dart';
 import 'package:ginkgo_mobile/src/widgets/widgets.dart';
 
 class AvatarWidget extends StatefulWidget {
@@ -28,7 +27,7 @@ class _AvatarWidgetState extends State<AvatarWidget> {
   final UpdateProfileBloc updateProfileBloc = UpdateProfileBloc();
 
   _onAvatarPress() {
-    // TODO handle show dialog image.
+    PhotoViewDialog(context, images: [widget.user.avatar]).show();
   }
 
   _onUpdateAvatarPress(BuildContext context) {
@@ -121,7 +120,7 @@ class _AvatarWidgetState extends State<AvatarWidget> {
             children: <Widget>[
               Text(
                 widget.user?.displayName ?? '',
-                style: context.textTheme.title
+                style: context.textTheme.headline6
                     .copyWith(color: Colors.white, fontWeight: FontWeight.bold),
               ),
               if (widget.user?.slogan != null &&
@@ -131,7 +130,7 @@ class _AvatarWidgetState extends State<AvatarWidget> {
                 ),
                 Text(
                   widget.user.slogan,
-                  style: context.textTheme.body1.copyWith(color: Colors.white),
+                  style: context.textTheme.bodyText2.copyWith(color: Colors.white),
                 )
               ],
             ],

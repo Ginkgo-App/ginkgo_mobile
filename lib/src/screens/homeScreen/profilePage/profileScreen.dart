@@ -55,10 +55,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         }
 
         return PrimaryScaffold(
-          appBar: BackAppBar(
-            title: user?.fullName ?? '',
-            showBackButton: false,
-          ),
+          appBar: BackAppBar(title: user?.fullName ?? ''),
           body: state is CurrentUserStateFailure
               ? ErrorIndicator(
                   moreErrorDetail: state.error,
@@ -135,10 +132,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       showSloganBottomSheet(context, user.slogan);
                     }
                   },
+                  {
+                    'text': 'Đăng xuất',
+                    'onPressed': () {
+                      Navigator.pop(context);
+                      AuthBloc().add(AuthEventLogout());
+                    }
+                  },
                 ]
                     .map<Widget>(
                       (e) => FlatButton(
-                        child: Text(e['text'], style: context.textTheme.body1),
+                        child: Text(e['text'], style: context.textTheme.bodyText2),
                         color: context.colorScheme.background,
                         highlightColor: DesignColor.darkestWhite,
                         padding: EdgeInsets.symmetric(vertical: 20),

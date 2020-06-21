@@ -12,7 +12,6 @@ part 'routes/routes.dart';
 class App extends AppBase {
   @override
   Widget build(BuildContext context) {
-    
     return GestureDetector(
       onTap: () {
         FocusScopeNode currentFocus = FocusScope.of(context);
@@ -24,25 +23,9 @@ class App extends AppBase {
       child: MaterialApp(
         title: 'Ginkgo',
         initialRoute: Routes.splash,
-        routes: _routeBuilder,
         onGenerateRoute: _onGenerateRoute,
         navigatorKey: AppConfig.navigatorKey,
         theme: ThemeData(
-          textTheme: TextTheme(
-            display4: TextStyle(fontSize: 112),
-            display3: TextStyle(fontSize: 56),
-            display2: TextStyle(fontSize: 45),
-            display1: TextStyle(fontSize: 34),
-            headline: TextStyle(fontSize: 24),
-            title: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-            subhead: TextStyle(fontSize: 16),
-            body2: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-            body1: TextStyle(fontSize: 14),
-            caption: TextStyle(fontSize: 12),
-            button: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-            subtitle: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-            overline: TextStyle(fontSize: 10),
-          ),
           primaryColor: Color(0xffFF0000),
           colorScheme: ColorScheme(
             primary: Color(0xffFF0000),

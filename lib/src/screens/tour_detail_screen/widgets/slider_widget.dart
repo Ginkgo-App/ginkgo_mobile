@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/utils/strings.dart';
 import 'package:ginkgo_mobile/src/widgets/customs/simple_slider.dart';
+import 'package:ginkgo_mobile/src/widgets/widgets.dart';
 
 class SliderWidget extends StatelessWidget {
   final List<MultiSizeImage> images;
@@ -27,7 +28,7 @@ class SliderWidget extends StatelessWidget {
           child: CupertinoButton(
             onPressed: onViewAll ??
                 () {
-                  // TODO Implement view list image.
+                  PhotoViewDialog(context, images: images).show();
                 },
             padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
             minSize: 0,

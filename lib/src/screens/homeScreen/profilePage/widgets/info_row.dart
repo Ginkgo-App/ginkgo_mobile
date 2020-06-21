@@ -125,14 +125,14 @@ class _InfoRowState extends State<InfoRow> {
                 widget.data.type == InfoRowType.enumable
                     ? selectedEnum?.value ?? widget.data.enumValue.value ?? ''
                     : selectedDate?.toVietNamese() ?? widget.data.text ?? '',
-                style: textTheme.body1)
+                style: textTheme.bodyText2)
             : widget.data.type == InfoRowType.enumable
                 ? buildDropDown()
                 : TextField(
                     autofocus: true,
                     controller: textFieldControler,
                     style:
-                        textTheme.body1.copyWith(fontWeight: FontWeight.bold),
+                        textTheme.bodyText2.copyWith(fontWeight: FontWeight.bold),
                     enableSuggestions: true,
                     textAlignVertical: TextAlignVertical.center,
                     decoration: InputDecoration(
@@ -185,7 +185,7 @@ class _InfoRowState extends State<InfoRow> {
   buildDropDown() {
     return DropdownButton<KeyValue>(
       value: selectedEnum ?? widget.data.enumValue,
-      style: context.textTheme.body1.copyWith(fontWeight: FontWeight.bold),
+      style: context.textTheme.bodyText2.copyWith(fontWeight: FontWeight.bold),
       underline: const SizedBox.shrink(),
       items: widget.data.enumData
           .map(

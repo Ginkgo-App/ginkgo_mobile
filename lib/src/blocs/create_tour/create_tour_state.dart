@@ -17,7 +17,11 @@ class CreateTourStateHaveChanged extends CreateTourState {
 
 class CreateTourStateLoading extends CreateTourState {}
 
-class CreateTourStateSuccess extends CreateTourState {}
+class CreateTourStateSuccess extends CreateTourState {
+  final Tour tour;
+
+  CreateTourStateSuccess(this.tour);
+}
 
 class CreateTourStateFailure extends CreateTourState {
   final dynamic error;

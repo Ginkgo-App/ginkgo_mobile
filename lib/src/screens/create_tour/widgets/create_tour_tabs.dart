@@ -25,17 +25,17 @@ part 'create_tour_tab1.dart';
 part 'create_tour_tab2.dart';
 part 'create_tour_tab3.dart';
 
-class _CreateTourTextFieldBase extends StatelessWidget {
+class CreateTourTextFieldBase extends StatelessWidget {
   final bool isRequired;
   final String label;
-  final Widget textInput;
+  final Widget child;
   final String unit;
 
-  const _CreateTourTextFieldBase({
+  const CreateTourTextFieldBase({
     Key key,
     this.isRequired = false,
     this.label,
-    this.textInput,
+    this.child,
     this.unit,
   }) : super(key: key);
 
@@ -49,7 +49,7 @@ class _CreateTourTextFieldBase extends StatelessWidget {
           RichText(
             text: TextSpan(
               text: !isRequired ? '' : '* ',
-              style: context.textTheme.body1
+              style: context.textTheme.bodyText2
                   .copyWith(color: context.colorScheme.error),
               children: [
                 TextSpan(
@@ -62,11 +62,11 @@ class _CreateTourTextFieldBase extends StatelessWidget {
         SpacingRow(
           spacing: 5,
           children: <Widget>[
-            Expanded(child: textInput),
+            Expanded(child: child),
             if (unit.isExistAndNotEmpty)
               Text(
                 unit,
-                style: context.textTheme.body1.copyWith(
+                style: context.textTheme.bodyText2.copyWith(
                     fontStyle: FontStyle.italic,
                     color: DesignColor.lightestBlack),
               )

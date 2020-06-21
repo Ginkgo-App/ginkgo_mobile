@@ -47,7 +47,7 @@ class BorderTourItem extends StatelessWidget {
                     margin: EdgeInsets.only(right: tour != null ? 0 : 20),
                     child: Text(
                       tour?.name ?? '',
-                      style: context.textTheme.body2,
+                      style: context.textTheme.bodyText1,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),

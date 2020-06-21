@@ -1,43 +1,87 @@
 part of 'models.dart';
 
+enum MeTourType { owner, member, all }
+
+enum TourListType { recommend, friend, forYou }
+
+enum TourMembersType { accepted, requesting }
+
 class Tour with Mappable {
   int id;
   String name;
+  double rating;
   DateTime startDay;
   DateTime endDay;
-  Place startPlace;
-  Place destinatePlace;
+  int totalDay;
+  int totalNight;
   int totalMember;
-  SimpleUser host;
+  int maxMember;
+  List<String> services;
+  SimpleUser createBy;
   double price;
-  TourInfo tourInfo;
   List<Timeline> timelines;
+  TourInfo tourInfo;
+  DateTime joinAt;
+  DateTime acceptedAt;
 
-  Tour(
-      {this.id,
-      this.name,
-      this.startDay,
-      this.endDay,
-      this.startPlace,
-      this.destinatePlace,
-      this.totalMember,
-      this.host,
-      this.price,
-      this.tourInfo,
-      this.timelines});
+  List<MultiSizeImage> get images => tourInfo?.images ?? [];
+
+  bool isHost(SimpleUser user) => user.id == createBy.id;
+
+  bool canJoin(SimpleUser user) =>
+      !isHost(user) && joinAt == null && acceptedAt == null;
+
+  SimpleTour toSimpleTour() => SimpleTour(
+        id: id,
+        endDay: endDay,
+        friends: [],
+        host: createBy,
+        images: tourInfo?.images ?? [],
+        name: name,
+        price: price,
+        rating: rating,
+        startDay: startDay,
+        totalMember: totalMember,
+      );
+
+  Tour({
+    this.id,
+    this.name,
+    this.rating,
+    this.startDay,
+    this.endDay,
+    this.totalDay,
+    this.totalNight,
+    this.totalMember,
+    this.maxMember,
+    this.services,
+    this.createBy,
+    this.price,
+    this.timelines,
+    this.tourInfo,
+    this.joinAt,
+    this.acceptedAt,
+  });
 
   @override
   void mapping(Mapper map) {
     map('Id', id, (v) => id = v);
     map('Name', name, (v) => name = v);
+    map('Rating', rating, (v) => rating = v);
     map('StartDay', startDay, (v) => startDay = v, DateTimeTransform());
     map('EndDay', endDay, (v) => endDay = v, DateTimeTransform());
-    map('StartPlace', startPlace, (v) => startPlace = v);
-    map('DestinatePlace', destinatePlace, (v) => destinatePlace = v);
+    map('TotalDay', totalDay, (v) => totalDay = v);
+    map('TotalNight', totalNight, (v) => totalNight = v);
     map('TotalMember', totalMember, (v) => totalMember = v);
-    map('Host', host, (v) => host = v);
-    map('Price', price, (v) => price = v);
-    map('TourInfo', tourInfo, (v) => tourInfo = v);
+    map('MaxMember', maxMember, (v) => maxMember = v);
+    map<Timeline>('TimeLines', timelines, (v) => timelines = v);
+    map<String>('Services', services, (v) => services = v);
+    map('TourInfo', tourInfo,
+        (v) => tourInfo = Mapper.fromJson(v).toObject<TourInfo>());
+    map('Createby', createBy,
+        (v) => createBy = Mapper.fromJson(v).toObject<SimpleUser>());
+    map('JoinAt', joinAt, (v) => joinAt = v, DateTimeTransform());
+    map('AcceptedAt', acceptedAt, (v) => acceptedAt = v, DateTimeTransform());
   }
 }
 
@@ -74,8 +118,10 @@ class SimpleTour with Mappable {
     map('EndDay', endDay, (v) => endDay = v, DateTimeTransform());
     map('TotalMember', totalMember, (v) => totalMember = v);
     map('Host', host, (v) => host = Mapper.fromJson(v).toObject<SimpleUser>());
-    map<MultiSizeImage>(
-        'Images', images, (v) => images = v, MultiSizeImageTransform());
+    map<MultiSizeImage>('Images', images, (v) {
+      images = v;
+      images?.shuffle();
+    }, MultiSizeImageTransform());
     map('Price', price, (v) => price = v);
     map('Rating', rating, (v) => rating = v);
     map<SimpleUser>('Friend', friends, (v) => friends = v);
@@ -121,16 +167,16 @@ class TourToPost with Mappable {
   }
 
   void update(TourToPost t) {
-    name = t.name;
-    startDay = t.startDay;
-    endDay = t.endDay;
-    totalDay = t.totalDay;
-    totalNight = t.totalNight;
-    maxMember = t.maxMember;
-    price = t.price;
-    tourInfoId = t.tourInfoId;
-    timelines = t.timelines;
-    services = t.services;
+    name = t.name ?? name;
+    startDay = t.startDay ?? startDay;
+    endDay = t.endDay ?? endDay;
+    totalDay = t.totalDay ?? totalDay;
+    totalNight = t.totalNight ?? totalNight;
+    maxMember = t.maxMember ?? maxMember;
+    price = t.price ?? price;
+    tourInfoId = t.tourInfoId ?? tourInfoId;
+    timelines = t.timelines ?? timelines;
+    services = t.services ?? services;
   }
 }
 
@@ -169,5 +215,35 @@ class TotalDayNight {
 
   @override
   String toString() =>
-      '${totalDay > 0 ? '$totalDay ngày ' : ''}${totalNight > 0 ? '$totalNight đêm' : ''}';
+      '${totalDay != null && totalDay > 0 ? '$totalDay ngày ' : ''}${totalNight != null && totalNight > 0 ? '$totalNight đêm' : ''}';
+}
+
+class TourMember extends SimpleUser with Mappable {
+  DateTime joinAt;
+  DateTime acceptedAt;
+
+  TourMember({
+    int id,
+    String name,
+    MultiSizeImage avatar,
+    String job,
+    int tourCount,
+    FriendType friendType,
+    this.joinAt,
+    this.acceptedAt,
+  }) : super(
+          id: id,
+          name: name,
+          avatar: avatar,
+          job: job,
+          tourCount: tourCount,
+          friendType: friendType,
+        );
+
+  @override
+  void mapping(Mapper map) {
+    super.mapping(map);
+    map('JoinAt', joinAt, (v) => joinAt = v, DateTimeTransform());
+    map('AcceptedAt', acceptedAt, (v) => acceptedAt = v, DateTimeTransform());
+  }
 }

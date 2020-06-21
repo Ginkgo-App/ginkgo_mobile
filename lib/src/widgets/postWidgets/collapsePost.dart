@@ -7,7 +7,6 @@ import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/utils/designColor.dart';
 import 'package:ginkgo_mobile/src/utils/strings.dart';
 import 'package:ginkgo_mobile/src/widgets/galleryItem.dart';
-import 'package:ginkgo_mobile/src/widgets/rating.dart';
 import 'package:ginkgo_mobile/src/widgets/spacingColumn.dart';
 import 'package:ginkgo_mobile/src/widgets/widgets.dart';
 import 'package:intl/intl.dart';
@@ -180,7 +179,7 @@ class CollapsePost extends StatelessWidget {
 
     return RichText(
       text: TextSpan(
-        style: context.textTheme.body1.copyWith(fontWeight: FontWeight.bold),
+        style: context.textTheme.bodyText2.copyWith(fontWeight: FontWeight.bold),
         children: textSpans,
       ),
     );
@@ -278,7 +277,7 @@ class CollapsePost extends StatelessWidget {
         const SizedBox(width: 6),
         Text(
           comment.author.displayName,
-          style: context.textTheme.subhead.copyWith(
+          style: context.textTheme.subtitle1.copyWith(
             fontWeight: FontWeight.bold,
             color: context.colorScheme.onBackground,
           ),
@@ -288,7 +287,7 @@ class CollapsePost extends StatelessWidget {
             ' ${comment.content}',
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: context.textTheme.subhead.copyWith(
+            style: context.textTheme.subtitle1.copyWith(
               color: context.colorScheme.onBackground,
             ),
           ),

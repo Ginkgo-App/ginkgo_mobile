@@ -10,10 +10,7 @@ class _TourListScreenState extends State<TourListScreen> {
   Widget build(BuildContext context) {
     User currentUser = FakeData.currentUser;
     return PrimaryScaffold(
-      appBar: BackAppBar(
-        title: currentUser?.fullName ?? '',
-        showBackButton: true,
-      ),
+      appBar: BackAppBar(title: currentUser?.fullName ?? ''),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(10),
@@ -54,7 +51,7 @@ class _TourListScreenState extends State<TourListScreen> {
             isSpacingHeadTale: true,
             children: [
               ...List.generate(3, (_) => FakeData.simpleTour)
-                  .map((e) => TripItem(tour: e))
+                  .map((e) => BlackOpacityTour(tour: e))
                   .toList(),
               CommonOutlineButton(
                 text: 'Xem thêm',

@@ -75,7 +75,7 @@ class GalleryItem extends StatelessWidget {
                                 child: Center(
                                     child: Text(
                                   '+${images.length - 3}',
-                                  style: context.textTheme.display3
+                                  style: context.textTheme.headline2
                                       .copyWith(color: Colors.white),
                                   textAlign: TextAlign.center,
                                 )),

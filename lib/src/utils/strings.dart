@@ -32,19 +32,21 @@ class _Button {
   final edit = 'Chỉnh sửa';
   final saveChanges = 'Lưu thay đổi';
   final viewAllImages = 'Xem tất cả hình ảnh';
+  final viewAll = 'Xem tất cả';
   final takePartInNow = 'Tham gia ngay';
   final findFriendNow = 'Tìm bạn ngay';
   final nextStep = 'Sang bước tiếp theo';
   final backStep = 'Trở lại bước trước';
   final complete = 'Hoàn tất';
+  final createTourNow = 'Tạo chuyến đi ngay';
 }
 
 class _Error {
-  final emptyRequiredInput = 'Please enter something.';
+  final emptyRequiredInput = 'Hãy điền thông tin vào trường bắt buộc.';
   final emailIncorrectForm = 'Email không đúng định dạng.';
   final phoneNumberIncorrectForm = 'Số điện thoại không đúng định dạng.';
   final rePasswordIsNotMatch = 'Re-password is not match with password.';
-  final cannotRegisterWithFacebook = 'Cannot register with facebook';
+  final cannotRegisterWithFacebook = 'Không thể đăng ký bằng facebook';
   final errorClick = 'Đã xảy ra lỗi. Click để xem chi tiết.';
   final error = 'Đã xảy ra lỗi.';
   final updateProfile = 'Xảy ra lỗi trong khi cập nhật.';

@@ -3,13 +3,10 @@ part of 'create_tour_tabs.dart';
 class CreateTourTab1 extends StatefulWidget {
   final String initTourName;
 
-  final TextEditingController nameController;
-
   CreateTourTab1({
     Key key,
     this.initTourName,
-  })  : nameController = TextEditingController(text: initTourName),
-        super(key: key);
+  }) : super(key: key);
 
   @override
   _CreateTourTab1State createState() => _CreateTourTab1State();
@@ -17,13 +14,15 @@ class CreateTourTab1 extends StatefulWidget {
 
 class _CreateTourTab1State extends State<CreateTourTab1> {
   final formKey = GlobalKey<FormState>();
+  TextEditingController nameController;
   final TextEditingController totalMemberController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
 
   initState() {
     super.initState();
+    nameController = TextEditingController(text: widget.initTourName);
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      onChange();
+      onChange(name: widget.initTourName);
     });
   }
 
@@ -49,11 +48,11 @@ class _CreateTourTab1State extends State<CreateTourTab1> {
         spacing: 10,
         isSpacingHeadTale: true,
         children: [
-          _CreateTourTextFieldBase(
+          CreateTourTextFieldBase(
             isRequired: true,
             label: 'Tên chuyến đi:',
-            textInput: TextFormField(
-              controller: widget.nameController,
+            child: TextFormField(
+              controller: nameController,
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.all(10),
                 border: GradientOutlineInputBorder(
@@ -78,11 +77,11 @@ class _CreateTourTab1State extends State<CreateTourTab1> {
             children: <Widget>[
               Flexible(
                 flex: 2,
-                child: _CreateTourTextFieldBase(
+                child: CreateTourTextFieldBase(
                   isRequired: true,
                   label: 'Số người dự kiến:',
                   unit: 'người',
-                  textInput: NumberInputWithIncrementDecrement(
+                  child: NumberInputWithIncrementDecrement(
                     controller: totalMemberController,
                     min: 1,
                     max: 100,
@@ -112,11 +111,11 @@ class _CreateTourTab1State extends State<CreateTourTab1> {
               ),
               Flexible(
                 flex: 3,
-                child: _CreateTourTextFieldBase(
+                child: CreateTourTextFieldBase(
                   isRequired: true,
                   label: 'Số tiền dự kiến:',
                   unit: 'đồng',
-                  textInput: NumberInputWithIncrementDecrement(
+                  child: NumberInputWithIncrementDecrement(
                     controller: priceController,
                     min: 10000,
                     incDecFactor: 1000,

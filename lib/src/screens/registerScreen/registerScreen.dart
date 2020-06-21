@@ -138,7 +138,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 child: Text(
                   state.error.toString() ?? Strings.error.unknowError,
                   textAlign: TextAlign.left,
-                  style: context.textTheme.body1.copyWith(
+                  style: context.textTheme.bodyText2.copyWith(
                     color: context.colorScheme.error,
                     fontStyle: FontStyle.italic,
                   ),
@@ -161,7 +161,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       Text(
         Strings.registerScreen.hadAccount,
         textAlign: TextAlign.center,
-        style: context.textTheme.body1
+        style: context.textTheme.bodyText2
             .apply(color: context.colorScheme.onBackground),
       ),
       GestureDetector(
@@ -169,7 +169,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         child: Text(
           Strings.registerScreen.loginNow,
           textAlign: TextAlign.center,
-          style: context.textTheme.body1.copyWith(
+          style: context.textTheme.bodyText2.copyWith(
             color: Colors.blueAccent,
             decoration: TextDecoration.underline,
           ),

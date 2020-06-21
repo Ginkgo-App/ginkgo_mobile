@@ -6,9 +6,9 @@ import 'package:base/base.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/helper/dateTimeExt.dart';
 import 'package:ginkgo_mobile/src/helper/numberExt.dart';
-import '../../rating.dart';
+import 'package:ginkgo_mobile/src/widgets/widgets.dart';
 
-class TourInfoWidget extends StatelessWidget {
+class TourDetailWidget extends StatelessWidget {
   final SimpleTour tour;
   final bool showFriend;
   final bool showHost;
@@ -19,7 +19,7 @@ class TourInfoWidget extends StatelessWidget {
   final Color textColor;
   final EdgeInsets rowPadding;
 
-  const TourInfoWidget({
+  const TourDetailWidget({
     Key key,
     @required this.tour,
     this.showFriend = false,
@@ -67,7 +67,9 @@ class TourInfoWidget extends StatelessWidget {
                 _buildRowIcon(context,
                     icon: Assets.icons.people,
                     text: tour != null ? '${tour.totalMember} người' : '',
-                    richText: showFriend && tour.friends != null && tour.friends.length > 0
+                    richText: showFriend &&
+                            tour.friends != null &&
+                            tour.friends.length > 0
                         ? _buildRichTextFriend(
                             context, tour.friends[0], tour.totalMember)
                         : null),
@@ -86,7 +88,8 @@ class TourInfoWidget extends StatelessWidget {
                           ]),
                     )),
               SizedBox(height: 5),
-              if (showRating) Rating(rating: tour.rating),
+              if (showRating && tour?.rating != null)
+                Rating(rating: tour.rating),
               SizedBox(height: 5),
             ],
           ),

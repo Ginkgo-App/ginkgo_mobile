@@ -41,7 +41,7 @@ Future showConfirmFriendRequest(BuildContext context, SimpleUser user,
                   LoadingManager().show(context);
                   return;
                 } else if (state is AddFriendStateFailure) {
-                  showErrorMessage(context,
+                  showErrorMessage(
                       Strings.error.error + '\n' + state.error.toString());
                 } else if (state is AddFriendStateSuccess) {
                   onSuccess?.call();
@@ -170,8 +170,7 @@ _onRemoveFriend(BuildContext context, SimpleUser user, {Function onSuccess}) {
       LoadingManager().show(context);
       return;
     } else if (state is AddFriendStateFailure) {
-      showErrorMessage(
-          context, Strings.error.error + '\n' + state.error.toString());
+      showErrorMessage(Strings.error.error + '\n' + state.error.toString());
     } else if (state is AddFriendStateSuccess) {
       onSuccess?.call();
     }
@@ -189,8 +188,7 @@ _onAddFriend(BuildContext context, SimpleUser user, {Function onSuccess}) {
       LoadingManager().show(context);
       return;
     } else if (state is AddFriendStateFailure) {
-      showErrorMessage(
-          context, Strings.error.error + '\n' + state.error.toString());
+      showErrorMessage(Strings.error.error + '\n' + state.error.toString());
     } else if (state is AddFriendStateSuccess) {
       onSuccess?.call();
     }

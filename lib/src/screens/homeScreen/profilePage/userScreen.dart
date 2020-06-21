@@ -7,6 +7,10 @@ class UserScreenArgs {
 }
 
 class UserScreen extends StatefulWidget {
+  final UserScreenArgs args;
+
+  const UserScreen({Key key, this.args}) : super(key: key);
+
   @override
   _UserScreenState createState() => _UserScreenState();
 }
@@ -18,16 +22,7 @@ class _UserScreenState extends State<UserScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      args = ModalRoute.of(context).settings.arguments;
-      if (args?.simpleUser != null) {
-        setState(() {
-          _fetchUserInfo();
-        });
-      } else {
-        Navigator.pop(context);
-      }
-    });
+    args = widget.args;
   }
 
   _fetchUserInfo() {

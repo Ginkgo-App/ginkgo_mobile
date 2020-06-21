@@ -27,10 +27,15 @@ class Pagination<T> {
     pagination.currentPage = currentPage;
     pagination.pageSize = pageSize;
   }
+
+  void add(Pagination<T> other) {
+    data.addAll(other.data);
+    pagination = other.pagination;
+  }
 }
 
 class _PaginationDetail with Mappable {
-  int totalPage = 0;
+  int totalPage = 1;
   int totalElement = 0;
   int currentPage = 0;
   int pageSize = 0;

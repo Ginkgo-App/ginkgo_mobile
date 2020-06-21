@@ -28,7 +28,7 @@ class _HiddenTextState extends State<HiddenText> with TickerProviderStateMixin{
 
   @override
   Widget build(BuildContext context) {
-    textStyle = widget.style ?? context.textTheme.body1;
+    textStyle = widget.style ?? context.textTheme.bodyText2;
     return AnimatedSize(
       vsync: this,
       duration: Duration(milliseconds: 100),

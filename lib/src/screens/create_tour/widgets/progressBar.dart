@@ -69,7 +69,7 @@ class ProgressBar extends StatelessWidget {
               child: Center(
                 child: Text(
                   '${index + 1}',
-                  style: context.textTheme.title.copyWith(
+                  style: context.textTheme.headline6.copyWith(
                       color: isEnable ? DISABLE_COLOR : ENABLE_COLOR),
                 ),
               ),
@@ -78,7 +78,7 @@ class ProgressBar extends StatelessWidget {
           const SizedBox(height: 10),
           Text(
             buttonTexts[index],
-            style: context.textTheme.body1.copyWith(
+            style: context.textTheme.bodyText2.copyWith(
               color: isEnable ? ENABLE_COLOR : Colors.black,
               fontWeight: isEnable ? FontWeight.bold : FontWeight.normal,
             ),

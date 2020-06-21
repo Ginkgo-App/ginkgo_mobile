@@ -5,47 +5,113 @@ class ManageTourScreen extends StatefulWidget {
   _ManageTourScreenState createState() => _ManageTourScreenState();
 }
 
-class _ManageTourScreenState extends State<ManageTourScreen> {
-  final PageController pageController = PageController();
-  int currentPage = 0;
+enum _Filter { tourInfo, tour }
 
-  onOpenCreateTour() {
+class _ManageTourScreenState extends State<ManageTourScreen>
+    with TickerProviderStateMixin, LoadmoreMixin {
+  static const _PAGE_SIZE = 3;
+
+  final PageController _pageController = PageController();
+  final TourListBloc _memberTourListBloc =
+      TourListBloc(_PAGE_SIZE, userId: 0, meType: MeTourType.member);
+  final TourListBloc _ownerTourListBloc =
+      TourListBloc(_PAGE_SIZE, userId: 0, meType: MeTourType.owner);
+  final TourInfoListBloc _ownerTourInfoListBloc =
+      TourInfoListBloc(_PAGE_SIZE, userId: 0);
+
+  int _currentPage = 0;
+  _Filter _filter = _Filter.tour;
+
+  initState() {
+    super.initState();
+
+    _fetchData();
+  }
+
+  _fetchData() {
+    _fetchMemberTourList();
+    _fetchOwnerTourList();
+    _fetchOwnerTourInfoList();
+  }
+
+  @override
+  onLoadMore() {
+    if (_currentPage == 0) {
+      _fetchMemberTourList();
+    } else {
+      if (_filter == _Filter.tour) {
+        _fetchOwnerTourList();
+      } else {
+        _fetchOwnerTourInfoList();
+      }
+    }
+  }
+
+  _fetchMemberTourList() {
+    if (_memberTourListBloc.state is! TourListStateLoading) {
+      _memberTourListBloc.add(TourListEventFetch());
+    }
+  }
+
+  _fetchOwnerTourList() {
+    if (_ownerTourListBloc.state is! TourListStateLoading) {
+      _ownerTourListBloc.add(TourListEventFetch());
+    }
+  }
+
+  _fetchOwnerTourInfoList() {
+    if (_ownerTourInfoListBloc.state is! TourInfoListStateLoading) {
+      _ownerTourInfoListBloc.add(TourInfoListEventFetch());
+    }
+  }
+
+  openSelectFilter() {
     showCupertinoModalPopup(
         context: context,
         builder: (context) {
           return CupertinoActionSheet(
             actions: <Widget>[
               CupertinoActionSheetAction(
-                  onPressed: () {}, child: Text('Tạo mẫu chuyến đi')),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    if (_filter != _Filter.tourInfo) {
+                      setState(() {
+                        _filter = _Filter.tourInfo;
+                      });
+                    }
+                  },
+                  child: Text('Mẫu chuyến đi')),
               CupertinoActionSheetAction(
                   onPressed: () {
-                    Navigators.appNavigator.currentState
-                        .pushNamed(Routes.createTour);
+                    Navigator.pop(context);
+                    if (_filter != _Filter.tour) {
+                      setState(() {
+                        _filter = _Filter.tour;
+                      });
+                    }
                   },
-                  child: Text('Tạo chuyến đi')),
+                  child: Text('Chuyến đi cụ thể')),
             ],
           );
         });
   }
 
+  dispose() {
+    _pageController.dispose();
+    _memberTourListBloc.close();
+    _ownerTourListBloc.close();
+    _ownerTourInfoListBloc.close();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return PrimaryScaffold(
-      appBar: BackAppBar(
-        title: 'Quản lý chuyến đi',
-        actions: <Widget>[
-          CupertinoButton(
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            child: Icon(
-              Icons.add,
-              size: 30,
-              color: context.colorScheme.onBackground,
-            ),
-            onPressed: onOpenCreateTour,
-          )
-        ],
-      ),
+      appBar: BackAppBar(title: 'Quản lý chuyến đi'),
+      bottomPadding: false,
+      bottomNavigationBar: _buildBottomButton(),
       body: NestedScrollView(
+          controller: scrollController,
           headerSliverBuilder: (context, _) {
             return [
               SliverPersistentHeader(
@@ -54,13 +120,13 @@ class _ManageTourScreenState extends State<ManageTourScreen> {
                 delegate: _SliverAppBarDelegate(
                     expandedHeight: 80,
                     minHeight: 40,
-                    selecteds: [currentPage == 0, currentPage == 1],
+                    selecteds: [_currentPage == 0, _currentPage == 1],
                     onChanged: (int index) {
-                      if (index != currentPage) {
+                      if (index != _currentPage) {
                         setState(() {
-                          currentPage = index;
+                          _currentPage = index;
                         });
-                        pageController.animateToPage(currentPage,
+                        _pageController.animateToPage(_currentPage,
                             duration: Duration(seconds: 1), curve: Curves.ease);
                       }
                     }),
@@ -68,57 +134,153 @@ class _ManageTourScreenState extends State<ManageTourScreen> {
             ];
           },
           body: PageView(
-            controller: pageController,
+            controller: _pageController,
             onPageChanged: (i) {
               setState(() {
-                currentPage = i;
+                _currentPage = i;
               });
             },
             children: <Widget>[
               SingleChildScrollView(
                 child: BorderContainer(
-                  childPadding: EdgeInsets.zero,
                   margin: const EdgeInsets.all(10),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.vertical,
-                    child: IntrinsicHeight(
-                      child: SpacingColumn(
-                        spacing: 10,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        isSpacingHeadTale: true,
-                        children: [
-                          ...List.generate(5, (_) => FakeData.simpleTour)
-                              .map((e) => TripItem(tour: e))
-                              .toList(),
-                        ],
-                      ),
-                    ),
-                  ),
+                  children: <Widget>[
+                    const SizedBox(height: 10),
+                    BlocBuilder(
+                      bloc: _memberTourListBloc,
+                      builder: (context, state) {
+                        if (state is TourListStateFailure) {
+                          return ErrorIndicator(
+                            message: Strings.error.errorClick,
+                            moreErrorDetail: state.error.toString(),
+                            onReload: _fetchMemberTourList,
+                          );
+                        }
+
+                        return ManageTourList(
+                          tours: _memberTourListBloc.tourList.data,
+                          onLoadmore: _fetchMemberTourList,
+                          isLoading: state is TourListStateLoading,
+                        );
+                      },
+                    )
+                  ],
                 ),
               ),
               SingleChildScrollView(
                 child: BorderContainer(
-                  childPadding: EdgeInsets.zero,
-                  margin: const EdgeInsets.all(10),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.vertical,
-                    child: IntrinsicHeight(
-                      child: SpacingColumn(
-                        spacing: 10,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        isSpacingHeadTale: true,
-                        children: [
-                          ...List.generate(5, (_) => FakeData.simpleTour)
-                              .map((e) => TripItem(tour: e))
-                              .toList(),
-                        ],
+                  title: _filter == _Filter.tour
+                      ? 'Chuyến đi cụ thể'
+                      : 'Khuôn mẫu chuyến đi',
+                  actions: <Widget>[
+                    CupertinoButton(
+                      padding: EdgeInsets.zero,
+                      onPressed: openSelectFilter,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 10),
+                        decoration: BoxDecoration(
+                            boxShadow: DesignColor.buttonShadow,
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(2)),
+                        child: Row(
+                          children: <Widget>[
+                            GradientText(
+                              'Lọc',
+                              gradient: LinearGradient(
+                                colors: [
+                                  Color(0xffFDC70C),
+                                  Color(0xffF3903F),
+                                  Color(0xffED683C),
+                                  Color(0xffE93E3A),
+                                ],
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                              ),
+                              style: context.textTheme.button
+                                  .copyWith(color: Colors.white),
+                            ),
+                            SvgPicture.asset(Assets.icons.filter),
+                          ],
+                        ),
                       ),
-                    ),
-                  ),
+                    )
+                  ],
+                  margin: const EdgeInsets.all(10),
+                  child: _filter == _Filter.tour
+                      ? BlocBuilder(
+                          bloc: _ownerTourListBloc,
+                          builder: (context, state) {
+                            if (state is TourListStateFailure) {
+                              return ErrorIndicator(
+                                message: Strings.error.errorClick,
+                                moreErrorDetail: state.error.toString(),
+                                onReload: _fetchOwnerTourList,
+                              );
+                            }
+
+                            return ManageTourList(
+                              tours: _ownerTourListBloc.tourList.data,
+                              onLoadmore: _fetchOwnerTourList,
+                              isLoading: state is TourListStateLoading,
+                            );
+                          },
+                        )
+                      : BlocBuilder(
+                          bloc: _ownerTourInfoListBloc,
+                          builder: (context, state) {
+                            if (state is TourInfoListStateFailure) {
+                              return ErrorIndicator(
+                                message: Strings.error.errorClick,
+                                moreErrorDetail: state.error.toString(),
+                                onReload: _fetchOwnerTourInfoList,
+                              );
+                            }
+
+                            return ManageTourList(
+                              tourInfos:
+                                  _ownerTourInfoListBloc.tourInfoList.data,
+                              onLoadmore: _fetchOwnerTourInfoList,
+                              isLoading: state is TourInfoListStateLoading,
+                            );
+                          },
+                        ),
                 ),
               ),
             ],
           )),
+    );
+  }
+
+  _buildBottomButton() {
+    return Column(
+      children: <Widget>[
+        AnimatedSize(
+          duration: Duration(milliseconds: 200),
+          vsync: this,
+          child: Container(
+            padding: EdgeInsets.all(_currentPage == 0 ? 0 : 10),
+            child: _currentPage == 0
+                ? const SizedBox.shrink()
+                : PrimaryButton(
+                    title: _filter == _Filter.tour
+                        ? 'Tạo thêm chuyến đi'
+                        : 'Tạo thêm khuôn mẫu',
+                    width: double.maxFinite,
+                    onPressed: () {
+                      if (_filter == _Filter.tour) {
+                        Navigators.appNavigator.currentState
+                            .pushNamed(Routes.createTour);
+                      } else {
+                        Navigators.appNavigator.currentState
+                            .pushNamed(Routes.createTourInfo);
+                      }
+                    },
+                  ),
+          ),
+        ),
+        if (_currentPage != 0) const SizedBox(height: 30)
+      ],
     );
   }
 }
@@ -185,7 +347,7 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
                           child: Center(
                             child: Text(
                               e,
-                              style: context.textTheme.body1.copyWith(
+                              style: context.textTheme.bodyText2.copyWith(
                                 fontWeight: FontWeight.bold,
                                 color: selecteds[i]
                                     ? context.colorScheme.onPrimary

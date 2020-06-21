@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ginkgo_mobile/src/blocs/place_list/place_list_bloc.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/widgets/buttons/viewMoreButton.dart';
-import 'package:ginkgo_mobile/src/widgets/placeWidgets/opacityPlace.dart';
+import 'package:ginkgo_mobile/src/widgets/errorWidgets/errorIndicator.dart';
 import 'package:ginkgo_mobile/src/widgets/spacingColumn.dart';
 import 'package:ginkgo_mobile/src/widgets/spacingRow.dart';
-import 'package:ginkgo_mobile/src/widgets/tourWidgets/tourItem.dart';
 import 'package:ginkgo_mobile/src/widgets/widgets.dart';
 
 class DiscoveryTab extends StatefulWidget {
@@ -14,6 +15,22 @@ class DiscoveryTab extends StatefulWidget {
 }
 
 class _DiscoveryTabState extends State<DiscoveryTab> {
+  final PlaceListBloc _bestPlaceBloc = PlaceListBloc(10);
+
+  initState() {
+    super.initState();
+    _fetchBestPlaceList();
+  }
+
+  _fetchBestPlaceList() {
+    _bestPlaceBloc.add(PlaceListEventFetchBestList());
+  }
+
+  dispose() {
+    _bestPlaceBloc.close();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -65,21 +82,38 @@ class _DiscoveryTabState extends State<DiscoveryTab> {
       icon: Assets.icons.location,
       margin: EdgeInsets.symmetric(horizontal: 10),
       childPadding: EdgeInsets.only(bottom: 10),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: IntrinsicHeight(
-          child: SpacingRow(spacing: 10, isSpacingHeadTale: true, children: [
-            ...List.generate(5, (_) => FakeData.place)
-                .map(
-                  (e) => OpacityPlace(place: e),
-                )
-                .toList(),
-            ViewMoreButton(
-              onPressed: () {},
-              width: (MediaQuery.of(context).size.width - 60) / 3,
-            )
-          ]),
-        ),
+      child: BlocBuilder(
+        bloc: _bestPlaceBloc,
+        builder: (context, state) {
+          if (state is PlaceListStateFailure) {
+            return ErrorIndicator(
+              moreErrorDetail: state.error.toString(),
+              onReload: _fetchBestPlaceList,
+            );
+          }
+
+          return SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: IntrinsicHeight(
+              child:
+                  SpacingRow(spacing: 10, isSpacingHeadTale: true, children: [
+                ...(state is PlaceListStateSuccess
+                        ? _bestPlaceBloc.placeList.data
+                        : List.generate(5, (index) => null))
+                    .map(
+                      (e) => OpacityPlace(place: e),
+                    )
+                    .toList(),
+                if (state is PlaceListStateSuccess &&
+                    _bestPlaceBloc.placeList.canLoadmore)
+                  ViewMoreButton(
+                    onPressed: () {},
+                    width: (MediaQuery.of(context).size.width - 60) / 3,
+                  )
+              ]),
+            ),
+          );
+        },
       ),
     );
   }

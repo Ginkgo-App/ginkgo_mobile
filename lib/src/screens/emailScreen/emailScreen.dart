@@ -116,7 +116,7 @@ class _EmailScreenState extends State<EmailScreen> {
               child: Text(
                 errorMessage,
                 textAlign: TextAlign.left,
-                style: context.textTheme.body1.copyWith(
+                style: context.textTheme.bodyText2.copyWith(
                   color: context.colorScheme.error,
                   fontStyle: FontStyle.italic,
                 ),
@@ -137,7 +137,7 @@ class _EmailScreenState extends State<EmailScreen> {
       Text(
         Strings.loginScreen.doNotHaveAccount,
         textAlign: TextAlign.center,
-        style: context.textTheme.body1
+        style: context.textTheme.bodyText2
             .apply(color: context.colorScheme.onBackground),
       ),
       GestureDetector(
@@ -145,7 +145,7 @@ class _EmailScreenState extends State<EmailScreen> {
         child: Text(
           Strings.loginScreen.registerNow,
           textAlign: TextAlign.center,
-          style: context.textTheme.body1.copyWith(
+          style: context.textTheme.bodyText2.copyWith(
             color: Colors.blueAccent,
             decoration: TextDecoration.underline,
           ),

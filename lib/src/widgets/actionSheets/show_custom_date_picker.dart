@@ -34,7 +34,7 @@ showCustomDatePicker(
                     children: <Widget>[
                       Text(
                         'Chọn ngày',
-                        style: textTheme.body1
+                        style: textTheme.bodyText2
                             .copyWith(fontWeight: FontWeight.bold),
                       ),
                       GestureDetector(
