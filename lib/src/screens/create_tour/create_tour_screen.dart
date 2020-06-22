@@ -79,8 +79,12 @@ class _CreateTourScreenState extends State<CreateTourScreen>
                 if (state is CreateTourStateSuccess) {
                   Navigators.appNavigator.currentState.pushReplacementNamed(
                     Routes.tourDetail,
-                    arguments: TourDetailScreenArgs(state.tour.toSimpleTour()),
+                    arguments:
+                        TourDetailScreenArgs(SimpleTour(id: state.tourId)),
                   );
+                } else if (state is CreateTourStateFailure) {
+                  showErrorMessage(
+                      Strings.error.error + '\n' + state.error.toString());
                 }
               },
               child: BlocBuilder(

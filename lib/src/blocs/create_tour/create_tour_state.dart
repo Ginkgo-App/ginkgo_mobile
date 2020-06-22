@@ -18,9 +18,9 @@ class CreateTourStateHaveChanged extends CreateTourState {
 class CreateTourStateLoading extends CreateTourState {}
 
 class CreateTourStateSuccess extends CreateTourState {
-  final Tour tour;
+  final int tourId;
 
-  CreateTourStateSuccess(this.tour);
+  CreateTourStateSuccess(this.tourId);
 }
 
 class CreateTourStateFailure extends CreateTourState {

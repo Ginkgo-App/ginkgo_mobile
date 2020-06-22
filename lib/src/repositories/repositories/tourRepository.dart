@@ -17,6 +17,6 @@ class _TourRepository {
           {int page, int pageSize, String keyword}) =>
       _tourProvider.getList(keyword: keyword, page: page, pageSize: pageSize);
 
-  Future<Tour> create(TourToPost tourToPost) =>
+  Future<int> create(TourToPost tourToPost) =>
       _tourProvider.create(tourToPost);
 }

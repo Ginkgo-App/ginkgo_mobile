@@ -83,8 +83,9 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                 Hero(
                   tag: HeroKeys.tourImage(simpleTour.id),
                   child: SliderWidget(
-                      images:
-                          _tourDetailBloc.tour?.images ?? simpleTour.images),
+                      images: _tourDetailBloc.tour?.images ??
+                          simpleTour.images ??
+                          []),
                 ),
                 if (state is TourDetailStateFailure)
                   Padding(

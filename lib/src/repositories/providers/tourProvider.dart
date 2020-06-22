@@ -48,8 +48,8 @@ class TourProvider {
         response.data['Pagination'], response.data['Data']);
   }
 
-  Future<Tour> create(TourToPost tourToPost) async {
-    final result = await _client.connect<Tour>(
+  Future<int> create(TourToPost tourToPost) async {
+    final response = await _client.normalConnect(
       ApiMethod.POST,
       Api.tourInTourInfo(tourToPost.tourInfoId),
       body: {
@@ -70,7 +70,7 @@ class TourProvider {
                 'TimelineDetails': timeline.timelineDetails
                     .map(
                       (detail) => {
-                        'PlaceId': detail.place.id,
+                        if (detail.place != null) 'PlaceId': detail.place.id,
                         'Time': detail.time,
                         'Detail': detail.detail,
                       },
@@ -82,6 +82,6 @@ class TourProvider {
       },
     );
 
-    return result;
+    return response.data['Data'][0]['Id'];
   }
 }
