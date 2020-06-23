@@ -7,8 +7,6 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final CurrentUserBloc _bloc = CurrentUserBloc();
-
-  StreamSubscription currentUserListener;
   bool editMode = false;
 
   @override
@@ -17,14 +15,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if (_bloc.currentUser == null && _bloc.state is! CurrentUserStateLoading) {
       _fetchProfile();
     }
-
-    currentUserListener = _bloc.listen((state) {
-      if (state is CurrentUserStateLoading) {
-        LoadingManager().show(context);
-      } else {
-        LoadingManager().hide(context);
-      }
-    });
   }
 
   _fetchProfile() {
@@ -39,7 +29,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   void dispose() {
-    currentUserListener.cancel();
     super.dispose();
   }
 
@@ -59,9 +48,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           body: state is CurrentUserStateFailure
               ? ErrorIndicator(
                   moreErrorDetail: state.error,
-                  onReload: () {
-                    _bloc.add(CurrentUserEventFetch());
-                  },
+                  onReload: _fetchProfile,
                 )
               : SingleChildScrollView(
                   child: Column(
@@ -142,7 +129,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ]
                     .map<Widget>(
                       (e) => FlatButton(
-                        child: Text(e['text'], style: context.textTheme.bodyText2),
+                        child:
+                            Text(e['text'], style: context.textTheme.bodyText2),
                         color: context.colorScheme.background,
                         highlightColor: DesignColor.darkestWhite,
                         padding: EdgeInsets.symmetric(vertical: 20),

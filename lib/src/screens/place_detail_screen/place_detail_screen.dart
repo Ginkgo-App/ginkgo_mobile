@@ -129,6 +129,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen> {
                 padding: EdgeInsets.all(10),
                 color: Colors.black.withOpacity(0.8),
                 child: RichText(
+                  maxLines: 1,
                   text: TextSpan(
                       style: context.textTheme.subtitle1.copyWith(
                           color: Colors.white, fontWeight: FontWeight.bold),
@@ -136,9 +137,10 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen> {
                         TextSpan(text: _args.place.name ?? ''),
                         if (_args.place?.createBy?.displayName != null)
                           TextSpan(
-                              text:
-                                  ' - Thông tin cung cấp bởi ${_args.place?.createBy?.displayName}',
-                              style: TextStyle(fontSize: 14))
+                            text:
+                                ' - Thông tin cung cấp bởi ${_args.place?.createBy?.displayName}',
+                            style: TextStyle(fontSize: 14),
+                          )
                         else if (_args.place?.description != null)
                           TextSpan(
                               text: ' - ${_args.place?.description}',

@@ -42,8 +42,10 @@ class GradientColor {
 
   get blogIcon => LinearGradient(
     colors: <Color>[
-      Colors.white.withOpacity(0),
-      Colors.white,
+      Color(0xffFDC70C),
+      Color(0xffF3903F),
+      Color(0xffED683C),
+      Color(0xffE93E3A),
     ],
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,

@@ -24,12 +24,16 @@ class _CreateTourInfoScreenState extends State<CreateTourInfoScreen> {
   onSubmit() {
     if (!formKey.currentState.validate()) return;
 
-    bloc.add(CreateTourInfoEventCreate(TourInfoToPost(
-      startPlace: startPlace,
-      destinatePlace: endPlace,
-      images: images.map((e) => e.file).toList(),
-      name: nameController.text,
-    )));
+    bloc.add(
+      CreateTourInfoEventCreate(
+        TourInfoToPost(
+          startPlace: startPlace,
+          destinatePlace: endPlace,
+          images: images.map((e) => e.file).toList(),
+          name: nameController.text,
+        ),
+      ),
+    );
   }
 
   onPickImages() async {
@@ -56,10 +60,12 @@ class _CreateTourInfoScreenState extends State<CreateTourInfoScreen> {
         if (state is CreateTourInfoStateFailure) {
           showErrorMessage(Strings.error.error + '\n' + state.error.toString());
         } else if (state is CreateTourInfoStateSuccess) {
-          Navigators.appNavigator.currentState.pushReplacementNamed(
-            Routes.tourInfoDetail,
-            arguments: TourInfoDetailScreenArgs(tourInfo: state.newTourInfo),
-          );
+          _showSuccessDialog().then((value) {
+            Navigators.appNavigator.currentState.pushReplacementNamed(
+              Routes.tourInfoDetail,
+              arguments: TourInfoDetailScreenArgs(tourInfo: state.newTourInfo),
+            );
+          });
         }
       },
       child: BlocBuilder(
@@ -278,7 +284,7 @@ class _CreateTourInfoScreenState extends State<CreateTourInfoScreen> {
                 spacing: 10,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
-                  ...images?.map((e) => buildImageItem(e))?.toList(),
+                  ...images?.map((e) => _buildImageItem(e))?.toList(),
                   GestureDetector(
                     onTap: onPickImages,
                     child: SvgPicture.asset(
@@ -298,7 +304,7 @@ class _CreateTourInfoScreenState extends State<CreateTourInfoScreen> {
     );
   }
 
-  Widget buildImageItem(FileAsset image) {
+  Widget _buildImageItem(FileAsset image) {
     return Stack(
       children: <Widget>[
         Container(
@@ -336,4 +342,43 @@ class _CreateTourInfoScreenState extends State<CreateTourInfoScreen> {
       ],
     );
   }
+
+  Future _showSuccessDialog() async => showDialog(
+        context: context,
+        builder: (context) {
+          return SuccessDialog(
+            svgIcon: Assets.icons.smile,
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Text(
+                  'Bạn đã tạo thành công cho các chuyến đi của bạn với những thông tin sau:',
+                  style: context.textTheme.bodyText2,
+                ),
+                SizedBox(height: 5),
+                ...[
+                  {'first': 'Tên: ', 'second': nameController.text ?? ''},
+                  {'first': 'Địa điểm đầu: ', 'second': startPlace?.name ?? ''},
+                  {'first': 'Địa điểm cuối: ', 'second': endPlace?.name ?? ''},
+                ]
+                    .map<Widget>(
+                      (e) => RichText(
+                        text: TextSpan(
+                            text: e['first'],
+                            style: context.textTheme.bodyText2,
+                            children: [
+                              TextSpan(
+                                text: e['second'],
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              )
+                            ]),
+                      ),
+                    )
+                    .toList()
+              ],
+            ),
+          );
+        },
+      );
 }

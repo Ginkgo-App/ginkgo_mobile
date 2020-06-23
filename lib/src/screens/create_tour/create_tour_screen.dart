@@ -50,21 +50,16 @@ class _CreateTourScreenState extends State<CreateTourScreen>
     super.dispose();
   }
 
-  onChangeStep(int stepIndex) {
+  _onChangeStep(int stepIndex) {
     //Next page
     if (stepIndex > currentStep) {
       if (stepIndex - currentStep >= 2) return;
-      if (!submitCurrentStep()) return;
     }
 
     setState(() {
       currentStep = stepIndex;
       tabController.animateTo(stepIndex);
     });
-  }
-
-  submitCurrentStep() {
-    return true;
   }
 
   @override
@@ -77,11 +72,14 @@ class _CreateTourScreenState extends State<CreateTourScreen>
               bloc: createTourBloc,
               listener: (context, state) {
                 if (state is CreateTourStateSuccess) {
-                  Navigators.appNavigator.currentState.pushReplacementNamed(
-                    Routes.tourDetail,
-                    arguments:
-                        TourDetailScreenArgs(SimpleTour(id: state.tourId)),
-                  );
+                  _showSuccessDialog().then((value) {
+                    Navigators.appNavigator.currentState.pushReplacementNamed(
+                      Routes.tourDetail,
+                      arguments: TourDetailScreenArgs(
+                        SimpleTour(id: state.tourId),
+                      ),
+                    );
+                  });
                 } else if (state is CreateTourStateFailure) {
                   showErrorMessage(
                       Strings.error.error + '\n' + state.error.toString());
@@ -100,10 +98,10 @@ class _CreateTourScreenState extends State<CreateTourScreen>
                       child: CreateTourBottomButton(
                         currentStep: currentStep,
                         onNextStep: () {
-                          onChangeStep(currentStep + 1);
+                          _onChangeStep(currentStep + 1);
                         },
                         onBackStep: () {
-                          onChangeStep(currentStep - 1);
+                          _onChangeStep(currentStep - 1);
                         },
                       ),
                     ),
@@ -119,7 +117,7 @@ class _CreateTourScreenState extends State<CreateTourScreen>
                                 child: ProgressBar(
                                   currentIndex: currentStep,
                                   onPageChanged: (i) =>
-                                      i < currentStep ? onChangeStep(i) : null,
+                                      i < currentStep ? _onChangeStep(i) : null,
                                 ),
                                 preferredSize: Size.fromHeight(110),
                               ),
@@ -190,4 +188,17 @@ class _CreateTourScreenState extends State<CreateTourScreen>
   buildStep3() {
     return CreateTourTab3();
   }
+
+  _showSuccessDialog() async => showDialog(
+        context: context,
+        builder: (context) {
+          return SuccessDialog(
+            svgIcon: Assets.icons.smile,
+            content: Text(
+              'Bạn đã tạo chuyến đi thành công!',
+              style: context.textTheme.bodyText2,
+            ),
+          );
+        },
+      );
 }
