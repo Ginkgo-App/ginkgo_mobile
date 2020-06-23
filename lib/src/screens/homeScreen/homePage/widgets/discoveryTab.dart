@@ -38,6 +38,12 @@ class _DiscoveryTabState extends State<DiscoveryTab> {
         spacing: 10,
         isSpacingHeadTale: true,
         children: <Widget>[
+          PrimaryButton(
+            title: 'test',
+            onPressed: () {
+              CommentBottomSheet(context, postId: 1).show();
+            },
+          ),
           _buildSuggestedCreators(),
           _buildSuggestedPlaces(),
           _buildNewTours(),

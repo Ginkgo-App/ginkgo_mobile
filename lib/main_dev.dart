@@ -2,6 +2,7 @@ import 'package:base/base.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 import 'src/app.dart';
 
@@ -13,6 +14,7 @@ void main() {
     child: App(),
   );
 
+  timeago.setLocaleMessages('vi', timeago.ViMessages());
   BlocSupervisor.delegate = BlocLogger();
   objectMapping();
   runApp(configuredApp);

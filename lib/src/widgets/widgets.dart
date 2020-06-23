@@ -40,6 +40,7 @@ import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
+import 'package:timeago/timeago.dart' as timeAgo;
 
 export 'userWidgets/user_widgets.dart';
 
@@ -65,3 +66,5 @@ part 'tourWidgets/blackOpacityTour.dart';
 part 'tourWidgets/tourItem.dart';
 part 'actionSheets/pick_image_action_sheet.dart';
 part 'dialogs/common_dialog.dart';
+part 'comment_widgets/comment_bottom_sheet.dart';
+part 'comment_widgets/comment_item.dart';
