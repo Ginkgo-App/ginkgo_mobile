@@ -41,7 +41,7 @@ class _DiscoveryTabState extends State<DiscoveryTab> {
           PrimaryButton(
             title: 'test',
             onPressed: () {
-              CommentBottomSheet(context, postId: 1).show();
+              CommentBottomSheet(context, postId: 1, totalLike: 200).show();
             },
           ),
           _buildSuggestedCreators(),
