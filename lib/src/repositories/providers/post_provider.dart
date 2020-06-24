@@ -17,7 +17,7 @@ class PostProvider {
 
     final response = await _client.normalConnect(
       ApiMethod.POST,
-      Api.tourInfos(null),
+      Api.posts(null),
       body: {
         'Content': post.content,
         'Images': images,
@@ -27,9 +27,9 @@ class PostProvider {
     );
 
     try {
-      return response.data['Data'][0];
+      return response.data['Data'][0]['Id'];
     } catch (e) {
-      throw response.data;
+      throw e;
     }
   }
 

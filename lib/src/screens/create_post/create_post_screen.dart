@@ -44,7 +44,7 @@ class _ComposeTweetReplyPageState extends State<CreatePostScreen> {
       final postToPost = PostToPost(
         content: _contentController.text,
         images: _images.map((e) => e.file).toList(),
-        tourId: _args.tour?.id,
+        tourId: _args?.tour?.id,
         rating: _rating,
       );
 
@@ -136,7 +136,12 @@ class _ComposeTweetReplyPageState extends State<CreatePostScreen> {
       listener: (context, state) {
         if (state is PostCommentStatePostSuccess) {
           showErrorMessage('Thành công');
-          Navigator.pop(context);
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            Routes.home,
+            (route) => false,
+            arguments: HomeScreenArgs(tabIndex: 3),
+          );
         } else if (state is PostCommentStateFailure) {
           showErrorMessage(Strings.error.error + '\n' + state.error.toString());
         }
@@ -168,6 +173,7 @@ class _ComposeTweetReplyPageState extends State<CreatePostScreen> {
                           if (_isReply) _ReplyCard(data: _getReplyData()),
                           _CreatePost(
                             textFieldPlaceholder: _getTextFieldPlaceholder(),
+                            textEditingController: _contentController,
                           ),
                           Flexible(
                             child: CreatePostImageList(
@@ -317,10 +323,14 @@ class _ReplyCard extends StatelessWidget {
 }
 
 class _CreatePost extends StatelessWidget {
-  const _CreatePost({Key key, this.textFieldPlaceholder = ''})
-      : super(key: key);
+  const _CreatePost({
+    Key key,
+    this.textFieldPlaceholder = '',
+    this.textEditingController,
+  }) : super(key: key);
 
   final String textFieldPlaceholder;
+  final TextEditingController textEditingController;
 
   @override
   Widget build(BuildContext context) {
@@ -337,7 +347,10 @@ class _CreatePost extends StatelessWidget {
         ),
         const SizedBox(width: 10),
         Expanded(
-          child: _TextField(placeholder: textFieldPlaceholder),
+          child: _TextField(
+            placeholder: textFieldPlaceholder,
+            textEditingController: textEditingController,
+          ),
         )
       ],
     );
@@ -361,7 +374,6 @@ class _TextField extends StatelessWidget {
       children: <Widget>[
         TextField(
           controller: textEditingController,
-          onChanged: (text) {},
           maxLines: null,
           decoration: InputDecoration(
             border: InputBorder.none,

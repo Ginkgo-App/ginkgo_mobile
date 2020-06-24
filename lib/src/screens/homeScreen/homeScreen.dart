@@ -9,8 +9,9 @@ class HomeScreenArgs {
 class HomeScreen extends StatefulWidget {
   final HomeScreenArgs args;
 
-  const HomeScreen({Key key, this.args = const HomeScreenArgs()})
-      : super(key: key);
+  const HomeScreen({Key key, HomeScreenArgs args})
+      : this.args = args ?? const HomeScreenArgs(),
+        super(key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -62,8 +63,8 @@ class _HomeScreenState extends State<HomeScreen>
   void initState() {
     super.initState();
     _cIndex = widget.args.tabIndex;
-    _tabController = TabController(length: _pages.length, vsync: this);
-    _tabController.animateTo(_cIndex);
+    _tabController = TabController(
+        initialIndex: _cIndex, length: _pages.length, vsync: this);
     _tabController.addListener(() {
       setState(() {
         _cIndex = _tabController.index;

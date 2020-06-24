@@ -1,3 +1,5 @@
+library post_widgets;
+
 import 'package:base/base.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,14 +13,19 @@ import 'package:ginkgo_mobile/src/widgets/spacingColumn.dart';
 import 'package:ginkgo_mobile/src/widgets/widgets.dart';
 import 'package:intl/intl.dart';
 
-class CollapsePost extends StatelessWidget {
+class PostWidget extends StatelessWidget {
   final Post post;
   final Function(Post) onMenuPressed;
   final bool showAuthorAvatar;
+  final bool isCollapse;
 
-  const CollapsePost(
-      {Key key, this.post, this.onMenuPressed, this.showAuthorAvatar = false})
-      : super(key: key);
+  const PostWidget({
+    Key key,
+    this.post,
+    this.onMenuPressed,
+    this.showAuthorAvatar = false,
+    this.isCollapse = true,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +59,7 @@ class CollapsePost extends StatelessWidget {
               _buildTime(context, post?.createAt),
               const SizedBox(height: 5),
               if (post.type == PostType.rating) Rating(rating: post.rating),
-              HiddenText(post?.content),
+              isCollapse ? HiddenText(post?.content) : Text(post?.content),
               const SizedBox(height: 5),
               if (post != null) ...[
                 GalleryItem(
@@ -179,7 +186,8 @@ class CollapsePost extends StatelessWidget {
 
     return RichText(
       text: TextSpan(
-        style: context.textTheme.bodyText2.copyWith(fontWeight: FontWeight.bold),
+        style:
+            context.textTheme.bodyText2.copyWith(fontWeight: FontWeight.bold),
         children: textSpans,
       ),
     );
