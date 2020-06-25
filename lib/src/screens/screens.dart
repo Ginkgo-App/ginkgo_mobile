@@ -6,6 +6,7 @@ import 'dart:ui';
 
 import 'package:base/base.dart';
 import 'package:extended_tabs/extended_tabs.dart';
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -92,3 +93,4 @@ part 'registerScreen/registerScreen.dart';
 part 'splashScreen/splashScreen.dart';
 part 'tour_detail_screen/tour_detail_screen.dart';
 part 'tour_info_detail_screen/tour_info_detail_screen.dart';
+part 'notification/notification_screen.dart';
