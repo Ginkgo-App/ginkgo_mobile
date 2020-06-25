@@ -39,7 +39,13 @@ class _ComposeTweetReplyPageState extends State<CreatePostScreen> {
     super.initState();
   }
 
-  void _onSubmit() {
+  _onSubmit() {
+    return Navigator.pushNamedAndRemoveUntil(
+      context,
+      Routes.home,
+      (route) => false,
+      arguments: HomeScreenArgs(tabIndex: 3, scrollProfileToActivityBox: true),
+    );
     if (!_isReply) {
       final postToPost = PostToPost(
         content: _contentController.text,

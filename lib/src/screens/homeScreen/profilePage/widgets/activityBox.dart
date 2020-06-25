@@ -6,6 +6,9 @@ import 'package:ginkgo_mobile/src/widgets/spacingColumn.dart';
 import 'package:ginkgo_mobile/src/widgets/widgets.dart';
 
 class ActivityBox extends StatelessWidget {
+
+  const ActivityBox({Key key}) : super(key: key);
+  
   @override
   Widget build(BuildContext context) {
     return BorderContainer(

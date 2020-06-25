@@ -8,8 +8,10 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen>
     with LoadDataScreenMixin {
   final CurrentUserBloc _bloc = CurrentUserBloc();
-  bool editMode = false;
+  final GlobalKey activityBoxKey = GlobalKey();
+
   StreamSubscription currentUserListener;
+  bool editMode = false;
 
   @override
   void initState() {
@@ -26,6 +28,8 @@ class _ProfileScreenState extends State<ProfileScreen>
         completeLoadData();
       }
     });
+
+    _checkScrollToActivityBox();
   }
 
   @override
@@ -36,6 +40,15 @@ class _ProfileScreenState extends State<ProfileScreen>
   _onChangeProfile() {
     setState(() {
       editMode = !editMode;
+    });
+  }
+
+  _checkScrollToActivityBox() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      final homeProvider = HomeProvider.of(context);
+      if (homeProvider != null && homeProvider.scrollProfileToActivityBox) {
+        Scrollable.ensureVisible(activityBoxKey.currentContext);
+      }
     });
   }
 
@@ -87,7 +100,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                             const SizedBox(height: 10),
                             TourListWidget(user: user?.toSimpleUser()),
                             const SizedBox(height: 10),
-                            ActivityBox(),
+                            ActivityBox(key: activityBoxKey),
                             const SizedBox(height: 20),
                           ],
                         ),

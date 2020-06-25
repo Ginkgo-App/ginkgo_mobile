@@ -2,8 +2,12 @@ part of '../screens.dart';
 
 class HomeScreenArgs {
   final int tabIndex;
+  final bool scrollProfileToActivityBox;
 
-  const HomeScreenArgs({this.tabIndex = 0});
+  const HomeScreenArgs({
+    this.tabIndex = 0,
+    this.scrollProfileToActivityBox = false,
+  });
 }
 
 class HomeScreen extends StatefulWidget {
@@ -109,6 +113,7 @@ class _HomeScreenState extends State<HomeScreen>
       // bottomNavigationBar: _buildBottomNavigator(context),
       body: SpinCircleBottomBarHolder(
         bottomNavigationBar: SCBottomBarDetails(
+          _tabController,
           bnbHeight: 56,
           circleColors: [
             Colors.white,
@@ -159,8 +164,9 @@ class _HomeScreenState extends State<HomeScreen>
         ),
         child: HomeProvider(
           context,
+          scrollProfileToActivityBox: widget.args.scrollProfileToActivityBox,
           child: ExtendedTabBarView(
-            cacheExtent: 4,
+            cacheExtent: 0,
             physics: NeverScrollableScrollPhysics(),
             controller: _tabController,
             children: _pages,

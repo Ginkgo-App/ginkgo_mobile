@@ -19,9 +19,11 @@ class SpinCircleBottomBarHolder extends StatelessWidget {
   final SCBottomBarDetails bottomNavigationBar;
   final Widget child;
 
-  const SpinCircleBottomBarHolder(
-      {Key key, @required this.bottomNavigationBar, @required this.child})
-      : super(key: key);
+  const SpinCircleBottomBarHolder({
+    Key key,
+    @required this.bottomNavigationBar,
+    @required this.child,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +64,19 @@ enum ExpansionStatus { OPEN, CLOSE, IDLE }
 class _SpinCircleBottomBarState extends State<SpinCircleBottomBar> {
   ExpansionStatus expansionStatus = ExpansionStatus.IDLE;
   SCBottomBarDetails expandableBottomBarDetails;
-  int activeIndex = 0;
+  int _activeIndex = 0;
+
+  int get activeIndex => _activeIndex;
+
+  set activeIndex(int v) {
+    setState(() {
+      if (v >= (expandableBottomBarDetails.items.length - 1) / 2) {
+        _activeIndex = v + 1;
+      } else {
+        _activeIndex = v;
+      }
+    });
+  }
 
   @override
   void initState() {
@@ -82,6 +96,12 @@ class _SpinCircleBottomBarState extends State<SpinCircleBottomBar> {
                   color: Colors.white,
                 ),
                 elevation: 0);
+    expandableBottomBarDetails?.tabController?.addListener(() {
+      setState(() {
+        activeIndex = expandableBottomBarDetails.tabController.index;
+      });
+    });
+    activeIndex = expandableBottomBarDetails?.tabController?.index ?? 0;
   }
 
   @override
@@ -216,9 +236,6 @@ class _SpinCircleBottomBarState extends State<SpinCircleBottomBar> {
                             child: itemDetails != null
                                 ? GestureDetector(
                                     onTap: () {
-                                      setState(() {
-                                        activeIndex = index;
-                                      });
                                       itemDetails.onPressed();
                                     },
                                     child: Center(
