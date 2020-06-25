@@ -13,7 +13,7 @@ class CreateTourTab1 extends StatefulWidget {
 }
 
 class _CreateTourTab1State extends State<CreateTourTab1> {
-  final formKey = GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>(debugLabel: 'CreateTourTab1FormKey');
   TextEditingController nameController;
   final TextEditingController totalMemberController = TextEditingController();
   final TextEditingController priceController = TextEditingController();

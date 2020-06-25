@@ -9,7 +9,7 @@ class CreateTourTab2 extends StatefulWidget {
     Key key,
     GlobalKey<FormState> formKey,
     this.onChange,
-  })  : this.formKey = formKey ?? GlobalKey<FormState>(),
+  })  : this.formKey = formKey ?? GlobalKey<FormState>(debugLabel: 'CreateTourFormKetTab2'),
         super(key: key);
 
   @override

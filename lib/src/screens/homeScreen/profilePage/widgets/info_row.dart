@@ -12,7 +12,7 @@ import 'package:ginkgo_mobile/src/widgets/actionSheets/show_custom_date_picker.d
 import 'package:ginkgo_mobile/src/widgets/customs/toast.dart';
 
 class InfoRowModel {
-  final GlobalKey key = GlobalKey();
+  final GlobalKey key = GlobalKey(debugLabel: 'InfoRowKey');
   final String svgIcon;
   final String text;
   final String placeHolder;

@@ -53,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen>
     HomePage(),
     ManageTourScreen(),
     NotificationScreen(),
-    ProfilePage(key: GlobalKey()),
+    ProfilePage(),
   ];
 
   _onChangeTab(int index) {
@@ -166,7 +166,7 @@ class _HomeScreenState extends State<HomeScreen>
           context,
           scrollProfileToActivityBox: widget.args.scrollProfileToActivityBox,
           child: ExtendedTabBarView(
-            cacheExtent: 0,
+            cacheExtent: 4,
             physics: NeverScrollableScrollPhysics(),
             controller: _tabController,
             children: _pages,

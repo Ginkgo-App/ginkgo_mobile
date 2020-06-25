@@ -8,7 +8,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen>
     with LoadDataScreenMixin {
   final CurrentUserBloc _bloc = CurrentUserBloc();
-  final GlobalKey activityBoxKey = GlobalKey();
+  final GlobalKey activityBoxKey = GlobalKey(debugLabel: 'activityBoxKey');
 
   StreamSubscription currentUserListener;
   bool editMode = false;
