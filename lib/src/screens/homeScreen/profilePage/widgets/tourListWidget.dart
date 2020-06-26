@@ -24,7 +24,8 @@ class TourListWidget extends StatefulWidget {
   _TourListWidgetState createState() => _TourListWidgetState();
 }
 
-class _TourListWidgetState extends State<TourListWidget> {
+class _TourListWidgetState extends State<TourListWidget>
+    with LoadDataWidgetMixin {
   final UserTourBloc _bloc = UserTourBloc();
   bool isCurrentUser = false;
 
@@ -32,10 +33,11 @@ class _TourListWidgetState extends State<TourListWidget> {
   void initState() {
     super.initState();
     isCurrentUser = CurrentUserBloc().isCurrentUser(simpleUser: widget.user);
-    _fetchData();
+    loadData();
   }
 
-  _fetchData() {
+  @override
+  loadData() {
     _bloc.add(
       UserTourEventFetch(isCurrentUser ? 0 : widget.user.id),
     );
@@ -66,11 +68,14 @@ class _TourListWidgetState extends State<TourListWidget> {
         bloc: _bloc,
         builder: (context, state) {
           if (state is UserTourFailure) {
+            completeLoadData();
             return ErrorIndicator(
               moreErrorDetail: state.error,
-              onReload: _fetchData,
+              onReload: loadData,
             );
           }
+
+          completeLoadData();
           return Column(
             children: <Widget>[
               SingleChildScrollView(

@@ -5,19 +5,31 @@ class ProfileScreen extends StatefulWidget {
   _ProfileScreenState createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _ProfileScreenState extends State<ProfileScreen>
+    with LoadDataScreenMixin {
   final CurrentUserBloc _bloc = CurrentUserBloc();
   bool editMode = false;
+  StreamSubscription currentUserListener;
 
   @override
   void initState() {
     super.initState();
     if (_bloc.currentUser == null && _bloc.state is! CurrentUserStateLoading) {
-      _fetchProfile();
+      loadDataController.loadData();
     }
+
+    currentUserListener = _bloc.listen((state) {
+      if (state is CurrentUserStateLoading) {
+        LoadingManager().show(context);
+      } else {
+        LoadingManager().hide(context);
+        completeLoadData();
+      }
+    });
   }
 
-  _fetchProfile() {
+  @override
+  loadData() {
     _bloc.add(CurrentUserEventFetch());
   }
 
@@ -29,6 +41,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   void dispose() {
+    currentUserListener.cancel();
     super.dispose();
   }
 
@@ -45,10 +58,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
         return PrimaryScaffold(
           appBar: BackAppBar(title: user?.fullName ?? ''),
+          loadDataController: loadDataController,
           body: state is CurrentUserStateFailure
               ? ErrorIndicator(
                   moreErrorDetail: state.error,
-                  onReload: _fetchProfile,
+                  onReload: loadData,
                 )
               : SingleChildScrollView(
                   child: Column(
