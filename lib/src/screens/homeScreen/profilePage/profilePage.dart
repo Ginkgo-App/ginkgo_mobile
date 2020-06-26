@@ -11,7 +11,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Navigator(
-      key: Navigators.profileNavigator,
+      // key: Navigators.profileNavigator,
       onGenerateRoute: onGenerateProfileRoute,
     );
   }

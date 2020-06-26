@@ -64,8 +64,8 @@ class _PrimaryScaffoldState extends State<PrimaryScaffold> {
                         )
                       : null,
                   body: Container(
-                    color: widget.backgroundColor,
                     decoration: BoxDecoration(
+                        color: widget.backgroundColor,
                         gradient: widget.gradientBackground == null &&
                                 widget.backgroundColor == null
                             ? GradientColor.of(context).backgroundGradient

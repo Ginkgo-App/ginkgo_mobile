@@ -164,6 +164,7 @@ class _HomeScreenState extends State<HomeScreen>
         ),
         child: HomeProvider(
           context,
+          tabController: _tabController,
           scrollProfileToActivityBox: widget.args.scrollProfileToActivityBox,
           child: ExtendedTabBarView(
             cacheExtent: 4,

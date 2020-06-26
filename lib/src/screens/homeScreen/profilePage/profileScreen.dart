@@ -17,7 +17,13 @@ class _ProfileScreenState extends State<ProfileScreen>
   void initState() {
     super.initState();
     if (_bloc.currentUser == null && _bloc.state is! CurrentUserStateLoading) {
-      loadDataController.loadData();
+      loadDataController
+          .loadData()
+          .then((value) => _checkScrollToActivityBox());
+    } else {
+      loadDataController
+          .loadDataForWidget()
+          .then((value) => _checkScrollToActivityBox());
     }
 
     currentUserListener = _bloc.listen((state) {
@@ -28,8 +34,6 @@ class _ProfileScreenState extends State<ProfileScreen>
         completeLoadData();
       }
     });
-
-    _checkScrollToActivityBox();
   }
 
   @override
@@ -47,7 +51,10 @@ class _ProfileScreenState extends State<ProfileScreen>
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       final homeProvider = HomeProvider.of(context);
       if (homeProvider != null && homeProvider.scrollProfileToActivityBox) {
-        Scrollable.ensureVisible(activityBoxKey.currentContext);
+        Scrollable.ensureVisible(
+          activityBoxKey.currentContext,
+          duration: Duration(milliseconds: 200),
+        );
       }
     });
   }

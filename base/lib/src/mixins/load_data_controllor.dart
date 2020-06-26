@@ -14,7 +14,8 @@ class LoadDataProvider extends InheritedWidget {
 }
 
 class LoadDataController extends ChangeNotifier {
-  List<Future Function()> _waiters = [];
+  List<Future Function()> _screenWaiters = [];
+  List<Future Function()> _widgetWaiters = [];
   bool _isRefreshing = false;
   bool _isReloading = false;
   bool _isLoading = false;
@@ -27,8 +28,18 @@ class LoadDataController extends ChangeNotifier {
     _isLoading = true;
     notifyListeners();
 
+    await _loadData();
+
+    _isLoading = false;
+    notifyListeners();
+  }
+
+  Future loadDataForWidget() async {
+    _isLoading = true;
+    notifyListeners();
+
     await Future.wait([
-      ..._waiters.map((e) => e.call()),
+      ..._widgetWaiters.map((e) => e.call()),
     ]);
 
     _isLoading = false;
@@ -39,9 +50,7 @@ class LoadDataController extends ChangeNotifier {
     _isRefreshing = true;
     notifyListeners();
 
-    await Future.wait([
-      ..._waiters.map((e) => e.call()),
-    ]);
+    await _loadData();
 
     _isRefreshing = false;
     notifyListeners();
@@ -51,12 +60,17 @@ class LoadDataController extends ChangeNotifier {
     _isReloading = true;
     notifyListeners();
 
-    await Future.wait([
-      ..._waiters.map((e) => e.call()),
-    ]);
+    await _loadData();
 
     _isReloading = false;
     notifyListeners();
+  }
+
+  Future _loadData() async {
+    await Future.wait([
+      ..._screenWaiters.map((e) => e.call()),
+      ..._widgetWaiters.map((e) => e.call()),
+    ]);
   }
 }
 
@@ -70,7 +84,7 @@ mixin LoadDataScreenMixin<T extends StatefulWidget> on State<T> {
   void initState() {
     super.initState();
     loadDataController = LoadDataController();
-    loadDataController._waiters.add(_loadData);
+    loadDataController._screenWaiters.add(_loadData);
   }
 
   @protected
@@ -106,7 +120,7 @@ mixin LoadDataWidgetMixin<T extends StatefulWidget> on State<T> {
       if (provider == null) {
         throw ('Context have no LoadDataProvider. Please provide it before use LoadDataMixin.');
       } else {
-        provider.controller._waiters.add(_loadData);
+        provider.controller._widgetWaiters.add(_loadData);
       }
     });
   }
