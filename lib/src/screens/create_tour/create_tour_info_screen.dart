@@ -6,7 +6,7 @@ class CreateTourInfoScreen extends StatefulWidget {
 }
 
 class _CreateTourInfoScreenState extends State<CreateTourInfoScreen> {
-  final formKey = GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>(debugLabel: 'formKey');
   final CreateTourInfoBloc bloc = CreateTourInfoBloc();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController startPlaceController = TextEditingController();

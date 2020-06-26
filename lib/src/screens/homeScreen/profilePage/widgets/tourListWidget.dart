@@ -6,6 +6,7 @@ import 'package:ginkgo_mobile/src/blocs/currentUser/current_user_bloc.dart';
 import 'package:ginkgo_mobile/src/blocs/userTour/user_tour_bloc.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/navigators.dart';
+import 'package:ginkgo_mobile/src/screens/homeScreen/homeProvider.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/utils/strings.dart';
 import 'package:ginkgo_mobile/src/widgets/buttons/commonOutlineButton.dart';
@@ -24,7 +25,8 @@ class TourListWidget extends StatefulWidget {
   _TourListWidgetState createState() => _TourListWidgetState();
 }
 
-class _TourListWidgetState extends State<TourListWidget> {
+class _TourListWidgetState extends State<TourListWidget>
+    with LoadDataWidgetMixin {
   final UserTourBloc _bloc = UserTourBloc();
   bool isCurrentUser = false;
 
@@ -32,10 +34,11 @@ class _TourListWidgetState extends State<TourListWidget> {
   void initState() {
     super.initState();
     isCurrentUser = CurrentUserBloc().isCurrentUser(simpleUser: widget.user);
-    _fetchData();
+    loadData();
   }
 
-  _fetchData() {
+  @override
+  loadData() {
     _bloc.add(
       UserTourEventFetch(isCurrentUser ? 0 : widget.user.id),
     );
@@ -43,8 +46,7 @@ class _TourListWidgetState extends State<TourListWidget> {
 
   viewAll() {
     if (isCurrentUser) {
-      Navigators.profileNavigator.currentState
-          .pushNamed(ProfileRoutes.manageTour);
+      HomeProvider.of(context).tabController.animateTo(1);
     } else {
       Navigators.appNavigator.currentState.pushNamed(Routes.profileTourList);
     }
@@ -66,11 +68,14 @@ class _TourListWidgetState extends State<TourListWidget> {
         bloc: _bloc,
         builder: (context, state) {
           if (state is UserTourFailure) {
+            completeLoadData();
             return ErrorIndicator(
               moreErrorDetail: state.error,
-              onReload: _fetchData,
+              onReload: loadData,
             );
           }
+
+          completeLoadData();
           return Column(
             children: <Widget>[
               SingleChildScrollView(

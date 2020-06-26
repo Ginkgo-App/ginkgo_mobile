@@ -2,15 +2,20 @@ part of '../screens.dart';
 
 class HomeScreenArgs {
   final int tabIndex;
+  final bool scrollProfileToActivityBox;
 
-  const HomeScreenArgs({this.tabIndex = 0});
+  const HomeScreenArgs({
+    this.tabIndex = 0,
+    this.scrollProfileToActivityBox = false,
+  });
 }
 
 class HomeScreen extends StatefulWidget {
   final HomeScreenArgs args;
 
-  const HomeScreen({Key key, this.args = const HomeScreenArgs()})
-      : super(key: key);
+  const HomeScreen({Key key, HomeScreenArgs args})
+      : this.args = args ?? const HomeScreenArgs(),
+        super(key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -48,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen>
     HomePage(),
     ManageTourScreen(),
     NotificationScreen(),
-    ProfilePage(key: GlobalKey()),
+    ProfilePage(),
   ];
 
   _onChangeTab(int index) {
@@ -62,8 +67,8 @@ class _HomeScreenState extends State<HomeScreen>
   void initState() {
     super.initState();
     _cIndex = widget.args.tabIndex;
-    _tabController = TabController(length: _pages.length, vsync: this);
-    _tabController.animateTo(_cIndex);
+    _tabController = TabController(
+        initialIndex: _cIndex, length: _pages.length, vsync: this);
     _tabController.addListener(() {
       setState(() {
         _cIndex = _tabController.index;
@@ -108,6 +113,7 @@ class _HomeScreenState extends State<HomeScreen>
       // bottomNavigationBar: _buildBottomNavigator(context),
       body: SpinCircleBottomBarHolder(
         bottomNavigationBar: SCBottomBarDetails(
+          _tabController,
           bnbHeight: 56,
           circleColors: [
             Colors.white,
@@ -146,13 +152,20 @@ class _HomeScreenState extends State<HomeScreen>
               .values
               .toList(),
           circleItems: [
-            SCItem(icon: Icon(Icons.add), onPressed: () {}),
+            SCItem(
+                icon: Icon(Icons.add),
+                onPressed: () {
+                  Navigators.appNavigator.currentState
+                      .pushNamed(Routes.createPost);
+                }),
             SCItem(icon: Icon(Icons.camera_enhance), onPressed: () {}),
             SCItem(icon: Icon(Icons.add_comment), onPressed: () {}),
           ],
         ),
         child: HomeProvider(
           context,
+          tabController: _tabController,
+          scrollProfileToActivityBox: widget.args.scrollProfileToActivityBox,
           child: ExtendedTabBarView(
             cacheExtent: 4,
             physics: NeverScrollableScrollPhysics(),

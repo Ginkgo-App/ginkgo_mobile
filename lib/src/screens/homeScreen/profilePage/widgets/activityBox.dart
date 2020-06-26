@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:ginkgo_mobile/src/models/fakeData.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
-import 'package:ginkgo_mobile/src/widgets/postWidgets/collapsePost.dart';
+import 'package:ginkgo_mobile/src/widgets/post_widgets/post_widget.dart';
 import 'package:ginkgo_mobile/src/widgets/spacingColumn.dart';
 import 'package:ginkgo_mobile/src/widgets/widgets.dart';
 
 class ActivityBox extends StatelessWidget {
+
+  const ActivityBox({Key key}) : super(key: key);
+  
   @override
   Widget build(BuildContext context) {
     return BorderContainer(
@@ -15,14 +18,14 @@ class ActivityBox extends StatelessWidget {
       child: SpacingColumn(
         spacing: 20,
         children: [
-          CollapsePost(
+          PostWidget(
             post: FakeData.post,
             showAuthorAvatar: true,
           ),
-          CollapsePost(
+          PostWidget(
             post: FakeData.postNoImage,
           ),
-          CollapsePost(
+          PostWidget(
             post: FakeData.review,
           ),
         ],

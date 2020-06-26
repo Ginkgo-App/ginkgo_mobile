@@ -1,5 +1,7 @@
 library base;
 
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart' as Storage;
@@ -20,3 +22,4 @@ part 'src/storageProvider.dart';
 part 'src/utils.dart';
 part 'src/mixins/loadmore_mixin.dart';
 part 'src/extensions/color_extensions.dart';
+part 'src/mixins/load_data_controllor.dart';

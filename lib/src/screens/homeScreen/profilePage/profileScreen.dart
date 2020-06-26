@@ -5,19 +5,42 @@ class ProfileScreen extends StatefulWidget {
   _ProfileScreenState createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _ProfileScreenState extends State<ProfileScreen>
+    with LoadDataScreenMixin {
   final CurrentUserBloc _bloc = CurrentUserBloc();
+  final GlobalKey activityBoxKey = GlobalKey(debugLabel: 'activityBoxKey');
+
+  StreamSubscription currentUserListener;
   bool editMode = false;
 
   @override
   void initState() {
     super.initState();
-    if (_bloc.currentUser == null && _bloc.state is! CurrentUserStateLoading) {
-      _fetchProfile();
-    }
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      if (_bloc.currentUser == null &&
+          _bloc.state is! CurrentUserStateLoading) {
+        loadDataController
+            .loadData()
+            .then((value) => _checkScrollToActivityBox());
+      } else {
+        loadDataController
+            .loadDataForWidget()
+            .then((value) => _checkScrollToActivityBox());
+      }
+    });
+
+    currentUserListener = _bloc.listen((state) {
+      if (state is CurrentUserStateLoading) {
+        LoadingManager().show(context);
+      } else {
+        LoadingManager().hide(context);
+        completeLoadData();
+      }
+    });
   }
 
-  _fetchProfile() {
+  @override
+  loadData() {
     _bloc.add(CurrentUserEventFetch());
   }
 
@@ -27,8 +50,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
     });
   }
 
+  _checkScrollToActivityBox() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      final homeProvider = HomeProvider.of(context);
+      if (homeProvider != null && homeProvider.scrollProfileToActivityBox) {
+        Scrollable.ensureVisible(
+          activityBoxKey.currentContext,
+          duration: Duration(milliseconds: 200),
+        );
+      }
+    });
+  }
+
   @override
   void dispose() {
+    currentUserListener.cancel();
     super.dispose();
   }
 
@@ -45,10 +81,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
         return PrimaryScaffold(
           appBar: BackAppBar(title: user?.fullName ?? ''),
+          loadDataController: loadDataController,
           body: state is CurrentUserStateFailure
               ? ErrorIndicator(
                   moreErrorDetail: state.error,
-                  onReload: _fetchProfile,
+                  onReload: loadData,
                 )
               : SingleChildScrollView(
                   child: Column(
@@ -73,7 +110,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             const SizedBox(height: 10),
                             TourListWidget(user: user?.toSimpleUser()),
                             const SizedBox(height: 10),
-                            ActivityBox(),
+                            ActivityBox(key: activityBoxKey),
                             const SizedBox(height: 20),
                           ],
                         ),

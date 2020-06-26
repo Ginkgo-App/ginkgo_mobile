@@ -119,7 +119,7 @@ class ApiClient {
             break;
         }
       } on DioError catch (e) {
-        if (e.response.statusCode == 401) {
+        if (e.response?.statusCode == 401) {
           showErrorMessage(
               'Phiên đăng nhập hết hạn. \nVui lòng đăng nhập lại.');
           AuthBloc().add(AuthEventLogout());
