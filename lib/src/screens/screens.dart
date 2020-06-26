@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:math';
 import 'dart:ui';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:base/base.dart';
 import 'package:extended_tabs/extended_tabs.dart';
 import 'package:flare_flutter/flare_actor.dart';
@@ -45,9 +46,9 @@ import 'package:ginkgo_mobile/src/screens/homeScreen/profilePage/widgets/infoBox
 import 'package:ginkgo_mobile/src/screens/homeScreen/profilePage/widgets/ownerNav.dart';
 import 'package:ginkgo_mobile/src/screens/homeScreen/profilePage/widgets/tourListWidget.dart';
 import 'package:ginkgo_mobile/src/screens/manage_tour/widgets/manage_tour_widgets.dart';
+import 'package:ginkgo_mobile/src/screens/place_detail_screen/widgets/place_list.dart';
 import 'package:ginkgo_mobile/src/screens/tour_detail_screen/widgets/review_comment.dart';
 import 'package:ginkgo_mobile/src/screens/tour_detail_screen/widgets/services_provided.dart';
-import 'package:ginkgo_mobile/src/screens/place_detail_screen/widgets/place_list.dart';
 import 'package:ginkgo_mobile/src/screens/tour_detail_screen/widgets/slider_widget.dart';
 import 'package:ginkgo_mobile/src/screens/tour_detail_screen/widgets/timeline_widget.dart';
 import 'package:ginkgo_mobile/src/screens/tour_detail_screen/widgets/tour_detail.dart';

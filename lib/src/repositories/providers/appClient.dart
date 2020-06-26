@@ -6,7 +6,6 @@ import 'package:base/base.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:ginkgo_mobile/src/blocs/auth/auth_bloc.dart';
 import 'package:ginkgo_mobile/src/repositories/repository.dart';
 import 'package:ginkgo_mobile/src/widgets/errorWidgets/showErrorMessage.dart';
@@ -139,7 +138,9 @@ class ApiClient {
         if (data != null || body != null) {
           print(pen('Data: ${data ?? jsonEncode(body)}'));
         }
-        if (response?.data is Map && response.data['Data'] is List) {
+        if (response?.data is Map &&
+            response.data['Data'] is List &&
+            response.data['Data'].length > 0) {
           print(pen('ResponseData[0]: ${response.data['Data'][0]}'));
         }
       }
@@ -157,7 +158,6 @@ class ApiClient {
       if (response.statusCode != 200 && response.statusCode != 201 ||
           !isSuccess) {
         if (handleError) {
-          debugPrint('Error Data: ${decoded['Data']}');
           throw ServerError(
             errorCode: decoded['ErrorCode'],
             message: decoded['Message'],

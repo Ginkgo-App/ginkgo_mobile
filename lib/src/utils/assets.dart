@@ -26,6 +26,7 @@ class _Icon {
   final comment = _ICON_PATH + 'comment.svg';
   final contributor = _ICON_PATH + 'contributor.svg';
   final datetime = _ICON_PATH + 'datetime.svg';
+  final done = _ICON_PATH + 'done.svg';
   final downArrow = _ICON_PATH + 'down-arrow.svg';
   final email = _ICON_PATH + 'email.svg';
   final endPlace = _ICON_PATH + 'end-place.svg';
@@ -72,6 +73,7 @@ class _Icon {
   final tripFull = _ICON_PATH + 'trip-manage-full.svg';
   final tripOutline = _ICON_PATH + 'trip-manage-outline.svg';
   final ribbon = _ICON_PATH + 'ribbon.svg';
+  final warning = _ICON_PATH + 'warning.svg';
 }
 
 class _Image {

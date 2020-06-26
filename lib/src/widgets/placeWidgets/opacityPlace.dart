@@ -60,6 +60,7 @@ class OpacityPlace extends StatelessWidget {
                             Text(
                               place?.name ?? '',
                               maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                               style: context.textTheme.caption.copyWith(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),
