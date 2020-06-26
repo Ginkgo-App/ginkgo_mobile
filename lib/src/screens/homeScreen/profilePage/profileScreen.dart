@@ -16,15 +16,18 @@ class _ProfileScreenState extends State<ProfileScreen>
   @override
   void initState() {
     super.initState();
-    if (_bloc.currentUser == null && _bloc.state is! CurrentUserStateLoading) {
-      loadDataController
-          .loadData()
-          .then((value) => _checkScrollToActivityBox());
-    } else {
-      loadDataController
-          .loadDataForWidget()
-          .then((value) => _checkScrollToActivityBox());
-    }
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      if (_bloc.currentUser == null &&
+          _bloc.state is! CurrentUserStateLoading) {
+        loadDataController
+            .loadData()
+            .then((value) => _checkScrollToActivityBox());
+      } else {
+        loadDataController
+            .loadDataForWidget()
+            .then((value) => _checkScrollToActivityBox());
+      }
+    });
 
     currentUserListener = _bloc.listen((state) {
       if (state is CurrentUserStateLoading) {

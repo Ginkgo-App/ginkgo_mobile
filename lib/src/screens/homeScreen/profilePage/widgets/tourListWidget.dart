@@ -34,6 +34,7 @@ class _TourListWidgetState extends State<TourListWidget>
   void initState() {
     super.initState();
     isCurrentUser = CurrentUserBloc().isCurrentUser(simpleUser: widget.user);
+    loadData();
   }
 
   @override
