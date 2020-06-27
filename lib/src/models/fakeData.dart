@@ -96,7 +96,7 @@ Nói chung là đáng đồng tiền bỏ ra. Nếu có dịp lần sau sẽ ủ
     ],
     featuredComments: [
       Comment(
-          id: '12', author: currentUser, content: 'Ôi ảnh đẹp quá bạn ơi...')
+          id: 12, author: currentUser, content: 'Ôi ảnh đẹp quá bạn ơi...')
     ],
     totalComment: 10,
     totalLike: 10,
@@ -112,7 +112,7 @@ Nói chung là đáng đồng tiền bỏ ra. Nếu có dịp lần sau sẽ ủ
     images: [],
     featuredComments: [
       Comment(
-          id: '12', author: currentUser, content: 'Ôi ảnh đẹp quá bạn ơi...')
+          id: 12, author: currentUser, content: 'Ôi ảnh đẹp quá bạn ơi...')
     ],
     totalComment: 10,
     totalLike: 10,
@@ -131,7 +131,7 @@ Nói chung là đáng đồng tiền bỏ ra. Nếu có dịp lần sau sẽ ủ
     createAt: DateTime(2019, 1, 1, 12, 12),
     featuredComments: [
       Comment(
-          id: '12', author: currentUser, content: 'Ôi ảnh đẹp quá bạn ơi...')
+          id: 12, author: currentUser, content: 'Ôi ảnh đẹp quá bạn ơi...')
     ],
     totalComment: 10,
     totalLike: 10,

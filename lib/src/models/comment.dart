@@ -1,7 +1,7 @@
 part of 'models.dart';
 
 class Comment with Mappable {
-  String id;
+  int id;
   User author;
   String content;
   DateTime createAt;

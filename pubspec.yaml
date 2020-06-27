@@ -41,6 +41,7 @@ dependencies:
   awesome_dialog: ^1.1.2
   url_launcher:
   timeago: ^2.0.26
+  like_button: ^0.1.9
 
 dev_dependencies:
   flutter_test:

@@ -53,7 +53,6 @@ class CommentBottomSheet {
                 10,
                 (index) => Comment(
                   id: 12,
-                  postId: '1',
                   author: FakeData.currentUser,
                   content: 'Ôi ảnh đẹp quá bạn ơi...',
                   createAt: DateTime.now().subtract(Duration(days: 3)),

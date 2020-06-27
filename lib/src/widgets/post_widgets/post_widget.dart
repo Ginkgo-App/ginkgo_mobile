@@ -10,8 +10,12 @@ import 'package:ginkgo_mobile/src/utils/designColor.dart';
 import 'package:ginkgo_mobile/src/utils/strings.dart';
 import 'package:ginkgo_mobile/src/widgets/galleryItem.dart';
 import 'package:ginkgo_mobile/src/widgets/spacingColumn.dart';
+import 'package:ginkgo_mobile/src/widgets/spacingRow.dart';
 import 'package:ginkgo_mobile/src/widgets/widgets.dart';
 import 'package:intl/intl.dart';
+import 'package:like_button/like_button.dart';
+
+part 'widgets/post_like_button.dart';
 
 class PostWidget extends StatelessWidget {
   final Post post;
@@ -26,6 +30,11 @@ class PostWidget extends StatelessWidget {
     this.showAuthorAvatar = false,
     this.isCollapse = true,
   }) : super(key: key);
+
+  _openListCommnent(BuildContext context) {
+    CommentBottomSheet(context, postId: post?.id, totalLike: post?.totalLike)
+        .show();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,8 +60,11 @@ class PostWidget extends StatelessWidget {
         const SizedBox(width: 6),
         Expanded(
           flex: 9,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+          child: ListView(
+            itemExtent: null,
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            padding: EdgeInsets.zero,
             children: <Widget>[
               _buildTop(
                 context,
@@ -71,12 +83,20 @@ class PostWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: 5)
               ],
-              _buildLikeCommentButton(context, totalLike: post?.totalLike),
-              const SizedBox(height: 5),
-              _buildCommentList(
-                context,
-                totalComment: post?.totalComment,
-                comments: post?.featuredComments,
+              if (post != null) ...[
+                PostLikeCommentButton(
+                  post: post,
+                  onCommentPressed: () => _openListCommnent(context),
+                ),
+                const SizedBox(height: 5),
+              ],
+              GestureDetector(
+                onTap: () => _openListCommnent(context),
+                child: _buildCommentList(
+                  context,
+                  totalComment: post?.totalComment,
+                  comments: post?.featuredComments,
+                ),
               )
             ],
           ),
@@ -209,45 +229,6 @@ class PostWidget extends StatelessWidget {
           DateFormat('hh:mm dd/MM/yyyy').format(createAt),
           style: TextStyle(fontSize: 10, color: DesignColor.tinyItems),
         ),
-      ],
-    );
-  }
-
-  Widget _buildLikeCommentButton(
-    BuildContext context, {
-    int totalLike,
-    Function onLikePressed,
-    Function onCommentPressed,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Row(
-          children: <Widget>[
-            CupertinoButton(
-              minSize: 0,
-              padding: EdgeInsets.only(right: 16),
-              child: SvgPicture.asset(Assets.icons.heartOutline, height: 18),
-              onPressed: onLikePressed,
-            ),
-            CupertinoButton(
-              minSize: 0,
-              padding: EdgeInsets.zero,
-              child: SvgPicture.asset(Assets.icons.comment, height: 18),
-              onPressed: onCommentPressed,
-            ),
-          ],
-        ),
-        if (totalLike != null && totalLike > 0) ...[
-          const SizedBox(height: 5),
-          Text(
-            Strings.post.totalLike(totalLike),
-            style: TextStyle(
-              fontSize: 10,
-              color: DesignColor.tinyItems,
-            ),
-          )
-        ]
       ],
     );
   }

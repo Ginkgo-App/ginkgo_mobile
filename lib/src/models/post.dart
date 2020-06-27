@@ -13,6 +13,7 @@ class Post {
   final List<Comment> featuredComments;
   final double rating;
   final SimpleTour tour;
+  final bool isLiked;
 
   PostType get type {
     if (rating != null && tour != null) {
@@ -52,6 +53,7 @@ class Post {
     this.featuredComments,
     this.rating,
     this.tour,
+    this.isLiked,
   });
 }
 

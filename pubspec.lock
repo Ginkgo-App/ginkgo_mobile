@@ -170,7 +170,7 @@ packages:
     source: hosted
     version: "2.3.4"
   flare_flutter:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flare_flutter
       url: "https://pub.dartlang.org"
@@ -324,6 +324,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.16.1"
+  like_button:
+    dependency: "direct main"
+    description:
+      name: like_button
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.9"
   matcher:
     dependency: transitive
     description:
