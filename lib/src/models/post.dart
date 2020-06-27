@@ -2,7 +2,7 @@ part of 'models.dart';
 
 enum PostType { normal, image, images, tourJustCreated, tourCreated, rating }
 
-class Post {
+class Post with Mappable {
   final int id;
   final User author;
   final DateTime createAt;
@@ -55,6 +55,11 @@ class Post {
     this.tour,
     this.isLiked,
   });
+
+  @override
+  void mapping(Mapper map) {
+    // TODO: implement mapping
+  }
 }
 
 class PostToPost {

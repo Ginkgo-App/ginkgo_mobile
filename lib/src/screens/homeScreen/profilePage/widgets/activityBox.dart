@@ -1,13 +1,12 @@
+import 'package:base/base.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ginkgo_mobile/src/blocs/post_list/post_list_bloc.dart';
-import 'package:ginkgo_mobile/src/models/fakeData.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/widgets/errorWidgets/errorIndicator.dart';
 import 'package:ginkgo_mobile/src/widgets/errorWidgets/not_found_widget.dart';
 import 'package:ginkgo_mobile/src/widgets/post_widgets/post_widget.dart';
 import 'package:ginkgo_mobile/src/widgets/widgets.dart';
-import 'package:base/base.dart';
 
 class ActivityBox extends StatefulWidget {
   final int userId;
@@ -24,6 +23,7 @@ class _ActivityBoxState extends State<ActivityBox> with LoadDataWidgetMixin {
   initState() {
     super.initState();
     postListBloc = PostListBloc(5, userId: widget.userId);
+    loadData();
   }
 
   loadData() {

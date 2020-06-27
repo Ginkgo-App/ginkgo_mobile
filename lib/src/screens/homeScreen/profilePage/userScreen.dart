@@ -62,7 +62,7 @@ class _UserScreenState extends State<UserScreen> {
                         child: Column(
                           children: <Widget>[
                             UserNav(
-                                user: user?.toSimpleUser() ??  args?.simpleUser,
+                                user: user?.toSimpleUser() ?? args?.simpleUser,
                                 onFriendActionSuccess: () {
                                   _fetchUserInfo();
                                 }),
@@ -79,7 +79,7 @@ class _UserScreenState extends State<UserScreen> {
                               TourListWidget(user: user?.toSimpleUser()),
                               const SizedBox(height: 10),
                             ],
-                            ActivityBox(),
+                            ActivityBox(userId: args?.simpleUser?.id),
                             const SizedBox(height: 20),
                           ],
                         ),

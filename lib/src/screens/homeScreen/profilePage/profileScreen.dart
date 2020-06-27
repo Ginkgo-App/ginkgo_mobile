@@ -94,7 +94,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                             const SizedBox(height: 10),
                             TourListWidget(user: user?.toSimpleUser()),
                             const SizedBox(height: 10),
-                            ActivityBox(key: activityBoxKey),
+                            ActivityBox(key: activityBoxKey, userId: 0),
                             const SizedBox(height: 20),
                           ],
                         ),
