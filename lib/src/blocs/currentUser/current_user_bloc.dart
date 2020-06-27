@@ -59,7 +59,7 @@ class CurrentUserBloc extends Bloc<CurrentUserEvent, CurrentUserState> {
       try {
         yield CurrentUserStateLoading();
         _currentUser = await _repository.user.getMe();
-        yield CurrentUserStageSuccess(_currentUser);
+        yield CurrentUserStateSuccess(_currentUser);
       } catch (e) {
         yield CurrentUserStateFailure(e.toString());
       }

@@ -40,7 +40,7 @@ class _TourListWidgetState extends State<TourListWidget>
   @override
   loadData() {
     _bloc.add(
-      UserTourEventFetch(isCurrentUser ? 0 : widget.user.id),
+      UserTourEventFetch(isCurrentUser ? 0 : widget.user?.id),
     );
   }
 

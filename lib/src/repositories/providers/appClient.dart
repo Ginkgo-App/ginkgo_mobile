@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:ansicolor/ansicolor.dart';
@@ -141,7 +142,7 @@ class ApiClient {
         if (response?.data is Map &&
             response.data['Data'] is List &&
             response.data['Data'].length > 0) {
-          print(pen('ResponseData[0]: ${response.data['Data'][0]}'));
+          inspect(response.data['Data'][0]);
         }
       }
 

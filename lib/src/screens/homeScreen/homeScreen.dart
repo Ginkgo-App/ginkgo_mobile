@@ -74,37 +74,6 @@ class _HomeScreenState extends State<HomeScreen>
         _cIndex = _tabController.index;
       });
     });
-
-    CurrentUserBloc().listen((state) {
-      if (state is CurrentUserStateLoading) {
-        if (LoadingManager().showCount == 0) {
-          LoadingManager().show(context);
-        }
-      } else {
-        LoadingManager().hide(context);
-
-        if (state is CurrentUserStateFailure) {
-          AwesomeDialog(
-            context: context,
-            dismissOnTouchOutside: false,
-            dialogType: DialogType.ERROR,
-            animType: AnimType.SCALE,
-            title: 'Lỗi khi tải thông tin cá nhân.',
-            desc: 'Vui lòng thử lại hoặc đăng xuất.',
-            btnCancelOnPress: () {
-              // Navigator.pop(context);
-              AuthBloc().add(AuthEventLogout());
-            },
-            btnCancelText: 'ĐĂNG XUẤT',
-            btnOkOnPress: () {
-              // Navigator.pop(context);
-              CurrentUserBloc().add(CurrentUserEventFetch());
-            },
-            btnOkText: 'TẢI LẠI',
-          )..show();
-        }
-      }
-    });
   }
 
   @override

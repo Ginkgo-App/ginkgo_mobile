@@ -10,7 +10,6 @@ class _ProfileScreenState extends State<ProfileScreen>
   final CurrentUserBloc _bloc = CurrentUserBloc();
   final GlobalKey activityBoxKey = GlobalKey(debugLabel: 'activityBoxKey');
 
-  StreamSubscription currentUserListener;
   bool editMode = false;
 
   @override
@@ -26,15 +25,6 @@ class _ProfileScreenState extends State<ProfileScreen>
         loadDataController
             .loadDataForWidget()
             .then((value) => _checkScrollToActivityBox());
-      }
-    });
-
-    currentUserListener = _bloc.listen((state) {
-      if (state is CurrentUserStateLoading) {
-        LoadingManager().show(context);
-      } else {
-        LoadingManager().hide(context);
-        completeLoadData();
       }
     });
   }
@@ -63,18 +53,12 @@ class _ProfileScreenState extends State<ProfileScreen>
   }
 
   @override
-  void dispose() {
-    currentUserListener.cancel();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return BlocBuilder(
       bloc: _bloc,
       builder: (context, state) {
         User user;
-        if (state is CurrentUserStageSuccess ||
+        if (state is CurrentUserStateSuccess ||
             state is CurrentUserStateHaveChanges) {
           user = _bloc.currentUser;
         }
