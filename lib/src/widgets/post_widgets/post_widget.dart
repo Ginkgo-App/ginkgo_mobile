@@ -39,9 +39,12 @@ class PostWidget extends StatelessWidget {
             padding: const EdgeInsets.only(top: 4),
             child: !showAuthorAvatar
                 ? SvgPicture.asset(post.icon, height: 24)
-                : Avatar(
-                    imageUrl: post.author.avatar.smallThumb,
-                    size: 40,
+                : AspectRatio(
+                    aspectRatio: 1,
+                    child: Avatar(
+                      imageUrl: post.author.avatar.smallThumb,
+                      size: 40,
+                    ),
                   ),
           ),
         ),
@@ -285,7 +288,7 @@ class PostWidget extends StatelessWidget {
         const SizedBox(width: 6),
         Text(
           comment.author.displayName,
-          style: context.textTheme.subtitle1.copyWith(
+          style: context.textTheme.bodyText1.copyWith(
             fontWeight: FontWeight.bold,
             color: context.colorScheme.onBackground,
           ),
@@ -295,7 +298,7 @@ class PostWidget extends StatelessWidget {
             ' ${comment.content}',
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: context.textTheme.subtitle1.copyWith(
+            style: context.textTheme.bodyText2.copyWith(
               color: context.colorScheme.onBackground,
             ),
           ),
