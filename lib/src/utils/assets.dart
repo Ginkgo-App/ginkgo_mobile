@@ -10,6 +10,7 @@ class Assets {
 
 class _Flares {
   final comingSoon = _FLARE_PATH + 'coming-soon.flr';
+  final notFound = _FLARE_PATH + '404.flr';
 }
 
 class _Icon {
