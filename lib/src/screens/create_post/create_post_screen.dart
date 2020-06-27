@@ -4,11 +4,13 @@ class CreatePostScreenArgs {
   final Post post;
   final Comment comment;
   final Tour tour;
+  final List<FileAsset> images;
 
-  CreatePostScreenArgs({this.post, this.comment, this.tour})
+  CreatePostScreenArgs({this.images, this.post, this.comment, this.tour})
       : assert(post != null && comment == null && tour == null ||
             comment != null && post == null && tour == null ||
-            tour != null && comment == null && post == null);
+            tour != null && comment == null && post == null ||
+            tour == null && comment == null && post == null);
 }
 
 class CreatePostScreen extends StatefulWidget {
@@ -33,19 +35,15 @@ class _ComposeTweetReplyPageState extends State<CreatePostScreen> {
 
   @override
   void initState() {
+    super.initState();
     _scrollcontroller = ScrollController();
     _contentController = TextEditingController();
     _args = widget.args;
-    super.initState();
+    _images = _args.images ?? [];
   }
 
   _onSubmit() {
-    return Navigator.pushNamedAndRemoveUntil(
-      context,
-      Routes.home,
-      (route) => false,
-      arguments: HomeScreenArgs(tabIndex: 3, scrollProfileToActivityBox: true),
-    );
+    FocusScope.of(context).unfocus();
     if (!_isReply) {
       final postToPost = PostToPost(
         content: _contentController.text,
@@ -146,7 +144,8 @@ class _ComposeTweetReplyPageState extends State<CreatePostScreen> {
             context,
             Routes.home,
             (route) => false,
-            arguments: HomeScreenArgs(tabIndex: 3),
+            arguments:
+                HomeScreenArgs(tabIndex: 3, scrollProfileToActivityBox: true),
           );
         } else if (state is PostCommentStateFailure) {
           showErrorMessage(Strings.error.error + '\n' + state.error.toString());

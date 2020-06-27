@@ -127,8 +127,22 @@ class _HomeScreenState extends State<HomeScreen>
                   Navigators.appNavigator.currentState
                       .pushNamed(Routes.createPost);
                 }),
-            SCItem(icon: Icon(Icons.camera_enhance), onPressed: () {}),
-            SCItem(icon: Icon(Icons.add_comment), onPressed: () {}),
+            SCItem(
+                icon: Icon(Icons.camera_enhance),
+                onPressed: () {
+                  pickMultiImage(context, []).then(
+                    (value) => Navigators.appNavigator.currentState.pushNamed(
+                      Routes.createPost,
+                      arguments: CreatePostScreenArgs(images: value),
+                    ),
+                  );
+                }),
+            SCItem(
+              icon: Icon(Icons.add_comment),
+              onPressed: () {
+                showErrorMessage(Strings.common.developingFeature);
+              },
+            ),
           ],
         ),
         child: HomeProvider(

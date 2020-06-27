@@ -7,7 +7,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
 
-import 'appClient.dart';
+import 'apiClient.dart';
 
 part 'authProvider.dart';
 part 'placeProvider.dart';
