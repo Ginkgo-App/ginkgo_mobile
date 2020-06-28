@@ -12,7 +12,6 @@ import 'package:ginkgo_mobile/src/widgets/galleryItem.dart';
 import 'package:ginkgo_mobile/src/widgets/spacingColumn.dart';
 import 'package:ginkgo_mobile/src/widgets/spacingRow.dart';
 import 'package:ginkgo_mobile/src/widgets/widgets.dart';
-import 'package:intl/intl.dart';
 import 'package:like_button/like_button.dart';
 
 part 'widgets/post_like_button.dart';
@@ -38,75 +37,103 @@ class PostWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Expanded(
-          flex: 1,
-          child: Padding(
-            padding: const EdgeInsets.only(top: 4),
-            child: !showAuthorAvatar
-                ? SvgPicture.asset(post.icon, height: 24)
-                : AspectRatio(
-                    aspectRatio: 1,
-                    child: Avatar(
-                      imageUrl: post.author.avatar.smallThumb,
-                      size: 40,
+    return Skeleton(
+      enabled: post == null,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Expanded(
+            flex: 1,
+            child: Container(
+              padding: const EdgeInsets.only(top: 4),
+              decoration: BoxDecoration(
+                  color: context.colorScheme.background,
+                  borderRadius: BorderRadius.circular(90)),
+              child: !showAuthorAvatar
+                  ? SvgPicture.asset(post?.icon ?? '', height: 24)
+                  : AspectRatio(
+                      aspectRatio: 1,
+                      child: Avatar(
+                        imageUrl: post?.author?.avatar?.smallThumb ?? '',
+                        size: 40,
+                      ),
                     ),
-                  ),
+            ),
           ),
-        ),
-        const SizedBox(width: 6),
-        Expanded(
-          flex: 9,
-          child: ListView(
-            itemExtent: null,
-            physics: NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            padding: EdgeInsets.zero,
-            children: <Widget>[
-              _buildTop(
-                context,
-                author: post?.author,
-                totalImage: post?.images?.length ?? 0,
-              ),
-              _buildTime(context, post?.createAt),
-              const SizedBox(height: 5),
-              if (post.type == PostType.rating) Rating(rating: post.rating),
-              isCollapse ? HiddenText(post?.content) : Text(post?.content),
-              const SizedBox(height: 5),
-              if (post != null) ...[
-                GalleryItem(
-                  images: post.images ?? [],
-                  borderRadius: BorderRadius.circular(0),
+          const SizedBox(width: 6),
+          Expanded(
+            flex: 9,
+            child: ListView(
+              itemExtent: null,
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              padding: EdgeInsets.zero,
+              children: <Widget>[
+                SkeletonItem(
+                  child: _buildTop(
+                    context,
+                    author: post?.author,
+                    totalImage: post?.images?.length ?? 0,
+                  ),
                 ),
-                const SizedBox(height: 5)
-              ],
-              if (post != null) ...[
-                PostLikeCommentButton(
-                  post: post,
-                  onCommentPressed: () => _openListCommnent(context),
+                SkeletonItem(child: _buildTime(context, post?.createAt)),
+                const SizedBox(height: 5),
+                if (post?.type == PostType.rating) Rating(rating: post?.rating),
+                SkeletonItem(
+                  child: isCollapse
+                      ? HiddenText(post?.content ?? '')
+                      : Text(post?.content),
                 ),
                 const SizedBox(height: 5),
+                if (post?.images != null && post.images.length > 0) ...[
+                  GalleryItem(
+                    images:
+                        post?.images?.map((e) => e.original)?.toList() ?? [],
+                    borderRadius: BorderRadius.circular(0),
+                    onPressed: () {
+                      PhotoViewDialog(
+                        context,
+                        images: post?.images,
+                        descriptions: List.generate(
+                          post.images.length,
+                          (index) => PhotoViewDescription(
+                            title: post?.author?.displayName,
+                            content: post?.content,
+                            subTitle:
+                                post?.createAt?.toVietNamese(withTime: true),
+                          ),
+                        ),
+                      ).show();
+                    },
+                  ),
+                  const SizedBox(height: 5)
+                ],
+                if (post != null) ...[
+                  PostLikeCommentButton(
+                    post: post,
+                    onCommentPressed: () => _openListCommnent(context),
+                  ),
+                  const SizedBox(height: 5),
+                  GestureDetector(
+                    onTap: () => _openListCommnent(context),
+                    child: _buildCommentList(
+                      context,
+                      totalComment: post?.totalComment,
+                      comment: post?.featuredComment,
+                    ),
+                  ),
+                ],
               ],
-              GestureDetector(
-                onTap: () => _openListCommnent(context),
-                child: _buildCommentList(
-                  context,
-                  totalComment: post?.totalComment,
-                  comments: post?.featuredComments,
-                ),
-              )
-            ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
   Widget _buildTop(BuildContext context,
-      {int totalImage, @required User author}) {
+      {int totalImage, @required SimpleUser author}) {
     return Row(
       children: <Widget>[
         Expanded(
@@ -127,70 +154,65 @@ class PostWidget extends StatelessWidget {
 
   Widget _buildPostTitle(BuildContext context, Post post) {
     List<TextSpan> textSpans = [];
+    bool isJust = post?.createAt != null
+        ? DateTime.now()
+                .difference(post?.createAt)
+                .compareTo(Duration(minutes: 1)) <
+            0
+        : false;
+    final authorName = post?.author?.displayName ?? '';
 
-    switch (post.type) {
+    switch (post?.type) {
       case PostType.normal:
         textSpans = [
+          TextSpan(text: authorName),
           TextSpan(
-            text: post.author.displayName,
-          ),
-          TextSpan(
-            text: Strings.post.justPostAPost,
+            text: Strings.post?.postAPost(isJust: isJust),
             style: TextStyle(fontWeight: FontWeight.normal),
           ),
         ];
         break;
       case PostType.image:
         textSpans = [
+          TextSpan(text: authorName),
           TextSpan(
-            text: post.author.displayName,
-          ),
-          TextSpan(
-            text: Strings.post.justPostAImage,
+            text: Strings.post?.postAImage(isJust: isJust),
             style: TextStyle(fontWeight: FontWeight.normal),
           ),
         ];
         break;
       case PostType.images:
         textSpans = [
+          TextSpan(text: authorName),
           TextSpan(
-            text: post.author.displayName,
-          ),
-          TextSpan(
-            text: Strings.post.justPostImages,
+            text: Strings.post?.postImages(isJust: isJust),
             style: TextStyle(fontWeight: FontWeight.normal),
           ),
         ];
         break;
       case PostType.tourJustCreated:
         textSpans = [
+          TextSpan(text: authorName),
           TextSpan(
-            text: post.author.displayName,
-          ),
-          TextSpan(
-            text: Strings.post.justCreateATour,
+            text: Strings.post?.createATour(isJust: isJust),
             style: TextStyle(fontWeight: FontWeight.normal),
           ),
         ];
         break;
       case PostType.tourCreated:
         textSpans = [
+          TextSpan(text: authorName),
           TextSpan(
-            text: post.author.displayName,
-          ),
-          TextSpan(
-            text: Strings.post.createdATour,
+            text: Strings.post?.createATour(),
             style: TextStyle(fontWeight: FontWeight.normal),
           ),
         ];
         break;
       case PostType.rating:
         textSpans = [
+          TextSpan(text: authorName),
           TextSpan(
-            text: post?.author?.displayName ?? '',
-          ),
-          TextSpan(
-            text: Strings.post.reviewTitle,
+            text: Strings.post?.reviewTitle,
             style: TextStyle(fontWeight: FontWeight.normal),
           ),
           TextSpan(
@@ -226,7 +248,7 @@ class PostWidget extends StatelessWidget {
         ),
         const SizedBox(width: 5),
         Text(
-          DateFormat('hh:mm dd/MM/yyyy').format(createAt),
+          createAt?.toVietNamese(withTime: true) ?? '',
           style: TextStyle(fontSize: 10, color: DesignColor.tinyItems),
         ),
       ],
@@ -234,26 +256,28 @@ class PostWidget extends StatelessWidget {
   }
 
   Widget _buildCommentList(BuildContext context,
-      {@required int totalComment, @required List<Comment> comments}) {
+      {@required int totalComment, @required Comment comment}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        Text(
-          Strings.post.viewAllComment(totalComment),
-          style: context.textTheme.overline.copyWith(
-            color: DesignColor.tinyItems,
-            fontStyle: FontStyle.italic,
-            fontWeight: FontWeight.bold,
+        if (totalComment > 1) ...[
+          Text(
+            Strings.post?.viewAllComment(totalComment),
+            style: context.textTheme.overline.copyWith(
+              color: DesignColor.tinyItems,
+              fontStyle: FontStyle.italic,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        ),
-        const SizedBox(height: 8),
+          const SizedBox(height: 8)
+        ],
         Padding(
           padding: const EdgeInsets.only(left: 10),
           child: SpacingColumn(
             spacing: 5,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              ...comments.map((e) => _buildComment(context, e)).toList(),
+              if (comment != null) _buildComment(context, comment),
               AddCommentWidget(),
             ],
           ),

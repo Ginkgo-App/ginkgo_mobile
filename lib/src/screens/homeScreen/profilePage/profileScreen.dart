@@ -6,8 +6,9 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen>
-    with LoadDataScreenMixin {
-  final CurrentUserBloc _bloc = CurrentUserBloc();
+    with LoadDataScreenMixin, LoadmoreMixin {
+  final CurrentUserBloc _currentUserBloc = CurrentUserBloc();
+  final PostListBloc _postListBloc = PostListBloc(3, userId: 0);
   final GlobalKey activityBoxKey = GlobalKey(debugLabel: 'activityBoxKey');
 
   bool editMode = false;
@@ -16,8 +17,8 @@ class _ProfileScreenState extends State<ProfileScreen>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      if (_bloc.currentUser == null &&
-          _bloc.state is! CurrentUserStateLoading) {
+      if (_currentUserBloc.currentUser == null &&
+          _currentUserBloc.state is! CurrentUserStateLoading) {
         loadDataController
             .loadData()
             .then((value) => _checkScrollToActivityBox());
@@ -31,7 +32,12 @@ class _ProfileScreenState extends State<ProfileScreen>
 
   @override
   loadData() {
-    _bloc.add(CurrentUserEventFetch());
+    _currentUserBloc.add(CurrentUserEventFetch());
+    _postListBloc.add(PostListEventFetch());
+  }
+
+  onLoadMore() {
+    _postListBloc.add(PostListEventFetch());
   }
 
   _onChangeProfile() {
@@ -52,15 +58,20 @@ class _ProfileScreenState extends State<ProfileScreen>
     });
   }
 
+  dispose() {
+    _postListBloc.close();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder(
-      bloc: _bloc,
+      bloc: _currentUserBloc,
       builder: (context, state) {
         User user;
         if (state is CurrentUserStateSuccess ||
             state is CurrentUserStateHaveChanges) {
-          user = _bloc.currentUser;
+          user = _currentUserBloc.currentUser;
         }
 
         return PrimaryScaffold(
@@ -71,36 +82,41 @@ class _ProfileScreenState extends State<ProfileScreen>
                   moreErrorDetail: state.error,
                   onReload: loadData,
                 )
-              : SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      AvatarWidget(user: user, editable: true),
-                      const SizedBox(height: 10),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        child: Column(
-                          children: <Widget>[
-                            OwnerNav(
-                              onCustomButtonPressed: () => _showMenuBottomSheet(
-                                  HomeProvider.of(context).context, user),
-                            ),
-                            const SizedBox(height: 10),
-                            AboutBox(user: user, editMode: editMode),
-                            const SizedBox(height: 10),
-                            FriendList(user: user?.toSimpleUser()),
-                            const SizedBox(height: 10),
-                            InfoBox(user: user, editMode: editMode),
-                            const SizedBox(height: 10),
-                            TourListWidget(user: user?.toSimpleUser()),
-                            const SizedBox(height: 10),
-                            ActivityBox(key: activityBoxKey, userId: 0),
-                            const SizedBox(height: 20),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
+              : ListView(
+                  controller: scrollController,
+                  itemExtent: null,
+                  shrinkWrap: true,
+                  padding: EdgeInsets.zero,
+                  children: <Widget>[
+                    AvatarWidget(user: user, editable: true),
+                    const SizedBox(height: 10),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      child: Column(
+                        children: <Widget>[
+                          OwnerNav(
+                            onCustomButtonPressed: () => _showMenuBottomSheet(
+                                HomeProvider.of(context).context, user),
+                          ),
+                          const SizedBox(height: 10),
+                          AboutBox(user: user, editMode: editMode),
+                          const SizedBox(height: 10),
+                          FriendList(user: user?.toSimpleUser()),
+                          const SizedBox(height: 10),
+                          InfoBox(user: user, editMode: editMode),
+                          const SizedBox(height: 10),
+                          TourListWidget(user: user?.toSimpleUser()),
+                          const SizedBox(height: 10),
+                          ActivityBox(
+                            key: activityBoxKey,
+                            postListBloc: _postListBloc,
+                            onLoadData: onLoadMore,
+                          ),
+                          const SizedBox(height: 20),
+                        ],
+                      ),
+                    )
+                  ],
                 ),
         );
       },

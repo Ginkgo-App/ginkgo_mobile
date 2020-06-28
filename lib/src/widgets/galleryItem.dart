@@ -7,13 +7,15 @@ const _SPACING = 5.0;
 class GalleryItem extends StatelessWidget {
   final List<String> images;
   final BorderRadius borderRadius;
+  final Function onPressed;
 
-  const GalleryItem({Key key, this.images, this.borderRadius})
+  const GalleryItem({Key key, this.images, this.borderRadius, this.onPressed})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return GestureDetector(
+      onTap: onPressed,
       child: _buildBody(context),
     );
   }
@@ -33,13 +35,15 @@ class GalleryItem extends StatelessWidget {
   }
 
   _build2Images() {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-        Expanded(flex: 3, child: _buildImage(images[0])),
-        const SizedBox(width: _SPACING),
-        Expanded(flex: 2, child: _buildImage(images[1])),
-      ],
+    return IntrinsicHeight(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Expanded(flex: 3, child: _buildImage(images[0])),
+          const SizedBox(width: _SPACING),
+          Expanded(flex: 2, child: _buildImage(images[1])),
+        ],
+      ),
     );
   }
 
@@ -93,9 +97,12 @@ class GalleryItem extends StatelessWidget {
   }
 
   _buildImage(String url) {
-    return ClipRRect(
-      borderRadius: borderRadius ?? BorderRadius.circular(5),
-      child: CachedNetworkImage(imageUrl: url, fit: BoxFit.cover),
+    return AspectRatio(
+      aspectRatio: 1,
+      child: ClipRRect(
+        borderRadius: borderRadius ?? BorderRadius.circular(5),
+        child: CachedNetworkImage(imageUrl: url, fit: BoxFit.cover),
+      ),
     );
   }
 }

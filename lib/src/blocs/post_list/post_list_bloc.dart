@@ -25,18 +25,14 @@ class PostListBloc extends Bloc<PostListEvent, PostListState> {
   PostListState get initialState => PostListInitial();
 
   @override
-  Stream<PostListState> mapEventToState(
-    PostListEvent event,
-  ) async* {
+  Stream<PostListState> mapEventToState(PostListEvent event) async* {
     try {
-      if (event is PostListEventFetch && _postList.canLoadmore) {
+      if (event is PostListEventFetch &&
+          _postList.canLoadmore &&
+          this.state is! PostListStateFailure) {
         yield PostListStateLoading();
 
         int _nextPage = _postList.pagination.currentPage + 1;
-        if (event.keyword != null && _keyword != event.keyword) {
-          _keyword = event.keyword;
-          _nextPage = 1;
-        }
 
         _postList.add(
           userId != null

@@ -6,11 +6,4 @@ abstract class PostListEvent {
   String toString() => runtimeType.toString();
 }
 
-class PostListEventFetch extends PostListEvent {
-  final String keyword;
-
-  PostListEventFetch({this.keyword});
-
-  @override
-  String toString() => '$runtimeType Keyword: $keyword';
-}
+class PostListEventFetch extends PostListEvent {}

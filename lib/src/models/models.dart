@@ -41,5 +41,6 @@ objectMapping() {
     SimpleTour: () => SimpleTour(),
     Place: () => Place(),
     Post: () => Post(),
+    Comment: () => Comment(),
   };
 }
