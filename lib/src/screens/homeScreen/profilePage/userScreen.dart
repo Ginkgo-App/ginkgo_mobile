@@ -96,10 +96,7 @@ class _UserScreenState extends State<UserScreen>
                             TourListWidget(user: user?.toSimpleUser()),
                             const SizedBox(height: 10),
                           ],
-                          ActivityBox(
-                            postListBloc: _postListBloc,
-                            onLoadData: onLoadMore,
-                          ),
+                          ActivityBox(postListBloc: _postListBloc),
                           const SizedBox(height: 20),
                         ],
                       ),

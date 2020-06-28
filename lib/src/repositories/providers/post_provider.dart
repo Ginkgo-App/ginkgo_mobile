@@ -65,7 +65,7 @@ class PostProvider {
   Future<Pagination<Post>> getUserPosts(
       int userId, int page, int pageSize) async {
     final response = await _client.normalConnect(
-        ApiMethod.GET, userId == 0 ? Api.mePosts : Api.posts(userId),
+        ApiMethod.GET, userId == 0 ? Api.mePosts : Api.userPosts(userId),
         query: {
           'page': page.toString(),
           'pageSize': pageSize.toString(),

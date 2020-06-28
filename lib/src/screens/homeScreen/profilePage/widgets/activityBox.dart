@@ -11,10 +11,8 @@ import 'package:ginkgo_mobile/src/widgets/widgets.dart';
 
 class ActivityBox extends StatefulWidget {
   final PostListBloc postListBloc;
-  final Function onLoadData;
 
-  const ActivityBox({Key key, @required this.postListBloc, this.onLoadData})
-      : super(key: key);
+  const ActivityBox({Key key, @required this.postListBloc}) : super(key: key);
 
   @override
   _ActivityBoxState createState() => _ActivityBoxState();
@@ -26,7 +24,6 @@ class _ActivityBoxState extends State<ActivityBox> {
     return BorderContainer(
       icon: Assets.icons.activity,
       title: 'Hoạt động',
-      childPadding: EdgeInsets.all(10),
       child: BlocBuilder(
         bloc: widget.postListBloc,
         builder: (context, state) {
@@ -34,6 +31,7 @@ class _ActivityBoxState extends State<ActivityBox> {
               widget.postListBloc.postList.pagination.totalElement == 0) {
             return NotFoundWidget(
               message: 'Chưa có trạng thái nào được cập nhật!',
+              showBorderBox: false,
             );
           }
 
@@ -56,7 +54,9 @@ class _ActivityBoxState extends State<ActivityBox> {
                   padding: const EdgeInsets.symmetric(vertical: 20),
                   child: ErrorIndicator(
                     moreErrorDetail: state.error.toString(),
-                    onReload: widget.onLoadData,
+                    onReload: () {
+                      widget.postListBloc.add(PostListEventFetch(force: true));
+                    },
                   ),
                 )
             ],

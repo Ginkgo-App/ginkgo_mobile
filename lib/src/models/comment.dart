@@ -13,7 +13,7 @@ class Comment with Mappable {
     map('Id', id, (v) => id = v);
     map('Author', author, (v) => author = Mapper.fromJson(v).toObject<User>());
     map('Content', content, (v) => content = v);
-    map('CreateAt', createAt, (v) => createAt = v);
+    map('CreateAt', createAt, (v) => createAt = v, DateTimeTransform());
   }
 }
 

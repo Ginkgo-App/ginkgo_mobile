@@ -180,6 +180,7 @@ class _ComposeTweetReplyPageState extends State<CreatePostScreen> {
                             textFieldPlaceholder: _getTextFieldPlaceholder(),
                             textEditingController: _contentController,
                           ),
+                          const SizedBox(height: 20),
                           Flexible(
                             child: CreatePostImageList(
                               images: _images,

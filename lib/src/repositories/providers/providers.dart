@@ -48,6 +48,8 @@ class Api {
       AppConfig.instance.apiUrl + '/users/me/accept-friend/$userId';
   static String userTours(int userId) =>
       AppConfig.instance.apiUrl + '/users/$userId/tours';
+  static String userPosts(int userId) =>
+      AppConfig.instance.apiUrl + '/users/$userId/posts';
   static String userFriends(int userId) =>
       AppConfig.instance.apiUrl + '/users/$userId/friends';
   static String userInfo(int userId) =>

@@ -13,8 +13,6 @@ class PostListBloc extends Bloc<PostListEvent, PostListState> {
   final int pageSize;
   final int userId;
 
-  String _keyword;
-
   Pagination<Post> _postList = Pagination<Post>();
 
   Pagination<Post> get postList => _postList;
@@ -29,7 +27,7 @@ class PostListBloc extends Bloc<PostListEvent, PostListState> {
     try {
       if (event is PostListEventFetch &&
           _postList.canLoadmore &&
-          this.state is! PostListStateFailure) {
+          (this.state is! PostListStateFailure || event.force)) {
         yield PostListStateLoading();
 
         int _nextPage = _postList.pagination.currentPage + 1;

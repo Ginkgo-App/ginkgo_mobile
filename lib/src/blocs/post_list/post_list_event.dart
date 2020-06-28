@@ -6,4 +6,8 @@ abstract class PostListEvent {
   String toString() => runtimeType.toString();
 }
 
-class PostListEventFetch extends PostListEvent {}
+class PostListEventFetch extends PostListEvent {
+  final bool force;
+
+  PostListEventFetch({this.force = false});
+}

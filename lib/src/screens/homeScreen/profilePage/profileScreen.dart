@@ -110,7 +110,6 @@ class _ProfileScreenState extends State<ProfileScreen>
                           ActivityBox(
                             key: activityBoxKey,
                             postListBloc: _postListBloc,
-                            onLoadData: onLoadMore,
                           ),
                           const SizedBox(height: 20),
                         ],

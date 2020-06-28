@@ -4,6 +4,7 @@ import 'package:base/base.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:ginkgo_mobile/src/blocs/currentUser/current_user_bloc.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/utils/designColor.dart';
@@ -278,7 +279,8 @@ class PostWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               if (comment != null) _buildComment(context, comment),
-              AddCommentWidget(),
+              AddCommentWidget(
+                  avatar: CurrentUserBloc().currentUser.avatar.smallSquare),
             ],
           ),
         )
