@@ -121,11 +121,7 @@ class PostWidget extends StatelessWidget {
                   const SizedBox(height: 5),
                   GestureDetector(
                     onTap: () => _openListCommnent(context),
-                    child: _buildCommentList(
-                      context,
-                      totalComment: post?.totalComment,
-                      comment: post?.featuredComment,
-                    ),
+                    child: _buildCommentList(context, post: post),
                   ),
                 ],
               ],
@@ -259,18 +255,26 @@ class PostWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildCommentList(BuildContext context,
-      {@required int totalComment, @required Comment comment}) {
+  Widget _buildCommentList(BuildContext context, {@required Post post}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        if (totalComment > 1) ...[
-          Text(
-            Strings.post?.viewAllComment(totalComment),
-            style: context.textTheme.overline.copyWith(
-              color: DesignColor.tinyItems,
-              fontStyle: FontStyle.italic,
-              fontWeight: FontWeight.bold,
+        if (post?.totalComment != null && post.totalComment > 1) ...[
+          GestureDetector(
+            onTap: () {
+              CommentBottomSheet(
+                context,
+                postId: post?.id,
+                totalLike: post?.totalLike,
+              ).show();
+            },
+            child: Text(
+              Strings.post?.viewAllComment(post.totalComment),
+              style: context.textTheme.overline.copyWith(
+                color: DesignColor.tinyItems,
+                fontStyle: FontStyle.italic,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
           const SizedBox(height: 8)
@@ -281,9 +285,19 @@ class PostWidget extends StatelessWidget {
             spacing: 5,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              if (comment != null) _buildComment(context, comment),
+              if (post.featuredComment != null)
+                _buildComment(context, post.featuredComment),
               AddCommentWidget(
-                  avatar: CurrentUserBloc().currentUser.avatar.smallSquare),
+                avatar: CurrentUserBloc().currentUser.avatar.smallSquare,
+                onPressed: () {
+                  CommentBottomSheet(
+                    context,
+                    postId: post?.id,
+                    totalLike: post?.totalLike,
+                    autoFocusInput: true,
+                  ).show();
+                },
+              ),
             ],
           ),
         )
