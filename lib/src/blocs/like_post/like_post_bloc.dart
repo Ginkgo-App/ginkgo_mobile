@@ -30,7 +30,15 @@ class LikePostBloc extends Bloc<LikePostEvent, LikePostState> {
     if (event is LikePostEventLike) {
       try {
         yield LikePostStateLoading(event.postId);
-        _repository.post.like(event.postId);
+        await _repository.post.like(event.postId, true);
+        yield LikePostStateSuccess(event.postId);
+      } catch (e) {
+        yield LikePostStateFailure(e, event.postId);
+      }
+    } else if (event is LikePostEventUnlike) {
+      try {
+        yield LikePostStateLoading(event.postId);
+        await _repository.post.like(event.postId, false);
         yield LikePostStateSuccess(event.postId);
       } catch (e) {
         yield LikePostStateFailure(e, event.postId);

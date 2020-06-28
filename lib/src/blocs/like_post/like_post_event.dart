@@ -11,3 +11,12 @@ class LikePostEventLike extends LikePostEvent {
   @override
   String toString() => '$runtimeType $postId';
 }
+
+class LikePostEventUnlike extends LikePostEvent {
+  final int postId;
+
+  LikePostEventUnlike(this.postId);
+
+  @override
+  String toString() => '$runtimeType $postId';
+}

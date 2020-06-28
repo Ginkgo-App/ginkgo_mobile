@@ -33,9 +33,9 @@ class PostProvider {
     }
   }
 
-  Future like(int postId) async {
+  Future like(int postId, bool isLike) async {
     await _client.normalConnect(
-      ApiMethod.POST,
+      isLike ? ApiMethod.POST : ApiMethod.DELETE,
       Api.posts(postId) + '/like',
     );
   }
