@@ -2,17 +2,18 @@ part of 'models.dart';
 
 enum PostType { normal, image, images, tourJustCreated, tourCreated, rating }
 
-class Post {
-  final int id;
-  final User author;
-  final DateTime createAt;
-  final String content;
-  final List<String> images;
-  final int totalLike;
-  final int totalComment;
-  final List<Comment> featuredComments;
-  final double rating;
-  final SimpleTour tour;
+class Post with Mappable {
+  int id;
+  SimpleUser author;
+  DateTime createAt;
+  String content;
+  List<MultiSizeImage> images;
+  int totalLike;
+  int totalComment;
+  Comment featuredComment;
+  double rating;
+  SimpleTour tour;
+  bool isLiked;
 
   PostType get type {
     if (rating != null && tour != null) {
@@ -23,9 +24,9 @@ class Post {
       } else {
         return PostType.tourCreated;
       }
-    } else if (images.length > 1) {
+    } else if (images != null && images.length > 1) {
       return PostType.images;
-    } else if (images.length == 1) {
+    } else if (images != null && images.length == 1) {
       return PostType.image;
     }
 
@@ -49,10 +50,39 @@ class Post {
     this.images,
     this.totalLike,
     this.totalComment,
-    this.featuredComments,
+    this.featuredComment,
     this.rating,
     this.tour,
+    this.isLiked,
   });
+
+  @override
+  void mapping(Mapper map) {
+    map('Id', id, (v) => id = v);
+    map('Author', author,
+        (v) => author = Mapper.fromJson(v).toObject<SimpleUser>());
+    map('Content', content, (v) => content = v);
+    map<MultiSizeImage>(
+        'Images', images, (v) => images = v, MultiSizeImageTransform());
+    map('TotalLike', totalLike, (v) => totalLike = v);
+    map('TotalComment', totalComment, (v) => totalComment = v);
+    map(
+        'FeaturedComment',
+        featuredComment,
+        (v) => featuredComment =
+            v != null ? Mapper.fromJson(v).toObject<Comment>() : v);
+    map('CreateAt', createAt, (v) => createAt = v, DateTimeTransform());
+    map('Rating', rating, (v) => rating = v);
+    map('Tour', tour, (v) {
+      try {
+        tour = v != null ? Mapper.fromJson(v).toObject<SimpleTour>() : v;
+      } catch (e) {
+        debugPrint(e.toString());
+        tour = null;
+      }
+    });
+    map('IsLiked', isLiked, (v) => isLiked = v);
+  }
 }
 
 class PostToPost {

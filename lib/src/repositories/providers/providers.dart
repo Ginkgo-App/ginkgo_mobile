@@ -26,6 +26,7 @@ class Api {
   static final me = AppConfig.instance.apiUrl + '/users/me';
   static final meFriends = AppConfig.instance.apiUrl + '/users/me/friends';
   static final meTours = AppConfig.instance.apiUrl + '/users/me/tours';
+  static final mePosts = AppConfig.instance.apiUrl + '/users/me/posts';
 
   static String places(int placeId) =>
       AppConfig.instance.apiUrl + '/places/${placeId ?? ''}';
@@ -47,6 +48,8 @@ class Api {
       AppConfig.instance.apiUrl + '/users/me/accept-friend/$userId';
   static String userTours(int userId) =>
       AppConfig.instance.apiUrl + '/users/$userId/tours';
+  static String userPosts(int userId) =>
+      AppConfig.instance.apiUrl + '/users/$userId/posts';
   static String userFriends(int userId) =>
       AppConfig.instance.apiUrl + '/users/$userId/friends';
   static String userInfo(int userId) =>

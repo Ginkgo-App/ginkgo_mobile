@@ -23,3 +23,4 @@ part 'src/utils.dart';
 part 'src/mixins/loadmore_mixin.dart';
 part 'src/extensions/color_extensions.dart';
 part 'src/mixins/load_data_controllor.dart';
+part 'src/extensions/bloc_extension.dart';

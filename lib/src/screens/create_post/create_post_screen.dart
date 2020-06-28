@@ -39,7 +39,7 @@ class _ComposeTweetReplyPageState extends State<CreatePostScreen> {
     _scrollcontroller = ScrollController();
     _contentController = TextEditingController();
     _args = widget.args;
-    _images = _args.images ?? [];
+    _images = _args?.images ?? [];
   }
 
   _onSubmit() {
@@ -180,6 +180,7 @@ class _ComposeTweetReplyPageState extends State<CreatePostScreen> {
                             textFieldPlaceholder: _getTextFieldPlaceholder(),
                             textEditingController: _contentController,
                           ),
+                          const SizedBox(height: 20),
                           Flexible(
                             child: CreatePostImageList(
                               images: _images,
