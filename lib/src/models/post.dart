@@ -81,7 +81,7 @@ class Post with Mappable {
         tour = null;
       }
     });
-    map('IsLiked', isLiked, (v) => isLiked = v);
+    map('IsLike', isLiked, (v) => isLiked = v);
   }
 }
 
