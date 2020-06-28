@@ -62,6 +62,18 @@ class PostProvider {
     return Pagination<Post>(response.data['Pagination'], response.data['Data']);
   }
 
+  Future<Pagination<Comment>> getCommentList(int postId,
+      {int page, int pageSize}) async {
+    final response = await _client
+        .normalConnect(ApiMethod.GET, Api.posts(postId) + '/comments', query: {
+      'page': (page ?? 1).toString(),
+      'pageSize': pageSize?.toString() ?? 0,
+    });
+
+    return Pagination<Comment>(
+        response.data['Pagination'], response.data['Data']);
+  }
+
   Future<Pagination<Post>> getUserPosts(
       int userId, int page, int pageSize) async {
     final response = await _client.normalConnect(

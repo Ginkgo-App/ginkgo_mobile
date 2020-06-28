@@ -15,7 +15,10 @@ class CommentBottomSheet {
 
   Future show() async {
     final PostCommentBloc postCommentBloc = PostCommentBloc();
+    final CommentListBloc commentListBloc = CommentListBloc(20, postId);
     final TextEditingController inputController = TextEditingController();
+
+    commentListBloc.add(CommentListEventFetch());
 
     await showSlidingBottomSheet(
       context,
@@ -88,18 +91,38 @@ class CommentBottomSheet {
             );
           },
           builder: (context, state) {
-            return Column(
-              children: _buildListReviewComment(
-                List.generate(
-                  10,
-                  (index) => Comment(
-                    id: 12,
-                    author: FakeData.currentUser,
-                    content: 'Ôi ảnh đẹp quá bạn ơi...',
-                    createAt: DateTime.now().subtract(Duration(days: 3)),
-                  ),
-                ),
-              ),
+            return BlocBuilder(
+              bloc: commentListBloc,
+              builder: (context, state) {
+                if (state is CommentListStateSuccess) {
+                  return NotFoundWidget(
+                    message:
+                        'Chưa có bình luận.\nHãy là người bình luận đầu tiên.',
+                  );
+                }
+
+                return ListView(
+                  itemExtent: null,
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  padding: EdgeInsets.zero,
+                  children: [
+                    ..._buildListComment(commentListBloc.commentList.data),
+                    if (state is CommentListStateLoading)
+                      ..._buildListComment(List.generate(20, (index) => null)),
+                    if (state is CommentListStateFailure)
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ErrorIndicator(
+                          moreErrorDetail: state.error.toString(),
+                          onReload: () => commentListBloc.add(
+                            CommentListEventLoadMore(true),
+                          ),
+                        ),
+                      )
+                  ],
+                );
+              },
             );
           },
         );
@@ -107,9 +130,10 @@ class CommentBottomSheet {
     );
 
     postCommentBloc.close();
+    commentListBloc.close();
   }
 
-  List<Widget> _buildListReviewComment(List<Comment> comments) {
+  List<Widget> _buildListComment(List<Comment> comments) {
     return comments
         .asMap()
         .map((index, value) {
