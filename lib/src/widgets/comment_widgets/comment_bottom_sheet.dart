@@ -94,7 +94,8 @@ class CommentBottomSheet {
             return BlocBuilder(
               bloc: commentListBloc,
               builder: (context, state) {
-                if (state is CommentListStateSuccess) {
+                if (state is CommentListStateSuccess &&
+                    commentListBloc.commentList.pagination.totalElement == 0) {
                   return NotFoundWidget(
                     message:
                         'Chưa có bình luận.\nHãy là người bình luận đầu tiên.',
@@ -119,6 +120,13 @@ class CommentBottomSheet {
                             CommentListEventLoadMore(true),
                           ),
                         ),
+                      )
+                    else if (commentListBloc.commentList.canLoadmore)
+                      CupertinoButton(
+                        child: Text('Tải thêm bình luận'),
+                        onPressed: () {
+                          commentListBloc.add(CommentListEventLoadMore());
+                        },
                       )
                   ],
                 );
