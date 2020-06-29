@@ -43,7 +43,7 @@ class PostProvider {
   Future<Comment> comment(CommentToPost comment) async {
     final result = await _client.connect<Comment>(
       ApiMethod.POST,
-      Api.posts(comment.postId),
+      Api.posts(comment.postId) + '/comments',
       body: {
         'Content': comment.content,
       },

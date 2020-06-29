@@ -15,8 +15,9 @@ class CommentBottomSheet {
 
   Future show() async {
     final PostCommentBloc postCommentBloc = PostCommentBloc();
-    final CommentListBloc commentListBloc = CommentListBloc(20, postId);
+    final CommentListBloc commentListBloc = CommentListBloc(10, postId);
     final TextEditingController inputController = TextEditingController();
+    final SheetController sheetController = SheetController();
 
     commentListBloc.add(CommentListEventFetch());
 
@@ -25,6 +26,7 @@ class CommentBottomSheet {
       useRootNavigator: true,
       builder: (context) {
         return SlidingSheetDialog(
+          controller: sheetController,
           snapSpec: SnapSpec(snappings: [0.9]),
           cornerRadius: 10,
           color: context.colorScheme.background,
@@ -61,31 +63,66 @@ class CommentBottomSheet {
           },
           footerBuilder: (context, state) {
             return Material(
-              child: TextField(
-                controller: inputController,
-                autofocus: autoFocusInput,
-                style: context.textTheme.bodyText2,
-                textAlignVertical: TextAlignVertical.center,
-                decoration: InputDecoration(
-                  hintText: Strings.post.addComment,
-                  suffixIcon: IconButton(
-                    onPressed: state is PostCommentStateLoading ? null : () {},
-                    icon: state is PostCommentStateLoading
-                        ? CircularProgressIndicator()
-                        : Icon(
-                            Icons.send,
-                            color: context.colorScheme.primary,
+              child: BlocListener(
+                bloc: postCommentBloc,
+                listener: (context, state) {
+                  if (state is PostCommentStateFailure) {
+                    showErrorMessage(
+                        Strings.error.error + '\n' + state.error.toString());
+                  } else if (state is PostCommentStateCommentSuccess) {
+                    FocusScope.of(context).unfocus();
+                    showErrorMessage('Thành công');
+                    inputController.text = '';
+                    commentListBloc.add(CommentListEventFetch());
+                    sheetController.scrollTo(0);
+                  }
+                },
+                child: BlocBuilder(
+                  bloc: postCommentBloc,
+                  builder: (context, state) {
+                    return TextField(
+                      controller: inputController,
+                      autofocus: autoFocusInput,
+                      style: context.textTheme.bodyText2,
+                      textAlignVertical: TextAlignVertical.center,
+                      decoration: InputDecoration(
+                        hintText: Strings.post.addComment,
+                        suffixIcon: IconButton(
+                          padding: EdgeInsets.zero,
+                          onPressed: state is PostCommentStateLoading
+                              ? null
+                              : () {
+                                  postCommentBloc.add(
+                                    PostCommentEventCreateComment(
+                                      CommentToPost(postId,
+                                          content: inputController.text),
+                                    ),
+                                  );
+                                },
+                          icon: state is PostCommentStateLoading
+                              ? LoadingIndicator(
+                                  color: context.colorScheme.primary,
+                                  size: 20,
+                                )
+                              : Icon(
+                                  Icons.send,
+                                  color: context.colorScheme.primary,
+                                ),
+                        ),
+                        prefixIcon: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Avatar(
+                            imageUrl: CurrentUserBloc()
+                                    .currentUser
+                                    ?.avatar
+                                    ?.smallSquare ??
+                                '',
+                            size: 30,
                           ),
-                  ),
-                  prefixIcon: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Avatar(
-                      imageUrl:
-                          CurrentUserBloc().currentUser?.avatar?.smallSquare ??
-                              '',
-                      size: 30,
-                    ),
-                  ),
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
             );
