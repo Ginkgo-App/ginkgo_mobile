@@ -10,21 +10,23 @@ class LikePostInitial extends LikePostState {}
 
 class LikePostStateLoading extends LikePostState {
   final int postId;
+  final bool isLiked;
 
-  LikePostStateLoading(this.postId);
+  LikePostStateLoading(this.postId, this.isLiked);
 
   @override
-  String toString() => '$runtimeType $postId';
+  String toString() => '$runtimeType $postId $isLiked';
 }
 
 class LikePostStateFailure extends LikePostState {
   final dynamic error;
   final int postId;
+  final bool isLiked;
 
-  LikePostStateFailure(this.error, this.postId);
+  LikePostStateFailure(this.error, this.postId, this.isLiked);
 
   @override
-  String toString() => '$runtimeType $postId $error';
+  String toString() => '$runtimeType $postId $isLiked $error';
 }
 
 class LikePostStateSuccess extends LikePostState {

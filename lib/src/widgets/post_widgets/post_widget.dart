@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ginkgo_mobile/src/blocs/currentUser/current_user_bloc.dart';
 import 'package:ginkgo_mobile/src/blocs/like_post/like_post_bloc.dart';
+import 'package:ginkgo_mobile/src/blocs/post_detail/post_detail_bloc.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/utils/designColor.dart';
@@ -20,7 +21,7 @@ import 'package:like_button/like_button.dart';
 
 part 'widgets/post_like_button.dart';
 
-class PostWidget extends StatelessWidget {
+class PostWidget extends StatefulWidget {
   final Post post;
   final Function(Post) onMenuPressed;
   final bool showAuthorAvatar;
@@ -34,13 +35,47 @@ class PostWidget extends StatelessWidget {
     this.isCollapse = true,
   }) : super(key: key);
 
+  @override
+  _PostWidgetState createState() => _PostWidgetState();
+}
+
+class _PostWidgetState extends State<PostWidget> {
+  PostDetailBloc postDetailBloc;
+
+  initialState() {
+    super.initState();
+    if (widget.post != null) {
+      postDetailBloc = PostDetailBloc(widget.post);
+    }
+  }
+
   _openListCommnent(BuildContext context) {
-    CommentBottomSheet(context, postId: post?.id, totalLike: post?.totalLike)
+    CommentBottomSheet(context,
+            postId: widget.post?.id,
+            totalLike: widget.post?.totalLike,
+            postCommentBloc: postDetailBloc?.postCommentBloc)
         .show();
   }
 
-  @override
+  dispose() {
+    postDetailBloc.close();
+    super.dispose();
+  }
+
   Widget build(BuildContext context) {
+    if (widget.post != null) {
+      return BlocBuilder(
+        bloc: postDetailBloc,
+        builder: (context, state) {
+          return buildBody(context, postDetailBloc.post);
+        },
+      );
+    } else {
+      return buildBody(context, widget.post);
+    }
+  }
+
+  Widget buildBody(BuildContext context, Post post) {
     return Skeleton(
       enabled: post == null,
       child: Row(
@@ -54,7 +89,7 @@ class PostWidget extends StatelessWidget {
               decoration: BoxDecoration(
                   color: context.colorScheme.background,
                   borderRadius: BorderRadius.circular(90)),
-              child: !showAuthorAvatar
+              child: !widget.showAuthorAvatar
                   ? SvgPicture.asset(post?.icon ?? '', height: 24)
                   : AspectRatio(
                       aspectRatio: 1,
@@ -85,7 +120,7 @@ class PostWidget extends StatelessWidget {
                 const SizedBox(height: 5),
                 if (post?.type == PostType.rating) Rating(rating: post?.rating),
                 SkeletonItem(
-                  child: isCollapse
+                  child: widget.isCollapse
                       ? HiddenText(post?.content ?? '')
                       : Text(post?.content),
                 ),
@@ -137,7 +172,7 @@ class PostWidget extends StatelessWidget {
     return Row(
       children: <Widget>[
         Expanded(
-          child: _buildPostTitle(context, post),
+          child: _buildPostTitle(context, widget.post),
         ),
         CupertinoButton(
           minSize: 0,
@@ -146,7 +181,7 @@ class PostWidget extends StatelessWidget {
             Icons.more_horiz,
             color: context.colorScheme.onBackground,
           ),
-          onPressed: () => onMenuPressed?.call(post),
+          onPressed: () => widget.onMenuPressed?.call(widget.post),
         )
       ],
     );

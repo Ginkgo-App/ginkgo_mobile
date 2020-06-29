@@ -5,16 +5,17 @@ class CommentBottomSheet {
   final int postId;
   final int totalLike;
   final bool autoFocusInput;
+  final PostCommentBloc postCommentBloc;
 
   CommentBottomSheet(
     this.context, {
+    @required this.postCommentBloc,
     @required this.postId,
     @required this.totalLike,
     this.autoFocusInput = false,
   }) : assert(postId != null);
 
   Future show() async {
-    final PostCommentBloc postCommentBloc = PostCommentBloc();
     final CommentListBloc commentListBloc = CommentListBloc(10, postId);
     final TextEditingController inputController = TextEditingController();
     final SheetController sheetController = SheetController();

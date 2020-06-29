@@ -29,19 +29,19 @@ class LikePostBloc extends Bloc<LikePostEvent, LikePostState> {
   ) async* {
     if (event is LikePostEventLike) {
       try {
-        yield LikePostStateLoading(event.postId);
+        yield LikePostStateLoading(event.postId, true);
         await _repository.post.like(event.postId, true);
         yield LikePostStateSuccess(event.postId);
       } catch (e) {
-        yield LikePostStateFailure(e, event.postId);
+        yield LikePostStateFailure(e, event.postId, true);
       }
     } else if (event is LikePostEventUnlike) {
       try {
-        yield LikePostStateLoading(event.postId);
+        yield LikePostStateLoading(event.postId, false);
         await _repository.post.like(event.postId, false);
         yield LikePostStateSuccess(event.postId);
       } catch (e) {
-        yield LikePostStateFailure(e, event.postId);
+        yield LikePostStateFailure(e, event.postId, false);
       }
     }
   }
