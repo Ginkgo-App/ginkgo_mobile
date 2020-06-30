@@ -58,7 +58,7 @@ class _PostWidgetState extends State<PostWidget> {
   }
 
   dispose() {
-    postDetailBloc.close();
+    postDetailBloc?.close();
     super.dispose();
   }
 
@@ -301,6 +301,7 @@ class _PostWidgetState extends State<PostWidget> {
                 context,
                 postId: post?.id,
                 totalLike: post?.totalLike,
+                postCommentBloc: postDetailBloc.postCommentBloc,
               ).show();
             },
             child: Text(
@@ -330,6 +331,7 @@ class _PostWidgetState extends State<PostWidget> {
                     postId: post?.id,
                     totalLike: post?.totalLike,
                     autoFocusInput: true,
+                    postCommentBloc: postDetailBloc.postCommentBloc,
                   ).show();
                 },
               ),

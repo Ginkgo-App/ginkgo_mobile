@@ -175,7 +175,6 @@ class CommentBottomSheet {
       },
     );
 
-    postCommentBloc.close();
     commentListBloc.close();
   }
 
