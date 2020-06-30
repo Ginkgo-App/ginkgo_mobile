@@ -63,7 +63,7 @@ class _PostWidgetState extends State<PostWidget> {
   }
 
   Widget build(BuildContext context) {
-    if (widget.post != null) {
+    if (postDetailBloc != null) {
       return BlocBuilder(
         bloc: postDetailBloc,
         builder: (context, state) {

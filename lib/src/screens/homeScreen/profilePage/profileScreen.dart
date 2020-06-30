@@ -37,7 +37,7 @@ class _ProfileScreenState extends State<ProfileScreen>
   }
 
   onLoadMore() {
-    _postListBloc.add(PostListEventFetch());
+    _postListBloc.add(PostListEventLoadMore());
   }
 
   _onChangeProfile() {

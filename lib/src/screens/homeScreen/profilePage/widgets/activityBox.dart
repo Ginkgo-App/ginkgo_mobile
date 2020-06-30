@@ -55,7 +55,7 @@ class _ActivityBoxState extends State<ActivityBox> {
                   child: ErrorIndicator(
                     moreErrorDetail: state.error.toString(),
                     onReload: () {
-                      widget.postListBloc.add(PostListEventFetch(force: true));
+                      widget.postListBloc.add(PostListEventLoadMore(true));
                     },
                   ),
                 )
