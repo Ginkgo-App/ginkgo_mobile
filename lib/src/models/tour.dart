@@ -111,12 +111,14 @@ class SimpleTour with Mappable {
   DateTime startDay;
   DateTime endDay;
   int totalMember;
-  List<MultiSizeImage> images;
+  List<MultiSizeImage> _images;
   SimpleUser host;
   double price;
   double rating;
   List<SimpleUser> friends;
   TourInfo tourInfo;
+
+  List<MultiSizeImage> get images => _images ?? tourInfo?.images ?? [];
 
   SimpleTour({
     this.id,
@@ -124,12 +126,12 @@ class SimpleTour with Mappable {
     this.startDay,
     this.endDay,
     this.totalMember,
-    this.images,
+    List<MultiSizeImage> images,
     this.host,
     this.price,
     this.rating,
     this.friends,
-  });
+  }) : _images = images;
 
   @override
   void mapping(Mapper map) {
@@ -139,9 +141,9 @@ class SimpleTour with Mappable {
     map('EndDay', endDay, (v) => endDay = v, DateTimeTransform());
     map('TotalMember', totalMember, (v) => totalMember = v);
     map('Host', host, (v) => host = Mapper.fromJson(v).toObject<SimpleUser>());
-    map<MultiSizeImage>('Images', images, (v) {
-      images = v;
-      images?.shuffle();
+    map<MultiSizeImage>('Images', _images, (v) {
+      _images = v;
+      _images?.shuffle();
     }, MultiSizeImageTransform());
     map('Price', price, (v) => price = v);
     map('Rating', rating, (v) => rating = v);

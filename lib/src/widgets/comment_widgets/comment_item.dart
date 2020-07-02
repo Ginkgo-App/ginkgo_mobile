@@ -31,7 +31,7 @@ class CommentItem extends StatelessWidget {
                     child: ClipOval(
                       child: CachedNetworkImage(
                         placeholder: (context, url) => Image.asset(
-                          'assets/images/default-avatar.jpg',
+                          Assets.images.defaultAvatar,
                           fit: BoxFit.cover,
                         ),
                         fit: BoxFit.cover,
