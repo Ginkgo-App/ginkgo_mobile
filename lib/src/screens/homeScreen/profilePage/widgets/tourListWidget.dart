@@ -46,7 +46,12 @@ class _TourListWidgetState extends State<TourListWidget>
 
   viewAll() {
     if (isCurrentUser) {
-      HomeProvider.of(context).tabController.animateTo(1);
+      final homeProvider = HomeProvider.of(context);
+      if (homeProvider != null) {
+        homeProvider.tabController.animateTo(1);
+      } else {
+        Navigator.of(context).pushNamed(ProfileRoutes.manageTour);
+      }
     } else {
       Navigators.appNavigator.currentState.pushNamed(Routes.profileTourList);
     }
