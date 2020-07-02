@@ -51,6 +51,12 @@ class BlackOpacityTour extends StatelessWidget {
                       child: CachedNetworkImage(
                         imageUrl: image?.mediumThumb ?? '',
                         fit: BoxFit.cover,
+                        placeholder: (context, _) {
+                          return Image.asset(
+                            Assets.images.defaultImage,
+                            fit: BoxFit.cover,
+                          );
+                        },
                       ),
                     ),
                   ),

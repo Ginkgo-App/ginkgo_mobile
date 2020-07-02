@@ -42,16 +42,25 @@ class PostWidget extends StatefulWidget {
 class _PostWidgetState extends State<PostWidget> {
   PostDetailBloc postDetailBloc;
 
-  initialState() {
+  @override
+  initState() {
     super.initState();
     if (widget.post != null) {
       postDetailBloc = PostDetailBloc(widget.post);
     }
   }
 
-  _openListCommnent(BuildContext context) {
+  didUpdateWidget(oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.post != null) {
+      postDetailBloc = PostDetailBloc(widget.post);
+    }
+  }
+
+  _openListCommnent(BuildContext context, [bool focusInput = false]) {
     CommentBottomSheet(context,
             postId: widget.post?.id,
+            autoFocusInput: focusInput,
             totalLike: widget.post?.totalLike,
             postCommentBloc: postDetailBloc?.postCommentBloc)
         .show();
@@ -119,12 +128,17 @@ class _PostWidgetState extends State<PostWidget> {
                 SkeletonItem(child: _buildTime(context, post?.createAt)),
                 const SizedBox(height: 5),
                 if (post?.type == PostType.rating) Rating(rating: post?.rating),
-                SkeletonItem(
-                  child: widget.isCollapse
-                      ? HiddenText(post?.content ?? '')
-                      : Text(post?.content),
-                ),
+                if (post?.content != null && post.content.length > 0)
+                  SkeletonItem(
+                    child: widget.isCollapse
+                        ? HiddenText(post?.content ?? '')
+                        : Text(post?.content),
+                  ),
                 const SizedBox(height: 5),
+                if (post?.tour != null && post?.rating == null) ...[
+                  BlackOpacityTour(tour: post.tour),
+                  const SizedBox(height: 10)
+                ],
                 if (post?.images != null && post.images.length > 0) ...[
                   GalleryItem(
                     images:
@@ -297,12 +311,7 @@ class _PostWidgetState extends State<PostWidget> {
         if (post?.totalComment != null && post.totalComment > 1) ...[
           GestureDetector(
             onTap: () {
-              CommentBottomSheet(
-                context,
-                postId: post?.id,
-                totalLike: post?.totalLike,
-                postCommentBloc: postDetailBloc.postCommentBloc,
-              ).show();
+              _openListCommnent(context);
             },
             child: Text(
               Strings.post?.viewAllComment(post.totalComment),
@@ -326,13 +335,7 @@ class _PostWidgetState extends State<PostWidget> {
               AddCommentWidget(
                 avatar: CurrentUserBloc().currentUser.avatar.smallSquare,
                 onPressed: () {
-                  CommentBottomSheet(
-                    context,
-                    postId: post?.id,
-                    totalLike: post?.totalLike,
-                    autoFocusInput: true,
-                    postCommentBloc: postDetailBloc.postCommentBloc,
-                  ).show();
+                  _openListCommnent(context, true);
                 },
               ),
             ],
