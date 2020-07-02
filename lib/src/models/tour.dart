@@ -4,7 +4,7 @@ enum MeTourType { owner, member, all }
 
 enum TourListType { recommend, friend, forYou }
 
-enum TourMembersType { accepted, requesting }
+enum TourMemberType { accepted, requesting, none }
 
 class Tour with Mappable {
   int id;
@@ -227,6 +227,10 @@ class TotalDayNight {
 class TourMember extends SimpleUser with Mappable {
   DateTime joinAt;
   DateTime acceptedAt;
+
+  TourMemberType get type => joinAt != null && acceptedAt != null
+      ? TourMemberType.accepted
+      : (joinAt != null ? TourMemberType.requesting : TourMemberType.none);
 
   TourMember({
     int id,

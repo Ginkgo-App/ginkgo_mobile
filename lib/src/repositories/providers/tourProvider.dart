@@ -10,7 +10,7 @@ class TourProvider {
   }
 
   Future<Pagination<TourMember>> getMembers(int tourId,
-      {int page, int pageSize, String keyword, TourMembersType type}) async {
+      {int page, int pageSize, String keyword, TourMemberType type}) async {
     final response = await _client
         .normalConnect(ApiMethod.GET, Api.tour(tourId) + '/members', query: {
       'page': (page ?? 1).toString(),

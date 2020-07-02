@@ -36,7 +36,7 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
   _fetchFriend() {
     _tourMembersBloc.add(
       TourMembersEventFetch(
-          tourId: widget.args.simpleTour.id, type: TourMembersType.accepted),
+          tourId: widget.args.simpleTour.id, type: TourMemberType.accepted),
     );
   }
 
