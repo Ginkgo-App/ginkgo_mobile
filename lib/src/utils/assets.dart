@@ -71,11 +71,13 @@ class _Icon {
   final settingOutline = _ICON_PATH + 'setting-outline.svg';
   final smile = _ICON_PATH + 'smile.svg';
   final startPlace = _ICON_PATH + 'start-place.svg';
+  final tick = _ICON_PATH + 'tick.svg';
   final tour = _ICON_PATH + 'tour.svg';
   final tripFull = _ICON_PATH + 'trip-manage-full.svg';
   final tripOutline = _ICON_PATH + 'trip-manage-outline.svg';
   final ribbon = _ICON_PATH + 'ribbon.svg';
   final warning = _ICON_PATH + 'warning.svg';
+  final waiting = _ICON_PATH + 'waiting.svg';
 }
 
 class _Image {

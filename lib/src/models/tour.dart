@@ -232,6 +232,8 @@ class TourMember extends SimpleUser with Mappable {
       ? TourMemberType.accepted
       : (joinAt != null ? TourMemberType.requesting : TourMemberType.none);
 
+  bool get isMember => joinAt != null && acceptedAt != null;
+
   TourMember({
     int id,
     String name,

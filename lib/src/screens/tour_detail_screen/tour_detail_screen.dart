@@ -90,9 +90,12 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                 PrimaryButton(
                   title: 'test',
                   onPressed: () {
-                    MembersBottomSheet(context,
-                            tourId: _tourDetailBloc.tour?.id ?? 0)
-                        .show();
+                    MembersBottomSheet(
+                      context,
+                      tourId: _tourDetailBloc.tour?.id ?? 0,
+                      isHost:
+                          _tourDetailBloc.tour?.isHost(currentUser) ?? false,
+                    ).show();
                   },
                 ),
                 if (state is TourDetailStateFailure)
@@ -119,7 +122,8 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                             _tourDetailBloc.tour?.services != null &&
                                 _tourDetailBloc.tour.services.length > 0)
                           ServiceList(),
-                        buildMembers(_tourDetailBloc.tour.isHost(currentUser)),
+                        buildMembers(
+                            _tourDetailBloc.tour?.isHost(currentUser) ?? false),
                         if (state is! TourDetailStateSuccess ||
                             _tourDetailBloc.tour?.timelines != null)
                           TimelineWidget(
