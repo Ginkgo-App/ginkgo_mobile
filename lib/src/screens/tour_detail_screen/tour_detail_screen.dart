@@ -87,6 +87,14 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                           simpleTour.images ??
                           []),
                 ),
+                PrimaryButton(
+                  title: 'test',
+                  onPressed: () {
+                    MembersBottomSheet(context,
+                            tourId: _tourDetailBloc.tour?.id ?? 0)
+                        .show();
+                  },
+                ),
                 if (state is TourDetailStateFailure)
                   Padding(
                     padding: const EdgeInsets.only(top: 20),
@@ -111,7 +119,7 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                             _tourDetailBloc.tour?.services != null &&
                                 _tourDetailBloc.tour.services.length > 0)
                           ServiceList(),
-                        buildMembers(),
+                        buildMembers(_tourDetailBloc.tour.isHost(currentUser)),
                         if (state is! TourDetailStateSuccess ||
                             _tourDetailBloc.tour?.timelines != null)
                           TimelineWidget(
@@ -130,10 +138,16 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
     );
   }
 
-  buildMembers() {
+  buildMembers(bool isHost) {
     return BorderContainer(
       title: 'Những người tham gia',
       childPadding: EdgeInsets.only(bottom: 10),
+      actions: <Widget>[
+        GestureDetector(
+          onTap: () {},
+          child: Text(isHost ? 'Quản lý thành viên' : 'Tất cả thành viên'),
+        )
+      ],
       child: BlocBuilder(
         bloc: _tourMembersBloc,
         builder: (context, state) {
