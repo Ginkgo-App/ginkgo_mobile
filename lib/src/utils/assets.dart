@@ -43,9 +43,10 @@ class _Icon {
   final googlePlusCircle = _ICON_PATH + 'G+logo-circle.svg';
   final googlePlusSquare = _ICON_PATH + 'G+logo-square.svg';
   final groupChat = _ICON_PATH + 'group-chat.svg';
+  final heartFull = _ICON_PATH + 'heart-full.svg';
   final heartOutline = _ICON_PATH + 'heart-outline.svg';
-  final homeOutline = _ICON_PATH + 'home-outline.svg';
   final homeFull = _ICON_PATH + 'home-full.svg';
+  final homeOutline = _ICON_PATH + 'home-outline.svg';
   final introduction = _ICON_PATH + 'introduction.svg';
   final job = _ICON_PATH + 'job.svg';
   final leaf1 = _ICON_PATH + 'leaf-1.svg';

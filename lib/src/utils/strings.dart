@@ -82,11 +82,14 @@ class _RegisterScreen {
 }
 
 class _Post {
-  final justPostAImage = ' vừa đăng một ảnh mới';
-  final justPostImages = ' vừa đăng ảnh mới';
-  final justPostAPost = ' vừa đăng bài viết mới';
-  final justCreateATour = ' vừa thêm một chuyến đi mới';
-  final createdATour = ' đã thêm một chuyến đi mới';
+  String postAImage({bool isJust = false}) =>
+      ' ${isJust ? 'vừa' : 'đã'} đăng một ảnh mới';
+  String postImages({bool isJust = false}) =>
+      ' ${isJust ? 'vừa' : 'đã'} đăng ảnh mới';
+  String postAPost({bool isJust = false}) =>
+      ' ${isJust ? 'vừa' : 'đã'} đăng bài viết mới';
+  String createATour({bool isJust = false}) =>
+      ' ${isJust ? 'vừa' : 'đã'} thêm một chuyến đi mới';
   String totalLike(int totalLike) => '$totalLike lượt yêu thích';
   String viewAllComment(int totalComment) =>
       'Xem tất cả $totalComment lượt bình luận';

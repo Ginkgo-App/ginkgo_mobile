@@ -7,4 +7,16 @@ class _PostRepository {
 
   Future<Comment> comment(CommentToPost commentToPost) =>
       _postProvider.comment(commentToPost);
+
+  Future like(int postId, bool isLike) => _postProvider.like(postId, isLike);
+
+  Future<Pagination<Post>> getList({int page, int pageSize}) =>
+      _postProvider.getList(page: page, pageSize: pageSize);
+
+  Future<Pagination<Comment>> getCommentList(int postId,
+          {int page, int pageSize}) =>
+      _postProvider.getCommentList(postId, page: page, pageSize: pageSize);
+
+  Future<Pagination<Post>> getUserPosts({int userId, int page, int pageSize}) =>
+      _postProvider.getUserPosts(userId, page, pageSize);
 }

@@ -5,6 +5,8 @@ mixin LoadmoreMixin<T extends StatefulWidget> on State<T> {
   static const _LOCK_TIME = 2;
   bool _isLocking = false;
 
+  double get bottomOffset => 20;
+
   @protected
   @mustCallSuper
   @override
@@ -13,7 +15,7 @@ mixin LoadmoreMixin<T extends StatefulWidget> on State<T> {
     scrollController.addListener(() {
       if (!_isLocking) {
         if (scrollController.position.pixels >=
-            scrollController.position.maxScrollExtent) {
+            scrollController.position.maxScrollExtent - bottomOffset) {
           _isLocking = true;
           onLoadMore();
 
@@ -34,11 +36,13 @@ mixin LoadmoreActionMixin {
   static const _LOCK_TIME = 2;
   bool _isLocking = false;
 
+  double get bottomOffset => 20;
+
   initLoadMore() {
     scrollController.addListener(() {
       if (!_isLocking) {
         if (scrollController.position.pixels >=
-            scrollController.position.maxScrollExtent) {
+            scrollController.position.maxScrollExtent - bottomOffset) {
           _isLocking = true;
           onLoadMore();
 

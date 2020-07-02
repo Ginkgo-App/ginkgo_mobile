@@ -25,7 +25,8 @@ class BlackOpacityTour extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final images = tour?.images ?? tourInfo?.images ?? [];
+    final images =
+        tour?.images ?? tour?.tourInfo?.images ?? tourInfo?.images ?? [];
     final image = images.length > 0 ? images[0] : null;
 
     return GestureDetector(
@@ -51,6 +52,12 @@ class BlackOpacityTour extends StatelessWidget {
                       child: CachedNetworkImage(
                         imageUrl: image?.mediumThumb ?? '',
                         fit: BoxFit.cover,
+                        placeholder: (context, _) {
+                          return Image.asset(
+                            Assets.images.defaultImage,
+                            fit: BoxFit.cover,
+                          );
+                        },
                       ),
                     ),
                   ),

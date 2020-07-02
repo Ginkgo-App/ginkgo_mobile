@@ -32,6 +32,8 @@ class ImageWidget extends StatelessWidget {
                 ? DesignColor.defaultDropShadow
                 : DesignColor.imageShadow),
       ),
+      width: width,
+      height: height,
       child: ClipRRect(
         borderRadius:
             BorderRadius.circular(isCircled ? 90 : (borderRadius ?? 0)),
