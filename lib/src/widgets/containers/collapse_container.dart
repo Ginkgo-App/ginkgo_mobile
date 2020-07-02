@@ -39,10 +39,11 @@ class _CollapseContainerState extends State<CollapseContainer>
         AnimationController(vsync: this, duration: widget.duration);
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      if (widget.collapseHeight >
-          (childKey.currentContext.findRenderObject() as RenderBox)
-              .size
-              .height) {
+      if (widget.collapseHeight != null &&
+          widget.collapseHeight >
+              (childKey.currentContext.findRenderObject() as RenderBox)
+                  .size
+                  .height) {
         setState(() {
           minHeight = null;
         });

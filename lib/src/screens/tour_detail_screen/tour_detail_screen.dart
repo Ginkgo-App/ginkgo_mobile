@@ -66,17 +66,17 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
           appBar: BackAppBar(
             title: 'Chi tiết chuyến đi',
           ),
-          bottomNavigationBar: Container(
-            padding: EdgeInsets.all(10),
-            child: state is TourDetailStateSuccess &&
-                    _tourDetailBloc.tour.canJoin(currentUser)
-                ? PrimaryButton(
+          bottomNavigationBar: state is TourDetailStateSuccess &&
+                  _tourDetailBloc.tour.canJoin(currentUser)
+              ? Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: PrimaryButton(
                     title: Strings.button.takePartInNow,
                     width: double.maxFinite,
                     onPressed: _onJoinTour,
-                  )
-                : null,
-          ),
+                  ),
+                )
+              : null,
           body: ListView(
             children: <Widget>[
               Hero(

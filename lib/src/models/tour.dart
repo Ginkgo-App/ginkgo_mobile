@@ -31,7 +31,10 @@ class Tour with Mappable {
   bool isHost(SimpleUser user) => user.id == createBy.id;
 
   bool canJoin(SimpleUser user) =>
-      !isHost(user) && joinAt == null && acceptedAt == null;
+      !isHost(user) &&
+      joinAt == null &&
+      acceptedAt == null &&
+      status == TourStatus.coming;
 
   SimpleTour toSimpleTour() => SimpleTour(
         id: id,
@@ -48,9 +51,9 @@ class Tour with Mappable {
 
   TourStatus get status {
     final now = DateTime.now();
-    if (now.compareTo(startDay) < -1) {
+    if (now.compareTo(startDay) < 0) {
       return TourStatus.coming;
-    } else if (now.compareTo(endDay) > 1) {
+    } else if (now.compareTo(endDay) > 0) {
       return TourStatus.ended;
     } else {
       return TourStatus.ongoing;
