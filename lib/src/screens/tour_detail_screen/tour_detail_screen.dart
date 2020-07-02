@@ -110,7 +110,11 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                           _tourDetailBloc.tour?.services != null &&
                               _tourDetailBloc.tour.services.length > 0)
                         ServiceList(services: _tourDetailBloc.tour?.services),
-                      _buildMembers(),
+                      _buildMembers(
+                        showManage: _tourDetailBloc.tour?.isHost(
+                          CurrentUserBloc().currentUser.toSimpleUser(),
+                        ),
+                      ),
                       if (state is! TourDetailStateSuccess ||
                           _tourDetailBloc.tour?.timelines != null)
                         TimelineWidget(
@@ -128,10 +132,27 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
     );
   }
 
-  _buildMembers() {
+  _buildMembers({bool showManage = false}) {
     return BorderContainer(
       title: 'Những người tham gia',
       childPadding: EdgeInsets.only(bottom: 10),
+      actions: <Widget>[
+        if (showManage)
+          CupertinoButton(
+            minSize: 1,
+            padding: EdgeInsets.zero,
+            child: Text(
+              'Quản lý người tham gia',
+              style: context.textTheme.caption.copyWith(
+                fontWeight: FontWeight.bold,
+                color: DesignColor.cta,
+              ),
+            ),
+            onPressed: () {
+              // TODO show member bottom sheet
+            },
+          )
+      ],
       child: BlocBuilder(
         bloc: _tourMembersBloc,
         builder: (context, state) {
