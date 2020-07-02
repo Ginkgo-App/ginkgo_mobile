@@ -128,7 +128,7 @@ class _PostWidgetState extends State<PostWidget> {
                 SkeletonItem(child: _buildTime(context, post?.createAt)),
                 const SizedBox(height: 5),
                 if (post?.type == PostType.rating) Rating(rating: post?.rating),
-                if (post?.content != null && post.content.length > 0)
+                if (post?.content == null || post.content.length > 0)
                   SkeletonItem(
                     child: widget.isCollapse
                         ? HiddenText(post?.content ?? '')
@@ -139,7 +139,10 @@ class _PostWidgetState extends State<PostWidget> {
                   BlackOpacityTour(tour: post.tour),
                   const SizedBox(height: 10)
                 ],
-                if (post?.images != null && post.images.length > 0) ...[
+                if (post?.type != PostType.tourCreated &&
+                    post?.type != PostType.tourJustCreated &&
+                    post?.images != null &&
+                    post.images.length > 0) ...[
                   GalleryItem(
                     images:
                         post?.images?.map((e) => e.original)?.toList() ?? [],

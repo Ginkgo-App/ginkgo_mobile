@@ -6,6 +6,7 @@ import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/widgets/errorWidgets/errorIndicator.dart';
 import 'package:ginkgo_mobile/src/widgets/errorWidgets/not_found_widget.dart';
 import 'package:ginkgo_mobile/src/widgets/post_widgets/post_widget.dart';
+import 'package:ginkgo_mobile/src/widgets/widgets.dart';
 
 class FeedTab extends StatefulWidget {
   @override
@@ -49,15 +50,24 @@ class _FeedTabState extends State<FeedTab> with LoadmoreMixin {
         }
 
         return ListView(
+          controller: scrollController,
           children: [
             ...<Post>[
               ...postListBloc.postList.data,
               if (state is PostListStateLoading)
-                ...List.generate(3, (index) => null)
+                ...List.generate(10, (index) => null)
             ]
-                .map<Widget>((e) => PostWidget(post: e))
-                .toList()
-                .addBetweenEvery(SizedBox(height: 20)),
+                .map<Widget>(
+                  (e) => BorderContainer(
+                    childPadding: EdgeInsets.all(10),
+                    margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
+                    child: PostWidget(
+                      post: e,
+                      showAuthorAvatar: true,
+                    ),
+                  ),
+                )
+                .toList(),
             if (state is PostListStateFailure)
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20),

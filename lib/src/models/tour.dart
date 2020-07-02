@@ -96,6 +96,7 @@ class SimpleTour with Mappable {
   double price;
   double rating;
   List<SimpleUser> friends;
+  TourInfo tourInfo;
 
   SimpleTour({
     this.id,
@@ -125,6 +126,11 @@ class SimpleTour with Mappable {
     map('Price', price, (v) => price = v);
     map('Rating', rating, (v) => rating = v);
     map<SimpleUser>('Friend', friends, (v) => friends = v);
+    map(
+        'TourInfo',
+        tourInfo,
+        (v) => tourInfo =
+            v != null ? Mapper.fromJson(v).toObject<TourInfo>() : null);
   }
 }
 
