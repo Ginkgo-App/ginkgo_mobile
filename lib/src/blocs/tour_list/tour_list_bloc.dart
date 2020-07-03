@@ -35,7 +35,8 @@ class TourListBloc extends Bloc<TourListEvent, TourListState> {
         yield TourListStateLoading();
 
         int _nextPage = _tourList.pagination.currentPage + 1;
-        if (event.keyword != null && _keyword != event.keyword) {
+        if (event.keyword != null && _keyword != event.keyword ||
+            event.refresh) {
           _keyword = event.keyword;
           _nextPage = 1;
         }

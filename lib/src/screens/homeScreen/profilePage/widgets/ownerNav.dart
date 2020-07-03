@@ -12,9 +12,12 @@ import 'package:ginkgo_mobile/src/widgets/buttons/friend_buttons/friend_buttons.
 import 'package:ginkgo_mobile/src/widgets/customs/toast.dart';
 
 class OwnerNav extends StatelessWidget {
+  final Function onCreatePostPressed;
   final Function onCustomButtonPressed;
 
-  const OwnerNav({Key key, this.onCustomButtonPressed}) : super(key: key);
+  const OwnerNav(
+      {Key key, this.onCustomButtonPressed, this.onCreatePostPressed})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +35,7 @@ class OwnerNav extends StatelessWidget {
             _Button(
               imageIcon: Assets.icons.createPost,
               label: 'Đăng bài',
-              onPressed: () {
-                Toast.show(Strings.common.developingFeature, context);
-              },
+              onPressed: onCreatePostPressed,
             ),
             _Button(
               imageIcon: Assets.icons.message,

@@ -13,9 +13,10 @@ class PostDetailBloc extends Bloc<PostDetailEvent, PostDetailState> {
   final PostCommentBloc postCommentBloc = PostCommentBloc();
   Post _post;
   Post get post => _post;
+  StreamSubscription _listener;
 
   PostDetailBloc(this._post) : assert(_post != null) {
-    LikePostBloc().listen((state) {
+    _listener = LikePostBloc().listen((state) {
       if (state is LikePostStateLoading && state.postId == _post.id) {
         this.add(PostDetailEventChangeLike(isIncrease: state.isLiked));
       } else if (state is LikePostStateFailure && state.postId == _post.id) {
@@ -36,6 +37,7 @@ class PostDetailBloc extends Bloc<PostDetailEvent, PostDetailState> {
   @override
   Future<void> close() {
     postCommentBloc.close();
+    _listener.cancel();
     return super.close();
   }
 

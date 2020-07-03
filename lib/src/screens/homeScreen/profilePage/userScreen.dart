@@ -36,7 +36,7 @@ class _UserScreenState extends State<UserScreen>
   }
 
   onLoadMore() {
-    _postListBloc?.add(PostListEventFetch());
+    _postListBloc?.add(PostListEventLoadMore());
   }
 
   dispose() {
@@ -87,7 +87,13 @@ class _UserScreenState extends State<UserScreen>
                           AboutBox(user: user),
                           const SizedBox(height: 10),
                           if (user?.id != null) ...[
-                            FriendList(user: args.simpleUser),
+                            FriendList(
+                              user: args.simpleUser,
+                              onShowAll: () {
+                                showErrorMessage(
+                                    Strings.common.developingFeature);
+                              },
+                            ),
                             const SizedBox(height: 10),
                           ],
                           InfoBox(user: user),

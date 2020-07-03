@@ -7,10 +7,11 @@ abstract class TourListEvent {
 }
 
 class TourListEventFetch extends TourListEvent {
+  final bool refresh;
   final String keyword;
 
-  TourListEventFetch({this.keyword});
+  TourListEventFetch({this.keyword, this.refresh = false});
 
   @override
-  String toString() => '$runtimeType Keyword: $keyword';
+  String toString() => '$runtimeType Keyword: $keyword Refresh:$refresh';
 }

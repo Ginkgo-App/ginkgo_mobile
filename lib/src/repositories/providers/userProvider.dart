@@ -96,4 +96,17 @@ class UserProvider {
   Future acceptFriend(int userId) async {
     await _client.normalConnect(ApiMethod.POST, Api.acceptFriend(userId));
   }
+
+  Future<Pagination<SimpleUser>> getTopUsers(
+      {int page = 1, int pageSize = 10}) async {
+    // Todo change api
+    final response =
+        await _client.normalConnect(ApiMethod.GET, Api.topUser, query: {
+      'page': page.toString(),
+      'pageSize': pageSize.toString(),
+      'type': enumToString(FriendType.accepted),
+    });
+
+    return Pagination(response.data['Pagination'], response.data['Data']);
+  }
 }
