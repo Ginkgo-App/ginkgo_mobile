@@ -30,23 +30,25 @@ class _CollapseContainerState extends State<CollapseContainer>
   final GlobalKey childKey = GlobalKey();
   AnimationController animController;
   bool isCollapsing = true;
-  double minHeight = 0;
+  double minHeight;
 
   @override
   void initState() {
     super.initState();
-    minHeight = widget.collapseHeight;
-
     animController =
         AnimationController(vsync: this, duration: widget.duration);
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      if (minHeight >
+      if (widget.collapseHeight >
           (childKey.currentContext.findRenderObject() as RenderBox)
               .size
               .height) {
         setState(() {
           minHeight = null;
+        });
+      } else {
+        setState(() {
+          minHeight = widget.collapseHeight;
         });
       }
     });
@@ -76,43 +78,39 @@ class _CollapseContainerState extends State<CollapseContainer>
       headerUnderline: widget.headerUnderline,
       childPadding: EdgeInsets.zero,
       actions: <Widget>[if (minHeight != null) buildCollapseButton()],
-      child: Stack(
-        children: <Widget>[
-          _SizeTransition(
-            axisAlignment: -1,
-            minHeight: minHeight ??
-                (childKey.currentContext?.findRenderObject() as RenderBox)
-                    ?.size
-                    ?.height ??
-                0,
-            sizeFactor: animController,
-            child: SingleChildScrollView(
-              physics: NeverScrollableScrollPhysics(),
-              child: Container(key: childKey, child: widget.child),
-            ),
-          ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: IgnorePointer(
-              child: AnimatedOpacity(
-                duration: widget.duration,
-                opacity: isCollapsing && minHeight != null ? 1 : 0,
-                child: Container(
-                  height: 200,
-                  decoration: BoxDecoration(
-                    gradient: GradientColor.of(context).whiteBottomGradient,
-                    borderRadius: BorderRadius.vertical(
-                      bottom: Radius.circular(5),
+      child: minHeight == null
+          ? Container(key: childKey, child: widget.child)
+          : Stack(
+              children: <Widget>[
+                _SizeTransition(
+                  axisAlignment: -1,
+                  minHeight: minHeight,
+                  sizeFactor: animController,
+                  child: widget.child,
+                ),
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: IgnorePointer(
+                    child: AnimatedOpacity(
+                      duration: widget.duration,
+                      opacity: isCollapsing && minHeight != null ? 1 : 0,
+                      child: Container(
+                        height: 200,
+                        decoration: BoxDecoration(
+                          gradient:
+                              GradientColor.of(context).whiteBottomGradient,
+                          borderRadius: BorderRadius.vertical(
+                            bottom: Radius.circular(5),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
+                )
+              ],
             ),
-          )
-        ],
-      ),
     );
   }
 

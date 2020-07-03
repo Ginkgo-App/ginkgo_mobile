@@ -88,7 +88,8 @@ class Tour with Mappable {
     map('TotalMember', totalMember, (v) => totalMember = v);
     map('MaxMember', maxMember, (v) => maxMember = v);
     map<Timeline>('TimeLines', timelines, (v) => timelines = v);
-    map<String>('Services', services, (v) => services = v);
+    map('Services', services,
+        (v) => services = (v as List).map((e) => e.toString()).toList());
     map('TourInfo', tourInfo,
         (v) => tourInfo = Mapper.fromJson(v).toObject<TourInfo>());
     map(

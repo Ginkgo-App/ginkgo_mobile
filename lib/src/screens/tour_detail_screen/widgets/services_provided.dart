@@ -17,7 +17,7 @@ class ServiceList extends StatelessWidget {
       child: Skeleton(
         enabled: services == null,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
           child: SpacingColumn(
               spacing: 5,
               crossAxisAlignment: CrossAxisAlignment.stretch,

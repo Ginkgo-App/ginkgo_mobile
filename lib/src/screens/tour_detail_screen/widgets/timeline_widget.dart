@@ -27,7 +27,7 @@ class TimelineWidget extends StatelessWidget {
             child: Skeleton(
               enabled: isLoading,
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Column(
                   children: timelines
                       .asMap()

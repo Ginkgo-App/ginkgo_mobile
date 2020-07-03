@@ -77,60 +77,58 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                   )
                 : null,
           ),
-          body: SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                Hero(
-                  tag: HeroKeys.tourImage(simpleTour.id),
-                  child: SliderWidget(
-                      images: _tourDetailBloc.tour?.images ??
-                          simpleTour.images ??
-                          []),
-                ),
-                if (state is TourDetailStateFailure)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20),
-                    child: ErrorIndicator(
-                      moreErrorDetail: state.error.toString(),
-                      onReload: _fetchData,
-                    ),
-                  )
-                else
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 10),
-                    child: SpacingColumn(
-                      spacing: 10,
-                      isSpacingHeadTale: true,
-                      children: <Widget>[
-                        TourDetail(
-                          tourName: simpleTour.name,
-                          tour: _tourDetailBloc.tour,
-                          isLoading: state is TourDetailStateLoading,
-                        ),
-                        if (state is! TourDetailStateSuccess ||
-                            _tourDetailBloc.tour?.services != null &&
-                                _tourDetailBloc.tour.services.length > 0)
-                          ServiceList(),
-                        buildMembers(),
-                        if (state is! TourDetailStateSuccess ||
-                            _tourDetailBloc.tour?.timelines != null)
-                          TimelineWidget(
-                            isLoading: state is TourDetailStateLoading,
-                            timelines: _tourDetailBloc.tour?.timelines,
-                          ),
-                        _buildReviews(),
-                      ],
-                    ),
+          body: ListView(
+            children: <Widget>[
+              Hero(
+                tag: HeroKeys.tourImage(simpleTour.id),
+                child: SliderWidget(
+                    images: _tourDetailBloc.tour?.images ??
+                        simpleTour.images ??
+                        []),
+              ),
+              if (state is TourDetailStateFailure)
+                Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: ErrorIndicator(
+                    moreErrorDetail: state.error.toString(),
+                    onReload: _fetchData,
                   ),
-              ],
-            ),
+                )
+              else
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
+                  child: SpacingColumn(
+                    spacing: 10,
+                    isSpacingHeadTale: true,
+                    children: <Widget>[
+                      TourDetail(
+                        tourName: simpleTour.name,
+                        tour: _tourDetailBloc.tour,
+                        isLoading: state is TourDetailStateLoading,
+                      ),
+                      if (state is! TourDetailStateSuccess ||
+                          _tourDetailBloc.tour?.services != null &&
+                              _tourDetailBloc.tour.services.length > 0)
+                        ServiceList(services: _tourDetailBloc.tour?.services),
+                      _buildMembers(),
+                      if (state is! TourDetailStateSuccess ||
+                          _tourDetailBloc.tour?.timelines != null)
+                        TimelineWidget(
+                          isLoading: state is TourDetailStateLoading,
+                          timelines: _tourDetailBloc.tour?.timelines,
+                        ),
+                      _buildReviews(),
+                    ],
+                  ),
+                ),
+            ],
           ),
         );
       },
     );
   }
 
-  buildMembers() {
+  _buildMembers() {
     return BorderContainer(
       title: 'Những người tham gia',
       childPadding: EdgeInsets.only(bottom: 10),
@@ -175,27 +173,30 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
   _buildReviews() {
     return CollapseContainer(
         title: 'Nhận xét từ những người đã tham gia trước đó',
-        collapseHeight: 280,
-        child: BlocBuilder(
-          bloc: _tourReviewsBloc,
-          builder: (context, state) {
-            if (state is TourReviewsStateFailure) {
-              return ErrorIndicator(
-                moreErrorDetail: state.error.toString(),
-                onReload: _fetchReview,
-              );
-            }
+        // collapseHeight: 280,
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 10),
+          child: BlocBuilder(
+            bloc: _tourReviewsBloc,
+            builder: (context, state) {
+              if (state is TourReviewsStateFailure) {
+                return ErrorIndicator(
+                  moreErrorDetail: state.error.toString(),
+                  onReload: _fetchReview,
+                );
+              }
 
-            return SingleChildScrollView(
-              child: Column(
-                children: (state is TourReviewsStateSuccess
-                        ? _tourReviewsBloc.reviewList.data
-                        : List.generate(3, (index) => null))
-                    .map((e) => ReviewItem(review: e))
-                    .toList(),
-              ),
-            );
-          },
+              return SingleChildScrollView(
+                child: Column(
+                  children: (state is TourReviewsStateSuccess
+                          ? _tourReviewsBloc.reviewList.data
+                          : List.generate(3, (index) => null))
+                      .map((e) => ReviewItem(review: e))
+                      .toList(),
+                ),
+              );
+            },
+          ),
         ));
   }
 }
