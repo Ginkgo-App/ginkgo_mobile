@@ -8,25 +8,30 @@ class NotFoundWidget extends StatelessWidget {
   final String message;
   final Widget bottom;
   final bool showBorderBox;
+  final bool showImage;
 
   const NotFoundWidget({
     Key key,
     this.message = 'Không có kết quả',
     this.bottom,
     this.showBorderBox = true,
+    this.showImage = true,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final child = Column(
       children: <Widget>[
-        FlareActor(
-          Assets.flares.notFound,
-          alignment: Alignment.center,
-          sizeFromArtboard: true,
-          fit: BoxFit.contain,
-          animation: "Untitled",
-        ),
+        if (showImage)
+          FlareActor(
+            Assets.flares.notFound,
+            alignment: Alignment.center,
+            sizeFromArtboard: true,
+            fit: BoxFit.contain,
+            animation: "Untitled",
+          )
+        else
+          const SizedBox(height: 20),
         Text(
           message,
           textAlign: TextAlign.center,

@@ -41,6 +41,9 @@ class PostListBloc extends Bloc<PostListEvent, PostListState> {
         await _getPosts(_nextPage);
 
         yield PostListStateSuccess(_postList);
+      } else if (event is PostListEventRemovePost) {
+        _postList.data.remove(event.post);
+        yield PostListStateSuccess(_postList);
       }
     } catch (e) {
       yield PostListStateFailure(e);

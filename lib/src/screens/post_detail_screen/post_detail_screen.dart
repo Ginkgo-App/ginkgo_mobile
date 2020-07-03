@@ -21,6 +21,7 @@ class PostDetailScreen extends StatelessWidget {
         isCollapse: false,
         showAuthorAvatar: true,
         post: args.post,
+        onDeleted: (_) {},
       ),
     );
   }

@@ -32,5 +32,5 @@ class CommentListStateFailure extends CommentListState {
   CommentListStateFailure(this.error);
 
   @override
-  String toString() => '$runtimeType ${error.stackTrace}';
+  String toString() => '$runtimeType $error';
 }

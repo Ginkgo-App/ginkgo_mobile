@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ginkgo_mobile/src/blocs/currentUser/current_user_bloc.dart';
+import 'package:ginkgo_mobile/src/blocs/delete_post/delete_post_bloc.dart';
 import 'package:ginkgo_mobile/src/blocs/like_post/like_post_bloc.dart';
 import 'package:ginkgo_mobile/src/blocs/post_detail/post_detail_bloc.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
@@ -26,6 +27,7 @@ class PostWidget extends StatefulWidget {
   final Function(Post) onMenuPressed;
   final bool showAuthorAvatar;
   final bool isCollapse;
+  final Function(Post post) onDeleted;
 
   const PostWidget({
     Key key,
@@ -33,6 +35,7 @@ class PostWidget extends StatefulWidget {
     this.onMenuPressed,
     this.showAuthorAvatar = false,
     this.isCollapse = true,
+    @required this.onDeleted,
   }) : super(key: key);
 
   @override
@@ -64,6 +67,52 @@ class _PostWidgetState extends State<PostWidget> {
             totalLike: widget.post?.totalLike,
             postCommentBloc: postDetailBloc?.postCommentBloc)
         .show();
+  }
+
+  _openMenu() {
+    if (widget.onMenuPressed != null) {
+      widget.onMenuPressed(widget.post);
+    } else {
+      showCupertinoModalPopup(
+          context: context,
+          builder: (context) {
+            return BlocListener(
+              bloc: DeletePostBloc(),
+              listener: (context, state) {
+                if (state is DeletePostStateSuccess &&
+                    state.postId == widget.post?.id) {
+                  Navigator.pop(context);
+                  widget.onDeleted(widget.post);
+                } else if (state is DeletePostStateFailure &&
+                    state.postId == widget.post?.id) {
+                  showErrorMessage(state.error.toString());
+                  Navigator.pop(context);
+                }
+              },
+              child: CupertinoActionSheet(
+                title: Text('Xóa bài viết'),
+                message: Text('Bạn có chắc chắn muốn xóa bài viết?'),
+                actions: <Widget>[
+                  BlocBuilder(
+                      bloc: DeletePostBloc(),
+                      builder: (context, state) {
+                        return CupertinoActionSheetAction(
+                          onPressed: () {
+                            DeletePostBloc()
+                                .add(DeletePostEventDelete(widget.post.id));
+                          },
+                          child: state is DeletePostStateLoading
+                              ? LoadingIndicator(
+                                  color: context.colorScheme.primary,
+                                )
+                              : Text('Xác nhận xóa'),
+                        );
+                      }),
+                ],
+              ),
+            );
+          });
+    }
   }
 
   dispose() {
@@ -195,7 +244,7 @@ class _PostWidgetState extends State<PostWidget> {
             Icons.more_horiz,
             color: context.colorScheme.onBackground,
           ),
-          onPressed: () => widget.onMenuPressed?.call(widget.post),
+          onPressed: _openMenu,
         )
       ],
     );

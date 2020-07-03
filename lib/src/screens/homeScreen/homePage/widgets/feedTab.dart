@@ -69,6 +69,9 @@ class _FeedTabState extends State<FeedTab> with LoadmoreMixin {
                     child: PostWidget(
                       post: e,
                       showAuthorAvatar: true,
+                      onDeleted: (post) {
+                        postListBloc.add(PostListEventRemovePost(post));
+                      },
                     ),
                   ),
                 )

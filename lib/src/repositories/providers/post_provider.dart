@@ -40,6 +40,10 @@ class PostProvider {
     );
   }
 
+  Future delete(int postId) async {
+    await _client.normalConnect(ApiMethod.DELETE, Api.posts(postId));
+  }
+
   Future<Comment> comment(CommentToPost comment) async {
     final result = await _client.connect<Comment>(
       ApiMethod.POST,

@@ -29,11 +29,11 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
 
   _fetchData() {
     _tourDetailBloc.add(TourDetailEventFetch(widget.args.simpleTour.id));
-    _fetchFriend();
+    _fetchMembers();
     _fetchReview();
   }
 
-  _fetchFriend() {
+  _fetchMembers() {
     _tourMembersBloc.add(
       TourMembersEventFetch(
           tourId: widget.args.simpleTour.id, type: TourMemberType.accepted),
@@ -51,6 +51,7 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
         throwStates: [JoinTourStateFailure]).then((value) {
       showErrorMessage('Tham gia thành công.\nVui lòng đợi duyệt');
       _fetchData();
+      _fetchMembers();
     });
   }
 
@@ -176,7 +177,14 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
           if (state is TourMembersStateFailure) {
             return ErrorIndicator(
               moreErrorDetail: state.error.toString(),
-              onReload: _fetchFriend,
+              onReload: _fetchMembers,
+            );
+          } else if (state is TourMembersStateSuccess &&
+              state.members.pagination.totalElement == 0) {
+            return NotFoundWidget(
+              message: 'Chưa ai tham gia!',
+              showImage: false,
+              showBorderBox: false,
             );
           }
 
@@ -193,16 +201,18 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                           : _tourMembersBloc.memberList?.data ?? [])
                       .map((e) => CircleUser(user: e))
                       .toList(),
-                  ViewMoreButton(
-                    onPressed: () {
-                      MembersBottomSheet(
-                        context,
-                        tourId: _tourDetailBloc.tour?.id ?? 0,
-                        isHost: isHost ?? false,
-                      ).show();
-                    },
-                    width: 100,
-                  )
+                  if (state is TourMembersStateSuccess &&
+                      state.members.canLoadmore)
+                    ViewMoreButton(
+                      onPressed: () {
+                        MembersBottomSheet(
+                          context,
+                          tourId: _tourDetailBloc.tour?.id ?? 0,
+                          isHost: isHost ?? false,
+                        ).show();
+                      },
+                      width: 100,
+                    )
                 ],
               ),
             ),

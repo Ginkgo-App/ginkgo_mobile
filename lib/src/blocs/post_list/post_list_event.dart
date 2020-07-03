@@ -13,3 +13,9 @@ class PostListEventLoadMore extends PostListEvent {
 
   PostListEventLoadMore([this.force = false]);
 }
+
+class PostListEventRemovePost extends PostListEvent {
+  final Post post;
+
+  PostListEventRemovePost(this.post);
+}

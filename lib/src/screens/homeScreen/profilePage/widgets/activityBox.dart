@@ -46,7 +46,13 @@ class _ActivityBoxState extends State<ActivityBox> {
                 if (state is PostListStateLoading)
                   ...List.generate(3, (index) => null)
               ]
-                  .map<Widget>((e) => PostWidget(post: e))
+                  .map<Widget>((e) => PostWidget(
+                        post: e,
+                        onDeleted: (post) {
+                          widget.postListBloc
+                              .add(PostListEventRemovePost(post));
+                        },
+                      ))
                   .toList()
                   .addBetweenEvery(SizedBox(height: 20)),
               if (state is PostListStateFailure)

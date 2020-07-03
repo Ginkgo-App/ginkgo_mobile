@@ -10,6 +10,8 @@ class _PostRepository {
 
   Future like(int postId, bool isLike) => _postProvider.like(postId, isLike);
 
+  Future delete(int postId) => _postProvider.delete(postId);
+
   Future<Pagination<Post>> getList({int page, int pageSize}) =>
       _postProvider.getList(page: page, pageSize: pageSize);
 
