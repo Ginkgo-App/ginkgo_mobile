@@ -39,6 +39,17 @@ class _CollapseContainerState extends State<CollapseContainer>
 
     animController =
         AnimationController(vsync: this, duration: widget.duration);
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      if (minHeight >
+          (childKey.currentContext.findRenderObject() as RenderBox)
+              .size
+              .height) {
+        setState(() {
+          minHeight = null;
+        });
+      }
+    });
   }
 
   onChange() {
@@ -69,7 +80,11 @@ class _CollapseContainerState extends State<CollapseContainer>
         children: <Widget>[
           _SizeTransition(
             axisAlignment: -1,
-            minHeight: minHeight,
+            minHeight: minHeight ??
+                (childKey.currentContext?.findRenderObject() as RenderBox)
+                    ?.size
+                    ?.height ??
+                0,
             sizeFactor: animController,
             child: SingleChildScrollView(
               physics: NeverScrollableScrollPhysics(),
@@ -172,16 +187,14 @@ class _SizeTransition extends AnimatedWidget {
       alignment = AlignmentDirectional(-1.0, axisAlignment);
     else
       alignment = AlignmentDirectional(axisAlignment, -1.0);
-    return ClipRect(
-      child: ConstrainedBox(
-        constraints: BoxConstraints(minHeight: minHeight),
-        child: Align(
-          alignment: alignment,
-          heightFactor: axis == Axis.vertical ? max(sizeFactor.value, 0) : null,
-          widthFactor:
-              axis == Axis.horizontal ? max(sizeFactor.value, 0.0) : null,
-          child: child,
-        ),
+    return ConstrainedBox(
+      constraints: BoxConstraints(minHeight: minHeight),
+      child: Align(
+        alignment: alignment,
+        heightFactor: axis == Axis.vertical ? max(sizeFactor.value, 0) : null,
+        widthFactor:
+            axis == Axis.horizontal ? max(sizeFactor.value, 0.0) : null,
+        child: child,
       ),
     );
   }

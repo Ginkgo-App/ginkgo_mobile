@@ -155,6 +155,12 @@ class _ManageTourScreenState extends State<ManageTourScreen>
                             moreErrorDetail: state.error.toString(),
                             onReload: _fetchMemberTourList,
                           );
+                        } else if (state is TourListStateSuccess &&
+                            state.tourList.pagination.totalElement == 0) {
+                          return NotFoundWidget(
+                            message: 'Bạn chưa tham gia chuyến đi nào!',
+                            showBorderBox: false,
+                          );
                         }
 
                         return ManageTourList(
@@ -217,6 +223,12 @@ class _ManageTourScreenState extends State<ManageTourScreen>
                                 moreErrorDetail: state.error.toString(),
                                 onReload: _fetchOwnerTourList,
                               );
+                            } else if (state is TourListStateSuccess &&
+                                state.tourList.pagination.totalElement == 0) {
+                              return NotFoundWidget(
+                                message: 'Bạn chưa tạo chuyến đi nào!',
+                                showBorderBox: false,
+                              );
                             }
 
                             return ManageTourList(
@@ -234,6 +246,12 @@ class _ManageTourScreenState extends State<ManageTourScreen>
                                 message: Strings.error.errorClick,
                                 moreErrorDetail: state.error.toString(),
                                 onReload: _fetchOwnerTourInfoList,
+                              );
+                            } else if (state is TourListStateSuccess &&
+                                state.tourList.pagination.totalElement == 0) {
+                              return NotFoundWidget(
+                                message: 'Bạn chưa tạo mẫu chuyến đi nào!',
+                                showBorderBox: false,
                               );
                             }
 
