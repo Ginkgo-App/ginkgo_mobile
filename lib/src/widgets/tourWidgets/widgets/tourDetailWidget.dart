@@ -112,11 +112,14 @@ class TourDetailWidget extends StatelessWidget {
             text: friend.displayName,
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          TextSpan(text: ' và '),
-          TextSpan(
-            text: '$totalMember người khác',
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
+          if (totalMember > 1) ...[
+            TextSpan(text: ' và '),
+            TextSpan(
+              text: '${totalMember - 1} người khác',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ] else
+            TextSpan(text: ' tham gia'),
         ],
       ),
     );

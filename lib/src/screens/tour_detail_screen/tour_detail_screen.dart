@@ -178,7 +178,11 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                       .toList(),
                   ViewMoreButton(
                     onPressed: () {
-                      // TODO Navigate to tour members screen.
+                      MembersBottomSheet(
+                        context,
+                        tourId: _tourDetailBloc.tour?.id ?? 0,
+                        isHost: isHost ?? false,
+                      ).show();
                     },
                     width: 100,
                   )

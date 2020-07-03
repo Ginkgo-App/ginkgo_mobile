@@ -76,7 +76,7 @@ class _CreateTourScreenState extends State<CreateTourScreen>
                     Navigators.appNavigator.currentState.pushReplacementNamed(
                       Routes.tourDetail,
                       arguments: TourDetailScreenArgs(
-                        SimpleTour(id: state.tourId),
+                        SimpleTour(id: state.tourId, images: tourInfo.images),
                       ),
                     );
                   });

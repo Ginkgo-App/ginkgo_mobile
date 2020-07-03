@@ -14,9 +14,13 @@ class _TourRepository {
       _tourProvider.getReviews(tourId, page: page, pageSize: pageSize);
 
   Future<Pagination<SimpleTour>> getList(
-          {int page, int pageSize, String keyword}) =>
-      _tourProvider.getList(keyword: keyword, page: page, pageSize: pageSize);
+          {int page, int pageSize, String keyword, TourListType type}) =>
+      _tourProvider.getList(
+          keyword: keyword, page: page, pageSize: pageSize, type: type);
 
-  Future<int> create(TourToPost tourToPost) =>
-      _tourProvider.create(tourToPost);
+  Future<int> create(TourToPost tourToPost) => _tourProvider.create(tourToPost);
+
+  Future<int> join(int tourId) => _tourProvider.join(tourId);
+
+  Future<int> leave(int tourId) => _tourProvider.leave(tourId);
 }

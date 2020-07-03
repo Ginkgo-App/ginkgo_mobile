@@ -40,7 +40,7 @@ class Api {
   static String tourInTourInfo(int tourInfoId) =>
       AppConfig.instance.apiUrl + '/tour-infos/$tourInfoId' + '/tours';
   static String tour(int tourId) =>
-      AppConfig.instance.apiUrl + '/tours/$tourId';
+      AppConfig.instance.apiUrl + '/tours/${tourId ?? ''}';
   static String addFriend(int userId) =>
       AppConfig.instance.apiUrl + '/users/me/friends/$userId';
   static String deleteFriend(int userId) =>

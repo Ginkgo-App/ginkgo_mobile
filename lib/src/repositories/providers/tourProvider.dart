@@ -84,4 +84,18 @@ class TourProvider {
 
     return response.data['Data'][0]['Id'];
   }
+
+  Future join(int tourId) async {
+    await _client.normalConnect(
+      ApiMethod.POST,
+      Api.tour(tourId) + '/join',
+    );
+  }
+
+  Future leave(int tourId) async {
+    await _client.normalConnect(
+      ApiMethod.POST,
+      Api.tour(tourId) + '/leave',
+    );
+  }
 }

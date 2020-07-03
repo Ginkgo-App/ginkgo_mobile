@@ -147,7 +147,7 @@ class SimpleTour with Mappable {
     }, MultiSizeImageTransform());
     map('Price', price, (v) => price = v);
     map('Rating', rating, (v) => rating = v);
-    map<SimpleUser>('Friend', friends, (v) => friends = v);
+    map<SimpleUser>('Friends', friends, (v) => friends = v);
     map(
         'TourInfo',
         tourInfo,
