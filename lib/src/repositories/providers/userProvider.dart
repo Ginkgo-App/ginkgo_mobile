@@ -101,7 +101,7 @@ class UserProvider {
       {int page = 1, int pageSize = 10}) async {
     // Todo change api
     final response =
-        await _client.normalConnect(ApiMethod.GET, Api.meFriends, query: {
+        await _client.normalConnect(ApiMethod.GET, Api.topUser, query: {
       'page': page.toString(),
       'pageSize': pageSize.toString(),
       'type': enumToString(FriendType.accepted),

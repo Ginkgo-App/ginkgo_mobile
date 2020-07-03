@@ -25,6 +25,7 @@ class Api {
   static final register = AppConfig.instance.apiUrl + '/users/register';
   static final me = AppConfig.instance.apiUrl + '/users/me';
   static final meFriends = AppConfig.instance.apiUrl + '/users/me/friends';
+  static final topUser = AppConfig.instance.apiUrl + '/tours/top-users';
   static final meTours = AppConfig.instance.apiUrl + '/users/me/tours';
   static final mePosts = AppConfig.instance.apiUrl + '/users/me/posts';
 

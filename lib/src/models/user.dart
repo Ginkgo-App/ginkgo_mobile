@@ -118,7 +118,7 @@ class SimpleUser with Mappable {
     map('Avatar', avatar, (v) => avatar = v, MultiSizeImageTransform());
     map('Job', job, (v) => job = v);
     map('FriendType', friendType, (v) => friendType = v, FriendTypeTransform());
-    map('TourCount', tourCount, (v) => tourCount = v);
+    map('TotalPost', tourCount, (v) => tourCount = v);
   }
 }
 

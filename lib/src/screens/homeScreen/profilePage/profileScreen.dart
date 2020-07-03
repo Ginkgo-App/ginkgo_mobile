@@ -95,6 +95,9 @@ class _ProfileScreenState extends State<ProfileScreen>
                       child: Column(
                         children: <Widget>[
                           OwnerNav(
+                            onCreatePostPressed: () => Navigators
+                                .appNavigator.currentState
+                                .pushNamed(Routes.createPost),
                             onCustomButtonPressed: () => _showMenuBottomSheet(
                                 HomeProvider.of(context).context, user),
                           ),
