@@ -2,11 +2,15 @@ import 'package:base/base.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:ginkgo_mobile/src/blocs/tour_members/tour_members_bloc.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/utils/designColor.dart';
 import 'package:ginkgo_mobile/src/widgets/buttons/friend_buttons/friend_buttons.dart';
+import 'package:ginkgo_mobile/src/widgets/errorWidgets/errorIndicator.dart';
+import 'package:ginkgo_mobile/src/widgets/errorWidgets/not_found_widget.dart';
 import 'package:ginkgo_mobile/src/widgets/spacingRow.dart';
 import 'package:ginkgo_mobile/src/widgets/widgets.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
@@ -20,7 +24,10 @@ class MembersBottomSheet {
       : assert(tourId != null);
 
   Future show() async {
-    return showSlidingBottomSheet(context, builder: (context) {
+    final TourMembersBloc tourMembersBloc = TourMembersBloc(
+        10, tourId, isHost ? TourMemberType.none : TourMemberType.accepted);
+
+    await showSlidingBottomSheet(context, builder: (context) {
       return SlidingSheetDialog(
         snapSpec: SnapSpec(snappings: [0.9]),
         cornerRadius: 10,
@@ -41,13 +48,17 @@ class MembersBottomSheet {
                   spacing: 10,
                   children: <Widget>[
                     Icon(Icons.people, color: DesignColor.darkestBlue),
-                    Text(
-                      '30 thành viên',
-                      style: context.textTheme.subtitle1.copyWith(
-                        color: DesignColor.darkestBlue,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    BlocBuilder(
+                        bloc: tourMembersBloc,
+                        builder: (context, snapshot) {
+                          return Text(
+                            '${tourMembersBloc?.memberList?.pagination?.totalElement ?? '~'} thành viên',
+                            style: context.textTheme.subtitle1.copyWith(
+                              color: DesignColor.darkestBlue,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          );
+                        }),
                   ],
                 ),
               ),
@@ -70,23 +81,51 @@ class MembersBottomSheet {
           );
           return Container(
             margin: const EdgeInsets.only(top: 10),
-            child: ListView.builder(
-              itemCount: data.length,
-              itemExtent: null,
-              padding: EdgeInsets.zero,
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemBuilder: (context, i) {
-                return _TourMemberItem(
-                  tourMember: data[i],
-                  isHost: isHost,
-                );
-              },
-            ),
+            child: BlocBuilder(
+                bloc: tourMembersBloc,
+                builder: (context, state) {
+                  return ListView(
+                    itemExtent: null,
+                    padding: EdgeInsets.zero,
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    children: <Widget>[
+                      if (state is TourMembersStateSuccess &&
+                          tourMembersBloc.memberList.pagination.totalElement ==
+                              0)
+                        NotFoundWidget(
+                          showBorderBox: false,
+                          message: 'Chưa ai tham gia!',
+                        )
+                      else
+                        ListView.builder(
+                          itemCount: data.length,
+                          itemExtent: null,
+                          padding: EdgeInsets.zero,
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemBuilder: (context, i) {
+                            return _TourMemberItem(
+                              tourMember: data[i],
+                              isHost: isHost,
+                            );
+                          },
+                        ),
+                      if (state is TourMembersStateFailure)
+                        ErrorIndicator(
+                          moreErrorDetail: state.error.toString(),
+                          onReload: () => tourMembersBloc
+                              .add(TourMembersEventLoadMore(true)),
+                        )
+                    ],
+                  );
+                }),
           );
         },
       );
     });
+
+    tourMembersBloc.close();
   }
 }
 
@@ -141,7 +180,7 @@ class _TourMemberItem extends StatelessWidget {
               if (isHost ?? true)
                 _BlueMemberButton(
                   isMember: tourMember.isMember,
-                  onPressed: _showMenuBottomSheet(context, tourMember),
+                  onPressed: () => _showMenuBottomSheet(context, tourMember),
                 )
               else
                 BlueFriendButton(user: tourMember),

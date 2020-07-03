@@ -177,7 +177,7 @@ class _PostWidgetState extends State<PostWidget> {
                 if (post?.content == null || post.content.length > 0)
                   SkeletonItem(
                     child: widget.isCollapse
-                        ? HiddenText(post?.content ?? '')
+                        ? HiddenText(post?.content ?? 'Content')
                         : Text(post?.content),
                   ),
                 const SizedBox(height: 5),

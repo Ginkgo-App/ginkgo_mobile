@@ -19,11 +19,13 @@ class TourDetailScreen extends StatefulWidget {
 
 class _TourDetailScreenState extends State<TourDetailScreen> {
   final TourDetailBloc _tourDetailBloc = TourDetailBloc();
-  final TourMembersBloc _tourMembersBloc = TourMembersBloc(10);
+  TourMembersBloc _tourMembersBloc;
   final TourReviewsBloc _tourReviewsBloc = TourReviewsBloc(10);
 
   initState() {
     super.initState();
+    _tourMembersBloc =
+        TourMembersBloc(10, widget.args.simpleTour.id, TourMemberType.accepted);
     _fetchData();
   }
 
@@ -34,10 +36,7 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
   }
 
   _fetchMembers() {
-    _tourMembersBloc.add(
-      TourMembersEventFetch(
-          tourId: widget.args.simpleTour.id, type: TourMemberType.accepted),
-    );
+    _tourMembersBloc.add(TourMembersEventFetch());
   }
 
   _fetchReview() {
@@ -127,7 +126,7 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                       if (state is! TourDetailStateSuccess ||
                           _tourDetailBloc.tour?.services != null &&
                               _tourDetailBloc.tour.services.length > 0)
-                        ServiceList(),
+                        ServiceList(services: _tourDetailBloc.tour?.services),
                       _buildMembers(
                           _tourDetailBloc.tour?.isHost(currentUser) ?? false),
                       if (state is! TourDetailStateSuccess ||

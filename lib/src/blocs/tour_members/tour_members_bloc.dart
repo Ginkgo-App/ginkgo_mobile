@@ -11,6 +11,8 @@ part 'tour_members_state.dart';
 class TourMembersBloc extends Bloc<TourMembersEvent, TourMembersState> {
   final Repository _repository = Repository();
   final int _pageSize;
+  final int _tourId;
+  final TourMemberType _type;
 
   String _keyword;
 
@@ -18,7 +20,7 @@ class TourMembersBloc extends Bloc<TourMembersEvent, TourMembersState> {
 
   Pagination<TourMember> get memberList => _memberList;
 
-  TourMembersBloc(this._pageSize);
+  TourMembersBloc(this._pageSize, this._tourId, this._type);
 
   @override
   TourMembersState get initialState => TourMembersInitial();
@@ -28,20 +30,34 @@ class TourMembersBloc extends Bloc<TourMembersEvent, TourMembersState> {
     TourMembersEvent event,
   ) async* {
     try {
-      if (event is TourMembersEventFetch && _memberList.canLoadmore) {
+      if (event is TourMembersEventFetch) {
         yield TourMembersStateLoading();
 
-        if (event.keyword != null) {
-          _keyword = event.keyword;
-        }
+        _keyword = event.keyword;
 
         _memberList.add(
           await _repository.tour.getMembers(
-            event.tourId,
+            _tourId,
+            pageSize: _pageSize,
+            page: 1,
+            keyword: _keyword,
+            type: _type,
+          ),
+        );
+
+        yield TourMembersStateSuccess(_memberList);
+      } else if (event is TourMembersEventLoadMore &&
+          _memberList.canLoadmore &&
+          (state is! TourMembersStateFailure || event.force)) {
+        yield TourMembersStateLoading();
+
+        _memberList.add(
+          await _repository.tour.getMembers(
+            _tourId,
             pageSize: _pageSize,
             page: _memberList.pagination.currentPage + 1,
             keyword: _keyword,
-            type: event.type,
+            type: _type,
           ),
         );
 
