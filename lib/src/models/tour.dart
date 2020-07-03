@@ -6,6 +6,8 @@ enum TourListType { recommend, friend, forYou }
 
 enum TourMembersType { accepted, requesting }
 
+enum TourStatus { coming, ongoing, ended }
+
 class Tour with Mappable {
   int id;
   String name;
@@ -43,6 +45,17 @@ class Tour with Mappable {
         startDay: startDay,
         totalMember: totalMember,
       );
+
+  TourStatus get status {
+    final now = DateTime.now();
+    if (now.compareTo(startDay) < -1) {
+      return TourStatus.coming;
+    } else if (now.compareTo(endDay) > 1) {
+      return TourStatus.ended;
+    } else {
+      return TourStatus.ongoing;
+    }
+  }
 
   Tour({
     this.id,
