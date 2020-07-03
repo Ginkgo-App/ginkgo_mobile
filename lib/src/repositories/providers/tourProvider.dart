@@ -35,9 +35,9 @@ class TourProvider {
   }
 
   Future<Pagination<SimpleTour>> getList(
-      {int page, int pageSize, String keyword, PlaceSearchType type}) async {
+      {int page, int pageSize, String keyword, TourListType type}) async {
     final response =
-        await _client.normalConnect(ApiMethod.GET, Api.places(null), query: {
+        await _client.normalConnect(ApiMethod.GET, Api.tour(null), query: {
       'page': (page ?? 1).toString(),
       'pageSize': pageSize?.toString() ?? 0,
       if (type != null) 'type': enumToString(type),

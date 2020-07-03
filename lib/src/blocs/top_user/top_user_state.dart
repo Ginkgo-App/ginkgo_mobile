@@ -25,5 +25,5 @@ class TopUserStateFailure extends TopUserState {
   TopUserStateFailure(this.error);
 
   @override
-  String toString() => '$runtimeType ${error.stackTrace}';
+  String toString() => '$runtimeType $error';
 }

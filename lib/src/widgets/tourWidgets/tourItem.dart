@@ -21,6 +21,7 @@ class TourItem extends StatelessWidget {
         height: 300,
         child: Skeleton(
           enabled: tour == null,
+          autoContainer: true,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
@@ -50,16 +51,17 @@ class TourItem extends StatelessWidget {
                     showRating: true,
                     rowPadding: const EdgeInsets.only(left: 20),
                   )),
-              Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    border: Border.all(color: context.colorScheme.primary)),
-                child: CupertinoButton(
-                  padding: EdgeInsets.symmetric(vertical: 10),
-                  onPressed: () {},
-                  child: Text('Tham gia ngay'),
-                ),
-              )
+              if (tour != null)
+                Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      border: Border.all(color: context.colorScheme.primary)),
+                  child: CupertinoButton(
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    onPressed: () {},
+                    child: Text('Tham gia ngay'),
+                  ),
+                )
             ],
           ),
         ),
