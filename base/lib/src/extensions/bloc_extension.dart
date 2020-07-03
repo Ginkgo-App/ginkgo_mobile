@@ -11,7 +11,10 @@ extension BlocExtension<Event, State> on Bloc<Event, State> {
       }
     });
 
-    await _waitState.future;
-    listener.cancel();
+    try {
+      await _waitState.future;
+    } finally {
+      listener.cancel();
+    }
   }
 }

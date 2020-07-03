@@ -8,7 +8,14 @@ abstract class CommentListState {
 
 class CommentListInitial extends CommentListState {}
 
-class CommentListStateLoading extends CommentListState {}
+class CommentListStateLoading extends CommentListState {
+  final bool isLoadMore;
+
+  CommentListStateLoading({this.isLoadMore = false});
+
+  @override
+  String toString() => '$runtimeType $isLoadMore';
+}
 
 class CommentListStateSuccess extends CommentListState {
   final Pagination<Comment> commentList;
