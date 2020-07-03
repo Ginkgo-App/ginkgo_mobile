@@ -36,7 +36,7 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
   _fetchFriend() {
     _tourMembersBloc.add(
       TourMembersEventFetch(
-          tourId: widget.args.simpleTour.id, type: TourMembersType.accepted),
+          tourId: widget.args.simpleTour.id, type: TourMemberType.accepted),
     );
   }
 
@@ -109,12 +109,9 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                       if (state is! TourDetailStateSuccess ||
                           _tourDetailBloc.tour?.services != null &&
                               _tourDetailBloc.tour.services.length > 0)
-                        ServiceList(services: _tourDetailBloc.tour?.services),
+                        ServiceList(),
                       _buildMembers(
-                        showManage: _tourDetailBloc.tour?.isHost(
-                          CurrentUserBloc().currentUser.toSimpleUser(),
-                        ),
-                      ),
+                          _tourDetailBloc.tour?.isHost(currentUser) ?? false),
                       if (state is! TourDetailStateSuccess ||
                           _tourDetailBloc.tour?.timelines != null)
                         TimelineWidget(
@@ -132,26 +129,29 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
     );
   }
 
-  _buildMembers({bool showManage = false}) {
+  _buildMembers(bool isHost) {
     return BorderContainer(
       title: 'Những người tham gia',
       childPadding: EdgeInsets.only(bottom: 10),
       actions: <Widget>[
-        if (showManage ?? false)
-          CupertinoButton(
-            minSize: 1,
-            padding: EdgeInsets.zero,
-            child: Text(
-              'Quản lý người tham gia',
-              style: context.textTheme.caption.copyWith(
-                fontWeight: FontWeight.bold,
-                color: DesignColor.cta,
-              ),
+        CupertinoButton(
+          minSize: 1,
+          padding: EdgeInsets.zero,
+          child: Text(
+            isHost ? 'Quản lý người tham gia' : 'Tất cả thành viên',
+            style: context.textTheme.caption.copyWith(
+              fontWeight: FontWeight.bold,
+              color: DesignColor.cta,
             ),
-            onPressed: () {
-              // TODO show member bottom sheet
-            },
-          )
+          ),
+          onPressed: () {
+            MembersBottomSheet(
+              context,
+              tourId: _tourDetailBloc.tour?.id ?? 0,
+              isHost: isHost ?? false,
+            ).show();
+          },
+        )
       ],
       child: BlocBuilder(
         bloc: _tourMembersBloc,

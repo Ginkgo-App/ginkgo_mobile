@@ -8,7 +8,7 @@ abstract class TourMembersEvent {
 
 class TourMembersEventFetch extends TourMembersEvent {
   final int tourId;
-  final TourMembersType type;
+  final TourMemberType type;
   final String keyword;
 
   TourMembersEventFetch({@required this.tourId, this.keyword, this.type});

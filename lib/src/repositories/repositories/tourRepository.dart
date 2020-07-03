@@ -6,7 +6,7 @@ class _TourRepository {
   Future<Tour> getDetail(int tourId) => _tourProvider.getDetail(tourId);
 
   Future<Pagination<TourMember>> getMembers(int tourId,
-          {int page, int pageSize, String keyword, TourMembersType type}) =>
+          {int page, int pageSize, String keyword, TourMemberType type}) =>
       _tourProvider.getMembers(tourId,
           keyword: keyword, page: page, pageSize: pageSize, type: type);
 
