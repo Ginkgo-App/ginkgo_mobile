@@ -28,7 +28,7 @@ class Tour with Mappable {
 
   List<MultiSizeImage> get images => tourInfo?.images ?? [];
 
-  bool isHost(SimpleUser user) => user.id == createBy.id;
+  bool isHost(SimpleUser user) => user?.id == createBy?.id;
 
   bool canJoin(SimpleUser user) =>
       !isHost(user) &&

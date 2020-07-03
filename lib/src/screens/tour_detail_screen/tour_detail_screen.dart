@@ -137,7 +137,7 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
       title: 'Những người tham gia',
       childPadding: EdgeInsets.only(bottom: 10),
       actions: <Widget>[
-        if (showManage)
+        if (showManage ?? false)
           CupertinoButton(
             minSize: 1,
             padding: EdgeInsets.zero,
