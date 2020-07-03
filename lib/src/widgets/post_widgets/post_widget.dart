@@ -112,11 +112,8 @@ class _PostWidgetState extends State<PostWidget> {
           const SizedBox(width: 6),
           Expanded(
             flex: 9,
-            child: ListView(
-              itemExtent: null,
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              padding: EdgeInsets.zero,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 SkeletonItem(
                   child: _buildTop(

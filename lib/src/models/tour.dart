@@ -4,7 +4,9 @@ enum MeTourType { owner, member, all }
 
 enum TourListType { recommend, friend, forYou }
 
-enum TourMembersType { accepted, requesting }
+enum TourMemberType { accepted, requesting, none }
+
+enum TourStatus { coming, ongoing, ended }
 
 class Tour with Mappable {
   int id;
@@ -26,10 +28,13 @@ class Tour with Mappable {
 
   List<MultiSizeImage> get images => tourInfo?.images ?? [];
 
-  bool isHost(SimpleUser user) => user.id == createBy.id;
+  bool isHost(SimpleUser user) => user?.id == createBy?.id;
 
   bool canJoin(SimpleUser user) =>
-      !isHost(user) && joinAt == null && acceptedAt == null;
+      !isHost(user) &&
+      joinAt == null &&
+      acceptedAt == null &&
+      status == TourStatus.coming;
 
   SimpleTour toSimpleTour() => SimpleTour(
         id: id,
@@ -43,6 +48,17 @@ class Tour with Mappable {
         startDay: startDay,
         totalMember: totalMember,
       );
+
+  TourStatus get status {
+    final now = DateTime.now();
+    if (now.compareTo(startDay) < 0) {
+      return TourStatus.coming;
+    } else if (now.compareTo(endDay) > 0) {
+      return TourStatus.ended;
+    } else {
+      return TourStatus.ongoing;
+    }
+  }
 
   Tour({
     this.id,
@@ -75,11 +91,15 @@ class Tour with Mappable {
     map('TotalMember', totalMember, (v) => totalMember = v);
     map('MaxMember', maxMember, (v) => maxMember = v);
     map<Timeline>('TimeLines', timelines, (v) => timelines = v);
-    map<String>('Services', services, (v) => services = v);
+    map('Services', services,
+        (v) => services = (v as List).map((e) => e.toString()).toList());
     map('TourInfo', tourInfo,
         (v) => tourInfo = Mapper.fromJson(v).toObject<TourInfo>());
-    map('Createby', createBy,
-        (v) => createBy = Mapper.fromJson(v).toObject<SimpleUser>());
+    map(
+        'CreateBy',
+        createBy,
+        (v) => createBy =
+            v != null ? Mapper.fromJson(v).toObject<SimpleUser>() : null);
     map('JoinAt', joinAt, (v) => joinAt = v, DateTimeTransform());
     map('AcceptedAt', acceptedAt, (v) => acceptedAt = v, DateTimeTransform());
   }
@@ -91,12 +111,14 @@ class SimpleTour with Mappable {
   DateTime startDay;
   DateTime endDay;
   int totalMember;
-  List<MultiSizeImage> images;
+  List<MultiSizeImage> _images;
   SimpleUser host;
   double price;
   double rating;
   List<SimpleUser> friends;
   TourInfo tourInfo;
+
+  List<MultiSizeImage> get images => _images ?? tourInfo?.images ?? [];
 
   SimpleTour({
     this.id,
@@ -104,12 +126,12 @@ class SimpleTour with Mappable {
     this.startDay,
     this.endDay,
     this.totalMember,
-    this.images,
+    List<MultiSizeImage> images,
     this.host,
     this.price,
     this.rating,
     this.friends,
-  });
+  }) : _images = images;
 
   @override
   void mapping(Mapper map) {
@@ -119,13 +141,13 @@ class SimpleTour with Mappable {
     map('EndDay', endDay, (v) => endDay = v, DateTimeTransform());
     map('TotalMember', totalMember, (v) => totalMember = v);
     map('Host', host, (v) => host = Mapper.fromJson(v).toObject<SimpleUser>());
-    map<MultiSizeImage>('Images', images, (v) {
-      images = v;
-      images?.shuffle();
+    map<MultiSizeImage>('Images', _images, (v) {
+      _images = v;
+      _images?.shuffle();
     }, MultiSizeImageTransform());
     map('Price', price, (v) => price = v);
     map('Rating', rating, (v) => rating = v);
-    map<SimpleUser>('Friend', friends, (v) => friends = v);
+    map<SimpleUser>('Friends', friends, (v) => friends = v);
     map(
         'TourInfo',
         tourInfo,
@@ -227,6 +249,12 @@ class TotalDayNight {
 class TourMember extends SimpleUser with Mappable {
   DateTime joinAt;
   DateTime acceptedAt;
+
+  TourMemberType get type => joinAt != null && acceptedAt != null
+      ? TourMemberType.accepted
+      : (joinAt != null ? TourMemberType.requesting : TourMemberType.none);
+
+  bool get isMember => joinAt != null && acceptedAt != null;
 
   TourMember({
     int id,

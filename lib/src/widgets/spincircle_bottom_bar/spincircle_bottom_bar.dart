@@ -82,8 +82,8 @@ class _SpinCircleBottomBarState extends State<SpinCircleBottomBar> {
   void initState() {
     super.initState();
     expandableBottomBarDetails = widget.bottomNavigationBar;
-    expandableBottomBarDetails.items
-        .insert((expandableBottomBarDetails.items.length / 2).floor(), null);
+    // expandableBottomBarDetails.items
+    //     .insert((expandableBottomBarDetails.items.length / 2).floor(), null);
     expandableBottomBarDetails.circleColors =
         expandableBottomBarDetails.circleColors ??
             [Colors.white, Colors.blue, Colors.red];
@@ -270,7 +270,14 @@ class _SpinCircleBottomBarState extends State<SpinCircleBottomBar> {
                                     ),
                                   )
                                 : Center());
-                      }).toList(),
+                      }).toList()
+                            ..insert(
+                              (expandableBottomBarDetails.items.length / 2)
+                                  .floor(),
+                              Flexible(
+                                child: Center(),
+                              ),
+                            ),
                     ),
                   ),
                 ),

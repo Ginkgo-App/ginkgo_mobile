@@ -20,6 +20,7 @@ import 'package:ginkgo_mobile/src/blocs/authScreen/auth_screen_bloc.dart';
 import 'package:ginkgo_mobile/src/blocs/create_tour/create_tour_bloc.dart';
 import 'package:ginkgo_mobile/src/blocs/create_tour_info/create_tour_info_bloc.dart';
 import 'package:ginkgo_mobile/src/blocs/currentUser/current_user_bloc.dart';
+import 'package:ginkgo_mobile/src/blocs/join_tour/join_tour_bloc.dart';
 import 'package:ginkgo_mobile/src/blocs/place_detail/place_detail_bloc.dart';
 import 'package:ginkgo_mobile/src/blocs/post_comment/post_comment_bloc.dart';
 import 'package:ginkgo_mobile/src/blocs/post_list/post_list_bloc.dart';
@@ -52,6 +53,7 @@ import 'package:ginkgo_mobile/src/screens/homeScreen/profilePage/widgets/ownerNa
 import 'package:ginkgo_mobile/src/screens/homeScreen/profilePage/widgets/tourListWidget.dart';
 import 'package:ginkgo_mobile/src/screens/manage_tour/widgets/manage_tour_widgets.dart';
 import 'package:ginkgo_mobile/src/screens/place_detail_screen/widgets/place_list.dart';
+import 'package:ginkgo_mobile/src/screens/tour_detail_screen/widgets/members_bottom_sheet.dart';
 import 'package:ginkgo_mobile/src/screens/tour_detail_screen/widgets/review_comment.dart';
 import 'package:ginkgo_mobile/src/screens/tour_detail_screen/widgets/services_provided.dart';
 import 'package:ginkgo_mobile/src/screens/tour_detail_screen/widgets/slider_widget.dart';

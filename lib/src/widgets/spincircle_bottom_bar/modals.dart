@@ -14,18 +14,20 @@ class SCBottomBarDetails {
   SCActionButtonDetails actionButtonDetails;
   double bnbHeight;
 
-  SCBottomBarDetails(this.tabController, 
-      {@required this.items,
-      @required this.circleItems,
-      this.bnbHeight,
-      this.actionButtonDetails,
-      this.activeIconTheme,
-      this.iconTheme,
-      this.activeTitleStyle,
-      this.titleStyle,
-      this.circleColors,
-      this.backgroundColor,
-      this.elevation});
+  SCBottomBarDetails(
+    this.tabController, {
+    @required this.items,
+    @required this.circleItems,
+    this.bnbHeight,
+    this.actionButtonDetails,
+    this.activeIconTheme,
+    this.iconTheme,
+    this.activeTitleStyle,
+    this.titleStyle,
+    this.circleColors,
+    this.backgroundColor,
+    this.elevation,
+  });
 }
 
 class SCActionButtonDetails {

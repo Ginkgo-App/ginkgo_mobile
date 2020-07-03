@@ -49,13 +49,17 @@ import 'package:timeago/timeago.dart' as timeAgo;
 
 export 'userWidgets/user_widgets.dart';
 
+part 'actionSheets/pick_image_action_sheet.dart';
 part 'addCommentWidget.dart';
 part 'appBars/backAppBar.dart';
 part 'avatar.dart';
 part 'buttons/primaryButton.dart';
+part 'comment_widgets/comment_bottom_sheet.dart';
+part 'comment_widgets/comment_item.dart';
 part 'containers/borderContainer.dart';
 part 'containers/collapse_container.dart';
 part 'customs/image_widget.dart';
+part 'dialogs/common_dialog.dart';
 part 'dialogs/photo_view_dialog.dart';
 part 'gradientTextFormField.dart';
 part 'gradientUnderlineBorder.dart';
@@ -69,7 +73,3 @@ part 'rating.dart';
 part 'skeleton.dart';
 part 'tourWidgets/blackOpacityTour.dart';
 part 'tourWidgets/tourItem.dart';
-part 'actionSheets/pick_image_action_sheet.dart';
-part 'dialogs/common_dialog.dart';
-part 'comment_widgets/comment_bottom_sheet.dart';
-part 'comment_widgets/comment_item.dart';

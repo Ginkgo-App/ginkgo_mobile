@@ -13,13 +13,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   static AuthBloc _authBloc = AuthBloc._();
 
   factory AuthBloc() => _authBloc;
-  AuthBloc._() {
-    CurrentUserBloc().listen((state) {
-      if (state is CurrentUserStateSuccess) {
-        _goToHome();
-      }
-    });
-  }
+  AuthBloc._();
 
   final Repository _repository = Repository();
 
@@ -56,8 +50,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Stream<AuthState> _startApp(AuthEventStartApp event) async* {
     if (await _repository.auth.isAuth) {
-      yield AuthStateAuthenticated();
       CurrentUserBloc().add(CurrentUserEventFetch());
+      try {
+        await CurrentUserBloc().waitOne([CurrentUserStateSuccess],
+            throwStates: [CurrentUserStateFailure]);
+        _goToHome();
+        yield AuthStateAuthenticated();
+      } catch (_) {}
     } else {
       yield AuthStateUnauthenticated();
       _goToLogin();
@@ -65,8 +64,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   Stream<AuthState> _onLogin(AuthEventAuth event) async* {
-    yield AuthStateAuthenticated();
-    CurrentUserBloc().add(CurrentUserEventFetch());
+    try {
+      CurrentUserBloc().add(CurrentUserEventFetch());
+      await CurrentUserBloc().waitOne([CurrentUserStateSuccess],
+          throwStates: [CurrentUserStateFailure]);
+      _goToHome();
+      yield AuthStateAuthenticated();
+    } catch (_) {}
   }
 
   Stream<AuthState> _onLogout(AuthEventLogout event) async* {

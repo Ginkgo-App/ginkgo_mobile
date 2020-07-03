@@ -20,7 +20,13 @@ class CommentBottomSheet {
     final TextEditingController inputController = TextEditingController();
     final SheetController sheetController = SheetController();
 
-    commentListBloc.add(CommentListEventFetch());
+    final fetchComments = () {
+      commentListBloc.add(CommentListEventFetch());
+      commentListBloc.waitOne([CommentListStateSuccess]).then(
+          (value) => sheetController.scrollTo(9999));
+    };
+
+    fetchComments();
 
     await showSlidingBottomSheet(
       context,
@@ -28,7 +34,7 @@ class CommentBottomSheet {
       builder: (context) {
         return SlidingSheetDialog(
           controller: sheetController,
-          snapSpec: SnapSpec(snappings: [0.9]),
+          snapSpec: SnapSpec(snappings: [0.9, 0.7], initialSnap: 0.9),
           cornerRadius: 10,
           color: context.colorScheme.background,
           headerBuilder: (context, state) {
@@ -74,8 +80,7 @@ class CommentBottomSheet {
                     FocusScope.of(context).unfocus();
                     showErrorMessage('Thành công');
                     inputController.text = '';
-                    commentListBloc.add(CommentListEventFetch());
-                    sheetController.scrollTo(0);
+                    fetchComments();
                   }
                 },
                 child: BlocBuilder(
@@ -145,10 +150,14 @@ class CommentBottomSheet {
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   padding: EdgeInsets.zero,
+                  reverse: true,
                   children: [
                     ..._buildListComment(commentListBloc.commentList.data),
                     if (state is CommentListStateLoading)
-                      ..._buildListComment(List.generate(20, (index) => null)),
+                      if (!state.isLoadMore)
+                        ..._buildListComment(List.generate(20, (index) => null))
+                      else
+                        LoadingIndicator(color: context.colorScheme.primary),
                     if (state is CommentListStateFailure)
                       Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -159,11 +168,22 @@ class CommentBottomSheet {
                           ),
                         ),
                       )
-                    else if (commentListBloc.commentList.canLoadmore)
+                    else if (commentListBloc.commentList.canLoadmore &&
+                        commentListBloc.state is! CommentListStateLoading)
                       CupertinoButton(
-                        child: Text('Tải thêm bình luận'),
+                        minSize: 0,
+                        child: Text(
+                          'Tải thêm bình luận',
+                          style: context.textTheme.button.copyWith(
+                            color: context.colorScheme.primary,
+                          ),
+                        ),
                         onPressed: () {
                           commentListBloc.add(CommentListEventLoadMore());
+                          Future.delayed(Duration(milliseconds: 200)).then(
+                              (value) => commentListBloc
+                                  .waitOne([CommentListStateSuccess]).then(
+                                      (value) => sheetController.scrollTo(50)));
                         },
                       )
                   ],

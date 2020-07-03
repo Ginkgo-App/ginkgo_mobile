@@ -40,7 +40,7 @@ class CommentListBloc extends Bloc<CommentListEvent, CommentListState> {
       } else if (event is CommentListEventLoadMore &&
           _commentList.canLoadmore &&
           (state is! CommentListStateFailure || event.force)) {
-        yield CommentListStateLoading();
+        yield CommentListStateLoading(isLoadMore: true);
 
         _commentList.add(await _repository.post.getCommentList(
           postId,

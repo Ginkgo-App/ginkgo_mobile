@@ -4,13 +4,13 @@ class TourProvider {
   final _client = ApiClient();
 
   Future<Tour> getDetail(int tourId) async {
-    final result = await _client.connect(ApiMethod.GET, Api.tour(tourId));
+    final result = await _client.connect<Tour>(ApiMethod.GET, Api.tour(tourId));
 
     return result;
   }
 
   Future<Pagination<TourMember>> getMembers(int tourId,
-      {int page, int pageSize, String keyword, TourMembersType type}) async {
+      {int page, int pageSize, String keyword, TourMemberType type}) async {
     final response = await _client
         .normalConnect(ApiMethod.GET, Api.tour(tourId) + '/members', query: {
       'page': (page ?? 1).toString(),
@@ -83,5 +83,19 @@ class TourProvider {
     );
 
     return response.data['Data'][0]['Id'];
+  }
+
+  Future join(int tourId) async {
+    await _client.normalConnect(
+      ApiMethod.POST,
+      Api.tour(tourId) + '/join',
+    );
+  }
+
+  Future leave(int tourId) async {
+    await _client.normalConnect(
+      ApiMethod.POST,
+      Api.tour(tourId) + '/leave',
+    );
   }
 }

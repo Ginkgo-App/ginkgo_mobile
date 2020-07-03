@@ -60,7 +60,7 @@ class TourListBloc extends Bloc<TourListEvent, TourListState> {
                   pageSize: pageSize,
                   page: _nextPage,
                   keyword: _keyword,
-                ),
+                  type: tourListType),
         );
 
         yield TourListStateSuccess(_tourList);

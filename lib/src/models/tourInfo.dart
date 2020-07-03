@@ -25,10 +25,16 @@ class TourInfo with Mappable {
     map('Name', name, (v) => name = v);
     map<MultiSizeImage>(
         'Images', images, (v) => images = v, MultiSizeImageTransform());
-    map('StartPlace', startPlace,
-        (v) => startPlace = Mapper.fromJson(v).toObject<Place>());
-    map('DestinatePlace', destinatePlace,
-        (v) => destinatePlace = Mapper.fromJson(v).toObject<Place>());
+    map(
+        'StartPlace',
+        startPlace,
+        (v) => startPlace =
+            v != null ? Mapper.fromJson(v).toObject<Place>() : null);
+    map(
+        'DestinatePlace',
+        destinatePlace,
+        (v) => destinatePlace =
+            v != null ? Mapper.fromJson(v).toObject<Place>() : null);
     map('Rating', rating, (v) => rating = v);
     map(
         'CreateBy',
