@@ -36,6 +36,12 @@ class _AboutBoxState extends State<AboutBox> {
   }
 
   @override
+  void didUpdateWidget(AboutBox oldWidget) {
+    controller.text = widget.user?.bio ?? '';
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   void dispose() {
     super.dispose();
     updateProfileBloc.close();

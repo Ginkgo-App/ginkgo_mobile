@@ -1,6 +1,16 @@
 part of '../screens.dart';
 
+class ManageTourScreenArgs {
+  final int userId; // Nếu không tồn tại hoặc bằng 0 thì là current user
+
+  ManageTourScreenArgs(this.userId);
+}
+
 class ManageTourScreen extends StatefulWidget {
+  final ManageTourScreenArgs args;
+
+  const ManageTourScreen({Key key, this.args}) : super(key: key);
+
   @override
   _ManageTourScreenState createState() => _ManageTourScreenState();
 }
@@ -12,18 +22,27 @@ class _ManageTourScreenState extends State<ManageTourScreen>
   static const _PAGE_SIZE = 3;
 
   final PageController _pageController = PageController();
-  final TourListBloc _memberTourListBloc =
-      TourListBloc(_PAGE_SIZE, userId: 0, meType: MeTourType.member);
-  final TourListBloc _ownerTourListBloc =
-      TourListBloc(_PAGE_SIZE, userId: 0, meType: MeTourType.owner);
-  final TourInfoListBloc _ownerTourInfoListBloc =
-      TourInfoListBloc(_PAGE_SIZE, userId: 0);
 
+  TourListBloc _memberTourListBloc;
+  TourListBloc _ownerTourListBloc;
+  TourInfoListBloc _ownerTourInfoListBloc;
+
+  ManageTourScreenArgs args;
   int _currentPage = 0;
   _Filter _filter = _Filter.tour;
 
+  bool get isCurrentUser => args?.userId == null || args.userId == 0;
+
   initState() {
     super.initState();
+
+    args = widget.args;
+    _memberTourListBloc = TourListBloc(_PAGE_SIZE,
+        userId: args?.userId ?? 0, meType: MeTourType.member);
+    _ownerTourListBloc = TourListBloc(_PAGE_SIZE,
+        userId: args?.userId ?? 0, meType: MeTourType.owner);
+    _ownerTourInfoListBloc =
+        TourInfoListBloc(_PAGE_SIZE, userId: args?.userId ?? 0);
 
     _fetchData();
   }
@@ -109,7 +128,7 @@ class _ManageTourScreenState extends State<ManageTourScreen>
     return PrimaryScaffold(
       appBar: BackAppBar(title: 'Quản lý chuyến đi'),
       bottomPadding: false,
-      bottomNavigationBar: _buildBottomButton(),
+      bottomNavigationBar: isCurrentUser ? _buildBottomButton() : null,
       body: NestedScrollView(
           controller: scrollController,
           headerSliverBuilder: (context, _) {

@@ -7,6 +7,7 @@ import 'package:ginkgo_mobile/src/blocs/userTour/user_tour_bloc.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/navigators.dart';
 import 'package:ginkgo_mobile/src/screens/homeScreen/homeProvider.dart';
+import 'package:ginkgo_mobile/src/screens/screens.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/utils/strings.dart';
 import 'package:ginkgo_mobile/src/widgets/buttons/commonOutlineButton.dart';
@@ -46,9 +47,15 @@ class _TourListWidgetState extends State<TourListWidget>
 
   viewAll() {
     if (isCurrentUser) {
-      HomeProvider.of(context).tabController.animateTo(1);
+      final homeProvider = HomeProvider.of(context);
+      if (homeProvider != null) {
+        homeProvider.tabController.animateTo(1);
+      } else {
+        Navigator.of(context).pushNamed(ProfileRoutes.manageTour);
+      }
     } else {
-      Navigators.appNavigator.currentState.pushNamed(Routes.profileTourList);
+      Navigators.appNavigator.currentState.pushNamed(Routes.manageTour,
+          arguments: ManageTourScreenArgs(widget.user.id));
     }
   }
 
