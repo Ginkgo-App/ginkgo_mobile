@@ -3,10 +3,10 @@ part of 'join_tour_bloc.dart';
 @immutable
 abstract class JoinTourEvent {}
 
-class JoinTourEventJoint extends JoinTourEvent {
+class JoinTourEventJoin extends JoinTourEvent {
   final int tourId;
 
-  JoinTourEventJoint(this.tourId);
+  JoinTourEventJoin(this.tourId);
 
   @override
   String toString() => '$runtimeType $tourId';

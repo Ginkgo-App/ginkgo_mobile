@@ -20,7 +20,7 @@ class _TourRepository {
 
   Future<int> create(TourToPost tourToPost) => _tourProvider.create(tourToPost);
 
-  Future<int> join(int tourId) => _tourProvider.join(tourId);
+  Future join(int tourId) => _tourProvider.join(tourId);
 
-  Future<int> leave(int tourId) => _tourProvider.leave(tourId);
+  Future leave(int tourId) => _tourProvider.leave(tourId);
 }

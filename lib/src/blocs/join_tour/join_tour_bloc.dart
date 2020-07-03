@@ -27,11 +27,12 @@ class JoinTourBloc extends Bloc<JoinTourEvent, JoinTourState> {
   Stream<JoinTourState> mapEventToState(
     JoinTourEvent event,
   ) async* {
-    if (event is JoinTourEventJoint) {
+    if (event is JoinTourEventJoin) {
       try {
         yield JoinTourStateLoading(event.tourId);
         await _repository.tour.join(event.tourId);
         yield JoinTourStateSuccess(event.tourId, false);
+        yield JoinTourInitial();
       } catch (e) {
         yield JoinTourStateFailure(e, event.tourId);
       }
@@ -40,6 +41,7 @@ class JoinTourBloc extends Bloc<JoinTourEvent, JoinTourState> {
         yield JoinTourStateLoading(event.postId);
         await _repository.tour.leave(event.postId);
         yield JoinTourStateSuccess(event.postId, true);
+        yield JoinTourInitial();
       } catch (e) {
         yield JoinTourStateFailure(e, event.postId);
       }

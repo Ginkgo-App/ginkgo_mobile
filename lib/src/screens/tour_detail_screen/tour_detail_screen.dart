@@ -45,8 +45,16 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
         .add(TourReviewsEventFetch(tourId: widget.args.simpleTour.id));
   }
 
-  _onJoinTour() {}
+  _onJoinTour() {
+    JoinTourBloc().add(JoinTourEventJoin(widget.args.simpleTour.id));
+    JoinTourBloc().waitOne([JoinTourStateSuccess],
+        throwStates: [JoinTourStateFailure]).then((value) {
+      showErrorMessage('Tham gia thành công.\nVui lòng đợi duyệt');
+      _fetchData();
+    });
+  }
 
+  @override
   dispose() {
     _tourDetailBloc.close();
     _tourMembersBloc.close();
@@ -70,11 +78,20 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                   _tourDetailBloc.tour.canJoin(currentUser)
               ? Padding(
                   padding: const EdgeInsets.all(10.0),
-                  child: PrimaryButton(
-                    title: Strings.button.takePartInNow,
-                    width: double.maxFinite,
-                    onPressed: _onJoinTour,
-                  ),
+                  child: BlocBuilder(
+                      bloc: JoinTourBloc(),
+                      builder: (context, state) {
+                        if (state is JoinTourStateFailure) {
+                          showErrorMessage(state.error.toString());
+                        }
+
+                        return PrimaryButton(
+                          title: Strings.button.takePartInNow,
+                          width: double.maxFinite,
+                          isLoading: state is JoinTourStateLoading,
+                          onPressed: _onJoinTour,
+                        );
+                      }),
                 )
               : null,
           body: ListView(
