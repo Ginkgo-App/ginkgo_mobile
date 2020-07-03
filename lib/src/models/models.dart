@@ -38,6 +38,8 @@ objectMapping() {
     SimpleUser: () => SimpleUser(),
     Tour: () => Tour(),
     TourInfo: () => TourInfo(),
+    Timeline: () => Timeline(),
+    TimelineDetail: () => TimelineDetail(),
     SimpleTour: () => SimpleTour(),
     Place: () => Place(),
     Post: () => Post(),

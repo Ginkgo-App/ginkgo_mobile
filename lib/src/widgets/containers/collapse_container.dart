@@ -28,7 +28,6 @@ class _CollapseContainerState extends State<CollapseContainer>
     with SingleTickerProviderStateMixin {
   final key = GlobalKey();
   final GlobalKey childKey = GlobalKey();
-  // CollapseController controller;
   AnimationController animController;
   bool isCollapsing = true;
   double minHeight = 0;

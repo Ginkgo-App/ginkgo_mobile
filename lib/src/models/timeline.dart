@@ -13,7 +13,7 @@ class Timeline with Mappable {
     map('Id', id, (v) => id = v);
     map('Day', day, (v) => day = v, DateTimeTransform());
     map('Description', descrirption, (v) => descrirption = v);
-    map<Timeline>(
+    map<TimelineDetail>(
         'TimelineDetails', timelineDetails, (v) => timelineDetails = v);
   }
 }

@@ -22,7 +22,7 @@ class TourDetailStateFailure extends TourDetailState {
   TourDetailStateFailure(this.error);
 
   @override
-  String toString() => '$runtimeType $error';
+  String toString() => '$runtimeType ${error.stackTrace}';
 }
 
 class TourDetailStateLoadMoreFailure extends TourDetailState {

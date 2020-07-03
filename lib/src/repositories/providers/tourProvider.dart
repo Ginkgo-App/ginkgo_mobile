@@ -4,7 +4,7 @@ class TourProvider {
   final _client = ApiClient();
 
   Future<Tour> getDetail(int tourId) async {
-    final result = await _client.connect(ApiMethod.GET, Api.tour(tourId));
+    final result = await _client.connect<Tour>(ApiMethod.GET, Api.tour(tourId));
 
     return result;
   }

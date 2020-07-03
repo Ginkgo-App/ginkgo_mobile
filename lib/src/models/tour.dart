@@ -91,8 +91,11 @@ class Tour with Mappable {
     map<String>('Services', services, (v) => services = v);
     map('TourInfo', tourInfo,
         (v) => tourInfo = Mapper.fromJson(v).toObject<TourInfo>());
-    map('Createby', createBy,
-        (v) => createBy = Mapper.fromJson(v).toObject<SimpleUser>());
+    map(
+        'CreateBy',
+        createBy,
+        (v) => createBy =
+            v != null ? Mapper.fromJson(v).toObject<SimpleUser>() : null);
     map('JoinAt', joinAt, (v) => joinAt = v, DateTimeTransform());
     map('AcceptedAt', acceptedAt, (v) => acceptedAt = v, DateTimeTransform());
   }
