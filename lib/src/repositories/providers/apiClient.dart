@@ -140,7 +140,7 @@ class ApiClient {
           print(pen('Data: ${data ?? jsonEncode(body)}'));
         }
         if (response?.data is Map && response.data['Data'] is List) {
-          inspect(response.data['Data']);
+          print(pen('Response: ${response.data['Data']}'));
         }
       }
 

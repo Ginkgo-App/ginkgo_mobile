@@ -54,6 +54,11 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
     });
   }
 
+  _onReview(Tour tour) {
+    Navigators.appNavigator.currentState.pushNamed(Routes.createPost,
+        arguments: CreatePostScreenArgs(tour: tour));
+  }
+
   @override
   dispose() {
     _tourDetailBloc.close();
@@ -74,25 +79,36 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
           appBar: BackAppBar(
             title: 'Chi tiết chuyến đi',
           ),
-          bottomNavigationBar: state is TourDetailStateSuccess &&
-                  _tourDetailBloc.tour.canJoin(currentUser)
-              ? Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: BlocBuilder(
-                      bloc: JoinTourBloc(),
-                      builder: (context, state) {
-                        if (state is JoinTourStateFailure) {
-                          showErrorMessage(state.error.toString());
-                        }
+          bottomNavigationBar: state is TourDetailStateSuccess
+              ? (_tourDetailBloc.tour.canJoin(currentUser)
+                  ? Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: BlocBuilder(
+                          bloc: JoinTourBloc(),
+                          builder: (context, state) {
+                            if (state is JoinTourStateFailure) {
+                              showErrorMessage(state.error.toString());
+                            }
 
-                        return PrimaryButton(
-                          title: Strings.button.takePartInNow,
-                          width: double.maxFinite,
-                          isLoading: state is JoinTourStateLoading,
-                          onPressed: _onJoinTour,
-                        );
-                      }),
-                )
+                            return PrimaryButton(
+                              title: Strings.button.takePartInNow,
+                              width: double.maxFinite,
+                              isLoading: state is JoinTourStateLoading,
+                              onPressed: _onJoinTour,
+                            );
+                          }),
+                    )
+                  : (_tourDetailBloc.tour.canReview(currentUser)
+                      ? Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: PrimaryButton(
+                            title: 'Viết đánh giá',
+                            width: double.maxFinite,
+                            isLoading: state is JoinTourStateLoading,
+                            onPressed: () => _onReview(_tourDetailBloc.tour),
+                          ),
+                        )
+                      : null))
               : null,
           body: ListView(
             children: <Widget>[
@@ -135,7 +151,8 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                           isLoading: state is TourDetailStateLoading,
                           timelines: _tourDetailBloc.tour?.timelines,
                         ),
-                      _buildReviews(),
+                      if (_tourDetailBloc.tour?.status == TourStatus.ended)
+                        _buildReviews(),
                     ],
                   ),
                 ),
@@ -234,6 +251,12 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
                 return ErrorIndicator(
                   moreErrorDetail: state.error.toString(),
                   onReload: _fetchReview,
+                );
+              } else if (state is TourReviewsStateSuccess &&
+                  state.reviews.pagination.totalElement == 0) {
+                return NotFoundWidget(
+                  message: 'Chưa có đánh giá!',
+                  showBorderBox: false,
                 );
               }
 

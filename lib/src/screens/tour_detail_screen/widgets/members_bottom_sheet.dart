@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:ginkgo_mobile/src/blocs/manage_tour_member/manage_tour_members_bloc.dart';
 import 'package:ginkgo_mobile/src/blocs/tour_members/tour_members_bloc.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
@@ -11,6 +12,7 @@ import 'package:ginkgo_mobile/src/utils/designColor.dart';
 import 'package:ginkgo_mobile/src/widgets/buttons/friend_buttons/friend_buttons.dart';
 import 'package:ginkgo_mobile/src/widgets/errorWidgets/errorIndicator.dart';
 import 'package:ginkgo_mobile/src/widgets/errorWidgets/not_found_widget.dart';
+import 'package:ginkgo_mobile/src/widgets/errorWidgets/showErrorMessage.dart';
 import 'package:ginkgo_mobile/src/widgets/spacingRow.dart';
 import 'package:ginkgo_mobile/src/widgets/widgets.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
@@ -19,13 +21,19 @@ class MembersBottomSheet {
   final BuildContext context;
   final int tourId;
   final bool isHost;
+  final Function onChange;
 
-  MembersBottomSheet(this.context, {@required this.tourId, this.isHost = false})
-      : assert(tourId != null);
+  MembersBottomSheet(
+    this.context, {
+    @required this.tourId,
+    this.isHost = false,
+    this.onChange,
+  }) : assert(tourId != null);
 
   Future show() async {
     final TourMembersBloc tourMembersBloc = TourMembersBloc(
-        10, tourId, isHost ? TourMemberType.none : TourMemberType.accepted);
+        0, tourId, isHost ? TourMemberType.none : TourMemberType.accepted)
+      ..add(TourMembersEventFetch());
 
     await showSlidingBottomSheet(context, builder: (context) {
       return SlidingSheetDialog(
@@ -66,58 +74,49 @@ class MembersBottomSheet {
           );
         },
         builder: (context, state) {
-          final data = List.generate(
-            10,
-            (index) => TourMember(
-              avatar: MultiSizeImage('https://i.imgur.com/ePEkVUYb.jpg'),
-              id: 1,
-              job: 'an khong ngoi roi',
-              name: 'Ăn hại',
-              tourCount: 15,
-              friendType: FriendType.accepted,
-              acceptedAt: DateTime.now().subtract(Duration(days: 2)),
-              joinAt: DateTime.now().subtract(Duration(days: 3)),
-            ),
-          );
           return Container(
             margin: const EdgeInsets.only(top: 10),
             child: BlocBuilder(
                 bloc: tourMembersBloc,
                 builder: (context, state) {
-                  return ListView(
+                  if (state is TourMembersStateSuccess &&
+                      tourMembersBloc.memberList.pagination.totalElement == 0)
+                    return NotFoundWidget(
+                      showBorderBox: false,
+                      message: 'Chưa ai tham gia!',
+                    );
+                  else if (state is TourMembersStateFailure)
+                    return ErrorIndicator(
+                      moreErrorDetail: state.error.toString(),
+                      onReload: () =>
+                          tourMembersBloc.add(TourMembersEventLoadMore(true)),
+                    );
+
+                  List<TourMember> data = List.generate(
+                      tourMembersBloc.memberList.data.length > 0
+                          ? tourMembersBloc.memberList.data.length
+                          : 5,
+                      (index) => null);
+                  if (state is TourMembersStateSuccess) {
+                    data = tourMembersBloc.memberList.data;
+                  }
+
+                  return ListView.builder(
+                    itemCount: data.length,
                     itemExtent: null,
                     padding: EdgeInsets.zero,
                     physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    children: <Widget>[
-                      if (state is TourMembersStateSuccess &&
-                          tourMembersBloc.memberList.pagination.totalElement ==
-                              0)
-                        NotFoundWidget(
-                          showBorderBox: false,
-                          message: 'Chưa ai tham gia!',
-                        )
-                      else
-                        ListView.builder(
-                          itemCount: data.length,
-                          itemExtent: null,
-                          padding: EdgeInsets.zero,
-                          physics: NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemBuilder: (context, i) {
-                            return _TourMemberItem(
-                              tourMember: data[i],
-                              isHost: isHost,
-                            );
-                          },
+                    itemBuilder: (context, i) {
+                      return BlocProvider.value(
+                        value: tourMembersBloc.manageTourMembersBloc,
+                        child: _TourMemberItem(
+                          tourMember: data[i],
+                          isHost: isHost,
+                          tourId: tourId,
                         ),
-                      if (state is TourMembersStateFailure)
-                        ErrorIndicator(
-                          moreErrorDetail: state.error.toString(),
-                          onReload: () => tourMembersBloc
-                              .add(TourMembersEventLoadMore(true)),
-                        )
-                    ],
+                      );
+                    },
                   );
                 }),
           );
@@ -132,8 +131,10 @@ class MembersBottomSheet {
 class _TourMemberItem extends StatelessWidget {
   final TourMember tourMember;
   final bool isHost;
+  final int tourId;
 
-  const _TourMemberItem({Key key, this.tourMember, this.isHost = false})
+  const _TourMemberItem(
+      {Key key, this.tourMember, this.isHost = false, this.tourId})
       : super(key: key);
 
   @override
@@ -148,44 +149,59 @@ class _TourMemberItem extends StatelessWidget {
         ),
         child: Skeleton(
           enabled: tourMember == null,
-          child: SpacingRow(
-            spacing: 10,
-            children: <Widget>[
-              ClipRRect(
-                borderRadius: BorderRadius.circular(5),
-                child: SkeletonItem(
-                  child: CachedNetworkImage(
-                    imageUrl: tourMember?.avatar?.mediumThumb,
-                    width: 100,
-                    height: 100,
-                    placeholder: (c, _) => Image.asset(
-                      Assets.images.defaultAvatar,
+          child: IntrinsicHeight(
+            child: SpacingRow(
+              spacing: 10,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(5),
+                  child: SkeletonItem(
+                    child: CachedNetworkImage(
+                      imageUrl: tourMember?.avatar?.mediumThumb ?? '',
                       width: 100,
                       height: 100,
+                      placeholder: (c, _) => Image.asset(
+                        Assets.images.defaultAvatar,
+                        width: 100,
+                        height: 100,
+                      ),
+                      fit: BoxFit.cover,
                     ),
-                    fit: BoxFit.cover,
                   ),
                 ),
-              ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    Text(tourMember?.displayName,
-                        style: context.textTheme.bodyText1),
-                    Text(tourMember?.job, style: context.textTheme.bodyText2),
-                  ],
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      SkeletonItem(
+                        child: Text(tourMember?.displayName ?? '',
+                            style: context.textTheme.bodyText1),
+                      ),
+                      const SizedBox(height: 10),
+                      SkeletonItem(
+                        child: Text(tourMember?.job ?? '',
+                            style: context.textTheme.bodyText2),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              if (isHost ?? true)
-                _BlueMemberButton(
-                  isMember: tourMember.isMember,
-                  onPressed: () => _showMenuBottomSheet(context, tourMember),
-                )
-              else
-                BlueFriendButton(user: tourMember),
-              SizedBox(width: 5),
-            ],
+                if ((isHost ?? false) &&
+                    BlocProvider.of<ManageTourMembersBloc>(context) != null)
+                  _BlueMemberButton(
+                    isMember: tourMember?.isMember ?? false,
+                    onPressed: () => _showMenuBottomSheet(
+                        context,
+                        tourMember,
+                        tourId,
+                        BlocProvider.of<ManageTourMembersBloc>(context)),
+                  )
+                else
+                  BlueFriendButton(user: tourMember),
+                SizedBox(width: 5),
+              ],
+            ),
           ),
         ),
       ),
@@ -236,7 +252,8 @@ class _BlueMemberButton extends StatelessWidget {
   }
 }
 
-_showMenuBottomSheet(BuildContext context, TourMember tourMember) {
+_showMenuBottomSheet(BuildContext context, TourMember tourMember, int tourId,
+    ManageTourMembersBloc manageTourMembersBloc) {
   showSlidingBottomSheet(
     context,
     builder: (context) {
@@ -245,51 +262,83 @@ _showMenuBottomSheet(BuildContext context, TourMember tourMember) {
         duration: const Duration(milliseconds: 200),
         builder: (context, state) {
           return Material(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                if (!tourMember.isMember)
-                  {
-                    'text': 'Xét duyệt ${tourMember.displayName}',
-                    'onPressed': () {
-                      Navigator.pop(context);
+            child: BlocListener(
+              bloc: manageTourMembersBloc,
+              listener: (context, state) {
+                if (state is ManageTourMembersStateFailure &&
+                    state.tourId == tourId) {
+                  showErrorMessage(state.error.toString());
+                } else if (state is ManageTourMembersStateSuccess &&
+                    state.tourId == tourId) {
+                  Navigator.pop(context);
+                }
+              },
+              child: BlocBuilder(
+                  bloc: manageTourMembersBloc,
+                  builder: (context, state) {
+                    if (state is ManageTourMembersStateLoading &&
+                        state.tourId == tourId) {
+                      return LoadingIndicator(
+                          color: context.colorScheme.primary);
                     }
-                  },
-                if (!tourMember.isMember)
-                  {
-                    'text': 'Từ chối ${tourMember.displayName}',
-                    'onPressed': () {
-                      Navigator.pop(context);
-                    }
-                  },
-                if (tourMember.isMember)
-                  {
-                    'text':
-                        'Loại ${tourMember.displayName} khỏi danh sách tham gia',
-                    'onPressed': () {
-                      Navigator.pop(context);
-                    }
-                  },
-              ]
-                  .map<Widget>(
-                    (e) => FlatButton(
-                      child:
-                          Text(e['text'], style: context.textTheme.bodyText2),
-                      color: context.colorScheme.background,
-                      highlightColor: DesignColor.darkestWhite,
-                      padding: EdgeInsets.symmetric(vertical: 20),
-                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      onPressed: e['onPressed'],
-                    ),
-                  )
-                  .toList()
-                  .addBetweenEvery(
-                    Container(
-                      height: 0.5,
-                      margin: EdgeInsets.symmetric(horizontal: 10),
-                      color: DesignColor.lightestBlack,
-                    ),
-                  ),
+
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        if (!tourMember.isMember)
+                          {
+                            'text': 'Xét duyệt ${tourMember.displayName}',
+                            'onPressed': () {
+                              manageTourMembersBloc.add(
+                                  ManageTourMembersEventAccept(
+                                      tourMember.id, tourId));
+                              showErrorMessage('Đang xử lý...');
+                            }
+                          },
+                        if (!tourMember.isMember)
+                          {
+                            'text': 'Từ chối ${tourMember.displayName}',
+                            'onPressed': () {
+                              manageTourMembersBloc.add(
+                                  ManageTourMembersEventRemove(
+                                      tourMember.id, tourId));
+                              showErrorMessage('Đang xử lý...');
+                            }
+                          },
+                        if (tourMember.isMember)
+                          {
+                            'text':
+                                'Loại ${tourMember.displayName} khỏi danh sách tham gia',
+                            'onPressed': () {
+                              manageTourMembersBloc.add(
+                                  ManageTourMembersEventRemove(
+                                      tourMember.id, tourId));
+                              showErrorMessage('Đang xử lý...');
+                            }
+                          },
+                      ]
+                          .map<Widget>(
+                            (e) => FlatButton(
+                              child: Text(e['text'],
+                                  style: context.textTheme.bodyText2),
+                              color: context.colorScheme.background,
+                              highlightColor: DesignColor.darkestWhite,
+                              padding: EdgeInsets.symmetric(vertical: 20),
+                              materialTapTargetSize:
+                                  MaterialTapTargetSize.shrinkWrap,
+                              onPressed: e['onPressed'],
+                            ),
+                          )
+                          .toList()
+                          .addBetweenEvery(
+                            Container(
+                              height: 0.5,
+                              margin: EdgeInsets.symmetric(horizontal: 10),
+                              color: DesignColor.lightestBlack,
+                            ),
+                          ),
+                    );
+                  }),
             ),
           );
         },

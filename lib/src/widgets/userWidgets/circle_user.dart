@@ -52,7 +52,9 @@ class CircleUser extends StatelessWidget {
                   ),
                 ),
               ),
-              SkeletonItem(child: BlueFriendButton(user: user))
+              if (user == null ||
+                  !CurrentUserBloc().isCurrentUser(simpleUser: user))
+                SkeletonItem(child: BlueFriendButton(user: user))
             ],
           ),
         ),

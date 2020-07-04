@@ -23,4 +23,10 @@ class _TourRepository {
   Future join(int tourId) => _tourProvider.join(tourId);
 
   Future leave(int tourId) => _tourProvider.leave(tourId);
+
+  Future acceptMember(int tourId, int userId) =>
+      _tourProvider.acceptMember(tourId, userId);
+
+  Future removeMember(int tourId, int userId) =>
+      _tourProvider.removeMember(tourId, userId);
 }

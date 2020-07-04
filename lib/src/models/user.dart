@@ -87,7 +87,7 @@ class User with Mappable {
     map('TourCount', tourCount, (v) => tourCount = v);
     map<List<SocialProvider>>(
         'SocialProviders', socialProviders, (v) => socialProviders = v);
-    map('FrienType', friendType, (v) => friendType = v, FriendTypeTransform());
+    map('FriendType', friendType, (v) => friendType = v, FriendTypeTransform());
   }
 }
 

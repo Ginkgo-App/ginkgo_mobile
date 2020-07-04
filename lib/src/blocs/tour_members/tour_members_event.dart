@@ -17,3 +17,5 @@ class TourMembersEventLoadMore extends TourMembersEvent {
 
   TourMembersEventLoadMore(this.force);
 }
+
+class TourMembersEventOnChange extends TourMembersEvent {}

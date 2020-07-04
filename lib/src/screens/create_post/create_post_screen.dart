@@ -31,7 +31,8 @@ class _ComposeTweetReplyPageState extends State<CreatePostScreen> {
   TextEditingController _contentController;
 
   bool get _isReply =>
-      _args != null && (_args.comment != null || _args.post != null);
+      _args != null &&
+      (_args.comment != null || _args.post != null || _args.tour != null);
 
   @override
   void initState() {
@@ -44,7 +45,7 @@ class _ComposeTweetReplyPageState extends State<CreatePostScreen> {
 
   _onSubmit() {
     FocusScope.of(context).unfocus();
-    if (!_isReply) {
+    if (!_isReply || _args.tour != null) {
       final postToPost = PostToPost(
         content: _contentController.text,
         images: _images.map((e) => e.file).toList(),
@@ -313,7 +314,7 @@ class _ReplyCard extends StatelessWidget {
                         borderColor: context.colorScheme.primary,
                         color: context.colorScheme.primary,
                         starCount: 5,
-                        rating: 3,
+                        rating: data.rating.toDouble(),
                         onRatingChanged: data.onRatingChanged,
                       ),
                     ),

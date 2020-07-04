@@ -98,4 +98,18 @@ class TourProvider {
       Api.tour(tourId) + '/leave',
     );
   }
+
+  Future acceptMember(int tourId, int userId) async {
+    await _client.normalConnect(
+      ApiMethod.POST,
+      Api.tour(tourId) + '/accept/' + userId.toString(),
+    );
+  }
+
+  Future removeMember(int tourId, int userId) async {
+    await _client.normalConnect(
+      ApiMethod.POST,
+      Api.tour(tourId) + '/remove/' + userId.toString(),
+    );
+  }
 }

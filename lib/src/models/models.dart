@@ -44,5 +44,6 @@ objectMapping() {
     Place: () => Place(),
     Post: () => Post(),
     Comment: () => Comment(),
+    TourMember: () => TourMember(),
   };
 }

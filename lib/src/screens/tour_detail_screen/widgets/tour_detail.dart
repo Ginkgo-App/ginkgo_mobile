@@ -38,6 +38,12 @@ class TourDetail extends StatelessWidget {
                   style:
                       context.textTheme.bodyText1.copyWith(color: Colors.green),
                 ),
+              if (tour?.status == TourStatus.ended)
+                Text(
+                  'Đã kết thúc',
+                  style: context.textTheme.bodyText1
+                      .copyWith(color: Colors.redAccent),
+                ),
               if (tour?.status == TourStatus.ended && tour?.rating != null)
                 Rating(rating: tour.rating),
               if (isLoading || tour?.createBy != null)
