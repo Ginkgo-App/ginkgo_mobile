@@ -64,7 +64,7 @@ class TourDetailWidget extends StatelessWidget {
                     text: tour != null &&
                             tour.startDay != null &&
                             tour.endDay != null
-                        ? '${tour?.startDay?.toDifferentDayNight(tour.endDay)} (${tour?.startDay?.toVietnameseFormat()} - ${tour?.endDay?.toVietnameseFormat()})'
+                        ? '${TotalDayNight(totalDay: tour?.totalDay, totalNight: tour?.totalNight)} (${tour?.startDay?.toVietnameseFormat()} - ${tour?.endDay?.toVietnameseFormat()})'
                         : ''),
               if (showTotalMember)
                 _buildRowIcon(context,

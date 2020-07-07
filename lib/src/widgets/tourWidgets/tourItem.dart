@@ -62,7 +62,14 @@ class TourItem extends StatelessWidget {
                   child: CupertinoButton(
                     minSize: 0,
                     padding: EdgeInsets.symmetric(vertical: 8),
-                    onPressed: () {},
+                    onPressed: () {
+                      if (tour != null) {
+                        onPressed?.call(tour) ??
+                            Navigators.appNavigator.currentState.pushNamed(
+                                Routes.tourDetail,
+                                arguments: TourDetailScreenArgs(tour));
+                      }
+                    },
                     child: Text('Tham gia ngay'),
                   ),
                 )

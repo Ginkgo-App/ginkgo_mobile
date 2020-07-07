@@ -17,8 +17,12 @@ class PostDetailEventChangeLike extends PostDetailEvent {
 
 class PostDetailEventChangeComment extends PostDetailEvent {
   final bool isIncrease;
+  final Comment comment; // Dùng cho khi add comment
 
-  PostDetailEventChangeComment({this.isIncrease = true});
+  PostDetailEventChangeComment({
+    this.isIncrease = true,
+    this.comment,
+  });
 
   @override
   String toString() => '$runtimeType $isIncrease';

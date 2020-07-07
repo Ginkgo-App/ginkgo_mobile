@@ -26,7 +26,8 @@ class PostDetailBloc extends Bloc<PostDetailEvent, PostDetailState> {
 
     postCommentBloc.listen((state) {
       if (state is PostCommentStateCommentSuccess) {
-        this.add(PostDetailEventChangeComment(isIncrease: true));
+        this.add(PostDetailEventChangeComment(
+            isIncrease: true, comment: state.newComment));
       }
     });
   }
@@ -51,6 +52,9 @@ class PostDetailBloc extends Bloc<PostDetailEvent, PostDetailState> {
       yield PostDetailStateHaveChange();
     } else if (event is PostDetailEventChangeComment) {
       _post.totalComment += (event.isIncrease ? 1 : -1);
+      if (event.comment != null) {
+        _post.featuredComment = event.comment;
+      }
       yield PostDetailStateHaveChange();
     }
   }

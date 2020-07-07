@@ -122,6 +122,8 @@ class SimpleTour with Mappable {
   List<MultiSizeImage> _images;
   SimpleUser host;
   double price;
+  int totalDay;
+  int totalNight;
   double rating;
   List<SimpleUser> friends;
   TourInfo tourInfo;
@@ -137,6 +139,8 @@ class SimpleTour with Mappable {
     List<MultiSizeImage> images,
     this.host,
     this.price,
+    this.totalDay,
+    this.totalNight,
     this.rating,
     this.friends,
   }) : _images = images;
@@ -155,6 +159,8 @@ class SimpleTour with Mappable {
     }, MultiSizeImageTransform());
     map('Price', price, (v) => price = v);
     map('Rating', rating, (v) => rating = v);
+    map('TotalDay', totalDay, (v) => totalDay = v);
+    map('TotalNight', totalNight, (v) => totalNight = v);
     map<SimpleUser>('Friends', friends, (v) => friends = v);
     map(
         'TourInfo',
