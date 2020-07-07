@@ -2,14 +2,18 @@ library post_widgets;
 
 import 'package:base/base.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:ginkgo_mobile/src/app.dart';
 import 'package:ginkgo_mobile/src/blocs/currentUser/current_user_bloc.dart';
 import 'package:ginkgo_mobile/src/blocs/delete_post/delete_post_bloc.dart';
 import 'package:ginkgo_mobile/src/blocs/like_post/like_post_bloc.dart';
 import 'package:ginkgo_mobile/src/blocs/post_detail/post_detail_bloc.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
+import 'package:ginkgo_mobile/src/navigators.dart';
+import 'package:ginkgo_mobile/src/screens/screens.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/utils/designColor.dart';
 import 'package:ginkgo_mobile/src/utils/strings.dart';
@@ -142,20 +146,26 @@ class _PostWidgetState extends State<PostWidget> {
         children: <Widget>[
           Expanded(
             flex: 1,
-            child: Container(
-              padding: const EdgeInsets.only(top: 4),
-              decoration: BoxDecoration(
-                  color: context.colorScheme.background,
-                  borderRadius: BorderRadius.circular(90)),
-              child: !widget.showAuthorAvatar
-                  ? SvgPicture.asset(post?.icon ?? '', height: 24)
-                  : AspectRatio(
-                      aspectRatio: 1,
-                      child: Avatar(
-                        imageUrl: post?.author?.avatar?.smallThumb ?? '',
-                        size: 40,
+            child: GestureDetector(
+              onTap: () {
+                Navigators.appNavigator.currentState.pushNamed(Routes.user,
+                    arguments: UserScreenArgs(post.author));
+              },
+              child: Container(
+                padding: const EdgeInsets.only(top: 4),
+                decoration: BoxDecoration(
+                    color: context.colorScheme.background,
+                    borderRadius: BorderRadius.circular(90)),
+                child: !widget.showAuthorAvatar
+                    ? SvgPicture.asset(post?.icon ?? '', height: 24)
+                    : AspectRatio(
+                        aspectRatio: 1,
+                        child: Avatar(
+                          imageUrl: post?.author?.avatar?.smallThumb ?? '',
+                          size: 40,
+                        ),
                       ),
-                    ),
+              ),
             ),
           ),
           const SizedBox(width: 6),
@@ -258,12 +268,18 @@ class _PostWidgetState extends State<PostWidget> {
                 .compareTo(Duration(minutes: 1)) <
             0
         : false;
+    final authorOnTab = TapGestureRecognizer()
+      ..onTap = () {
+        Navigators.appNavigator.currentState
+            .pushNamed(Routes.user, arguments: UserScreenArgs(post.author));
+      };
+
     final authorName = post?.author?.displayName ?? '';
 
     switch (post?.type) {
       case PostType.normal:
         textSpans = [
-          TextSpan(text: authorName),
+          TextSpan(text: authorName, recognizer: authorOnTab),
           TextSpan(
             text: Strings.post?.postAPost(isJust: isJust),
             style: TextStyle(fontWeight: FontWeight.normal),
@@ -272,7 +288,7 @@ class _PostWidgetState extends State<PostWidget> {
         break;
       case PostType.image:
         textSpans = [
-          TextSpan(text: authorName),
+          TextSpan(text: authorName, recognizer: authorOnTab),
           TextSpan(
             text: Strings.post?.postAImage(isJust: isJust),
             style: TextStyle(fontWeight: FontWeight.normal),
@@ -281,7 +297,7 @@ class _PostWidgetState extends State<PostWidget> {
         break;
       case PostType.images:
         textSpans = [
-          TextSpan(text: authorName),
+          TextSpan(text: authorName, recognizer: authorOnTab),
           TextSpan(
             text: Strings.post?.postImages(isJust: isJust),
             style: TextStyle(fontWeight: FontWeight.normal),
@@ -290,7 +306,7 @@ class _PostWidgetState extends State<PostWidget> {
         break;
       case PostType.tourJustCreated:
         textSpans = [
-          TextSpan(text: authorName),
+          TextSpan(text: authorName, recognizer: authorOnTab),
           TextSpan(
             text: Strings.post?.createATour(isJust: isJust),
             style: TextStyle(fontWeight: FontWeight.normal),
@@ -299,7 +315,7 @@ class _PostWidgetState extends State<PostWidget> {
         break;
       case PostType.tourCreated:
         textSpans = [
-          TextSpan(text: authorName),
+          TextSpan(text: authorName, recognizer: authorOnTab),
           TextSpan(
             text: Strings.post?.createATour(),
             style: TextStyle(fontWeight: FontWeight.normal),
@@ -308,7 +324,7 @@ class _PostWidgetState extends State<PostWidget> {
         break;
       case PostType.rating:
         textSpans = [
-          TextSpan(text: authorName),
+          TextSpan(text: authorName, recognizer: authorOnTab),
           TextSpan(
             text: Strings.post?.reviewTitle,
             style: TextStyle(fontWeight: FontWeight.normal),
