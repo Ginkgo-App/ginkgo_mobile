@@ -35,6 +35,7 @@ CHUNK_SIZE=50
 TMP_DIR="/tmp"
 DEBUG=0
 QUIET=0
+OAUTH_ACCESS_TOKEN=""
 SHOW_PROGRESSBAR=0
 SKIP_EXISTING_FILES=0
 ERROR_STATUS=0
@@ -87,8 +88,12 @@ if [[ ! -d "$TMP_DIR" ]]; then
 fi
 
 #Look for optional config file parameter
-while getopts ":qpskdhf:x:" opt; do
+while getopts ":a:qpskdhf:x:" opt; do
     case $opt in
+
+    a)
+      OAUTH_ACCESS_TOKEN=$OPTARG
+    ;;
 
     f)
       CONFIG_FILE=$OPTARG
@@ -1334,7 +1339,7 @@ function db_share
 
     #Check
     if grep -q "^HTTP/[12].* 200" "$RESPONSE_FILE"; then
-        print " > Share link: "
+        # print " > Share link: "
         SHARE_LINK=$(sed -n 's/.*"url": "\([^"]*\).*/\1/p' "$RESPONSE_FILE")
         echo "$SHARE_LINK"
     else
@@ -1352,7 +1357,7 @@ function get_Share
 
     #Check
     if grep -q "^HTTP/[12].* 200" "$RESPONSE_FILE"; then
-        print " > Share link: "
+        # print " > Share link: "
         SHARE_LINK=$(sed -n 's/.*"url": "\([^"]*\).*/\1/p' "$RESPONSE_FILE")
         echo "$SHARE_LINK"
     else
@@ -1507,60 +1512,61 @@ function db_sha_local
 ################
 #### SETUP  ####
 ################
-
 #CHECKING FOR AUTH FILE
-if [[ -e $CONFIG_FILE ]]; then
+if [[ $OAUTH_ACCESS_TOKEN == "" ]]; then
+    if [[ -e $CONFIG_FILE ]]; then
 
-    #Loading data... and change old format config if necesary.
-    source "$CONFIG_FILE" 2>/dev/null || {
-        sed -i'' 's/:/=/' "$CONFIG_FILE" && source "$CONFIG_FILE" 2>/dev/null
-    }
+        #Loading data... and change old format config if necesary.
+        source "$CONFIG_FILE" 2>/dev/null || {
+            sed -i'' 's/:/=/' "$CONFIG_FILE" && source "$CONFIG_FILE" 2>/dev/null
+        }
 
-    #Checking if it's still a v1 API configuration file
-    if [[ $APPKEY != "" || $APPSECRET != "" ]]; then
-        echo -ne "The config file contains the old deprecated v1 oauth tokens.\n"
-        echo -ne "Please run again the script and follow the configuration wizard. The old configuration file has been backed up to $CONFIG_FILE.old\n"
-        mv "$CONFIG_FILE" "$CONFIG_FILE".old
-        exit 1
-    fi
+        #Checking if it's still a v1 API configuration file
+        if [[ $APPKEY != "" || $APPSECRET != "" ]]; then
+            echo -ne "The config file contains the old deprecated v1 oauth tokens.\n"
+            echo -ne "Please run again the script and follow the configuration wizard. The old configuration file has been backed up to $CONFIG_FILE.old\n"
+            mv "$CONFIG_FILE" "$CONFIG_FILE".old
+            exit 1
+        fi
 
-    #Checking loaded data
-    if [[ $OAUTH_ACCESS_TOKEN = "" ]]; then
-        echo -ne "Error loading data from $CONFIG_FILE...\n"
-        echo -ne "It is recommended to run $0 unlink\n"
+        #Checking loaded data
+        if [[ $OAUTH_ACCESS_TOKEN = "" ]]; then
+            echo -ne "Error loading data from $CONFIG_FILE...\n"
+            echo -ne "It is recommended to run $0 unlink\n"
+            remove_temp_files
+            exit 1
+        fi
+
+    #NEW SETUP...
+    else
+
+        echo -ne "\n This is the first time you run this script, please follow the instructions:\n\n"
+        echo -ne " 1) Open the following URL in your Browser, and log in using your account: $APP_CREATE_URL\n"
+        echo -ne " 2) Click on \"Create App\", then select \"Dropbox API app\"\n"
+        echo -ne " 3) Now go on with the configuration, choosing the app permissions and access restrictions to your DropBox folder\n"
+        echo -ne " 4) Enter the \"App Name\" that you prefer (e.g. MyUploader$RANDOM$RANDOM$RANDOM)\n\n"
+
+        echo -ne " Now, click on the \"Create App\" button.\n\n"
+
+        echo -ne " When your new App is successfully created, please click on the Generate button\n"
+        echo -ne " under the 'Generated access token' section, then copy and paste the new access token here:\n\n"
+
+        echo -ne " # Access token: "
+        read -r OAUTH_ACCESS_TOKEN
+
+        echo -ne "\n > The access token is $OAUTH_ACCESS_TOKEN. Looks ok? [y/N]: "
+        read -r answer
+        if [[ $answer != "y" ]]; then
+            remove_temp_files
+            exit 1
+        fi
+
+        echo "OAUTH_ACCESS_TOKEN=$OAUTH_ACCESS_TOKEN" > "$CONFIG_FILE"
+        echo "   The configuration has been saved."
+
         remove_temp_files
-        exit 1
+        exit 0
     fi
-
-#NEW SETUP...
-else
-
-    echo -ne "\n This is the first time you run this script, please follow the instructions:\n\n"
-    echo -ne " 1) Open the following URL in your Browser, and log in using your account: $APP_CREATE_URL\n"
-    echo -ne " 2) Click on \"Create App\", then select \"Dropbox API app\"\n"
-    echo -ne " 3) Now go on with the configuration, choosing the app permissions and access restrictions to your DropBox folder\n"
-    echo -ne " 4) Enter the \"App Name\" that you prefer (e.g. MyUploader$RANDOM$RANDOM$RANDOM)\n\n"
-
-    echo -ne " Now, click on the \"Create App\" button.\n\n"
-
-    echo -ne " When your new App is successfully created, please click on the Generate button\n"
-    echo -ne " under the 'Generated access token' section, then copy and paste the new access token here:\n\n"
-
-    echo -ne " # Access token: "
-    read -r OAUTH_ACCESS_TOKEN
-
-    echo -ne "\n > The access token is $OAUTH_ACCESS_TOKEN. Looks ok? [y/N]: "
-    read -r answer
-    if [[ $answer != "y" ]]; then
-        remove_temp_files
-        exit 1
-    fi
-
-    echo "OAUTH_ACCESS_TOKEN=$OAUTH_ACCESS_TOKEN" > "$CONFIG_FILE"
-    echo "   The configuration has been saved."
-
-    remove_temp_files
-    exit 0
 fi
 
 ################

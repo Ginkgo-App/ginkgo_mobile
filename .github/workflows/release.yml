@@ -28,7 +28,7 @@ jobs:
           CERTIFICATES_PASSWORD: ${{ secrets.CERTIFICATES_PASSWORD }}
 
       - run: flutter pub get
-      - run: flutter build ios --release --no-codesign
+      - run: flutter build ios
 
       - name: Select Xcode
         run: sudo xcode-select -switch /Applications/Xcode_11.5.app
@@ -46,6 +46,16 @@ jobs:
           artifacts: "build/app/outputs/apk/release/*.apk,build/ipa/*.ipa"
           token: ${{ secrets.TOKEN }}
 
+      - name: Upload dropbox
+        id: dropbox
+        run: |
+          .github/workflows/dropbox_uploader.sh -a ${{ secrets.DROPBOX_TOKEN }} upload "build/app/outputs/apk/release/app-release.apk" "${{ github.ref }}.apk"
+          .github/workflows/dropbox_uploader.sh -a ${{ secrets.DROPBOX_TOKEN }} upload "build/ipa/Runner.ipa" "${{ github.ref }}.ipa"
+          export APK_URL=$(.github/workflows/dropbox_uploader.sh -a ${{ secrets.DROPBOX_TOKEN }} share "${{ github.ref }}.apk")
+          export IPA_URL=$(.github/workflows/dropbox_uploader.sh -a ${{ secrets.DROPBOX_TOKEN }} share "${{ github.ref }}.apk")
+          echo "::set-env name=APK_URL::$APK_URL"
+          echo "::set-env name=IPA_URL::$IPA_URL"
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -56,8 +66,8 @@ jobs:
           release_name: Release ${{ github.ref }}
           body: |
             ### Android
-            ![Android](https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://github.com/Ginkgo-App/ginkgo_mobile/releases/download/${{ github.ref }}/app-release.apk)
+            ![Android](https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${{ steps.dropbox.outputs.APK_URL }})
             ### IOS
-            ![IOS](https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://github.com/Ginkgo-App/ginkgo_mobile/releases/download/${{ github.ref }}/Runner.ipa)
+            ![IOS](https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${{ steps.dropbox.outputs.IPA_URL }})
           draft: false
           prerelease: false
