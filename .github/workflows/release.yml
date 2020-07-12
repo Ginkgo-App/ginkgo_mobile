@@ -50,27 +50,16 @@ jobs:
           .github/workflows/dropbox_uploader.sh -da ${{ secrets.DROPBOX_TOKEN }} upload "build/ipa/Runner.ipa" "${{ steps.get_version.outputs.VERSION }}.ipa"
           export APK_URL=$(.github/workflows/dropbox_uploader.sh -a ${{ secrets.DROPBOX_TOKEN }} share "${{ steps.get_version.outputs.VERSION }}.apk")
           export IPA_URL=$(.github/workflows/dropbox_uploader.sh -a ${{ secrets.DROPBOX_TOKEN }} share "${{ steps.get_version.outputs.VERSION }}.ipa")
-          echo "::set-env name=APK_URL::$APK_URL"
-          echo "::set-env name=IPA_URL::$IPA_URL"
-
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          body: |
-            ### Android
-            ![Android](https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${{ steps.dropbox.outputs.APK_URL }})
-            ### IOS
-            ![IOS](https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${{ steps.dropbox.outputs.IPA_URL }})
-          draft: false
-          prerelease: false
+          echo "::set-output name=APK_URL::$APK_URL"
+          echo "::set-output name=IPA_URL::$IPA_URL"
 
       - name: Release artifacts
         uses: ncipollo/release-action@v1
         with:
           artifacts: "build/app/outputs/apk/release/*.apk,build/ipa/*.ipa"
           token: ${{ secrets.TOKEN }}
+          body: |
+            ### Android
+            ![Android](https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${{ steps.dropbox.outputs.APK_URL }})
+            ### IOS
+            ![IOS](https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${{ steps.dropbox.outputs.IPA_URL }})
