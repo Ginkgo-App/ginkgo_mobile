@@ -1,0 +1,22 @@
+name: test-dropbox
+
+on:
+  push:
+    branches:
+      - test-dropbox
+
+jobs:
+  build:
+    name: test-dropbox
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Upload dropbox
+        id: dropbox
+        run: |
+          .github/workflows/dropbox_uploader.sh -da ${{ secrets.DROPBOX_TOKEN }} upload "README.md" "README.md"
+          export URL=$(.github/workflows/dropbox_uploader.sh -a ${{ secrets.DROPBOX_TOKEN }} share "README.md")
+          echo "::set-env name=URL::$URL"
+
+      - name: Echo url
+        run: echo $URL
