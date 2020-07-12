@@ -28,7 +28,7 @@ jobs:
           CERTIFICATES_PASSWORD: ${{ secrets.CERTIFICATES_PASSWORD }}
 
       - run: flutter pub get
-      - run: flutter build ios
+      - run: flutter build ios --release --no-codesign
 
       - name: Select Xcode
         run: sudo xcode-select -switch /Applications/Xcode_11.5.app
@@ -45,3 +45,19 @@ jobs:
         with:
           artifacts: "build/app/outputs/apk/release/*.apk,build/ipa/*.ipa"
           token: ${{ secrets.TOKEN }}
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            ### Android
+            ![Android](https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://github.com/Ginkgo-App/ginkgo_mobile/releases/download/${{ github.ref }}/app-release.apk)
+            ### IOS
+            ![IOS](https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://github.com/Ginkgo-App/ginkgo_mobile/releases/download/${{ github.ref }}/Runner.ipa)
+          draft: false
+          prerelease: false
