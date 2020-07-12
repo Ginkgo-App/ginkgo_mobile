@@ -10,6 +10,9 @@ jobs:
     name: Build APK & IOS
     runs-on: macos-latest
     steps:
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
       - uses: actions/checkout@v1
       - uses: actions/setup-java@v1
         with:
@@ -49,10 +52,10 @@ jobs:
       - name: Upload dropbox
         id: dropbox
         run: |
-          .github/workflows/dropbox_uploader.sh -a ${{ secrets.DROPBOX_TOKEN }} upload "build/app/outputs/apk/release/app-release.apk" "${{ github.ref }}.apk"
-          .github/workflows/dropbox_uploader.sh -a ${{ secrets.DROPBOX_TOKEN }} upload "build/ipa/Runner.ipa" "${{ github.ref }}.ipa"
-          export APK_URL=$(.github/workflows/dropbox_uploader.sh -a ${{ secrets.DROPBOX_TOKEN }} share "${{ github.ref }}.apk")
-          export IPA_URL=$(.github/workflows/dropbox_uploader.sh -a ${{ secrets.DROPBOX_TOKEN }} share "${{ github.ref }}.apk")
+          .github/workflows/dropbox_uploader.sh -da ${{ secrets.DROPBOX_TOKEN }} upload "build/app/outputs/apk/release/app-release.apk" "${{ steps.get_version.outputs.VERSION }}.apk"
+          .github/workflows/dropbox_uploader.sh -da ${{ secrets.DROPBOX_TOKEN }} upload "build/ipa/Runner.ipa" "${{ steps.get_version.outputs.VERSION }}.ipa"
+          export APK_URL=$(.github/workflows/dropbox_uploader.sh -a ${{ secrets.DROPBOX_TOKEN }} share "${{ steps.get_version.outputs.VERSION }}.apk")
+          export IPA_URL=$(.github/workflows/dropbox_uploader.sh -a ${{ secrets.DROPBOX_TOKEN }} share "${{ steps.get_version.outputs.VERSION }}.apk")
           echo "::set-env name=APK_URL::$APK_URL"
           echo "::set-env name=IPA_URL::$IPA_URL"
 
