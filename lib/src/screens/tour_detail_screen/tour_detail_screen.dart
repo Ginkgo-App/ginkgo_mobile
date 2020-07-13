@@ -31,8 +31,12 @@ class _TourDetailScreenState extends State<TourDetailScreen> {
 
   _fetchData() {
     _tourDetailBloc.add(TourDetailEventFetch(widget.args.simpleTour.id));
-    _fetchMembers();
-    _fetchReview();
+    _tourDetailBloc.waitOne([TourDetailStateSuccess]).then((value) {
+      _fetchMembers();
+      _tourMembersBloc.waitOne([TourMembersStateSuccess]).then((value) {
+        _fetchReview();
+      });
+    });
   }
 
   _fetchMembers() {

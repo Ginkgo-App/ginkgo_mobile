@@ -314,7 +314,7 @@ class _ReplyCard extends StatelessWidget {
                         borderColor: context.colorScheme.primary,
                         color: context.colorScheme.primary,
                         starCount: 5,
-                        rating: data.rating.toDouble(),
+                        rating: data.rating?.toDouble() ?? 3,
                         onRatingChanged: data.onRatingChanged,
                       ),
                     ),
