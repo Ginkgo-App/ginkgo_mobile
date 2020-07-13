@@ -123,8 +123,8 @@ class ApiClient {
           showErrorMessage(
               'Phiên đăng nhập hết hạn. \nVui lòng đăng nhập lại.');
           AuthBloc().add(AuthEventLogout());
-        } else
-          throw e.message;
+        }
+        throw e.message;
       } finally {
         AnsiPen pen = new AnsiPen()..blue(bold: true);
         print(pen(enumToString(method) + ': $url'));

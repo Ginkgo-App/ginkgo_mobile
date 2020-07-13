@@ -8,7 +8,7 @@ extension BlocExtension<Event, State> on Bloc<Event, State> {
     final listener = this.listen((state) {
       if (states.contains(state.runtimeType)) {
         _waitState.complete();
-      } else if (throwStates.contains(state)) {
+      } else if (throwStates.contains(state.runtimeType)) {
         _waitState.completeError(state);
       }
     });

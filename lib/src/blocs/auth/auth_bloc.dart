@@ -50,6 +50,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Stream<AuthState> _startApp(AuthEventStartApp event) async* {
     if (await _repository.auth.isAuth) {
+      yield AuthStateLoading();
       CurrentUserBloc().add(CurrentUserEventFetch());
       try {
         await CurrentUserBloc().waitOne([CurrentUserStateSuccess],
