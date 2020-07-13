@@ -17,6 +17,8 @@ class Routes {
   static const manageTour = '/manage-tour';
   static const placeDetail = '/place-detail';
   static const chooseTourInfo = '/choose-tour-info';
+  static const createPost = '/create-post-screen';
+  static const postDetail = '/post-detail';
 }
 
 RouteFactory _onGenerateRoute = (RouteSettings settings) {
@@ -26,7 +28,9 @@ RouteFactory _onGenerateRoute = (RouteSettings settings) {
     case Routes.register:
       return _generateMaterialRoute(RegisterScreen());
     case Routes.home:
-      return _generateMaterialRoute(HomeScreen());
+      return _generateMaterialRoute(HomeScreen(
+        args: settings.arguments,
+      ));
     case Routes.profile:
       return _generateMaterialRoute(ProfileScreen());
     case Routes.user:
@@ -54,13 +58,23 @@ RouteFactory _onGenerateRoute = (RouteSettings settings) {
     case Routes.createTourInfo:
       return _generateMaterialRoute(CreateTourInfoScreen());
     case Routes.manageTour:
-      return _generateMaterialRoute(ManageTourScreen());
+      return _generateMaterialRoute(ManageTourScreen(
+        args: settings.arguments,
+      ));
     case Routes.placeDetail:
       return _generateMaterialRoute(PlaceDetailScreen(
         args: settings.arguments,
       ));
     case Routes.chooseTourInfo:
       return _generateMaterialRoute(ChooseTourInfoScreen());
+    case Routes.createPost:
+      return _generateMaterialRoute(CreatePostScreen(
+        args: settings.arguments,
+      ));
+    case Routes.postDetail:
+      return _generateMaterialRoute(PostDetailScreen(
+        args: settings.arguments,
+      ));
     default:
       return _generateMaterialRoute(SplashScreen());
   }

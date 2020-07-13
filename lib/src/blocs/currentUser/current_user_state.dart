@@ -10,10 +10,10 @@ class CurrentUserInitial extends CurrentUserState {}
 
 class CurrentUserStateLoading extends CurrentUserState {}
 
-class CurrentUserStageSuccess extends CurrentUserState {
+class CurrentUserStateSuccess extends CurrentUserState {
   final User currentUser;
 
-  CurrentUserStageSuccess(this.currentUser);
+  CurrentUserStateSuccess(this.currentUser);
 
   @override
   String toString() => '$runtimeType ${currentUser.toJsonString()}';

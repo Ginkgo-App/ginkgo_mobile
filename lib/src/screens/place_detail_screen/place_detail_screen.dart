@@ -96,43 +96,61 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen> {
   }
 
   buildTopImage() {
-    return Container(
-      child: Stack(
-        children: <Widget>[
-          ImageWidget(
-            _args?.place?.images != null && _args.place.images.length > 0
-                ? _args.place.images[0].largeThumb
-                : '',
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.width * 200 / 375,
-          ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              padding: EdgeInsets.all(10),
-              color: Colors.black.withOpacity(0.8),
-              child: RichText(
-                text: TextSpan(
-                    style: context.textTheme.subtitle1.copyWith(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                    children: [
-                      TextSpan(text: _args.place.name ?? ''),
-                      if (_args.place?.createBy?.displayName != null)
-                        TextSpan(
+    return GestureDetector(
+      onTap: () {
+        PhotoViewDialog(context,
+                images: _args?.place?.images ?? [],
+                descriptions: _args?.place?.images != null
+                    ? List.generate(
+                        _args?.place?.images?.length,
+                        (index) => PhotoViewDescription(
+                              title: _args?.place?.name,
+                              subTitle: _args?.place?.address,
+                              content: _args?.place?.description,
+                            ))
+                    : null)
+            .show();
+      },
+      child: Container(
+        child: Stack(
+          children: <Widget>[
+            ImageWidget(
+              _args?.place?.images != null && _args.place.images.length > 0
+                  ? _args.place.images[0].largeThumb
+                  : '',
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.width * 200 / 375,
+            ),
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                padding: EdgeInsets.all(10),
+                color: Colors.black.withOpacity(0.8),
+                child: RichText(
+                  maxLines: 1,
+                  text: TextSpan(
+                      style: context.textTheme.subtitle1.copyWith(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                      children: [
+                        TextSpan(text: _args.place.name ?? ''),
+                        if (_args.place?.createBy?.displayName != null)
+                          TextSpan(
                             text:
                                 ' - Thông tin cung cấp bởi ${_args.place?.createBy?.displayName}',
-                            style: TextStyle(fontSize: 14))
-                      else if (_args.place?.description != null)
-                        TextSpan(
-                            text: ' - ${_args.place?.description}',
-                            style: TextStyle(fontSize: 14))
-                    ]),
+                            style: TextStyle(fontSize: 14),
+                          )
+                        else if (_args.place?.description != null)
+                          TextSpan(
+                              text: ' - ${_args.place?.description}',
+                              style: TextStyle(fontSize: 14))
+                      ]),
+                ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
@@ -144,7 +162,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen> {
       collapseHeight: 405,
       headerUnderline: true,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
+        padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
         child: PlaceList(isLoading: isLoading, places: data),
       ),
     );

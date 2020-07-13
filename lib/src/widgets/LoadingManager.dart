@@ -20,7 +20,7 @@ class LoadingManager {
         );
         showCount++;
       } catch (e) {
-        debugPrint(e);
+        debugPrint(e.toString());
       }
     } else {
       showCount++;

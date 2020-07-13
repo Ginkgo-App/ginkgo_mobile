@@ -57,7 +57,7 @@ class PlaceList extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        SizedBox(height: itemHeight / 4),
+                        SizedBox(height: itemHeight / 6),
                         ..._places
                             .asMap()
                             .map(
@@ -99,7 +99,18 @@ class PlaceList extends StatelessWidget {
               top: 5,
               child: CupertinoButton(
                 onPressed: () {
-                  PhotoViewDialog(context, images: place?.images).show();
+                  PhotoViewDialog(
+                    context,
+                    images: place?.images,
+                    descriptions: List.generate(
+                      place?.images?.length,
+                      (index) => PhotoViewDescription(
+                        title: place.name,
+                        subTitle: place.address,
+                        content: place.description,
+                      ),
+                    ),
+                  ).show();
                 },
                 minSize: 0,
                 padding: EdgeInsets.zero,
@@ -125,7 +136,7 @@ class PlaceList extends StatelessWidget {
 
   Widget buildPlaceDetail(BuildContext context, Place place, double height) {
     return Container(
-      height: height / 2,
+      height: height / 3 * 2,
       padding: const EdgeInsets.all(10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -141,12 +152,17 @@ class PlaceList extends StatelessWidget {
           ),
           if (isLoading) const SizedBox(height: 3),
           if (isLoading || place?.address != null || place?.description != null)
-            SkeletonItem(
-              child: Text(
-                place?.address ?? place?.description ?? '',
-                textAlign: TextAlign.left,
-                style: context.textTheme.caption
-                    .copyWith(color: DesignColor.tinyItems),
+            Flexible(
+              fit: FlexFit.loose,
+              child: SkeletonItem(
+                child: Text(
+                  place?.address ?? place?.description ?? '',
+                  textAlign: TextAlign.left,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 3,
+                  style: context.textTheme.caption
+                      .copyWith(color: DesignColor.tinyItems),
+                ),
               ),
             ),
         ],

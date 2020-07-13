@@ -14,7 +14,7 @@ class AppConfig extends InheritedWidget {
     @required this.flavorName,
     @required this.apiUrl,
     @required Widget child,
-  }) : super(child: child) {
+  }) : super(child: Material(child: child)) {
     _globalKey = child.key;
   }
 

@@ -1,0 +1,19 @@
+{
+    "sqltools.connections": [
+        {
+            "database": "d62rhb1vq6bv3b",
+            "driver": "PostgreSQL",
+            "name": "Ginkgo Heroku",
+            "password": "ab8808b230344fe26bd0309b04b237524b14b7158815e1135ed85cd17d02ab1c",
+            "pgOptions": {
+                "ssl": {
+                    "requestCert": true
+                }
+            },
+            "port": 5432,
+            "previewLimit": 50,
+            "server": "ec2-23-20-129-146.compute-1.amazonaws.com",
+            "username": "sidrvjzwfummub"
+        }
+    ]
+}

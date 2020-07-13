@@ -4,13 +4,13 @@ class TourProvider {
   final _client = ApiClient();
 
   Future<Tour> getDetail(int tourId) async {
-    final result = await _client.connect(ApiMethod.GET, Api.tour(tourId));
+    final result = await _client.connect<Tour>(ApiMethod.GET, Api.tour(tourId));
 
     return result;
   }
 
   Future<Pagination<TourMember>> getMembers(int tourId,
-      {int page, int pageSize, String keyword, TourMembersType type}) async {
+      {int page, int pageSize, String keyword, TourMemberType type}) async {
     final response = await _client
         .normalConnect(ApiMethod.GET, Api.tour(tourId) + '/members', query: {
       'page': (page ?? 1).toString(),
@@ -35,9 +35,9 @@ class TourProvider {
   }
 
   Future<Pagination<SimpleTour>> getList(
-      {int page, int pageSize, String keyword, PlaceSearchType type}) async {
+      {int page, int pageSize, String keyword, TourListType type}) async {
     final response =
-        await _client.normalConnect(ApiMethod.GET, Api.places(null), query: {
+        await _client.normalConnect(ApiMethod.GET, Api.tour(null), query: {
       'page': (page ?? 1).toString(),
       'pageSize': pageSize?.toString() ?? 0,
       if (type != null) 'type': enumToString(type),
@@ -48,8 +48,8 @@ class TourProvider {
         response.data['Pagination'], response.data['Data']);
   }
 
-  Future<Tour> create(TourToPost tourToPost) async {
-    final result = await _client.connect<Tour>(
+  Future<int> create(TourToPost tourToPost) async {
+    final response = await _client.normalConnect(
       ApiMethod.POST,
       Api.tourInTourInfo(tourToPost.tourInfoId),
       body: {
@@ -70,7 +70,7 @@ class TourProvider {
                 'TimelineDetails': timeline.timelineDetails
                     .map(
                       (detail) => {
-                        'PlaceId': detail.place.id,
+                        if (detail.place != null) 'PlaceId': detail.place.id,
                         'Time': detail.time,
                         'Detail': detail.detail,
                       },
@@ -82,6 +82,34 @@ class TourProvider {
       },
     );
 
-    return result;
+    return response.data['Data'][0]['Id'];
+  }
+
+  Future join(int tourId) async {
+    await _client.normalConnect(
+      ApiMethod.POST,
+      Api.tour(tourId) + '/join',
+    );
+  }
+
+  Future leave(int tourId) async {
+    await _client.normalConnect(
+      ApiMethod.POST,
+      Api.tour(tourId) + '/leave',
+    );
+  }
+
+  Future acceptMember(int tourId, int userId) async {
+    await _client.normalConnect(
+      ApiMethod.POST,
+      Api.tour(tourId) + '/accept/' + userId.toString(),
+    );
+  }
+
+  Future removeMember(int tourId, int userId) async {
+    await _client.normalConnect(
+      ApiMethod.POST,
+      Api.tour(tourId) + '/remove/' + userId.toString(),
+    );
   }
 }

@@ -7,13 +7,15 @@ abstract class TourMembersEvent {
 }
 
 class TourMembersEventFetch extends TourMembersEvent {
-  final int tourId;
-  final TourMembersType type;
   final String keyword;
 
-  TourMembersEventFetch({@required this.tourId, this.keyword, this.type});
-
-  @override
-  String toString() =>
-      '$runtimeType TourId: $tourId Type: $type Keyword: $keyword';
+  TourMembersEventFetch([this.keyword = '']);
 }
+
+class TourMembersEventLoadMore extends TourMembersEvent {
+  final bool force;
+
+  TourMembersEventLoadMore(this.force);
+}
+
+class TourMembersEventOnChange extends TourMembersEvent {}

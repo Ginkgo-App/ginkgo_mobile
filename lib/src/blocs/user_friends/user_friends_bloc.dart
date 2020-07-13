@@ -25,11 +25,14 @@ class UserFriendsBloc extends Bloc<UserFriendsEvent, UserFriendsState> {
         isCurrentUser: true,
       );
 
-  factory UserFriendsBloc.forOtherUser(SimpleUser user) => UserFriendsBloc._(
-        friendType: FriendType.accepted,
-        user: user,
-        isCurrentUser: false,
-      );
+  factory UserFriendsBloc.forOtherUser(SimpleUser user) {
+    assert(user != null);
+    return UserFriendsBloc._(
+      friendType: FriendType.accepted,
+      user: user,
+      isCurrentUser: false,
+    );
+  }
 
   List<SimpleUser> get friendList => _friendList;
   Pagination<SimpleUser> _pagination;

@@ -1,6 +1,7 @@
 part of 'spincircle_bottom_bar.dart';
 
 class SCBottomBarDetails {
+  final TabController tabController;
   Color backgroundColor;
   double elevation;
   List<Color> circleColors;
@@ -14,17 +15,19 @@ class SCBottomBarDetails {
   double bnbHeight;
 
   SCBottomBarDetails(
-      {@required this.items,
-      @required this.circleItems,
-      this.bnbHeight,
-      this.actionButtonDetails,
-      this.activeIconTheme,
-      this.iconTheme,
-      this.activeTitleStyle,
-      this.titleStyle,
-      this.circleColors,
-      this.backgroundColor,
-      this.elevation});
+    this.tabController, {
+    @required this.items,
+    @required this.circleItems,
+    this.bnbHeight,
+    this.actionButtonDetails,
+    this.activeIconTheme,
+    this.iconTheme,
+    this.activeTitleStyle,
+    this.titleStyle,
+    this.circleColors,
+    this.backgroundColor,
+    this.elevation,
+  });
 }
 
 class SCActionButtonDetails {

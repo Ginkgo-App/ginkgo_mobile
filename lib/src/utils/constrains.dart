@@ -8,4 +8,9 @@ class Constains {
     Assets.images.defaultImage,
     fit: BoxFit.cover,
   );
+
+  static Widget defaultAvatar = Image.asset(
+    Assets.images.defaultAvatar,
+    fit: BoxFit.cover,
+  );
 }

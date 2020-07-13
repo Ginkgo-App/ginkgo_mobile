@@ -1,5 +1,6 @@
 import 'package:base/base.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ginkgo_mobile/src/helper/dateTimeExt.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
@@ -26,12 +27,25 @@ class TourDetail extends StatelessWidget {
       child: Skeleton(
         enabled: isLoading,
         child: Padding(
-          padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+          padding: EdgeInsets.symmetric(horizontal: 10),
           child: SpacingColumn(
             spacing: 5,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              if (tour?.rating != null) Rating(rating: tour.rating),
+              if (tour?.status == TourStatus.ongoing)
+                Text(
+                  'Đang diễn ra',
+                  style:
+                      context.textTheme.bodyText1.copyWith(color: Colors.green),
+                ),
+              if (tour?.status == TourStatus.ended)
+                Text(
+                  'Đã kết thúc',
+                  style: context.textTheme.bodyText1
+                      .copyWith(color: Colors.redAccent),
+                ),
+              if (tour?.status == TourStatus.ended && tour?.rating != null)
+                Rating(rating: tour.rating),
               if (isLoading || tour?.createBy != null)
                 _buildRowIcon(context,
                     icon: Assets.icons.planner,
@@ -111,7 +125,8 @@ class TourDetail extends StatelessWidget {
       {String icon, String text, RichText richText}) {
     return Container(
       color: context.colorScheme.background,
-      margin: EdgeInsets.only(right: text.isExistAndNotEmpty ? 0 : 40, top: 5),
+      margin:
+          EdgeInsets.only(right: text.isExistAndNotEmpty ? 0 : 40, bottom: 5),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[

@@ -1,27 +1,65 @@
-name: Release APK
+name: Release
 
 on:
   push:
     tags:
-    - '*'
+      - "*"
 
 jobs:
   build:
-    name: Build APK
-    runs-on: ubuntu-latest
+    name: Build APK & IOS
+    runs-on: macos-latest
     steps:
-    - uses: actions/checkout@v1
-    - uses: actions/setup-java@v1
-      with:
-        java-version: '12.x'
-    - uses: subosito/flutter-action@v1
-      with:
-        channel: 'stable'
-        flutter-version: '1.17.3'
-    - run: flutter pub get
-    - run: flutter build apk --release
-    - name: Create a Release APK
-      uses: ncipollo/release-action@v1
-      with:
-        artifacts: "build/app/outputs/apk/release/*.apk"
-        token: ${{ secrets.TOKEN }}
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
+      - uses: actions/checkout@v1
+      - uses: actions/setup-java@v1
+        with:
+          java-version: "12.x"
+      - uses: subosito/flutter-action@v1
+        with:
+          channel: "stable"
+          flutter-version: "1.17.4"
+
+      - name: Install GPG
+        run: brew install gnupg
+      - name: Decrypt large secret
+        run: ./ios/import_certifications.sh
+        env:
+          GPG_PASSWORD: ${{ secrets.GPG_PASSWORD }}
+          CERTIFICATES_PASSWORD: ${{ secrets.CERTIFICATES_PASSWORD }}
+
+      - run: flutter pub get
+      - run: flutter build ios
+
+      - name: Select Xcode
+        run: sudo xcode-select -switch /Applications/Xcode_11.5.app
+      - name: Build archive
+        run: xcodebuild -sdk iphoneos -workspace ios/Runner.xcworkspace -configuration Release -scheme Runner -derivedDataPath Runner -archivePath build/Runner.xcarchive archive
+      - name: Export IPA
+        run: xcodebuild -exportArchive -archivePath build/Runner.xcarchive -exportOptionsPlist ios/ExportOptions.plist -exportPath build/ipa
+
+      - name: Build APK
+        run: flutter build apk
+
+      - name: Upload dropbox
+        id: dropbox
+        run: |
+          .github/workflows/dropbox_uploader.sh -da ${{ secrets.DROPBOX_TOKEN }} upload "build/app/outputs/apk/release/app-release.apk" "${{ steps.get_version.outputs.VERSION }}.apk"
+          .github/workflows/dropbox_uploader.sh -da ${{ secrets.DROPBOX_TOKEN }} upload "build/ipa/Runner.ipa" "${{ steps.get_version.outputs.VERSION }}.ipa"
+          export APK_URL=$(.github/workflows/dropbox_uploader.sh -a ${{ secrets.DROPBOX_TOKEN }} share "${{ steps.get_version.outputs.VERSION }}.apk")
+          export IPA_URL=$(.github/workflows/dropbox_uploader.sh -a ${{ secrets.DROPBOX_TOKEN }} share "${{ steps.get_version.outputs.VERSION }}.ipa")
+          echo "::set-output name=APK_URL::$APK_URL"
+          echo "::set-output name=IPA_URL::$IPA_URL"
+
+      - name: Release artifacts
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "build/app/outputs/apk/release/*.apk,build/ipa/*.ipa"
+          token: ${{ secrets.TOKEN }}
+          body: |
+            ### Android
+            ![Android](https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${{ steps.dropbox.outputs.APK_URL }})
+            ### IOS
+            ![IOS](https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${{ steps.dropbox.outputs.IPA_URL }})

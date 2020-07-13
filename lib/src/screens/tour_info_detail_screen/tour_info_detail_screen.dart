@@ -72,32 +72,32 @@ class _TourInfoDetailScreenState extends State<TourInfoDetailScreen>
               ),
             );
           }
-          return SingleChildScrollView(
+          return ListView(
             controller: scrollController,
-            child: Column(
-              children: <Widget>[
-                SliderWidget(
-                    images: tourInfoDetailBloc.tourInfo?.images ??
-                        widget.args.tourInfo?.images ??
-                        []),
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 10),
-                  child: SpacingColumn(
-                    spacing: 10,
-                    isSpacingHeadTale: true,
-                    children: <Widget>[
-                      TourInfoDetail(
-                        tourInfo:
-                            tourInfoDetailBloc.tourInfo ?? widget.args.tourInfo,
-                      ),
-                      TourListBox(
-                        tourList: tourInfoDetailBloc.tourList?.data,
-                      ),
-                    ],
-                  ),
+            itemExtent: null,
+            shrinkWrap: true,
+            children: <Widget>[
+              SliderWidget(
+                  images: tourInfoDetailBloc.tourInfo?.images ??
+                      widget.args.tourInfo?.images ??
+                      []),
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 10),
+                child: SpacingColumn(
+                  spacing: 10,
+                  isSpacingHeadTale: true,
+                  children: <Widget>[
+                    TourInfoDetail(
+                      tourInfo:
+                          tourInfoDetailBloc.tourInfo ?? widget.args.tourInfo,
+                    ),
+                    TourListBox(
+                      tourList: tourInfoDetailBloc.tourList?.data,
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           );
         },
       ),

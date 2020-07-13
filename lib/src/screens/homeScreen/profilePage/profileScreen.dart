@@ -5,30 +5,39 @@ class ProfileScreen extends StatefulWidget {
   _ProfileScreenState createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
-  final CurrentUserBloc _bloc = CurrentUserBloc();
+class _ProfileScreenState extends State<ProfileScreen>
+    with LoadDataScreenMixin, LoadmoreMixin {
+  final CurrentUserBloc _currentUserBloc = CurrentUserBloc();
+  final PostListBloc _postListBloc = PostListBloc(3, userId: 0);
+  final GlobalKey activityBoxKey = GlobalKey(debugLabel: 'activityBoxKey');
 
-  StreamSubscription currentUserListener;
   bool editMode = false;
 
   @override
   void initState() {
     super.initState();
-    if (_bloc.currentUser == null && _bloc.state is! CurrentUserStateLoading) {
-      _fetchProfile();
-    }
-
-    currentUserListener = _bloc.listen((state) {
-      if (state is CurrentUserStateLoading) {
-        LoadingManager().show(context);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      if (_currentUserBloc.currentUser == null &&
+          _currentUserBloc.state is! CurrentUserStateLoading) {
+        loadDataController
+            .loadData()
+            .then((value) => _checkScrollToActivityBox());
       } else {
-        LoadingManager().hide(context);
+        loadDataController
+            .loadDataForWidget()
+            .then((value) => _checkScrollToActivityBox());
       }
     });
   }
 
-  _fetchProfile() {
-    _bloc.add(CurrentUserEventFetch());
+  @override
+  loadData() {
+    _currentUserBloc.add(CurrentUserEventFetch());
+    _postListBloc.add(PostListEventFetch());
+  }
+
+  onLoadMore() {
+    _postListBloc.add(PostListEventLoadMore());
   }
 
   _onChangeProfile() {
@@ -37,62 +46,79 @@ class _ProfileScreenState extends State<ProfileScreen> {
     });
   }
 
-  @override
-  void dispose() {
-    currentUserListener.cancel();
+  _checkScrollToActivityBox() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      final homeProvider = HomeProvider.of(context);
+      if (homeProvider != null && homeProvider.scrollProfileToActivityBox) {
+        Scrollable.ensureVisible(
+          activityBoxKey.currentContext,
+          duration: Duration(milliseconds: 200),
+        );
+      }
+    });
+  }
+
+  dispose() {
+    _postListBloc.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder(
-      bloc: _bloc,
+      bloc: _currentUserBloc,
       builder: (context, state) {
         User user;
-        if (state is CurrentUserStageSuccess ||
+        if (state is CurrentUserStateSuccess ||
             state is CurrentUserStateHaveChanges) {
-          user = _bloc.currentUser;
+          user = _currentUserBloc.currentUser;
         }
 
         return PrimaryScaffold(
           appBar: BackAppBar(title: user?.fullName ?? ''),
+          loadDataController: loadDataController,
           body: state is CurrentUserStateFailure
               ? ErrorIndicator(
                   moreErrorDetail: state.error,
-                  onReload: () {
-                    _bloc.add(CurrentUserEventFetch());
-                  },
+                  onReload: loadData,
                 )
-              : SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      AvatarWidget(user: user, editable: true),
-                      const SizedBox(height: 10),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        child: Column(
-                          children: <Widget>[
-                            OwnerNav(
-                              onCustomButtonPressed: () => _showMenuBottomSheet(
-                                  HomeProvider.of(context).context, user),
-                            ),
-                            const SizedBox(height: 10),
-                            AboutBox(user: user, editMode: editMode),
-                            const SizedBox(height: 10),
-                            FriendList(user: user?.toSimpleUser()),
-                            const SizedBox(height: 10),
-                            InfoBox(user: user, editMode: editMode),
-                            const SizedBox(height: 10),
-                            TourListWidget(user: user?.toSimpleUser()),
-                            const SizedBox(height: 10),
-                            ActivityBox(),
-                            const SizedBox(height: 20),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
+              : ListView(
+                  controller: scrollController,
+                  itemExtent: null,
+                  shrinkWrap: true,
+                  padding: EdgeInsets.zero,
+                  children: <Widget>[
+                    AvatarWidget(user: user, editable: true),
+                    const SizedBox(height: 10),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      child: Column(
+                        children: <Widget>[
+                          OwnerNav(
+                            onCreatePostPressed: () => Navigators
+                                .appNavigator.currentState
+                                .pushNamed(Routes.createPost),
+                            onCustomButtonPressed: () => _showMenuBottomSheet(
+                                HomeProvider.of(context).context, user),
+                          ),
+                          const SizedBox(height: 10),
+                          AboutBox(user: user, editMode: editMode),
+                          const SizedBox(height: 10),
+                          FriendList(user: user?.toSimpleUser()),
+                          const SizedBox(height: 10),
+                          InfoBox(user: user, editMode: editMode),
+                          const SizedBox(height: 10),
+                          TourListWidget(user: user?.toSimpleUser()),
+                          const SizedBox(height: 10),
+                          ActivityBox(
+                            key: activityBoxKey,
+                            postListBloc: _postListBloc,
+                          ),
+                          const SizedBox(height: 20),
+                        ],
+                      ),
+                    )
+                  ],
                 ),
         );
       },
@@ -142,7 +168,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ]
                     .map<Widget>(
                       (e) => FlatButton(
-                        child: Text(e['text'], style: context.textTheme.bodyText2),
+                        child:
+                            Text(e['text'], style: context.textTheme.bodyText2),
                         color: context.colorScheme.background,
                         highlightColor: DesignColor.darkestWhite,
                         padding: EdgeInsets.symmetric(vertical: 20),

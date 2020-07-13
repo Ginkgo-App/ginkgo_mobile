@@ -12,7 +12,10 @@ class TourListBox extends StatelessWidget {
       child: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: tourList != null && tourList.length == 0
-            ? NotFoundWidget()
+            ? NotFoundWidget(
+                showBorderBox: false,
+                message: 'Chưa có chuyến đi nào!',
+              )
             : IntrinsicHeight(
                 child: SpacingColumn(
                   spacing: 10,

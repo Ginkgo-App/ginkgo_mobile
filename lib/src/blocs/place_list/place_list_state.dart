@@ -25,5 +25,5 @@ class PlaceListStateFailure extends PlaceListState {
   PlaceListStateFailure(this.error);
 
   @override
-  String toString() => '$runtimeType ${error.stackTrace}';
+  String toString() => '$runtimeType $error';
 }

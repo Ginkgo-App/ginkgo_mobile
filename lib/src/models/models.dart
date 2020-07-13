@@ -37,8 +37,13 @@ objectMapping() {
     User: () => User(),
     SimpleUser: () => SimpleUser(),
     Tour: () => Tour(),
+    Timeline: () => Timeline(),
+    TimelineDetail: () => TimelineDetail(),
     TourInfo: () => TourInfo(),
     SimpleTour: () => SimpleTour(),
     Place: () => Place(),
+    Post: () => Post(),
+    Comment: () => Comment(),
+    TourMember: () => TourMember(),
   };
 }

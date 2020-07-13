@@ -8,11 +8,12 @@ class DateTimeTransform implements Transformable<DateTime, String> {
   DateTime fromJson(value) {
     try {
       if (value == null) return null;
-      if (value is String) return DateTime.parse(value);
+      if (value is String) return DateTime.parse(value).add(Duration(hours: 7));
       if (value is int) value = value.toDouble();
       if (value < 0) return null;
 
-      return DateTime.fromMillisecondsSinceEpoch(unit.addScale(value).toInt());
+      return DateTime.fromMillisecondsSinceEpoch(unit.addScale(value).toInt())
+          .add(Duration(hours: 7));
     } catch (e) {
       return null;
     }

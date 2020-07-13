@@ -12,8 +12,8 @@ part 'auth_state.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   static AuthBloc _authBloc = AuthBloc._();
 
-  AuthBloc._();
   factory AuthBloc() => _authBloc;
+  AuthBloc._();
 
   final Repository _repository = Repository();
 
@@ -50,8 +50,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Stream<AuthState> _startApp(AuthEventStartApp event) async* {
     if (await _repository.auth.isAuth) {
-      yield AuthStateAuthenticated();
-      _goToHome();
+      yield AuthStateLoading();
+      CurrentUserBloc().add(CurrentUserEventFetch());
+      try {
+        await CurrentUserBloc().waitOne([CurrentUserStateSuccess],
+            throwStates: [CurrentUserStateFailure]);
+        _goToHome();
+        yield AuthStateAuthenticated();
+      } catch (_) {}
     } else {
       yield AuthStateUnauthenticated();
       _goToLogin();
@@ -59,8 +65,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   Stream<AuthState> _onLogin(AuthEventAuth event) async* {
-    yield AuthStateAuthenticated();
-    _goToHome();
+    try {
+      CurrentUserBloc().add(CurrentUserEventFetch());
+      await CurrentUserBloc().waitOne([CurrentUserStateSuccess],
+          throwStates: [CurrentUserStateFailure]);
+      _goToHome();
+      yield AuthStateAuthenticated();
+    } catch (_) {}
   }
 
   Stream<AuthState> _onLogout(AuthEventLogout event) async* {
@@ -71,7 +82,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   _goToHome() {
-    CurrentUserBloc().add(CurrentUserEventFetch());
     AppConfig.navigatorKey.currentState
         .pushNamedAndRemoveUntil(Routes.home, (_) => false);
   }

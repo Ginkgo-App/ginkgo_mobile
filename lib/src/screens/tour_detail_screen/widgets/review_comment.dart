@@ -68,7 +68,7 @@ class ReviewItem extends StatelessWidget {
                             fontSize: 12),
                       ),
                     ),
-                    if (review != null) ...[
+                    if (review?.rating != null) ...[
                       const SizedBox(height: 5),
                       Rating(rating: review?.rating),
                     ],

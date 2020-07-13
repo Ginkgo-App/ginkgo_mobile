@@ -12,15 +12,19 @@ class TourItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onPressed ??
-          () {
-            Navigators.appNavigator.currentState.pushNamed(Routes.tourDetail);
-          },
+      onTap: () {
+        if (tour != null) {
+          onPressed?.call(tour) ??
+              Navigators.appNavigator.currentState.pushNamed(Routes.tourDetail,
+                  arguments: TourDetailScreenArgs(tour));
+        }
+      },
       child: Container(
         width: 240,
-        height: 300,
+        height: 350,
         child: Skeleton(
           enabled: tour == null,
+          autoContainer: true,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
@@ -50,16 +54,25 @@ class TourItem extends StatelessWidget {
                     showRating: true,
                     rowPadding: const EdgeInsets.only(left: 20),
                   )),
-              Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    border: Border.all(color: context.colorScheme.primary)),
-                child: CupertinoButton(
-                  padding: EdgeInsets.symmetric(vertical: 10),
-                  onPressed: () {},
-                  child: Text('Tham gia ngay'),
-                ),
-              )
+              if (tour != null)
+                Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      border: Border.all(color: context.colorScheme.primary)),
+                  child: CupertinoButton(
+                    minSize: 0,
+                    padding: EdgeInsets.symmetric(vertical: 8),
+                    onPressed: () {
+                      if (tour != null) {
+                        onPressed?.call(tour) ??
+                            Navigators.appNavigator.currentState.pushNamed(
+                                Routes.tourDetail,
+                                arguments: TourDetailScreenArgs(tour));
+                      }
+                    },
+                    child: Text('Tham gia ngay'),
+                  ),
+                )
             ],
           ),
         ),

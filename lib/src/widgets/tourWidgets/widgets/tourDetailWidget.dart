@@ -42,7 +42,10 @@ class TourDetailWidget extends StatelessWidget {
           child: Text(
             tour?.name ?? '',
             style: TextStyle(
-                color: textColor, fontWeight: FontWeight.bold, fontSize: 14),
+              color: textColor,
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
+            ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
@@ -61,14 +64,14 @@ class TourDetailWidget extends StatelessWidget {
                     text: tour != null &&
                             tour.startDay != null &&
                             tour.endDay != null
-                        ? '${tour.startDay.toDifferentDayNight(tour.endDay)} (${tour.startDay.toVietnameseFormat()} - ${tour.endDay.toVietnameseFormat()})'
+                        ? '${TotalDayNight(totalDay: tour?.totalDay, totalNight: tour?.totalNight)} (${tour?.startDay?.toVietnameseFormat()} - ${tour?.endDay?.toVietnameseFormat()})'
                         : ''),
               if (showTotalMember)
                 _buildRowIcon(context,
                     icon: Assets.icons.people,
                     text: tour != null ? '${tour.totalMember} người' : '',
                     richText: showFriend &&
-                            tour.friends != null &&
+                            tour?.friends != null &&
                             tour.friends.length > 0
                         ? _buildRichTextFriend(
                             context, tour.friends[0], tour.totalMember)
@@ -82,7 +85,7 @@ class TourDetailWidget extends StatelessWidget {
                               .copyWith(color: textColor),
                           children: [
                             TextSpan(
-                                text: '${tour.price.toShortMoney()}',
+                                text: tour?.price?.toShortMoney() ?? '',
                                 style: TextStyle(fontWeight: FontWeight.bold)),
                             TextSpan(text: '/người')
                           ]),
@@ -109,11 +112,14 @@ class TourDetailWidget extends StatelessWidget {
             text: friend.displayName,
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          TextSpan(text: ' và '),
-          TextSpan(
-            text: '$totalMember người khác',
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
+          if (totalMember > 1) ...[
+            TextSpan(text: ' và '),
+            TextSpan(
+              text: '${totalMember - 1} người khác',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ] else
+            TextSpan(text: ' tham gia'),
         ],
       ),
     );

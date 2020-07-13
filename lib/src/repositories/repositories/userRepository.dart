@@ -35,4 +35,8 @@ class _UserRepository {
   Future removeFriend(int userId) => _userProvider.removeFriend(userId);
 
   Future acceptFriend(int userId) => _userProvider.acceptFriend(userId);
+
+  Future<Pagination<SimpleUser>> getTopUsers(
+          {int page = 1, int pageSize = 10}) =>
+      _userProvider.getTopUsers(page: page, pageSize: pageSize);
 }

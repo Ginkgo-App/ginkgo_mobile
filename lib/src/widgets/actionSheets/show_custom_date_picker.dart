@@ -57,7 +57,7 @@ showCustomDatePicker(
                       initialDateTime: selectedDate == null ||
                               selectedDate.compareTo(maximumDate) > 0 ||
                               selectedDate.compareTo(minimumDate) < 0
-                          ? minimumDate.add(Duration(microseconds: 1))
+                          ? minimumDate?.add(Duration(microseconds: 1))
                           : selectedDate,
                       onDateTimeChanged: (DateTime newdate) {
                         selectedDate = newdate;

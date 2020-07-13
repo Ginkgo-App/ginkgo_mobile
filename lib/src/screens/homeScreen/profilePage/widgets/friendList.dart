@@ -21,8 +21,9 @@ import '../../../../app.dart';
 
 class FriendList extends StatefulWidget {
   final SimpleUser user;
+  final Function onShowAll;
 
-  const FriendList({Key key, this.user}) : super(key: key);
+  const FriendList({Key key, this.user, this.onShowAll}) : super(key: key);
 
   @override
   _FriendListState createState() => _FriendListState();
@@ -79,9 +80,13 @@ class _FriendListState extends State<FriendList> {
                     CommonOutlineButton(
                       text: 'Xem tất cả danh sách bạn bè',
                       onPressed: () {
-                        Navigators.appNavigator.currentState.pushNamed(
-                            Routes.friendListScreen,
-                            arguments: FriendListScreenArgs(widget.user));
+                        if (widget.onShowAll != null) {
+                          widget.onShowAll();
+                        } else {
+                          Navigators.appNavigator.currentState.pushNamed(
+                              Routes.friendListScreen,
+                              arguments: FriendListScreenArgs(widget.user));
+                        }
                       },
                     )
                   ] else

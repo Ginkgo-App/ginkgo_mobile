@@ -1,9 +1,16 @@
+const _FLARE_PATH = 'assets/flares/';
 const _IMAGE_PATH = 'assets/images/';
 const _ICON_PATH = 'assets/icons/';
 
 class Assets {
+  static _Flares flares = _Flares();
   static _Icon icons = _Icon();
   static _Image images = _Image();
+}
+
+class _Flares {
+  final comingSoon = _FLARE_PATH + 'coming-soon.flr';
+  final notFound = _FLARE_PATH + '404.flr';
 }
 
 class _Icon {
@@ -20,6 +27,7 @@ class _Icon {
   final comment = _ICON_PATH + 'comment.svg';
   final contributor = _ICON_PATH + 'contributor.svg';
   final datetime = _ICON_PATH + 'datetime.svg';
+  final done = _ICON_PATH + 'done.svg';
   final downArrow = _ICON_PATH + 'down-arrow.svg';
   final email = _ICON_PATH + 'email.svg';
   final endPlace = _ICON_PATH + 'end-place.svg';
@@ -35,9 +43,10 @@ class _Icon {
   final googlePlusCircle = _ICON_PATH + 'G+logo-circle.svg';
   final googlePlusSquare = _ICON_PATH + 'G+logo-square.svg';
   final groupChat = _ICON_PATH + 'group-chat.svg';
+  final heartFull = _ICON_PATH + 'heart-full.svg';
   final heartOutline = _ICON_PATH + 'heart-outline.svg';
-  final homeOutline = _ICON_PATH + 'home-outline.svg';
   final homeFull = _ICON_PATH + 'home-full.svg';
+  final homeOutline = _ICON_PATH + 'home-outline.svg';
   final introduction = _ICON_PATH + 'introduction.svg';
   final job = _ICON_PATH + 'job.svg';
   final leaf1 = _ICON_PATH + 'leaf-1.svg';
@@ -62,10 +71,13 @@ class _Icon {
   final settingOutline = _ICON_PATH + 'setting-outline.svg';
   final smile = _ICON_PATH + 'smile.svg';
   final startPlace = _ICON_PATH + 'start-place.svg';
+  final tick = _ICON_PATH + 'tick.svg';
   final tour = _ICON_PATH + 'tour.svg';
   final tripFull = _ICON_PATH + 'trip-manage-full.svg';
   final tripOutline = _ICON_PATH + 'trip-manage-outline.svg';
   final ribbon = _ICON_PATH + 'ribbon.svg';
+  final warning = _ICON_PATH + 'warning.svg';
+  final waiting = _ICON_PATH + 'waiting.svg';
 }
 
 class _Image {

@@ -87,7 +87,7 @@ class User with Mappable {
     map('TourCount', tourCount, (v) => tourCount = v);
     map<List<SocialProvider>>(
         'SocialProviders', socialProviders, (v) => socialProviders = v);
-    map('FrienType', friendType, (v) => friendType = v, FriendTypeTransform());
+    map('FriendType', friendType, (v) => friendType = v, FriendTypeTransform());
   }
 }
 
@@ -118,7 +118,7 @@ class SimpleUser with Mappable {
     map('Avatar', avatar, (v) => avatar = v, MultiSizeImageTransform());
     map('Job', job, (v) => job = v);
     map('FriendType', friendType, (v) => friendType = v, FriendTypeTransform());
-    map('TourCount', tourCount, (v) => tourCount = v);
+    map('TotalPost', tourCount, (v) => tourCount = v);
   }
 }
 

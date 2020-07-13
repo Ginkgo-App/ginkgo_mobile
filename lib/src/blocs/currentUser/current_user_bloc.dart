@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:ginkgo_mobile/src/blocs/user_friends/user_friends_bloc.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/repositories/repository.dart';
@@ -54,17 +55,17 @@ class CurrentUserBloc extends Bloc<CurrentUserEvent, CurrentUserState> {
   Stream<CurrentUserState> mapEventToState(
     CurrentUserEvent event,
   ) async* {
-    try {
-      if (event is CurrentUserEventFetch) {
+    if (event is CurrentUserEventFetch) {
+      try {
         yield CurrentUserStateLoading();
         _currentUser = await _repository.user.getMe();
-        yield CurrentUserStageSuccess(_currentUser);
-      } else if (event is CurrentUserEventOnHaveChanges) {
-        _currentUser = event.newInfo;
-        yield CurrentUserStateHaveChanges();
+        yield CurrentUserStateSuccess(_currentUser);
+      } catch (e) {
+        yield CurrentUserStateFailure(e.toString());
       }
-    } catch (e) {
-      yield CurrentUserStateFailure(e.toString());
+    } else if (event is CurrentUserEventOnHaveChanges) {
+      _currentUser = event.newInfo;
+      yield CurrentUserStateHaveChanges();
     }
   }
 }
