@@ -224,29 +224,38 @@ class _DiscoveryTabState extends State<DiscoveryTab> {
               );
             }
 
-            return SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: IntrinsicHeight(
-                child:
-                    SpacingRow(spacing: 20, isSpacingHeadTale: true, children: [
-                  ...(state is TourListStateSuccess
-                          ? tourListBloc.tourList.data
-                          : List.generate(5, (index) => null))
-                      .map(
-                        (e) => TourItem(tour: e, showFriend: showFriend),
+            final row = IntrinsicHeight(
+              child: SpacingRow(
+                  spacing: 20,
+                  isSpacingHeadTale: true,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    ...(state is TourListStateSuccess
+                            ? tourListBloc.tourList.data
+                            : List.generate(5, (index) => null))
+                        .map(
+                          (e) => TourItem(tour: e, showFriend: showFriend),
+                        )
+                        .toList(),
+                    if (state is TourListStateSuccess &&
+                        tourListBloc.tourList.canLoadmore)
+                      ViewMoreButton(
+                        onPressed: () {
+                          showErrorMessage(Strings.common.developingFeature);
+                        },
+                        width: 120,
                       )
-                      .toList(),
-                  if (state is TourListStateSuccess &&
-                      tourListBloc.tourList.canLoadmore)
-                    ViewMoreButton(
-                      onPressed: () {
-                        showErrorMessage(Strings.common.developingFeature);
-                      },
-                      width: 120,
-                    )
-                ]),
-              ),
+                  ]),
             );
+
+            return state is TourListStateSuccess &&
+                    tourListBloc.tourList.data.length == 1
+                ? row
+                : SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: row,
+                  );
           }),
     );
   }

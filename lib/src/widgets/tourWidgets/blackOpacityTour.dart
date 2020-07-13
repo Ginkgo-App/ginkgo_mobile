@@ -50,7 +50,7 @@ class BlackOpacityTour extends StatelessWidget {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(5),
                       child: CachedNetworkImage(
-                        imageUrl: image?.mediumThumb ?? '',
+                        imageUrl: image?.largeThumb ?? '',
                         fit: BoxFit.cover,
                         placeholder: (context, _) {
                           return Image.asset(
