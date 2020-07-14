@@ -40,6 +40,12 @@ class _ProfileScreenState extends State<ProfileScreen>
     _postListBloc.add(PostListEventLoadMore());
   }
 
+  _loadFriend() async {
+    _currentUserBloc.acceptedFriendsBloc.add(UserFriendsEventFirstFetch());
+    _currentUserBloc
+        .waitOne([UserFriendsStateFailure, UserFriendsStateSuccess]);
+  }
+
   _onChangeProfile() {
     setState(() {
       editMode = !editMode;
@@ -47,7 +53,8 @@ class _ProfileScreenState extends State<ProfileScreen>
   }
 
   _checkScrollToActivityBox() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      await _loadFriend();
       final homeProvider = HomeProvider.of(context);
       if (homeProvider != null && homeProvider.scrollProfileToActivityBox) {
         Scrollable.ensureVisible(
@@ -104,7 +111,11 @@ class _ProfileScreenState extends State<ProfileScreen>
                           const SizedBox(height: 10),
                           AboutBox(user: user, editMode: editMode),
                           const SizedBox(height: 10),
-                          FriendList(user: user?.toSimpleUser()),
+                          FriendList(
+                            userFriendsBloc:
+                                CurrentUserBloc().acceptedFriendsBloc,
+                            onReload: _loadFriend,
+                          ),
                           const SizedBox(height: 10),
                           InfoBox(user: user, editMode: editMode),
                           const SizedBox(height: 10),

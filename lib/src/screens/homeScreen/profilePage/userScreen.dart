@@ -18,6 +18,7 @@ class UserScreen extends StatefulWidget {
 class _UserScreenState extends State<UserScreen>
     with LoadDataScreenMixin, LoadmoreMixin {
   final UserBloc _userBloc = UserBloc();
+  UserFriendsBloc _userFriendsBloc;
   PostListBloc _postListBloc;
   UserScreenArgs args;
 
@@ -26,13 +27,26 @@ class _UserScreenState extends State<UserScreen>
     super.initState();
     args = widget.args;
 
+    _userFriendsBloc = UserFriendsBloc.forOtherUser(args?.simpleUser);
     _postListBloc = PostListBloc(3, userId: args?.simpleUser?.id);
     loadData();
   }
 
-  loadData() {
-    _userBloc.add(UserEventFetch(args?.simpleUser?.id));
+  loadData() async {
+    await _loadInfo();
+    await _loadFriend();
     _postListBloc?.add(PostListEventFetch());
+  }
+
+  _loadInfo() async {
+    _userBloc.add(UserEventFetch(args?.simpleUser?.id));
+    await _userBloc.waitOne([UserStateFailure, UserStateSuccess]);
+  }
+
+  _loadFriend() async {
+    _userFriendsBloc.add(UserFriendsEventFirstFetch());
+    await _userFriendsBloc
+        .waitOne([UserFriendsStateFailure, UserFriendsStateSuccess]);
   }
 
   onLoadMore() {
@@ -42,6 +56,7 @@ class _UserScreenState extends State<UserScreen>
   dispose() {
     _postListBloc.close();
     _userBloc.close();
+    _userFriendsBloc.close();
     super.dispose();
   }
 
@@ -88,11 +103,12 @@ class _UserScreenState extends State<UserScreen>
                           const SizedBox(height: 10),
                           if (user?.id != null) ...[
                             FriendList(
-                              user: args.simpleUser,
+                              userFriendsBloc: _userFriendsBloc,
                               onShowAll: () {
                                 showErrorMessage(
                                     Strings.common.developingFeature);
                               },
+                              onReload: _loadFriend,
                             ),
                             const SizedBox(height: 10),
                           ],

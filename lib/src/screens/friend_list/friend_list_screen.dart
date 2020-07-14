@@ -74,7 +74,7 @@ class _FriendListScreenState extends State<FriendListScreen>
     return BlocBuilder(
       bloc: bloc,
       builder: (context, state) {
-        if (state is FriendsStateSuccess && bloc.friendList.length == 0) {
+        if (state is UserFriendsStateSuccess && bloc.friendList.length == 0) {
           return NotFoundWidget(
             message: 'Hiện tại không có lời mời kết bạn nào.',
             bottom: PrimaryButton(

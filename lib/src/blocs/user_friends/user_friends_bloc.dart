@@ -58,7 +58,7 @@ class UserFriendsBloc extends Bloc<UserFriendsEvent, UserFriendsState> {
         }
         _friendList = _pagination.data;
 
-        yield FriendsStateSuccess(_pagination);
+        yield UserFriendsStateSuccess(_pagination);
       } catch (e) {
         yield UserFriendsStateFailure(e.toString());
       }
@@ -78,16 +78,16 @@ class UserFriendsBloc extends Bloc<UserFriendsEvent, UserFriendsState> {
               pageSize: Constains.DEFAULT_PAGE_SIZE);
         }
         _friendList.addAll(_pagination.data);
-        yield FriendsStateSuccess(_pagination);
+        yield UserFriendsStateSuccess(_pagination);
       } catch (e) {
         yield UserFriendsStateLoadMoreFailure(e.toString());
       }
     } else if (isCurrentUser && event is UserFriendsEventRemoveFromList) {
       friendList.removeWhere((e) => e.id == event.userId);
-      yield FriendsStateSuccess(_pagination);
+      yield UserFriendsStateSuccess(_pagination);
     } else if (isCurrentUser && event is UserFriendsEventAddToList) {
       friendList.insert(0, event.user);
-      yield FriendsStateSuccess(_pagination);
+      yield UserFriendsStateSuccess(_pagination);
     }
   }
 }
