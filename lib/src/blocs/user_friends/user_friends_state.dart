@@ -8,16 +8,14 @@ abstract class UserFriendsState {
 
 class UserFriendsInitial extends UserFriendsState {}
 
-class UserFriendsStateLoading extends UserFriendsState {
-}
+class UserFriendsStateLoading extends UserFriendsState {}
 
-class UserFriendsStateLoadingMore
-    extends UserFriendsState {}
+class UserFriendsStateLoadingMore extends UserFriendsState {}
 
-class FriendsStateSuccess extends UserFriendsState {
+class UserFriendsStateSuccess extends UserFriendsState {
   final Pagination<SimpleUser> friends;
 
-  FriendsStateSuccess(this.friends);
+  UserFriendsStateSuccess(this.friends);
 
   @override
   String toString() =>
