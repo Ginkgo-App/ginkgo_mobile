@@ -1,4 +1,6 @@
-# ginkgo_mobile
+# Ginkgo Mobile
+
+<p align="center"><img src="./assets/images/logo.png" height="300em" /></p>
 
 # Usage
 
@@ -6,7 +8,7 @@
 
 `git clone https://github.com/Ginkgo-App/ginkgo_mobile.git`
 
-`cd ginkgo_mobile
+`cd ginkgo_mobile`
 
 ### Get package
 
