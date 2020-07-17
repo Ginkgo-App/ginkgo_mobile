@@ -21,3 +21,6 @@
 ### Build
 
 `flutter build apk`
+
+# [Try app](https://github.com/Ginkgo-App/ginkgo_mobile/releases)
+
