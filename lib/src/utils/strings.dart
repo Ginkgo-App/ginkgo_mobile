@@ -64,7 +64,7 @@ class _NoData {
 class _BottomNavigator {
   final home = 'Trang chủ';
   final tour = 'Chuyến đi';
-  final profile = 'Trang cá nhân';
+  final profile = 'Cá nhân';
   final notification = 'Thông báo';
   final setting = 'Cài đặt';
 }

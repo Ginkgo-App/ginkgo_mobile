@@ -280,9 +280,9 @@ class _CreateTourInfoScreenState extends State<CreateTourInfoScreen> {
             CreateTourTextFieldBase(
               isRequired: true,
               label: 'Hình ảnh:',
-              child: SpacingRow(
+              child: Wrap(
                 spacing: 10,
-                crossAxisAlignment: CrossAxisAlignment.end,
+                runSpacing: 10,
                 children: <Widget>[
                   ...images?.map((e) => _buildImageItem(e))?.toList(),
                   GestureDetector(

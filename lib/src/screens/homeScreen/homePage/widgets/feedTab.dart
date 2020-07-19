@@ -15,7 +15,7 @@ class FeedTab extends StatefulWidget {
 }
 
 class _FeedTabState extends State<FeedTab> with LoadmoreMixin {
-  final PostListBloc postListBloc = PostListBloc(5);
+  final PostListBloc postListBloc = PostListBloc(10);
 
   initState() {
     super.initState();
@@ -90,7 +90,8 @@ class _FeedTabState extends State<FeedTab> with LoadmoreMixin {
               CommonOutlineButton(
                 onPressed: onLoadMore,
                 text: 'Xem thêm',
-              )
+              ),
+            const SizedBox(height: 30),
           ],
         );
       },
