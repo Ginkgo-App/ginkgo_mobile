@@ -138,7 +138,7 @@ class _HomeScreenState extends State<HomeScreen>
                   );
                 }),
             SCItem(
-              icon: Icon(Icons.add_comment),
+              icon: Icon(Icons.comment),
               onPressed: () {
                 showErrorMessage(Strings.common.developingFeature);
               },
