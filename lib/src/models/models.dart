@@ -29,6 +29,7 @@ part 'tourInfo.dart';
 part 'transform.dart';
 part 'user.dart';
 part 'file_asset.dart';
+part 'notification.dart';
 
 objectMapping() {
   Mappable.factories = {
@@ -45,5 +46,6 @@ objectMapping() {
     Post: () => Post(),
     Comment: () => Comment(),
     TourMember: () => TourMember(),
+    Notification: () => Notification(),
   };
 }
