@@ -2,12 +2,10 @@ library app;
 
 import 'package:base/base.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:ginkgo_mobile/src/screens/chat_list_screen/chat_list_screen.dart';
 import 'package:ginkgo_mobile/src/screens/message_screen/message_screen.dart';
 import 'package:ginkgo_mobile/src/screens/screens.dart';
 
-import 'screens/chat_list_screen/chat_list_controller.dart';
 import 'screens/screens.dart';
 
 part 'routes/profileRoutes.dart';
@@ -16,7 +14,6 @@ part 'routes/routes.dart';
 class App extends AppBase {
   @override
   Widget build(BuildContext context) {
-    Get.lazyPut(() => ChatListController());
     return GestureDetector(
       onTap: () {
         FocusScopeNode currentFocus = FocusScope.of(context);

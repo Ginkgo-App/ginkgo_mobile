@@ -11,6 +11,11 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController passwordController = TextEditingController();
   final AuthScreenBloc authScreenBloc = AuthScreenBloc();
 
+  initState() {
+    super.initState();
+    Get.lazyPut(() => ChatListController());
+  }
+
   _onLogin() {
     if (formKey.currentState.validate()) {
       FocusScope.of(context).unfocus();
@@ -84,8 +89,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             : ''),
                         Flexible(
                             child: Container(
-                          height:
-                              MediaQuery.of(context).size.height < 700 ? 40 : null,
+                          height: MediaQuery.of(context).size.height < 700
+                              ? 40
+                              : null,
                         )),
                         ..._buildSocialLogin(),
                         const SizedBox(height: 20),
