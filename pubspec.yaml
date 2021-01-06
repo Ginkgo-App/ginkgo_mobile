@@ -42,6 +42,7 @@ dependencies:
   url_launcher:
   timeago: ^2.0.26
   like_button: ^0.1.9
+  get: ^3.24.0
 
 dev_dependencies:
   flutter_test:

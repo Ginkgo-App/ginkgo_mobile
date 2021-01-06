@@ -25,6 +25,7 @@ class Repository {
   final _TourRepository tour = _TourRepository();
   final _TourInfoRepository tourInfo = _TourInfoRepository();
   final _PostRepository post = _PostRepository();
+  final ChatProvider chat = ChatProvider();
 }
 
 enum StorageKey {

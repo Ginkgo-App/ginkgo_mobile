@@ -57,46 +57,48 @@ class _ChatItemState extends State<ChatItem> {
                               .copyWith(fontWeight: FontWeight.bold),
                         ),
                       ),
-                      SkeletonItem(
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Flexible(
-                              fit: FlexFit.loose,
-                              flex: 1,
-                              child: Text(
-                                widget.conversation?.newestMessage?.message ??
-                                    'Loading last message',
+                      if (widget.conversation?.newestMessage != null ||
+                          widget.conversation == null)
+                        SkeletonItem(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Flexible(
+                                fit: FlexFit.loose,
+                                flex: 1,
+                                child: Text(
+                                  widget.conversation?.newestMessage?.message ??
+                                      'Loading last message',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: context.textTheme.bodyText1.copyWith(
+                                    fontWeight: unreadMessageCount > 0
+                                        ? FontWeight.bold
+                                        : FontWeight.normal,
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                ' ‧ ' +
+                                    (widget.conversation?.newestMessage != null
+                                        ? timeAgo.format(
+                                            widget.conversation.newestMessage
+                                                .createdAt,
+                                            locale: 'vi')
+                                        : 'Loading time'),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
-                                style: context.textTheme.bodyText1.copyWith(
+                                style: context.textTheme.caption.copyWith(
+                                  color: context.colorScheme.onBackground,
                                   fontWeight: unreadMessageCount > 0
                                       ? FontWeight.bold
                                       : FontWeight.normal,
                                 ),
                               ),
-                            ),
-                            Text(
-                              ' ‧ ' +
-                                  (widget.conversation?.newestMessage != null
-                                      ? timeAgo.format(
-                                          widget.conversation.newestMessage
-                                              .createdAt,
-                                          locale: 'vi')
-                                      : 'Loading time'),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: context.textTheme.caption.copyWith(
-                                color: context.colorScheme.onBackground,
-                                fontWeight: unreadMessageCount > 0
-                                    ? FontWeight.bold
-                                    : FontWeight.normal,
-                              ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
                     ],
                   ),
                 ),

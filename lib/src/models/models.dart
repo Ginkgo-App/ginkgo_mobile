@@ -6,6 +6,8 @@ import 'package:base/base.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:ginkgo_mobile/src/models/conversation.dart';
+import 'package:ginkgo_mobile/src/models/message.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:object_mapper/object_mapper.dart';
@@ -47,5 +49,7 @@ objectMapping() {
     Comment: () => Comment(),
     TourMember: () => TourMember(),
     Notification: () => Notification(),
+    Conversation: () => Conversation(),
+    Message: () => Message(),
   };
 }

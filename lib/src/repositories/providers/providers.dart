@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:base/base.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:ginkgo_mobile/src/models/conversation.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
 
 import 'apiClient.dart';
@@ -16,6 +17,7 @@ part 'tourInfoProvider.dart';
 part 'tourProvider.dart';
 part 'userProvider.dart';
 part 'post_provider.dart';
+part 'chat_provider.dart';
 
 class Api {
   static final image = 'https://api.imgur.com/3/image';
@@ -28,7 +30,9 @@ class Api {
   static final topUser = AppConfig.instance.apiUrl + '/tours/top-users';
   static final meTours = AppConfig.instance.apiUrl + '/users/me/tours';
   static final mePosts = AppConfig.instance.apiUrl + '/users/me/posts';
+  static final chats = AppConfig.instance.apiUrl + '/chats';
 
+  static chatDetail(int id) => AppConfig.instance.apiUrl + '/chats/group/$id';
   static String places(int placeId) =>
       AppConfig.instance.apiUrl + '/places/${placeId ?? ''}';
   static String posts(int postId) =>

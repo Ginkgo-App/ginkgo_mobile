@@ -41,7 +41,7 @@ class OwnerNav extends StatelessWidget {
               imageIcon: Assets.icons.message,
               label: 'Tin nhắn',
               onPressed: () {
-                Toast.show(Strings.common.developingFeature, context);
+                Navigators.appNavigator.currentState.pushNamed(Routes.chatList);
               },
             ),
             _Button(

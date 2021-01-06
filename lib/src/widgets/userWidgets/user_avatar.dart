@@ -19,17 +19,16 @@ class UserAvatar extends StatelessWidget {
     this.isOnline = false,
   }) : super(key: key);
 
-  factory UserAvatar.fromConversation(
-      {Key key,
-      @required Conversation conversation,
-      double size = 50,
-      bool showOnline = true}) {
+  factory UserAvatar.fromConversation({
+    Key key,
+    @required Conversation conversation,
+    double size = 50,
+  }) {
     return UserAvatar(
       key: key,
       image: conversation?.image,
-      isOnline: conversation?.isOnline,
       size: size,
-      showOnline: showOnline,
+      showOnline: false,
     );
   }
 
@@ -41,8 +40,9 @@ class UserAvatar extends StatelessWidget {
           width: size,
           height: size,
           child: ImageWidget(
-            image?.smallThumb,
+            image?.smallThumb ?? '',
             isAvatar: true,
+            isCircled: true,
           ),
         ),
         if (showOnline)

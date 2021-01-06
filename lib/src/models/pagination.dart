@@ -1,5 +1,9 @@
 part of 'models.dart';
 
+extension PaginationExt on Pagination {
+  bool get isExistAndNotEmpty => this != null && this.data.isNotEmpty;
+}
+
 class Pagination<T> {
   _PaginationDetail pagination = _PaginationDetail();
   List<T> data = [];
