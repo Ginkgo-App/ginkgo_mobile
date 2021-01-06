@@ -6,6 +6,7 @@ import 'package:base/base.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:ginkgo_mobile/src/models/conversation.dart';
+import 'package:ginkgo_mobile/src/models/conversation_key.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
 
 import 'apiClient.dart';

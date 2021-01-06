@@ -31,9 +31,12 @@ class _ChatItemState extends State<ChatItem> {
                 if (widget.onPressed != null) {
                   widget.onPressed?.call();
                 } else {
-                  // Router.goto(context, MessagesScreen,
-                  //     params: MessagesScreenParams(ConversationKey(
-                  //         conversationId: widget.conversation.id)));
+                  Navigator.pushNamed(
+                    context,
+                    Routes.message,
+                    arguments:
+                        MessagesScreenArgs(conversation: widget.conversation),
+                  );
                 }
               },
         child: Container(
@@ -49,6 +52,7 @@ class _ChatItemState extends State<ChatItem> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       SkeletonItem(
+                        color: Colors.transparent,
                         child: Text(
                           widget.conversation?.name ?? 'Loading name',
                           maxLines: 1,

@@ -23,6 +23,8 @@ class ChatListController extends GetxController {
     super.onInit();
   }
 
+  Future refresh() => _reload();
+
   Future _reload() async {
     try {
       final data = await repository.chat.getList(page: 1);

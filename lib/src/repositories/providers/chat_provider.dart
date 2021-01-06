@@ -20,4 +20,9 @@ class ChatProvider {
     return Pagination<Conversation>(
         response.data['Pagination'], response.data['Data']);
   }
+
+  Future<Conversation> getConversationDetail(ConversationKey key) async {
+    await _client.connect<Conversation>(ApiMethod.GET, Api.chats);
+    throw UnimplementedError();
+  }
 }
