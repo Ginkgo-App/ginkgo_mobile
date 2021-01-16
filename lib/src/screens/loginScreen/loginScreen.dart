@@ -11,11 +11,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController passwordController = TextEditingController();
   final AuthScreenBloc authScreenBloc = AuthScreenBloc();
 
-  initState() {
-    super.initState();
-    Get.lazyPut(() => ChatListController());
-  }
-
   _onLogin() {
     if (formKey.currentState.validate()) {
       FocusScope.of(context).unfocus();

@@ -12,4 +12,6 @@ extension ListExt<T> on List<T> {
     if (length - 1 < index) return null;
     return elementAt(index);
   }
+
+  bool get isExistAndNotEmpty => this != null && this.isNotEmpty;
 }

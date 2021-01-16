@@ -25,4 +25,23 @@ class ChatProvider {
     await _client.connect<Conversation>(ApiMethod.GET, Api.chats);
     throw UnimplementedError();
   }
+
+  Future sendMessage(int id, String content) async {
+    await _client.normalConnect(ApiMethod.POST, Api.chatsMessage, body: {
+      'GroupId': id,
+      'Content': content,
+    });
+  }
+
+  Future<Pagination<Message>> getMessages(int id,
+      {int page, int pageSize}) async {
+    final response = await _client
+        .normalConnect(ApiMethod.GET, Api.chats + '/$id/messages', query: {
+      'page': (page ?? 1).toString(),
+      'pageSize': (pageSize?.toString() ?? 20).toString(),
+    });
+
+    return Pagination<Message>(
+        response.data['Pagination'], response.data['Data']);
+  }
 }

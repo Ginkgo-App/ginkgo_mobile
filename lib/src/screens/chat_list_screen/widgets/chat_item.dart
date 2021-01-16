@@ -85,7 +85,9 @@ class _ChatItemState extends State<ChatItem> {
                               ),
                               Text(
                                 ' ‧ ' +
-                                    (widget.conversation?.newestMessage != null
+                                    (widget.conversation?.newestMessage
+                                                ?.createdAt !=
+                                            null
                                         ? timeAgo.format(
                                             widget.conversation.newestMessage
                                                 .createdAt,

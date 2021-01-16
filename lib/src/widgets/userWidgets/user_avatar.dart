@@ -32,6 +32,19 @@ class UserAvatar extends StatelessWidget {
     );
   }
 
+  factory UserAvatar.fromSimpleUser({
+    Key key,
+    @required SimpleUser user,
+    double size = 50,
+  }) {
+    return UserAvatar(
+      key: key,
+      image: user?.avatar,
+      size: size,
+      showOnline: false,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(

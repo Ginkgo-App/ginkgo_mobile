@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:ginkgo_mobile/src/models/conversation.dart';
 import 'package:ginkgo_mobile/src/models/message.dart';
@@ -11,11 +14,14 @@ class MessageScreenController extends GetxController {
   MessageScreenController(this.args);
 
   final Rx<Conversation> _conversation = Rx();
+  final Rx<Pagination<Message>> _messages = Rx(Pagination<Message>());
+  final error = ''.obs;
+  final isLoading = false.obs;
+  final isSendingMessage = false.obs;
 
   set conversation(Conversation value) => this._conversation.value = value;
   Conversation get conversation => this._conversation.value;
 
-  final Rx<Pagination<Message>> _messages = Rx();
   set messages(Pagination<Message> value) => this._messages.value = value;
   Pagination<Message> get messages => this._messages.value;
 
@@ -23,6 +29,7 @@ class MessageScreenController extends GetxController {
   void onInit() async {
     super.onInit();
     await loadConversation();
+    await loadMessage();
   }
 
   Future loadConversation() async {
@@ -34,7 +41,53 @@ class MessageScreenController extends GetxController {
     }
   }
 
-  Future _loadMessage() async {
-    throw UnimplementedError();
+  Future loadMessage() async {
+    await _loading(_loadMessage());
+  }
+
+  void sendMessage({String message, List<File> attachments}) async {
+    try {
+      isSendingMessage.value = true;
+      await _repository.chat.sendMessage(conversation.id, message);
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+    } finally {
+      isSendingMessage.value = false;
+    }
+  }
+
+  Future loadmore() async {
+    if (!messages.canLoadmore) return;
+    _trycatch((() async {
+      _messages.value.add(await _repository.chat.getMessages(conversation.id,
+          page: messages.pagination.currentPage + 1));
+      update();
+    })());
+  }
+
+  Future _loadMessage({int page = 1}) async {
+    await _trycatch((() async {
+      _messages.value =
+          await _repository.chat.getMessages(conversation.id, page: page);
+    })());
+  }
+
+  Future _loading(Future func) async {
+    isLoading.value = true;
+    await _trycatch(func, onFinally: () {
+      isLoading.value = false;
+    });
+  }
+
+  Future _trycatch(Future func, {Function onError, Function onFinally}) async {
+    try {
+      await func;
+    } catch (e) {
+      await Fluttertoast.showToast(msg: e.toString());
+      onError?.call();
+      rethrow;
+    } finally {
+      onFinally?.call();
+    }
   }
 }
