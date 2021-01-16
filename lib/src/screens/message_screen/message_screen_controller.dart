@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:ginkgo_mobile/src/blocs/currentUser/current_user_bloc.dart';
 import 'package:ginkgo_mobile/src/models/conversation.dart';
 import 'package:ginkgo_mobile/src/models/message.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
@@ -42,13 +43,21 @@ class MessageScreenController extends GetxController {
   }
 
   Future loadMessage() async {
-    await _loading(_loadMessage());
+    await _loadMessage();
   }
 
   void sendMessage({String message, List<File> attachments}) async {
     try {
       isSendingMessage.value = true;
       await _repository.chat.sendMessage(conversation.id, message);
+      messages.data.insert(
+          0,
+          Message(
+            message: message,
+            sender: CurrentUserBloc().currentUser.toSimpleUser(),
+            createdAt: DateTime.now(),
+          ));
+      update();
     } catch (e) {
       Fluttertoast.showToast(msg: e.toString());
     } finally {

@@ -13,8 +13,7 @@ class Message with Mappable {
   List<MultiSizeImage> get images => _images;
 
   Message(
-      {String id,
-      String message,
+      {String message,
       DateTime createdAt,
       SimpleUser sender,
       List<MultiSizeImage> images})

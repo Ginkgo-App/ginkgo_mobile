@@ -22,8 +22,12 @@ class ChatProvider {
   }
 
   Future<Conversation> getConversationDetail(ConversationKey key) async {
-    await _client.connect<Conversation>(ApiMethod.GET, Api.chats);
-    throw UnimplementedError();
+    return await _client.connect<Conversation>(
+        ApiMethod.GET,
+        Api.chats +
+            (key.conversationId != null
+                ? '/tour/${key.conversationId}'
+                : '/user/${key.targetUserId}'));
   }
 
   Future sendMessage(int id, String content) async {

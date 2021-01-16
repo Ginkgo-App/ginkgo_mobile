@@ -3,8 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ginkgo_mobile/src/app.dart';
+import 'package:ginkgo_mobile/src/models/conversation_key.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/navigators.dart';
+import 'package:ginkgo_mobile/src/screens/message_screen/message_screen.dart';
 import 'package:ginkgo_mobile/src/utils/assets.dart';
 import 'package:ginkgo_mobile/src/utils/designColor.dart';
 import 'package:ginkgo_mobile/src/utils/strings.dart';
@@ -93,7 +95,10 @@ class UserNav extends StatelessWidget {
               imageIcon: Assets.icons.message,
               label: 'Tin nhắn',
               onPressed: () {
-                Toast.show(Strings.common.developingFeature, context);
+                Navigator.pushNamed(context, Routes.message,
+                    arguments: MessagesScreenArgs(
+                        conversationKey:
+                            ConversationKey(targetUserId: user.id)));
               },
             ),
             _Button(
