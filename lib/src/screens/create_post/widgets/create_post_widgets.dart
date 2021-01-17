@@ -22,7 +22,7 @@ part 'title_text.dart';
 
 Widget customIcon(
   BuildContext context, {
-  int icon,
+  IconData icon,
   bool isEnable = false,
   double size = 18,
   bool istwitterIcon = true,
@@ -35,12 +35,7 @@ Widget customIcon(
   return Padding(
     padding: EdgeInsets.only(bottom: istwitterIcon ? paddingIcon : 0),
     child: Icon(
-      IconData(icon,
-          fontFamily: istwitterIcon
-              ? 'TwitterIcon'
-              : isFontAwesomeRegular
-                  ? 'AwesomeRegular'
-                  : isFontAwesomeSolid ? 'AwesomeSolid' : 'Fontello'),
+      icon,
       size: size,
       color: isEnable ? Theme.of(context).primaryColor : iconColor,
     ),

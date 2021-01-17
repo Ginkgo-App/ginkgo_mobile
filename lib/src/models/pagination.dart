@@ -4,7 +4,7 @@ extension PaginationExt on Pagination {
   bool get isExistAndNotEmpty => this != null && this.data.isNotEmpty;
 }
 
-class Pagination<T> {
+class Pagination<T> extends Equatable {
   _PaginationDetail pagination = _PaginationDetail();
   List<T> data = [];
 
@@ -36,6 +36,9 @@ class Pagination<T> {
     data.addAll(other.data);
     pagination = other.pagination;
   }
+
+  @override
+  List<Object> get props => [pagination, data];
 }
 
 class _PaginationDetail with Mappable {

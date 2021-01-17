@@ -7,7 +7,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       this.title,
       this.actions,
       this.scaffoldKey,
-      this.icon,
       this.onActionPressed,
       this.textController,
       this.isBackButton = false,
@@ -20,7 +19,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   final List<Widget> actions;
   final Size appBarHeight = Size.fromHeight(56.0);
-  final int icon;
   final bool isBackButton;
   final bool isbootomLine;
   final bool isCrossButton;
@@ -65,18 +63,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ),
             )
-          : icon == null
-              ? Container()
-              : IconButton(
-                  onPressed: () {
-                    if (onActionPressed != null) onActionPressed();
-                  },
-                  icon: customIcon(context,
-                      icon: icon,
-                      istwitterIcon: true,
-                      iconColor: context.colorScheme.primary,
-                      size: 25),
-                )
+          : Container()
     ];
   }
 

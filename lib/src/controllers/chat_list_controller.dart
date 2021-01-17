@@ -28,7 +28,7 @@ class ChatListController extends GetxController {
     super.onInit();
   }
 
-  Future refresh() => _reload();
+  Future onRefresh() => _reload();
 
   void onNewMessage(MessageFromStream message) {
     if (message?.conversation != null) {

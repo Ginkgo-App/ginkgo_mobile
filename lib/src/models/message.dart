@@ -4,6 +4,7 @@ import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:object_mapper/object_mapper.dart';
 
 import 'conversation.dart';
+import 'conversation.dart';
 
 class Message with Mappable {
   String _message;
@@ -53,6 +54,7 @@ class MessageFromStream extends Message {
   @override
   void mapping(Mapper map) {
     super.mapping(map);
-    map<Conversation>('Group', _conversation, (v) => _conversation = v);
+    map<Conversation>('Group', _conversation,
+        (v) => _conversation = (v as Conversation)..newestMessage = this);
   }
 }

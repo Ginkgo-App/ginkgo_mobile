@@ -10,12 +10,14 @@ import 'package:ginkgo_mobile/src/widgets/userWidgets/user_avatar.dart';
 import 'package:ginkgo_mobile/src/widgets/widgets.dart';
 import 'package:timeago/timeago.dart' as timeAgo;
 
+import '../../controllers/chat_list_controller.dart';
+
 part 'widgets/chat_item.dart';
 
 class ChatListScreen extends GetView<ChatListController> {
   ChatListScreen() {
     if (!controller.isLoading.value) {
-      controller.refresh();
+      controller.onRefresh();
     }
   }
 
@@ -26,53 +28,58 @@ class ChatListScreen extends GetView<ChatListController> {
         title: 'Tin nhắn',
       ),
       body: RefreshIndicator(
-        onRefresh: controller.refresh,
+        onRefresh: controller.onRefresh,
         child: Column(
           children: [
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: BorderContainer(
-                  child: Obx(() => controller.isLoading.value
-                      ? LoadingIndicator(color: context.colorScheme.primary)
-                      : controller.conversations == null ||
-                              !controller.conversations.isExistAndNotEmpty
-                          ? Center(
-                              child: Text(
-                                'Chưa có tin nhắn',
-                                style: context.textTheme.subtitle1.copyWith(
-                                    color: context.colorScheme.onSurface),
-                                textAlign: TextAlign.center,
-                              ),
-                            )
-                          : ListView.builder(
-                              padding: EdgeInsets.symmetric(vertical: 10),
-                              itemCount: controller.conversations.data.length +
-                                  (!controller.conversations.canLoadmore
-                                      ? 0
-                                      : 3),
-                              itemExtent: null,
-                              shrinkWrap: true,
-                              physics: AlwaysScrollableScrollPhysics(
-                                  parent: BouncingScrollPhysics()),
-                              itemBuilder: (context, index) {
-                                return ChatItem(
-                                  conversation: controller.conversations.data
-                                      .getAt(index),
-                                  onPressed: () async {
-                                    await Navigator.pushNamed(
-                                      context,
-                                      Routes.message,
-                                      arguments: MessagesScreenArgs(
-                                          conversation: controller
-                                              .conversations.data
-                                              .getAt(index)),
+                  child: GetBuilder<ChatListController>(builder: (controller) {
+                    return Obx(
+                      () => controller.isLoading.value
+                          ? LoadingIndicator(color: context.colorScheme.primary)
+                          : controller.conversations == null ||
+                                  !controller.conversations.isExistAndNotEmpty
+                              ? Center(
+                                  child: Text(
+                                    'Chưa có tin nhắn',
+                                    style: context.textTheme.subtitle1.copyWith(
+                                        color: context.colorScheme.onSurface),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                )
+                              : ListView.builder(
+                                  padding: EdgeInsets.symmetric(vertical: 10),
+                                  itemCount:
+                                      controller.conversations.data.length +
+                                          (!controller.conversations.canLoadmore
+                                              ? 0
+                                              : 3),
+                                  itemExtent: null,
+                                  shrinkWrap: true,
+                                  physics: AlwaysScrollableScrollPhysics(
+                                      parent: BouncingScrollPhysics()),
+                                  itemBuilder: (context, index) {
+                                    return ChatItem(
+                                      conversation: controller
+                                          .conversations.data
+                                          .getAt(index),
+                                      onPressed: () async {
+                                        await Navigator.pushNamed(
+                                          context,
+                                          Routes.message,
+                                          arguments: MessagesScreenArgs(
+                                              conversation: controller
+                                                  .conversations.data
+                                                  .getAt(index)),
+                                        );
+                                      },
                                     );
-                                    controller.refresh();
                                   },
-                                );
-                              },
-                            )),
+                                ),
+                    );
+                  }),
                 ),
               ),
             ),
