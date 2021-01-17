@@ -76,8 +76,10 @@ class MessageScreenController extends GetxController {
   }
 
   void onNewMessage(MessageFromStream message) {
-    messages.data.insert(0, message);
-    update();
+    if (message != null && message.conversation?.id == conversation.id) {
+      messages.data.insert(0, message);
+      update();
+    }
   }
 
   Future _loadMessage({int page = 1}) async {
