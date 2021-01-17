@@ -48,4 +48,16 @@ class ChatProvider {
     return Pagination<Message>(
         response.data['Pagination'], response.data['Data']);
   }
+
+  Stream<MessageFromStream> subcribeNewMessage() async* {
+    final channel = IOWebSocketChannel.connect(
+        'wss://micro-api-core.herokuapp.com/ws?token=' +
+            await Repository().auth.token);
+
+    await for (var item in channel.stream) {
+      debugPrint('New message $item');
+      final json = jsonDecode(item);
+      yield Mapper.fromJson(json).toObject<MessageFromStream>();
+    }
+  }
 }

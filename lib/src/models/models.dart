@@ -51,5 +51,6 @@ objectMapping() {
     Notification: () => Notification(),
     Conversation: () => Conversation(),
     Message: () => Message(),
+    MessageFromStream: () => MessageFromStream(),
   };
 }

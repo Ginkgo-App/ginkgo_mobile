@@ -1,9 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:ginkgo_mobile/src/models/conversation.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/repositories/repository.dart';
+
+import '../models/message.dart';
 
 class ChatListController extends GetxController {
   final Repository repository = Repository();
@@ -20,10 +24,23 @@ class ChatListController extends GetxController {
   void onInit() {
     _isLoading.value = true;
     _reload().whenComplete(() => _isLoading.value = false);
+    repository.chat.subcribeNewMessage().listen(onNewMessage);
     super.onInit();
   }
 
   Future refresh() => _reload();
+
+  void onNewMessage(MessageFromStream message) {
+    if (message?.conversation != null) {
+      final index = _conversations.value.data
+          .indexWhere((element) => element.id == message.conversation?.id);
+      if (index >= 0) {
+        _conversations.value.data.removeAt(index);
+      }
+      _conversations.value.data.insert(0, message.conversation);
+      update();
+    }
+  }
 
   Future _reload() async {
     try {

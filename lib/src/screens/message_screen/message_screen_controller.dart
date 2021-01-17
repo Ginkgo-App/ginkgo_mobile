@@ -29,6 +29,7 @@ class MessageScreenController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
+    _repository.chat.subcribeNewMessage().listen(onNewMessage);
     await loadConversation();
     await loadMessage();
   }
@@ -72,6 +73,11 @@ class MessageScreenController extends GetxController {
           page: messages.pagination.currentPage + 1));
       update();
     })());
+  }
+
+  void onNewMessage(MessageFromStream message) {
+    messages.data.insert(0, message);
+    update();
   }
 
   Future _loadMessage({int page = 1}) async {

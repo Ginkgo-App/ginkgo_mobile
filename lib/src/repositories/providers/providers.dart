@@ -1,5 +1,6 @@
 library providers;
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:base/base.dart';
@@ -9,17 +10,21 @@ import 'package:ginkgo_mobile/src/models/conversation.dart';
 import 'package:ginkgo_mobile/src/models/conversation_key.dart';
 import 'package:ginkgo_mobile/src/models/message.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
+import 'package:object_mapper/object_mapper.dart';
+import 'package:web_socket_channel/io.dart';
 
+import '../../models/message.dart';
+import '../repository.dart';
 import 'apiClient.dart';
 
 part 'authProvider.dart';
+part 'chat_provider.dart';
 part 'placeProvider.dart';
+part 'post_provider.dart';
 part 'systemProvider.dart';
 part 'tourInfoProvider.dart';
 part 'tourProvider.dart';
 part 'userProvider.dart';
-part 'post_provider.dart';
-part 'chat_provider.dart';
 
 class Api {
   static final image = 'https://api.imgur.com/3/image';

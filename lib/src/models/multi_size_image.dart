@@ -11,21 +11,21 @@ class MultiSizeImage {
   String _hugeThumb = ''; // 1024x1024
   String _original = '';
 
-  String get imageId => _imageId;
+  String get imageId => this?._imageId ?? '';
 
-  String get original => _original;
+  String get original => this?._original ?? '';
 
-  String get smallSquare => _smallSquare;
+  String get smallSquare => this?._smallSquare ?? '';
 
-  String get bigSquare => _bigSquare;
+  String get bigSquare => this?._bigSquare ?? '';
 
-  String get smallThumb => _smallThumb;
+  String get smallThumb => this?._smallThumb ?? '';
 
-  String get mediumThumb => _mediumThumb;
+  String get mediumThumb => this?._mediumThumb ?? '';
 
-  String get largeThumb => _largeThumb;
+  String get largeThumb => this?._largeThumb ?? '';
 
-  String get hugeThumb => _hugeThumb;
+  String get hugeThumb => this?._hugeThumb ?? '';
 
   MultiSizeImage(String imgUrl) {
     if (_isImgur(imgUrl)) {

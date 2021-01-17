@@ -22,6 +22,6 @@ class Conversation with Mappable {
     map('Avatar', _image, (v) => _image = MultiSizeImage(v));
     map('Name', _name, (v) => _name = v);
     map<Message>('LastMessage', _newestMessage, (v) => _newestMessage = v);
-    map('UnreadMessageCount', _unreadMessages, (v) => _unreadMessages = 0);
+    map('UnreadCount', _unreadMessages, (v) => _unreadMessages = v);
   }
 }

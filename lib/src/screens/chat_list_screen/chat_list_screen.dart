@@ -59,6 +59,17 @@ class ChatListScreen extends GetView<ChatListController> {
                                 return ChatItem(
                                   conversation: controller.conversations.data
                                       .getAt(index),
+                                  onPressed: () async {
+                                    await Navigator.pushNamed(
+                                      context,
+                                      Routes.message,
+                                      arguments: MessagesScreenArgs(
+                                          conversation: controller
+                                              .conversations.data
+                                              .getAt(index)),
+                                    );
+                                    controller.refresh();
+                                  },
                                 );
                               },
                             )),
