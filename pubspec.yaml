@@ -12,7 +12,7 @@ dependencies:
   cupertino_icons: ^0.1.2
   base:
     path: ./base
-  flutter_svg: ^0.17.4
+  flutter_svg: ^0.18.1
   auto_size_text: ^2.1.0
   flutter_bloc: ^4.0.0
   flutter_spinkit: ^4.1.2+1
@@ -42,6 +42,9 @@ dependencies:
   url_launcher:
   timeago: ^2.0.26
   like_button: ^0.1.9
+  get: ^3.24.0
+  web_socket_channel: ^1.1.0
+  dash_chat: ^1.1.15
 
 dev_dependencies:
   flutter_test:

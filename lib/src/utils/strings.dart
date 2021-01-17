@@ -9,6 +9,7 @@ class Strings {
   static final registerScreen = _RegisterScreen();
   static final post = _Post();
   static final place = _Place();
+  static final _MessageScreen messageScreen = _MessageScreen();
 }
 
 class _Common {
@@ -99,4 +100,9 @@ class _Post {
 
 class _Place {
   String tourCount(int tourCount) => '$tourCount chuyến đi';
+}
+
+class _MessageScreen {
+  final hint = 'Nhập tin nhắn';
+  String lastOnlineAt(String time) => 'Truy cập $time';
 }

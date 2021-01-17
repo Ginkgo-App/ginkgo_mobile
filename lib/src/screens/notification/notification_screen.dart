@@ -4,29 +4,23 @@ class NotificationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: SingleChildScrollView(
-        physics: NeverScrollableScrollPhysics(),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            AspectRatio(
-              aspectRatio: 1,
-              child: FlareActor(
-                Assets.flares.comingSoon,
-                alignment: Alignment.center,
-                sizeFromArtboard: true,
-                fit: BoxFit.fitWidth,
-                animation: "coding",
-              ),
-            ),
-            Text(
-              'Coming Soon!',
-              style: context.textTheme.headline4.copyWith(
-                  color: DesignColor.darkestRed, fontWeight: FontWeight.bold),
-            )
-          ],
-        ),
-      ),
+      child: _buildListView(),
     );
   }
+}
+
+Widget _buildListView() {
+  Notification notification = FakeData.notification;
+  return ListView(
+    itemExtent: null,
+    shrinkWrap: true,
+    padding: EdgeInsets.zero,
+    children: [
+      ...List.generate(
+          10,
+          (index) => NotificationWidget(
+                notification: notification,
+              )),
+    ],
+  );
 }

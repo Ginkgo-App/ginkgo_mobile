@@ -398,7 +398,7 @@ class _PostWidgetState extends State<PostWidget> {
               if (post.featuredComment != null)
                 _buildComment(context, post.featuredComment),
               AddCommentWidget(
-                avatar: CurrentUserBloc().currentUser.avatar.smallSquare,
+                avatar: CurrentUserBloc().currentUser.avatar?.smallSquare ?? '',
                 onPressed: () {
                   _openListCommnent(context, true);
                 },

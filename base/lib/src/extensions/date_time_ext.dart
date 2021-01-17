@@ -5,4 +5,7 @@ extension DateTimeExt on DateTime {
       DateFormat('${withTime ? 'hh:mm ' : ''}dd/MM/yyyy').format(this);
 
   DateTime removeTime() => this.toVietNamese().toVietNameseDate();
+
+  bool inSameDay(DateTime other) =>
+      year == other.year && month == other.month && day == other.day;
 }
