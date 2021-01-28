@@ -11,9 +11,7 @@ class SystemProvider {
         'image': await MultipartFile.fromFile(image.path),
         'album': 'dPkd7RpwCPaPMB9',
       }),
-      headers: {
-        'Authorization': 'Client-ID eee6fe9fcde03e2'
-      },
+      headers: {'Authorization': 'Client-ID eee6fe9fcde03e2'},
       handleError: false,
     );
 
@@ -24,5 +22,10 @@ class SystemProvider {
     } else {
       throw decoded['data']['error'] ?? '';
     }
+  }
+
+  Future<int> getNotificationCount() async {
+    await Future.delayed(Duration(seconds: 1));
+    return Random().nextInt(10);
   }
 }

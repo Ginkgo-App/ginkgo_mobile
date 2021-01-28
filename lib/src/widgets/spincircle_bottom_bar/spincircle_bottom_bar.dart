@@ -1,5 +1,7 @@
 library spincircle_bottom_bar;
 
+import 'package:badges/badges.dart';
+import 'package:base/base.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -244,26 +246,48 @@ class _SpinCircleBottomBarState extends State<SpinCircleBottomBar> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceEvenly,
                                         children: <Widget>[
-                                          SvgPicture.asset(
-                                            isActive
-                                                ? itemDetails.svgActiveIcon ??
-                                                    itemDetails.svgIcon
-                                                : itemDetails.svgIcon,
-                                            color: isActive
-                                                ? activeIconTheme.color
-                                                : iconTheme.color,
-                                            width: isActive
-                                                ? activeIconTheme.size
-                                                : iconTheme.size,
-                                            height: isActive
-                                                ? activeIconTheme.size
-                                                : iconTheme.size,
-                                          ),
-                                          itemDetails.title != null
-                                              ? Text(itemDetails.title,
-                                                  style: isActive
-                                                      ? activeTextStyle
-                                                      : textStyle)
+                                          itemDetails.badgeBuilder != null
+                                              ? itemDetails.badgeBuilder(
+                                                  SvgPicture.asset(
+                                                  isActive
+                                                      ? itemDetails
+                                                              .svgActiveIcon ??
+                                                          itemDetails.svgIcon
+                                                      : itemDetails.svgIcon,
+                                                  color: isActive
+                                                      ? activeIconTheme.color
+                                                      : iconTheme.color,
+                                                  width: isActive
+                                                      ? activeIconTheme.size
+                                                      : iconTheme.size,
+                                                  height: isActive
+                                                      ? activeIconTheme.size
+                                                      : iconTheme.size,
+                                                ))
+                                              : SvgPicture.asset(
+                                                  isActive
+                                                      ? itemDetails
+                                                              .svgActiveIcon ??
+                                                          itemDetails.svgIcon
+                                                      : itemDetails.svgIcon,
+                                                  color: isActive
+                                                      ? activeIconTheme.color
+                                                      : iconTheme.color,
+                                                  width: isActive
+                                                      ? activeIconTheme.size
+                                                      : iconTheme.size,
+                                                  height: isActive
+                                                      ? activeIconTheme.size
+                                                      : iconTheme.size,
+                                                ),
+                                          itemDetails.title != null ||
+                                                  itemDetails.titleWidget !=
+                                                      null
+                                              ? itemDetails.titleWidget ??
+                                                  Text(itemDetails.title,
+                                                      style: isActive
+                                                          ? activeTextStyle
+                                                          : textStyle)
                                               : Center()
                                         ],
                                       ),

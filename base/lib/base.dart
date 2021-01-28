@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart' as Storage;
 import 'package:intl/intl.dart';
 
+export 'package:get/get.dart' hide FormData, Response, MultipartFile;
+
 part 'src/appBase.dart';
 part 'src/appConfig.dart';
 part 'src/blocLogger.dart';

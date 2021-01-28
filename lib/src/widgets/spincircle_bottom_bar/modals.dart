@@ -49,11 +49,18 @@ class SCBottomBarItem {
   String svgActiveIcon;
   String svgIcon;
   String title;
+  Widget titleWidget;
+  Widget badgeContentWidget;
+  final Function(Widget child) badgeBuilder;
   Function onPressed;
 
-  SCBottomBarItem(
-      {this.svgActiveIcon,
-      @required this.svgIcon,
-      this.title,
-      @required this.onPressed});
+  SCBottomBarItem({
+    this.badgeBuilder,
+    this.svgActiveIcon,
+    @required this.svgIcon,
+    this.title,
+    @required this.onPressed,
+    this.titleWidget,
+    this.badgeContentWidget,
+  });
 }

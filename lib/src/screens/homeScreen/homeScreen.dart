@@ -38,6 +38,13 @@ class _HomeScreenState extends State<HomeScreen>
       title: Strings.bottomNavigator.notification,
       svgIconDisable: Assets.icons.notiOutline,
       svgIconEnable: Assets.icons.notiFull,
+      badgeBuilder: (child) {
+        return Obx(() => Badge(
+            showBadge: Get.find<SystemController>().notificationCount > 0,
+            badgeContent:
+                Text(Get.find<SystemController>().notificationCount.toString()),
+            child: child));
+      },
     ),
     _BottomNavigationBarItemData(
       title: Strings.bottomNavigator.profile,
@@ -113,6 +120,8 @@ class _HomeScreenState extends State<HomeScreen>
                       svgIcon: e.svgIconDisable,
                       svgActiveIcon: e.svgIconEnable,
                       title: e.title,
+                      badgeContentWidget: e.badgeContentWidget,
+                      badgeBuilder: e.badgeBuilder,
                       onPressed: () {
                         _onChangeTab(i);
                       }),
@@ -198,7 +207,13 @@ class _BottomNavigationBarItemData {
   final String svgIconDisable;
   final String svgIconEnable;
   final String title;
+  Widget badgeContentWidget;
+  final Function(Widget child) badgeBuilder;
 
   _BottomNavigationBarItemData(
-      {this.svgIconDisable, this.svgIconEnable, this.title});
+      {this.badgeBuilder,
+      this.svgIconDisable,
+      this.svgIconEnable,
+      this.title,
+      this.badgeContentWidget});
 }

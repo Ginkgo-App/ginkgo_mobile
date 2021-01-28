@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/utils/vi_time_ago_message.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 import 'src/app.dart';
 

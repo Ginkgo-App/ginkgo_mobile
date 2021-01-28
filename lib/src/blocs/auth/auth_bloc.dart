@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:ginkgo_mobile/src/app.dart';
 import 'package:ginkgo_mobile/src/blocs/currentUser/current_user_bloc.dart';
 import 'package:ginkgo_mobile/src/controllers/index.dart';
+import 'package:ginkgo_mobile/src/repositories/providers/onesignalProvider.dart';
 import 'package:ginkgo_mobile/src/repositories/repository.dart';
 
 part 'auth_event.dart';
@@ -58,6 +59,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         await CurrentUserBloc().waitOne([CurrentUserStateSuccess],
             throwStates: [CurrentUserStateFailure]);
         _goToHome();
+        OneSignalProvider()
+            .subscribe(CurrentUserBloc().currentUser.id.toString());
         yield AuthStateAuthenticated();
       } catch (_) {}
     } else {
@@ -72,6 +75,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       await CurrentUserBloc().waitOne([CurrentUserStateSuccess],
           throwStates: [CurrentUserStateFailure]);
       _goToHome();
+      OneSignalProvider()
+          .subscribe(CurrentUserBloc().currentUser.id.toString());
       yield AuthStateAuthenticated();
     } catch (_) {}
   }
@@ -80,6 +85,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     yield AuthStateLoading();
     await _repository.auth.logout();
     _goToLogin();
+    OneSignalProvider().unSubscribe();
     Get.reset();
     initControllers();
     yield AuthStateUnauthenticated();
