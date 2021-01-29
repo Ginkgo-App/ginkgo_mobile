@@ -51,13 +51,13 @@ class MessageScreenController extends GetxController {
     try {
       isSendingMessage.value = true;
       await _repository.chat.sendMessage(conversation.id, message);
-      messages.data.insert(
-          0,
-          Message(
-            message: message,
-            sender: CurrentUserBloc().currentUser.toSimpleUser(),
-            createdAt: DateTime.now(),
-          ));
+      // messages.data.insert(
+      //     0,
+      //     Message(
+      //       message: message,
+      //       sender: CurrentUserBloc().currentUser.toSimpleUser(),
+      //       createdAt: DateTime.now(),
+      //     ));
       update();
     } catch (e) {
       Fluttertoast.showToast(msg: e.toString());
