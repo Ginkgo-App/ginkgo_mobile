@@ -140,7 +140,10 @@ class _HomeScreenState extends State<HomeScreen>
             SCItem(
               icon: Icon(Icons.comment),
               onPressed: () {
-                showErrorMessage(Strings.common.developingFeature);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SampleCreen()),
+                );
               },
             ),
           ],

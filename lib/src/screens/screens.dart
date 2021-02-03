@@ -7,7 +7,7 @@ import 'dart:ui';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:base/base.dart';
 import 'package:extended_tabs/extended_tabs.dart';
-import 'package:flare_flutter/flare_actor.dart';
+// import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart' hide Notification;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide Notification;
@@ -55,6 +55,7 @@ import 'package:ginkgo_mobile/src/screens/homeScreen/profilePage/widgets/ownerNa
 import 'package:ginkgo_mobile/src/screens/homeScreen/profilePage/widgets/tourListWidget.dart';
 import 'package:ginkgo_mobile/src/screens/manage_tour/widgets/manage_tour_widgets.dart';
 import 'package:ginkgo_mobile/src/screens/place_detail_screen/widgets/place_list.dart';
+import 'package:ginkgo_mobile/src/screens/sample_screen/sample_screen.dart';
 import 'package:ginkgo_mobile/src/screens/tour_detail_screen/widgets/members_bottom_sheet.dart';
 import 'package:ginkgo_mobile/src/screens/tour_detail_screen/widgets/review_comment.dart';
 import 'package:ginkgo_mobile/src/screens/tour_detail_screen/widgets/services_provided.dart';
