@@ -29,7 +29,7 @@ class ViewMoreButton extends StatelessWidget {
             onPressed: () {},
           ),
           Text(
-            'Xem tất cả',
+            'Xem thêm',
             style: TextStyle(
                 color: DesignColor.lighterRed, fontWeight: FontWeight.w500),
           )
