@@ -6,7 +6,7 @@ extension StringExt on String {
   String removeCode() => this.replaceAll('\\n', '\n').replaceAll('\\t', '\t');
 
   bool get isVNPhoneNumber =>
-      RegExp(r"(09|01[2|6|8|9])+([0-9]{8})\b").hasMatch(this);
+      RegExp(r"(09|03|01[2|6|8|9])+([0-9]{8})\b").hasMatch(this);
 
   DateTime toVietNameseDate() {
     try {
