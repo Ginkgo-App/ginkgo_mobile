@@ -38,7 +38,7 @@ class PlaceListBloc extends Bloc<PlaceListEvent, PlaceListState> {
           nextPage = 1;
         }
 
-        _placeList.add(await _repository.place.getList(
+        _placeList = (await _repository.place.getList(
           type: event.type,
           pageSize: pageSize,
           page: nextPage,
