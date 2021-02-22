@@ -48,7 +48,7 @@ objectMapping() {
     Post: () => Post(),
     Comment: () => Comment(),
     TourMember: () => TourMember(),
-    Notification: () => Notification(),
+    NotificationInfo: () => NotificationInfo(),
     Conversation: () => Conversation(),
     Message: () => Message(),
     MessageFromStream: () => MessageFromStream(),

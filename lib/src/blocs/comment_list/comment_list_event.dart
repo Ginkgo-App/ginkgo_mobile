@@ -13,3 +13,9 @@ class CommentListEventLoadMore extends CommentListEvent {
 
   CommentListEventLoadMore([this.force = false]);
 }
+
+class CallEventChangeState extends CommentListEvent {
+  CallEventChangeState(this.state);
+
+  final CommentListState state;
+}

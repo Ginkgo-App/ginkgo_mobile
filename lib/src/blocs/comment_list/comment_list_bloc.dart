@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:flutter/foundation.dart';
 import 'package:bloc/bloc.dart';
 import 'package:ginkgo_mobile/src/models/models.dart';
 import 'package:ginkgo_mobile/src/repositories/repository.dart';
@@ -24,7 +24,9 @@ class CommentListBloc extends Bloc<CommentListEvent, CommentListState> {
   @override
   Stream<CommentListState> mapEventToState(CommentListEvent event) async* {
     try {
-      if (event is CommentListEventFetch) {
+      if (event is CallEventChangeState) {
+        yield event.state;
+      } else if (event is CommentListEventFetch) {
         _commentList = Pagination();
         yield CommentListStateLoading();
 
@@ -49,6 +51,21 @@ class CommentListBloc extends Bloc<CommentListEvent, CommentListState> {
         ));
 
         yield CommentListStateSuccess(_commentList);
+      } else {
+        // Reload comment
+        Timer.periodic(Duration(seconds: 5), (timer) async {
+          _commentList.add(await _repository.post.getCommentList(
+            postId,
+            pageSize: pageSize,
+            page: _commentList.pagination.currentPage,
+          ));
+
+          debugPrint("reset list");
+
+          // Call init before change
+          add(CallEventChangeState(CommentListInitial()));
+          add(CallEventChangeState(CommentListStateSuccess(_commentList)));
+        });
       }
     } catch (e) {
       yield CommentListStateFailure(e);

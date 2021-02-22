@@ -3,12 +3,12 @@ import 'package:base/base.dart';
 import 'models.dart';
 
 class FakeData {
-  static final Notification notification = Notification(
+  static final NotificationInfo notification = NotificationInfo(
       id: 1,
       message: 'Bạn vừa nhận một tin nhắn mới từ',
-      type: 1,
+      type: "message",
       readAt: DateTime(2020, 11, 6, 3, 30),
-      createdAt: DateTime(2020, 1, 5),
+      sendAt: DateTime(2020, 1, 5),
       payload: 'Nguyen');
 
   static final SimpleTour simpleTour = SimpleTour(

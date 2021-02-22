@@ -124,6 +124,9 @@ class _HomeScreenState extends State<HomeScreen>
                       badgeBuilder: e.badgeBuilder,
                       onPressed: () {
                         _onChangeTab(i);
+
+                        if (e.title == Strings.bottomNavigator.notification)
+                          Get.find<SystemController>().notificationCount = 0;
                       }),
                 ),
               )

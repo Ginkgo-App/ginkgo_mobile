@@ -21,6 +21,7 @@ import 'apiClient.dart';
 part 'authProvider.dart';
 part 'chat_provider.dart';
 part 'placeProvider.dart';
+part 'notificationProvider.dart';
 part 'post_provider.dart';
 part 'systemProvider.dart';
 part 'tourInfoProvider.dart';
@@ -44,6 +45,7 @@ class Api {
   static chatDetail(int id) => AppConfig.instance.apiUrl + '/chats/group/$id';
   static String places(int placeId) =>
       AppConfig.instance.apiUrl + '/places/${placeId ?? ''}';
+  static String notifications() => AppConfig.instance.apiUrl + '/notifications';
   static String posts(int postId) =>
       AppConfig.instance.apiUrl + '/posts/${postId ?? ''}';
   static String tourInfos(int tourInfoId) =>

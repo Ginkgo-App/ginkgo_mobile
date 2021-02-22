@@ -18,18 +18,18 @@ void main() {
 
   test("Test Simple User model mapping", () {
     var mapper = Mapper.fromJson(json);
-    final notification = mapper.toObject<Notification>();
+    final notification = mapper.toObject<NotificationInfo>();
 
     expect(notification.id, json['id']);
     expect(notification.message, json['message']);
     expect(notification.payload, json['payload']);
     expect(notification.type, json['type']);
     expect(notification.readAt.toIso8601String(), json['readAt']);
-    expect(notification.createdAt.toIso8601String(), json['createdAt']);
+    expect(notification.sendAt.toIso8601String(), json['createdAt']);
   });
 
   test('Test to json', () {
-    final notification = Mapper.fromJson(json).toObject<Notification>();
+    final notification = Mapper.fromJson(json).toObject<NotificationInfo>();
 
     final notificationJson = notification.toJson();
 

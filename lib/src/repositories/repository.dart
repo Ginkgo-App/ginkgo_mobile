@@ -12,6 +12,7 @@ part 'repositories/placeRepository.dart';
 part 'repositories/tourRepository.dart';
 part 'repositories/tourInfoRepository.dart';
 part 'repositories/post_repository.dart';
+part 'repositories/notificationRepository.dart';
 
 class Repository {
   static final Repository _repository = Repository._();
@@ -27,6 +28,7 @@ class Repository {
   final _PostRepository post = _PostRepository();
   final ChatProvider chat = ChatProvider();
   final SystemProvider system = SystemProvider();
+  final _NotificationRepository notification = _NotificationRepository();
 }
 
 enum StorageKey {
