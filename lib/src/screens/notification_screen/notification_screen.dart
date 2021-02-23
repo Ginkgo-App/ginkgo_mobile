@@ -35,33 +35,37 @@ class _NotificationScreenState extends State<NotificationScreen> {
             );
           }
 
-          return PrimaryScaffold(
-              appBar: BackAppBar(title: 'Thông báo'),
-              body: SingleChildScrollView(
-                child: Column(
-                  children: <Widget>[
-                    if (state is NotificationListStateSuccess &&
-                        _notificationListBloc.notificationList.data.length == 0)
-                      NotFoundWidget(
-                        message: 'Không có thông báo mới.',
-                        showBorderBox: false,
-                      )
-                    else if (state is NotificationListStateSuccess)
-                      ListView(
-                        itemExtent: null,
-                        shrinkWrap: true,
-                        padding: EdgeInsets.zero,
-                        children: [
-                          ..._notificationListBloc.notificationList.data
-                              .map((notification) => NotificationWidget(
-                                    notification: notification,
-                                  ))
-                              .toList()
-                        ],
-                      )
-                  ],
-                ),
-              ));
+          return RefreshIndicator(
+            onRefresh: () => _fetchData(),
+            child: PrimaryScaffold(
+                appBar: BackAppBar(title: 'Thông báo'),
+                body: SingleChildScrollView(
+                  child: Column(
+                    children: <Widget>[
+                      if (state is NotificationListStateSuccess &&
+                          _notificationListBloc.notificationList.data.length ==
+                              0)
+                        NotFoundWidget(
+                          message: 'Không có thông báo mới.',
+                          showBorderBox: false,
+                        )
+                      else if (state is NotificationListStateSuccess)
+                        ListView(
+                          itemExtent: null,
+                          shrinkWrap: true,
+                          padding: EdgeInsets.zero,
+                          children: [
+                            ..._notificationListBloc.notificationList.data
+                                .map((notification) => NotificationWidget(
+                                      notification: notification,
+                                    ))
+                                .toList()
+                          ],
+                        )
+                    ],
+                  ),
+                )),
+          );
         });
   }
 }

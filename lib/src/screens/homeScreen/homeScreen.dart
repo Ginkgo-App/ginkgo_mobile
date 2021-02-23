@@ -152,7 +152,7 @@ class _HomeScreenState extends State<HomeScreen>
             SCItem(
               icon: Icon(Icons.comment),
               onPressed: () {
-                showErrorMessage(Strings.common.developingFeature);
+                Navigators.appNavigator.currentState.pushNamed(Routes.chatList);
               },
             ),
           ],
