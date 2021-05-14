@@ -2,6 +2,10 @@
 
 <p align="center"><img src="./assets/images/logo.png" height="300em" /></p>
 
+# Design
+
+https://www.figma.com/file/rWAoZ81xRKvRr8yK6aMQTa/Ginkgo?node-id=181%3A416
+
 # Usage
 
 ### Clone
